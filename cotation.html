@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande de cotation | Marine + — Réponse sous 24 h ouvrées</title>
+  <meta name="description" content="Demandez votre cotation de fret Europe–Afrique en 2 minutes : trajet, mode de transport, marchandise, coordonnées. Réponse d'un chargé d'affaires Marine + sous 24 h ouvrées.">
+  <meta property="og:title" content="Marine + — Demande de cotation fret">
+  <meta property="og:description" content="Cotation gratuite et sans engagement sous 24 h ouvrées pour vos flux maritimes, aériens et project cargo vers l'Afrique.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23055169'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='26' font-weight='bold' text-anchor='middle' fill='%23fff'%3EM+%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html" aria-label="Marine + — retour à l'accueil">
+      <span class="brand__mark" aria-hidden="true">M+</span>
+      <span>
+        <span class="brand__name">MARINE <span>+</span></span>
+        <span class="brand__tag">Le Havre · Afrique</span>
+      </span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="services.html">Services &amp; Expertises</a>
+      <a href="a-propos.html">À propos &amp; Réseau</a>
+      <a class="btn btn--primary btn--sm nav-cta" href="cotation.html" aria-current="page">Demander une cotation</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">
+      <svg class="icon icon-burger" aria-hidden="true"><use href="assets/img/icons.svg#i-burger"></use></svg>
+      <svg class="icon icon-close" aria-hidden="true"><use href="assets/img/icons.svg#i-close"></use></svg>
+      <span class="visually-hidden">Ouvrir le menu</span>
+    </button>
+  </div>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+</header>
+
+<main id="contenu">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Demande de cotation</span>
+      <h1 class="title-xl">Votre tarif, <span class="accent">sous 24 h ouvrées.</span></h1>
+      <p class="lead">Quatre étapes, deux minutes. Votre demande part directement au pôle cotations du Havre ; un chargé d'affaires dédié vous rappelle.</p>
+      <ul class="page-hero__meta">
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Gratuit &amp; sans engagement</li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg> Réponse sous 24 h ouvrées</li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-shield"></use></svg> Données confidentielles (RGPD)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight section--white" id="wizardTop">
+    <div class="container wizard-shell">
+
+      <!-- ===== FORMULAIRE ===== -->
+      <form id="quoteForm" novalidate>
+        <div class="wizard-steps" aria-hidden="true">
+          <span class="wstep is-active"><i>1</i> Trajet &amp; mode</span>
+          <span class="wstep"><i>2</i> Marchandise</span>
+          <span class="wstep"><i>3</i> Coordonnées</span>
+          <span class="wstep"><i>4</i> Envoi</span>
+        </div>
+
+        <!-- Étape 1 -->
+        <fieldset class="wpanel is-active" style="border:0">
+          <legend class="visually-hidden">Étape 1 : trajet et mode de transport</legend>
+          <div class="form-grid">
+            <div class="field">
+              <label for="q-from">Pays d'origine (départ) <span class="req">*</span></label>
+              <select id="q-from" name="from" required>
+                <option value="">Sélectionnez le pays de départ</option>
+                <option value="FR" selected>France (Le Havre / Marseille)</option>
+                <option value="BE">Belgique (Anvers)</option>
+                <option value="NL">Pays-Bas (Rotterdam)</option>
+                <option value="DE">Allemagne (Hambourg)</option>
+                <option value="ES">Espagne</option>
+                <option value="IT">Italie</option>
+                <option value="CN">Chine</option>
+                <option value="US">États-Unis</option>
+                <option value="AUTRE">Autre pays</option>
+              </select>
+              <span class="error-msg">Merci de choisir un pays de départ.</span>
+            </div>
+            <div class="field">
+              <label for="q-to">Pays de destination (arrivée) <span class="req">*</span></label>
+              <select id="q-to" name="to" required>
+                <option value="">Sélectionnez le pays d'arrivée</option>
+                <option value="SN">Sénégal (Dakar)</option>
+                <option value="CI">Côte d'Ivoire (Abidjan)</option>
+                <option value="CM">Cameroun (Douala)</option>
+                <option value="GA">Gabon (Libreville / Port-Gentil)</option>
+                <option value="CG">Congo (Pointe-Noire)</option>
+                <option value="TG">Togo (Lomé)</option>
+                <option value="BJ">Bénin (Cotonou)</option>
+                <option value="GN">Guinée (Conakry)</option>
+                <option value="MA">Maroc (Casablanca)</option>
+                <option value="DZ">Algérie (Alger)</option>
+                <option value="TN">Tunisie (Radès)</option>
+                <option value="ML">Mali (Bamako via Dakar/Abidjan)</option>
+                <option value="BF">Burkina Faso (Ouagadougou)</option>
+                <option value="CD">RDC (Matadi)</option>
+                <option value="AUTRE_AFRIQUE">Autre destination Afrique</option>
+              </select>
+              <span class="error-msg">Merci de choisir une destination.</span>
+            </div>
+            <div class="field span-2">
+              <label>Mode de transport souhaité <span class="req">*</span></label>
+              <div class="mode-cards">
+                <label class="mode-card"><input type="radio" name="mode" value="LCL" checked><span><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-box"></use></svg>Groupage (LCL)</span></label>
+                <label class="mode-card"><input type="radio" name="mode" value="FCL"><span><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-container"></use></svg>Conteneur (FCL)</span></label>
+                <label class="mode-card"><input type="radio" name="mode" value="AIR"><span><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-plane"></use></svg>Fret aérien</span></label>
+                <label class="mode-card"><input type="radio" name="mode" value="RORO"><span><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-truck"></use></svg>Roulier (RO/RO)</span></label>
+                <label class="mode-card"><input type="radio" name="mode" value="PROJECT"><span><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-crane"></use></svg>Project cargo</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="q-incoterm">Incoterm 2020</label>
+              <select id="q-incoterm" name="incoterm">
+                <option value="">À définir avec Marine +</option>
+                <option value="EXW">EXW — Départ usine</option>
+                <option value="FCA">FCA — Franco transporteur</option>
+                <option value="FOB">FOB — Franc bord</option>
+                <option value="CFR">CFR — Coût et fret</option>
+                <option value="CIF">CIF — Coût, assurance, fret</option>
+                <option value="CPT">CPT — Port payé jusqu'à</option>
+                <option value="CIP">CIP — Port payé, assurance comprise</option>
+                <option value="DAP">DAP — Rendu au lieu</option>
+                <option value="DDP">DDP — Rendu droits acquittés</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="q-date">Date d'expédition envisagée</label>
+              <input type="date" id="q-date" name="date">
+              <span class="hint">Indicatif — nous confirmons le sailing exact.</span>
+            </div>
+          </div>
+          <div class="wizard-nav">
+            <span></span>
+            <button type="button" class="btn btn--primary" data-next>Continuer
+              <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Étape 2 -->
+        <fieldset class="wpanel" style="border:0">
+          <legend class="visually-hidden">Étape 2 : votre marchandise</legend>
+          <div class="form-grid">
+            <div class="field span-2">
+              <label for="q-goods">Nature de la marchandise <span class="req">*</span></label>
+              <select id="q-goods" name="goods" required>
+                <option value="">Sélectionnez la nature</option>
+                <option value="GEN">Marchandises générales / colis</option>
+                <option value="PER">Denrées périssables (reefer)</option>
+                <option value="VEH">Véhicules &amp; engins roulants</option>
+                <option value="IND">Matériel industriel / pièces détachées</option>
+                <option value="DGR">Produits dangereux (MSDS requis)</option>
+                <option value="MOB">Effets personnels / déménagement</option>
+                <option value="AUT">Autre (précisez en remarques)</option>
+              </select>
+              <span class="error-msg">Merci d'indiquer la nature de la marchandise.</span>
+            </div>
+
+            <!-- Champs dynamiques FCL -->
+            <div class="field" id="dyn-FCL" hidden>
+              <label for="q-container">Type de conteneur <span class="req">*</span></label>
+              <select id="q-container" name="container" data-req>
+                <option value="">Choisir</option>
+                <option value="20DV">20' Dry Van</option>
+                <option value="40DV">40' Dry Van</option>
+                <option value="40HC">40' High Cube</option>
+                <option value="20RF">20' Reefer</option>
+                <option value="40RF">40' Reefer</option>
+                <option value="20FR">20' Flat Rack</option>
+                <option value="40FR">40' Flat Rack</option>
+                <option value="20OT">20' Open Top</option>
+                <option value="40OT">40' Open Top</option>
+              </select>
+              <span class="error-msg">Choisissez un type de conteneur.</span>
+            </div>
+            <div class="field" id="dyn-FCL-qty" hidden>
+              <label for="q-containerQty">Nombre de conteneurs <span class="req">*</span></label>
+              <input type="number" id="q-containerQty" name="containerQty" min="1" max="500" placeholder="Ex : 2" data-req>
+              <span class="error-msg">Indiquez une quantité.</span>
+            </div>
+
+            <!-- Champs dynamiques LCL -->
+            <div class="field" id="dyn-LCL">
+              <label for="q-volume">Volume estimé (m³) <span class="req">*</span></label>
+              <input type="number" id="q-volume" name="volume" min="0.5" step="0.5" placeholder="Ex : 8" data-req>
+              <span class="error-msg">Indiquez le volume en m³.</span>
+            </div>
+            <div class="field" id="dyn-LCL-pkg">
+              <label for="q-packages">Nombre de colis</label>
+              <input type="number" id="q-packages" name="packages" min="1" placeholder="Ex : 24">
+            </div>
+
+            <!-- Champs dynamiques AIR -->
+            <div class="field" id="dyn-AIR" hidden>
+              <label for="q-airWeight">Poids brut (kg) <span class="req">*</span></label>
+              <input type="number" id="q-airWeight" name="airWeight" min="1" placeholder="Ex : 450" data-req>
+              <span class="error-msg">Indiquez le poids en kg.</span>
+            </div>
+
+            <!-- Champs dynamiques RORO -->
+            <div class="field" id="dyn-RORO" hidden>
+              <label for="q-vehicle">Type de véhicule / engin <span class="req">*</span></label>
+              <select id="q-vehicle" name="vehicle" data-req>
+                <option value="">Choisir</option>
+                <option value="VP">Véhicule léger</option>
+                <option value="UTIL">Utilitaire / pick-up</option>
+                <option value="PL">Poids lourd / remorque</option>
+                <option value="ENG">Engin de chantier</option>
+                <option value="AGR">Matériel agricole</option>
+              </select>
+              <span class="error-msg">Choisissez un type de véhicule.</span>
+            </div>
+
+            <!-- Champs dynamiques PROJECT -->
+            <div class="field" id="dyn-PROJECT" hidden>
+              <label for="q-projectDims">Dimensions (L × l × H, m) <span class="req">*</span></label>
+              <input type="text" id="q-projectDims" name="projectDims" placeholder="Ex : 6,2 × 2,4 × 3,1" data-req>
+              <span class="error-msg">Indiquez les dimensions hors tout.</span>
+            </div>
+            <div class="field" id="dyn-PROJECT-w" hidden>
+              <label for="q-projectWeight">Poids par colis (kg) <span class="req">*</span></label>
+              <input type="number" id="q-projectWeight" name="projectWeight" min="1" placeholder="Ex : 12000" data-req>
+              <span class="error-msg">Indiquez le poids.</span>
+            </div>
+
+            <div class="field span-2">
+              <label class="consent" style="text-transform:none;letter-spacing:0;font-size:0.9rem">
+                <input type="checkbox" name="insurance" style="width:20px;height:20px;accent-color:var(--sea-800)">
+                <span>Souhaitez-vous une <strong>assurance ad valorem</strong> (couverture de 100 % de la valeur marchande) ?</span>
+              </label>
+            </div>
+            <div class="field span-2">
+              <label for="q-remarks">Remarques ou détails complémentaires <span id="remarksCounter" style="float:right;color:var(--ink-500);font-weight:600">0 / 300</span></label>
+              <textarea id="q-remarks" name="remarks" maxlength="300" placeholder="Marchandise dangereuse ? Gerbage ? Contraintes de livraison sur site ?"></textarea>
+            </div>
+          </div>
+          <div class="wizard-nav">
+            <button type="button" class="btn btn--outline-dark" data-prev>Retour</button>
+            <button type="button" class="btn btn--primary" data-next>Continuer
+              <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Étape 3 -->
+        <fieldset class="wpanel" style="border:0">
+          <legend class="visually-hidden">Étape 3 : vos coordonnées</legend>
+          <div class="form-grid">
+            <div class="field">
+              <label for="q-firstname">Prénom <span class="req">*</span></label>
+              <input type="text" id="q-firstname" name="firstname" autocomplete="given-name" placeholder="Awa" required>
+              <span class="error-msg">Prénom requis.</span>
+            </div>
+            <div class="field">
+              <label for="q-lastname">Nom <span class="req">*</span></label>
+              <input type="text" id="q-lastname" name="lastname" autocomplete="family-name" placeholder="Diop" required>
+              <span class="error-msg">Nom requis.</span>
+            </div>
+            <div class="field span-2">
+              <label for="q-company">Société / entreprise <span class="req">*</span></label>
+              <input type="text" id="q-company" name="company" autocomplete="organization" placeholder="Nom de votre société" required>
+              <span class="error-msg">Société requise.</span>
+            </div>
+            <div class="field span-2">
+              <label for="q-email">E-mail professionnel <span class="req">*</span></label>
+              <input type="email" id="q-email" name="email" autocomplete="email" placeholder="prenom.nom@societe.com" required>
+              <span class="error-msg">Adresse e-mail invalide.</span>
+            </div>
+            <div class="field">
+              <label for="q-phonePrefix">Indicatif pays <span class="req">*</span></label>
+              <select id="q-phonePrefix" name="phonePrefix">
+                <option value="+33" selected>France (+33)</option>
+                <option value="+221">Sénégal (+221)</option>
+                <option value="+225">Côte d'Ivoire (+225)</option>
+                <option value="+237">Cameroun (+237)</option>
+                <option value="+241">Gabon (+241)</option>
+                <option value="+242">Congo (+242)</option>
+                <option value="+228">Togo (+228)</option>
+                <option value="+229">Bénin (+229)</option>
+                <option value="+224">Guinée (+224)</option>
+                <option value="+223">Mali (+223)</option>
+                <option value="+212">Maroc (+212)</option>
+                <option value="+213">Algérie (+213)</option>
+                <option value="+216">Tunisie (+216)</option>
+                <option value="+32">Belgique (+32)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="q-phone">Téléphone <span class="req">*</span></label>
+              <input type="tel" id="q-phone" name="phone" data-type="phone" autocomplete="tel" placeholder="6 12 34 56 78" required>
+              <span class="error-msg">Numéro de téléphone invalide.</span>
+            </div>
+          </div>
+          <div class="wizard-nav">
+            <button type="button" class="btn btn--outline-dark" data-prev>Retour</button>
+            <button type="button" class="btn btn--primary" data-next>Vérifier ma demande
+              <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Étape 4 -->
+        <fieldset class="wpanel" style="border:0">
+          <legend class="visually-hidden">Étape 4 : validation et envoi</legend>
+          <div class="card" style="padding:22px">
+            <h3 style="margin-top:0">Relisez, puis envoyez ✈</h3>
+            <p style="margin-bottom:14px">Vérifiez le récapitulatif ci-contre (ou ci-dessous sur mobile). Vous pourrez encore modifier chaque étape après envoi en répondant à notre e-mail de confirmation.</p>
+            <div class="field">
+              <label class="consent" style="text-transform:none;letter-spacing:0;font-size:0.88rem">
+                <input type="checkbox" name="consent" required>
+                <span>J'accepte que Marine + traite ces informations pour établir ma cotation, conformément à la <a href="mentions-legales.html#confidentialite" style="color:var(--sea-800);font-weight:700">politique de confidentialité</a>. Données conservées 24 mois, jamais cédées à des tiers. <span class="req">*</span></span>
+              </label>
+              <span class="error-msg">Le consentement est nécessaire pour traiter votre demande.</span>
+            </div>
+          </div>
+          <div class="wizard-nav">
+            <button type="button" class="btn btn--outline-dark" data-prev>Retour</button>
+            <button type="submit" class="btn btn--primary" id="quoteSubmit">Envoyer ma demande
+              <svg class="icon icon-send" aria-hidden="true"><use href="assets/img/icons.svg#i-send"></use></svg>
+            </button>
+          </div>
+        </fieldset>
+      </form>
+
+      <!-- ===== RÉCAPITULATIF ===== -->
+      <aside class="quote-summary" id="quoteSummary" aria-label="Récapitulatif de votre demande">
+        <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-route"></use></svg> Votre demande en direct</h2>
+        <dl>
+          <div><dt>Trajet</dt><dd id="sum-route" class="empty">—</dd></div>
+          <div><dt>Mode</dt><dd id="sum-mode" class="empty">—</dd></div>
+          <div><dt>Incoterm</dt><dd id="sum-incoterm" class="empty">—</dd></div>
+          <div><dt>Marchandise</dt><dd id="sum-cargo" class="empty">—</dd></div>
+          <div><dt>Départ souhaité</dt><dd id="sum-date" class="empty">—</dd></div>
+          <div><dt>Contact</dt><dd id="sum-contact" class="empty">—</dd></div>
+        </dl>
+        <p style="font-size:0.78rem;color:#7fa0ad">Brouillon enregistré automatiquement sur cet appareil. Rien n'est envoyé avant l'étape 4.</p>
+      </aside>
+    </div>
+
+    <!-- ===== SUCCÈS ===== -->
+    <div class="container">
+      <div class="success-panel" id="successPanel" role="status">
+        <div class="success-panel__icon"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg></div>
+        <h2 class="title-lg">Demande transmise au pôle cotations !</h2>
+        <p style="max-width:56ch">Votre référence de dossier : <span class="success-ref" id="successRef">MP-2026-0000</span>.<br>Un chargé d'affaires vous contacte sous 24 h ouvrées avec une cotation détaillée poste par poste.</p>
+        <p style="font-size:0.9rem;color:var(--ink-500)">Un e-mail pré-rempli s'ouvre si vous souhaitez nous envoyer des pièces complémentaires (packing list, MSDS, dimensions) :</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+          <a class="btn btn--primary" id="mailtoLink" href="mailto:contact@marineplus.net">Joindre des documents par e-mail
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg>
+          </a>
+          <button class="btn btn--outline-dark" id="newQuote" type="button">Nouvelle demande</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT DIRECT ===== -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="cta-band" data-reveal>
+        <div>
+          <h2 class="title-lg">Vous préférez en parler de vive voix ?</h2>
+          <p>Notre équipe cotations vous répond du lundi au vendredi, 8 h 30 – 18 h 00, en français et en anglais.</p>
+        </div>
+        <div class="cta-band__actions">
+          <a class="btn btn--primary" href="tel:+33232742690">
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-phone"></use></svg> +33 2 32 74 26 90
+          </a>
+          <a class="btn btn--ghost-dark" href="mailto:contact@marineplus.net">
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg> contact@marineplus.net
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div>
+        <a class="brand" href="index.html" style="margin-bottom:16px">
+          <span class="brand__mark" aria-hidden="true">M+</span>
+          <span>
+            <span class="brand__name" style="color:#fff">MARINE <span>+</span></span>
+            <span class="brand__tag" style="color:#7fa0ad">Le Havre · Afrique</span>
+          </span>
+        </a>
+        <p>Commissionnaire de transport international agréé, spécialisé dans la desserte de l'Afrique : fret maritime, aérien, douane et logistique sur-mesure depuis le port du Havre.</p>
+        <div class="footer-badges">
+          <span class="footer-badge">Agréé douane</span>
+          <span class="footer-badge">IATA</span>
+          <span class="footer-badge">CGV TLF</span>
+        </div>
+        <div class="site-footer__social">
+          <a href="#" aria-label="Marine + sur LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-linkedin"></use></svg></a>
+          <a href="#" aria-label="Marine + sur Facebook"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-facebook"></use></svg></a>
+          <a href="#" aria-label="Marine + sur X"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-xsocial"></use></svg></a>
+        </div>
+      </div>
+      <div>
+        <h3>Expertises</h3>
+        <ul>
+          <li><a href="services.html#maritime">Fret maritime FCL / LCL</a></li>
+          <li><a href="services.html#aerien">Fret aérien</a></li>
+          <li><a href="services.html#groupage">Groupage LCL Afrique</a></li>
+          <li><a href="services.html#douane">Douane &amp; conformité</a></li>
+          <li><a href="services.html#logistique">Logistique &amp; entreposage</a></li>
+          <li><a href="services.html#project-cargo">Project cargo</a></li>
+          <li><a href="services.html#assurances">Assurance transport</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Entreprise</h3>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="services.html">Services &amp; expertises</a></li>
+          <li><a href="a-propos.html">À propos &amp; réseau</a></li>
+          <li><a href="cotation.html">Demander une cotation</a></li>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+          <li><a href="mentions-legales.html#confidentialite">Politique de confidentialité</a></li>
+          <li><a href="mentions-legales.html#cgv">CGV TLF / Extendo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg><span>Marine + France<br>136 rue Victor Hugo<br>76600 Le Havre — France</span></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-phone"></use></svg><a href="tel:+33232742690">+33 (0)2 32 74 26 90</a></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg><a href="mailto:contact@marineplus.net">contact@marineplus.net</a></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg><span>Lun. – Ven. : 08 h 30 – 18 h 00</span></p>
+        <form id="newsletterForm" class="field" style="margin-top:6px">
+          <label for="newsletter">Veille fret Europe–Afrique (1 e-mail / mois)</label>
+          <div style="display:flex;gap:8px">
+            <input type="email" id="newsletter" name="newsletter" placeholder="votre@email.com" required>
+            <button class="btn btn--primary btn--sm" type="submit" aria-label="S'inscrire à la veille fret">
+              <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-send"></use></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© <span data-year>2026</span> Marine + — Tous droits réservés.</p>
+      <nav aria-label="Liens légaux">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="mentions-legales.html#confidentialite">Confidentialité</a>
+        <a href="mentions-legales.html#cookies">Cookies</a>
+        <a href="mentions-legales.html#cgv">CGV TLF</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Gestion des cookies" aria-modal="false">
+  <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-cookie"></use></svg> Gestion des cookies</h2>
+  <p>Nous utilisons uniquement des cookies techniques pour optimiser votre navigation. Aucun traceur publicitaire tiers n'est déposé.</p>
+  <div class="cookie-banner__actions">
+    <button class="btn btn--primary btn--sm" data-cookie-choice="all">Accepter</button>
+    <button class="btn btn--outline-dark btn--sm" data-cookie-choice="none">Refuser</button>
+  </div>
+  <button style="font-size:0.78rem;font-weight:700;color:var(--sea-800)" data-cookie-choice="custom">Personnaliser mes choix</button>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg>
+  <div><strong class="toast__title">Message</strong><p class="toast__msg">Action effectuée.</p></div>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Revenir en haut de page">
+  <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-up"></use></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/quote.js"></script>
+</body>
+</html>
