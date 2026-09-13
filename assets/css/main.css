@@ -248,6 +248,14 @@ h1, h2, h3, h4 {
   background-size: 28px 28px;
   mask-image: linear-gradient(180deg, transparent, #000 30%, transparent);
 }
+.hero__bg { position: absolute; inset: 0; }
+.hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+.hero__scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(100deg, rgba(16, 26, 48, 0.96) 8%, rgba(16, 26, 48, 0.78) 55%, rgba(16, 26, 48, 0.55) 100%),
+    linear-gradient(0deg, rgba(16, 26, 48, 0.92) 0%, rgba(16, 26, 48, 0.25) 45%, transparent 70%);
+}
 .hero .container {
   position: relative; z-index: 2;
   display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 460px);
@@ -779,6 +787,11 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   .site-footer__grid { gap: 32px; }
   .subnav__inner { padding: 8px 0; }
   .subnav a { padding: 8px 13px; font-size: 0.8rem; }
+  .stats__grid { grid-template-columns: 1fr 1fr; }
+  .stat { padding: 16px 10px; }
+  .stat__value { font-size: 1.3rem; }
+  .stat__value em { font-size: 0.9rem; }
+  .stat__label { font-size: 0.6rem; letter-spacing: 0.07em; line-height: 1.3; }
   :root { --header-h: 62px; }
   .hero__badge { letter-spacing: 0.1em; }
   .page-hero__meta { gap: 8px 16px; }
