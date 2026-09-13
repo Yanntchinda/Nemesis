@@ -48,6 +48,7 @@ html { scroll-behavior: auto; }
 body {
   font-family: var(--font-body);
   font-size: 16px;
+  -webkit-text-size-adjust: 100%;
   line-height: 1.65;
   color: var(--ink-700);
   background: var(--paper);
@@ -735,4 +736,42 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 .lang-switch button.is-active { background: var(--sea-800); color: #fff; }
 @media (max-width: 940px) {
   .lang-switch { margin-left: auto; margin-right: 10px; }
+}
+
+/* ---------- Petits écrans (Android / smartphones) ---------- */
+@media (max-width: 480px) {
+  .container { width: calc(100% - 32px); }
+  .site-header__bar { gap: 10px; }
+  .brand__wordmark { gap: 6px; }
+  .brand__wordmark-name { font-size: 1.18rem; }
+  .brand__wordmark-sub { font-size: 0.5rem; letter-spacing: 0.2em; }
+  .lang-switch { padding: 3px; gap: 2px; }
+  .lang-switch button { padding: 5px 8px; font-size: 0.64rem; }
+  .nav-toggle { width: 42px; height: 42px; }
+  .title-xl { font-size: 1.85rem; }
+  .title-lg { font-size: 1.45rem; }
+  .hero h1 { font-size: 1.95rem; }
+  .hero .container { padding: 56px 0 64px; }
+  .btn { padding: 13px 20px; font-size: 0.88rem; }
+  .btn--sm { padding: 9px 14px; }
+  .stats__grid { grid-template-columns: 1fr 1fr; }
+  .route-row { grid-template-columns: auto 1fr; row-gap: 6px; }
+  .route-row__eta { grid-column: 2; text-align: left; }
+  .quote-summary { position: static; }
+  .wizard-shell { gap: 22px; }
+  .wizard-steps { gap: 6px; }
+  .wstep { min-width: 0; flex: 1 1 40%; padding: 10px; font-size: 0.72rem; }
+  .form-grid { gap: 14px; }
+  .cta-band { padding: 30px 22px; gap: 20px; }
+  .cta-band__actions { width: 100%; }
+  .cta-band__actions .btn { width: 100%; }
+  .toast { top: 12px; right: 12px; left: 12px; max-width: none; }
+  .cookie-banner { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+  .back-top { right: 12px; bottom: 12px; }
+  .acc__btn { padding: 16px 18px; font-size: 0.92rem; }
+  .svc-detail { gap: 24px; padding: 40px 0; }
+  .svc-detail__media--icon { aspect-ratio: 16 / 9; }
+  .site-footer__grid { gap: 32px; }
+  .subnav__inner { padding: 8px 0; }
+  .subnav a { padding: 8px 13px; font-size: 0.8rem; }
 }
