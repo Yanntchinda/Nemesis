@@ -2,7 +2,7 @@
    MARINE + — Assistant de demande de cotation
    Parcours en 4 étapes, champs dynamiques selon le mode de transport,
    récapitulatif en direct, brouillon local, pré-remplissage par URL,
-   envoi simulé + passerelle mailto.
+   envoi simulé + e-mail partenaire via mailto.
    ========================================================================== */
 (function () {
   "use strict";
@@ -240,7 +240,7 @@
       var successRef = document.getElementById("successRef");
       if (successRef) successRef.textContent = ref;
 
-      /* Passerelle mailto : le récapitulatif part dans le corps du message */
+      /* Envoi partenaire via mailto : le récapitulatif part dans le corps du message */
       var mailto = document.getElementById("mailtoLink");
       if (mailto) {
         var lines = [
