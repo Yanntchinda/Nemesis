@@ -54,7 +54,10 @@ body {
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
-img { max-width: 100%; display: block; }
+img, svg, iframe, video { max-width: 100%; }
+img { display: block; }
+html, body { max-width: 100%; }
+body { overflow-x: hidden; overflow-x: clip; }
 a { color: inherit; }
 ul, ol { list-style: none; }
 button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
@@ -712,7 +715,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 /* ---------- Travex : mot-symbole & sélecteur de langue ---------- */
 .brand__logo { height: 50px; width: auto; display: block; }
 .site-footer .brand__logo { height: 56px; }
-.brand__wordmark { display: inline-flex; align-items: baseline; gap: 8px; line-height: 1; white-space: nowrap; }
+.brand__wordmark { display: inline-flex; align-items: baseline; gap: 8px; line-height: 1; white-space: nowrap; min-width: 0; flex-shrink: 1; }
 .brand__wordmark-name {
   font-family: var(--font-display); font-weight: 800; font-style: italic;
   font-size: 1.55rem; letter-spacing: -0.02em; color: var(--sea-900);
@@ -739,7 +742,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 }
 
 /* ---------- Petits écrans (Android / smartphones) ---------- */
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .container { width: calc(100% - 32px); }
   .site-header__bar { gap: 10px; }
   .brand__wordmark { gap: 6px; }
