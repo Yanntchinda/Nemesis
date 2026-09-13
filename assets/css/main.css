@@ -56,8 +56,9 @@ body {
 }
 img, svg, iframe, video { max-width: 100%; }
 img { display: block; }
-html, body { max-width: 100%; }
-body { overflow-x: hidden; overflow-x: clip; }
+/* Anti-défilement horizontal au niveau racine uniquement :
+   le header sticky et le conteneur restent intacts */
+html { overflow-x: hidden; overflow-x: clip; }
 a { color: inherit; }
 ul, ol { list-style: none; }
 button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
@@ -305,6 +306,7 @@ h1, h2, h3, h4 {
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
 @media (max-width: 1020px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .grid-3, .grid-4 { grid-template-columns: 1fr; } .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { table.transit { min-width: 520px; font-size: 0.84rem; } table.transit th, table.transit td { padding: 12px 14px; } }
 
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
@@ -777,4 +779,8 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   .site-footer__grid { gap: 32px; }
   .subnav__inner { padding: 8px 0; }
   .subnav a { padding: 8px 13px; font-size: 0.8rem; }
+  :root { --header-h: 62px; }
+  .hero__badge { letter-spacing: 0.1em; }
+  .page-hero__meta { gap: 8px 16px; }
+  .site-footer__bottom { justify-content: flex-start; }
 }
