@@ -1,44 +1,43 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services &amp; Expertises | Marine + — Fret maritime, aérien, douane, project cargo</title>
-  <meta name="description" content="Toutes les expertises Marine + : fret maritime FCL/LCL, fret aérien, groupage vers l'Afrique, douane & conformité, logistique au Havre, project cargo et assurance ad valorem.">
-  <meta property="og:title" content="Marine + — Services & expertises fret Europe–Afrique">
-  <meta property="og:description" content="Sept métiers complémentaires pour sécuriser vos expéditions vers l'Afrique, du booking à la livraison finale.">
+  <title data-i18n="svc.title">Leistungen | Travex Global Forwarding — Seefracht, Luftfracht, Zoll, Logistik</title>
+  <meta name="description" data-i18n-content="svc.meta" content="Sieben Gewerke, ein Versprechen: Ihre Ware kommt an. Seefracht FCL/LCL, Luftfracht, Sammelgut, Zoll, Lagerlogistik, Projektladung und Versicherung — Travex Global Forwarding Hamburg.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/img/fret-maritime.jpg">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23055169'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='26' font-weight='bold' text-anchor='middle' fill='%23fff'%3EM+%3C/text%3E%3C/svg%3E">
+  <meta property="og:image" content="assets/img/hero-port-hambourg.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2c4f'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+<a class="skip-link" href="#contenu" data-i18n="common.skip">Zum Hauptinhalt springen</a>
 
 <header class="site-header">
   <div class="container site-header__bar">
-    <a class="brand" href="index.html" aria-label="Marine + — retour à l'accueil">
-      <span class="brand__mark" aria-hidden="true">M+</span>
-      <span>
-        <span class="brand__name">MARINE <span>+</span></span>
-        <span class="brand__tag">Le Havre · Afrique</span>
-      </span>
+    <a class="brand" href="index.html" aria-label="Travex Global Forwarding — Startseite" data-i18n-aria="common.brandaria">
+      <img class="brand__logo" src="assets/img/logo-travex.svg" alt="Travex Global Forwarding">
     </a>
-    <nav class="main-nav" id="mainNav" aria-label="Navigation principale">
-      <a href="index.html">Accueil</a>
-      <a href="services.html" aria-current="page">Services &amp; Expertises</a>
-      <a href="a-propos.html">À propos &amp; Réseau</a>
-      <a href="reservations.html">Réservations</a>
-      <a href="contact.html">Contact</a>
-      <a class="btn btn--primary btn--sm nav-cta" href="cotation.html">Demander une cotation</a>
+    <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation" data-i18n-aria="common.navaria">
+      <a href="index.html" data-i18n="nav.home">Start</a>
+      <a href="services.html" aria-current="page" data-i18n="nav.services">Leistungen &amp; Expertise</a>
+      <a href="a-propos.html" data-i18n="nav.about">Über uns &amp; Netzwerk</a>
+      <a href="reservations.html" data-i18n="nav.bookings">Buchungen</a>
+      <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+      <a class="btn btn--primary btn--sm nav-cta" href="cotation.html" data-i18n="nav.cta">Angebot anfordern</a>
     </nav>
+    <div class="lang-switch" role="group" aria-label="Sprache wählen" data-i18n-aria="common.langaria">
+      <button type="button" data-lang="de" class="is-active" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">
       <svg class="icon icon-burger" aria-hidden="true"><use href="assets/img/icons.svg#i-burger"></use></svg>
       <svg class="icon icon-close" aria-hidden="true"><use href="assets/img/icons.svg#i-close"></use></svg>
-      <span class="visually-hidden">Ouvrir le menu</span>
+      <span class="visually-hidden" data-i18n="common.menu">Menü öffnen</span>
     </button>
   </div>
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -48,254 +47,250 @@
 
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">Services &amp; expertises</span>
-      <h1 class="title-xl">Sept métiers, une seule promesse : <span class="accent">votre marchandise arrive.</span></h1>
-      <p class="lead">Du conteneur groupé au colis hors gabarit, nous composons la solution technique, documentaire et tarifaire adaptée à chaque flux Europe–Afrique.</p>
+      <span class="eyebrow" data-i18n="nav.services">Leistungen &amp; Expertise</span>
+      <h1 class="title-xl" data-i18n="svc.h1">Sieben Gewerke, ein Versprechen: <span class="accent">Ihre Ware kommt an.</span></h1>
+      <p class="lead" data-i18n="svc.lead">Vom Sammelcontainer bis zum Übermaß-Kollo: Wir komponieren die technische, dokumentarische und preisliche Lösung für jeden Europa–Afrika-Fluss.</p>
       <ul class="page-hero__meta">
-        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg> Cotation sous 24 h</li>
-        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-globe"></use></svg> 40+ pays couverts</li>
-        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-shield"></use></svg> Agréé douane &amp; IATA</li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg> <span data-i18n="svc.meta1">Angebot in 24 h</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-globe"></use></svg> <span data-i18n="svc.meta2">40+ Länder abgedeckt</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-shield"></use></svg> <span data-i18n="svc.meta3">AEO-zertifiziert &amp; IATA</span></li>
       </ul>
     </div>
   </section>
 
-  <nav class="subnav" aria-label="Accès rapide aux services">
+  <nav class="subnav" aria-label="Schnellzugriff auf Leistungen" data-i18n-aria="svc.subnavaria">
     <div class="container subnav__inner">
-      <a href="#maritime" class="is-active">Fret maritime</a>
-      <a href="#aerien">Fret aérien</a>
-      <a href="#groupage">Groupage LCL</a>
-      <a href="#douane">Douane &amp; conformité</a>
-      <a href="#logistique">Logistique</a>
-      <a href="#project-cargo">Project cargo</a>
-      <a href="#assurances">Assurances</a>
+      <a href="#maritime" class="is-active" data-i18n="foot.svc1sub">Seefracht</a>
+      <a href="#aerien" data-i18n="foot.svc2">Luftfracht</a>
+      <a href="#groupage" data-i18n="svc.sub.lcl">Sammelgut LCL</a>
+      <a href="#douane" data-i18n="foot.svc4">Zoll &amp; Compliance</a>
+      <a href="#logistique" data-i18n="svc.sub.logi">Logistik</a>
+      <a href="#project-cargo" data-i18n="foot.svc6">Projektladung</a>
+      <a href="#assurances" data-i18n="svc.sub.ins">Versicherungen</a>
     </div>
   </nav>
 
-  <!-- ============ DÉTAIL DES SERVICES ============ -->
   <section class="section--white">
     <div class="container">
 
       <article class="svc-detail" id="maritime">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/fret-maritime.jpg" alt="Pile de conteneurs sur le pont d'un porte-conteneurs" loading="lazy">
-          <span class="chip chip--orange">Cœur de métier</span>
+          <img src="assets/img/fret-maritime.jpg" alt="" loading="lazy">
+          <span class="chip chip--orange" data-i18n="svc.m.chip">Kerngeschäft</span>
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Fret maritime</span>
-          <h2 class="title-md">FCL, LCL, reefer : la mer est notre terrain de jeu</h2>
-          <p>Nous réservons, consolidons et suivons vos conteneurs au départ de l'ensemble des ports européens vers tous les hubs portuaires africains, avec des accords de space protection auprès des principales compagnies maritimes.</p>
+          <span class="eyebrow" data-i18n="foot.svc1sub">Seefracht</span>
+          <h2 class="title-md" data-i18n="svc.m.title">FCL, LCL, Reefer: Das Meer ist unser Terrain</h2>
+          <p data-i18n="svc.m.lead">Wir buchen, konsolidieren und verfolgen Ihre Container ab allen europäischen Häfen zu allen afrikanischen Hafen-Hubs — mit Space-Protection-Vereinbarungen bei den führenden Reedereien.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Conteneurs 20', 40', 40' High Cube, reefer (-30 °C à +30 °C) et open top / flat rack.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Départs hebdomadaires depuis Le Havre, Anvers et Rotterdam.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Post-acheminement vers les pays enclavés : Mali, Burkina Faso, Tchad, RCA.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Suivi milestone par milestone jusqu'à la livraison finale.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.m.f1">Container 20', 40', 40' High Cube, Reefer (−30 °C bis +30 °C) sowie Open Top / Flat Rack.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.m.f2">Wöchentliche Abfahrten ab Hamburg, Antwerpen und Rotterdam.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.m.f3">Nachlauf in Binnenländer: Mali, Burkina Faso, Tschad, ZAR.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.m.f4">Tracking Meilenstein für Meilenstein bis zur Endzustellung.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">FCL</span><span class="chip">LCL</span><span class="chip">Reefer</span><span class="chip">Conventionnel</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=FCL">Coter un flux maritime</a>
+          <div class="svc-card__chips"><span class="chip">FCL</span><span class="chip">LCL</span><span class="chip">Reefer</span><span class="chip" data-i18n="svc.m.chip4">Break-Bulk</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=FCL" data-i18n="svc.m.cta">Seefracht kalkulieren</a>
         </div>
       </article>
 
       <article class="svc-detail" id="aerien">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/fret-aerien.jpg" alt="Avion cargo chargé de nuit sur un tarmac" loading="lazy">
+          <img src="assets/img/fret-aerien.jpg" alt="" loading="lazy">
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Fret aérien</span>
-          <h2 class="title-md">Quand chaque heure compte</h2>
-          <p>Pièces de rechange immobilisantes, produits périssables, prototypes : notre desk aérien organise la solution la plus rapide ou la plus économique, en consolidé ou en affrètement dédié.</p>
+          <span class="eyebrow" data-i18n="foot.svc2">Luftfracht</span>
+          <h2 class="title-md" data-i18n="svc.a.title">Wenn jede Stunde zählt</h2>
+          <p data-i18n="svc.a.lead">Stillstands kritische Ersatzteile, verderbliche Ware, Prototypen: Unser Air-Desk organisiert die schnellste oder wirtschaftlichste Lösung — konsolidiert oder als dedizierter Charter.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Express 24–72 h porte à porte depuis Paris-CDG et Liège.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Affrètement d'avions cargos dédiés pour vos urgences industrielles.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Marchandises dangereuses selon IATA DGR, sous température dirigée.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Dédouanement et livraison finale par nos agents locaux.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.a.f1">Express 24–72 h Tür zu Tür ab Hamburg, Frankfurt und Lüttich.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.a.f2">Charter dedizierter Frachtflugzeuge für Ihre industriellen Notfälle.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.a.f3">Gefahrgut gemäß IATA DGR, temperaturgeführt.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.a.f4">Verzollung und Endzustellung durch unsere lokalen Agenten.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">Express</span><span class="chip">Consolidé</span><span class="chip">Charter</span><span class="chip">DGR</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=AIR">Coter un flux aérien</a>
+          <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c2chip1">Express</span><span class="chip" data-i18n="svc.a.chip2">Konsolidiert</span><span class="chip" data-i18n="idx.exp.c2chip2">Charter</span><span class="chip">DGR</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=AIR" data-i18n="svc.a.cta">Luftfracht kalkulieren</a>
         </div>
       </article>
 
       <article class="svc-detail" id="groupage">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/groupage-lcl.jpg" alt="Empotage de colis groupés dans un conteneur au quai" loading="lazy">
-          <span class="chip chip--orange">Spécialité Marine +</span>
+          <img src="assets/img/groupage-lcl.jpg" alt="" loading="lazy">
+          <span class="chip chip--orange" data-i18n="svc.g.chip">Spezialität Travex</span>
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Groupage LCL</span>
-          <h2 class="title-md">Le spécialiste du groupage maritime vers l'Afrique</h2>
-          <p>Marine + exploite des lignes directes et maîtrisées en conteneurs de groupage au départ du Havre. Votre marchandise est empotée par nos équipes, jamais sous-traitée à l'aveugle.</p>
+          <span class="eyebrow" data-i18n="svc.sub.lcl">Sammelgut LCL</span>
+          <h2 class="title-md" data-i18n="svc.g.title">Der Spezialist für See-Sammelgut nach Afrika</h2>
+          <p data-i18n="svc.g.lead">Travex betreibt eigene, kontrollierte Direktlinien im Sammelcontainer ab Hamburg. Ihre Ware wird von unseren Teams verladen — niemals blind weitergegeben.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Ligne LCL/LCL Le Havre → Dakar : départ hebdomadaire, empotage propre.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Ligne LCL/LCL Le Havre → Abidjan : départ régulier garanti.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Tarification claire au m³, sans frais cachés à l'arrivée.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Idéal de 1 à 15 m³ : vous ne payez que le volume embarqué.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.g.f1">Linie LCL/LCL Hamburg → Dakar: wöchentliche Abfahrt, saubere Verladung.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.g.f2">Linie LCL/LCL Hamburg → Abidjan: garantierte regelmäßige Abfahrt.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.g.f3">Transparente Preisbildung pro m³, ohne versteckte Ankunftskosten.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.g.f4">Ideal von 1 bis 15 m³: Sie zahlen nur das verladene Volumen.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">LCL/LCL</span><span class="chip">Hebdomadaire</span><span class="chip">Door-to-door</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=LCL">Coter un groupage</a>
+          <div class="svc-card__chips"><span class="chip">LCL/LCL</span><span class="chip" data-i18n="idx.exp.c3chip2">Wöchentlich</span><span class="chip">Door-to-Door</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=LCL" data-i18n="svc.g.cta">Sammelgut kalkulieren</a>
         </div>
       </article>
 
       <article class="svc-detail" id="douane">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/douane-formalites.jpg" alt="Documents douaniers tamponnés près d'une fenêtre donnant sur un port" loading="lazy">
+          <img src="assets/img/douane-formalites.jpg" alt="" loading="lazy">
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Douane &amp; conformité</span>
-          <h2 class="title-md">Le paperwork africain n'a pas de secret pour nous</h2>
-          <p>Un document manquant et c'est le conteneur qui dort au port. Notre cellule conformité prépare l'intégralité des pièces exigées, en Europe comme à destination.</p>
+          <span class="eyebrow" data-i18n="foot.svc4">Zoll &amp; Compliance</span>
+          <h2 class="title-md" data-i18n="svc.d.title">Afrikas Dokumentenvorgaben sind für uns kein Geheimnis</h2>
+          <p data-i18n="svc.d.lead">Ein fehlendes Dokument — und der Container schläft im Hafen. Unsere Compliance-Zelle erstellt sämtliche geforderten Unterlagen, in Europa wie am Bestimmungsort.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Dédouanement import / export et déclarations EXS en Europe.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Obtention des certificats obligatoires : BESC, BSC, ECTN, FER selon le pays.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Conseil nomenclature (HS codes), origine et valeur en douane.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Représentation auprès des administrations et compagnies.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.d.f1">Import-/Exportverzollung und EXS-Anmeldungen in Europa.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.d.f2">Beschaffung der Pflichtzertifikate: BESC, BSC, ECTN, FER je nach Land.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.d.f3">Beratung zu Zolltarifnummern (HS-Codes), Ursprung und Zollwert.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.d.f4">Vertretung gegenüber Behörden und Reedereien.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">EXS</span><span class="chip">BESC / ECTN</span><span class="chip">Origine</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html">Vérifier mes documents</a>
+          <div class="svc-card__chips"><span class="chip">EXS</span><span class="chip">BESC / ECTN</span><span class="chip" data-i18n="svc.d.chip3">Ursprung</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html" data-i18n="svc.d.cta">Meine Dokumente prüfen</a>
         </div>
       </article>
 
       <article class="svc-detail" id="logistique">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/logistique-entrepot.jpg" alt="Entrepôt logistique avec racks de stockage et chariot élévateur" loading="lazy">
+          <img src="assets/img/logistique-entrepot.jpg" alt="" loading="lazy">
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Logistique &amp; entreposage</span>
-          <h2 class="title-md">4 500 m² au pied des quais du Havre</h2>
-          <p>Notre entrepôt sécurise la préparation de vos expéditions : réception, contrôle, consolidation et mise aux normes avant embarquement.</p>
+          <span class="eyebrow" data-i18n="foot.svc5">Logistik &amp; Lagerhaltung</span>
+          <h2 class="title-md" data-i18n="svc.l.title">4 500 m² direkt am Hamburger Hafen</h2>
+          <p data-i18n="svc.l.lead">Unser Lager sichert die Vorbereitung Ihrer Sendungen: Annahme, Kontrolle, Konsolidierung und versandfertige Aufbereitung vor der Verladung.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Entreposage sous douane ou libre, courte et moyenne durée.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Empotage / dépotage, étiquetage, reconditionnement.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Préparation de commandes et gestion de stocks informatisée.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Cross-dock pour vos flux multi-fournisseurs européens.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.l.f1">Zoll- oder Freilager, kurze und mittlere Dauer.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.l.f2">Verladen / Entladen, Etikettierung, Umverpackung.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.l.f3">Kommissionierung und IT-gestützte Bestandsführung.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.l.f4">Cross-Docking für Ihre europäischen Mehr-Lieferanten-Flüsse.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">4 500 m²</span><span class="chip">Cross-dock</span><span class="chip">Stock</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html">Étudier mon flux</a>
+          <div class="svc-card__chips"><span class="chip">4 500 m²</span><span class="chip">Cross-Dock</span><span class="chip" data-i18n="svc.l.chip3">Lager</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html" data-i18n="svc.l.cta">Meinen Fluss prüfen</a>
         </div>
       </article>
 
       <article class="svc-detail" id="project-cargo">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/project-cargo.jpg" alt="Grue mobile levant un transformateur industriel hors gabarit" loading="lazy">
+          <img src="assets/img/project-cargo.jpg" alt="" loading="lazy">
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Project cargo</span>
-          <h2 class="title-md">Hors gabarit, hors normes, hors de question d'improviser</h2>
-          <p>Mines, énergie, BTP, agro-industrie : nous concevons le transport de vos colis lourds et équipements industriels, de l'étude de levage à la mise à disposition sur chantier.</p>
+          <span class="eyebrow" data-i18n="foot.svc6">Projektladung</span>
+          <h2 class="title-md" data-i18n="svc.p.title">Übermaß, Überbreite — aber niemals improvisiert</h2>
+          <p data-i18n="svc.p.lead">Bergbau, Energie, Bau, Agroindustrie: Wir konstruieren den Transport Ihrer schweren Kolli und Industrieanlagen — von der Kranstudie bis zur Bereitstellung auf der Baustelle.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Études de levage, d'arrimage et de répartition de charge.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Flat rack, open top, breakbulk et charters partiels.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Convois exceptionnels et reconnaissances d'itinéraires en Afrique.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Supervision manutention portuaire et livraison sur site.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.p.f1">Kran-, Lasch- und Lastverteilungsstudien.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.p.f2">Flat Rack, Open Top, Break-Bulk und Teilcharter.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.p.f3">Schwertransporte und Routenstudien in Afrika.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.p.f4">Aufsicht über Hafenumschlag und Zustellung vor Ort.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">Colis lourds</span><span class="chip">BB / Flatrack</span><span class="chip">Clé en main</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=PROJECT">Parler à un ingénieur d'affaires</a>
+          <div class="svc-card__chips"><span class="chip" data-i18n="svc.p.chip1">Schwere Kolli</span><span class="chip">BB / Flatrack</span><span class="chip" data-i18n="svc.p.chip3">Schlüsselfertig</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=PROJECT" data-i18n="svc.p.cta">Mit einem Projektingenieur sprechen</a>
         </div>
       </article>
 
       <article class="svc-detail" id="assurances">
         <div class="svc-detail__media" data-reveal>
-          <img src="assets/img/assurance-cargo.jpg" alt="Signature d'un certificat d'assurance cargo sur un bureau" loading="lazy">
+          <img src="assets/img/assurance-cargo.jpg" alt="" loading="lazy">
         </div>
         <div class="svc-detail__body" data-reveal>
-          <span class="eyebrow">Assurances</span>
-          <h2 class="title-md">Ad valorem : protégez 100 % de la valeur marchande</h2>
-          <p>La responsabilité légale d'un transporteur ne couvre qu'une fraction de la valeur de votre marchandise. Nous vous proposons une couverture ad valorem « tous risques » adaptée au corridor africain.</p>
+          <span class="eyebrow" data-i18n="svc.sub.ins">Versicherungen</span>
+          <h2 class="title-md" data-i18n="svc.i.title">Ad valorem: Schützen Sie 100 % des Warenwerts</h2>
+          <p data-i18n="svc.i.lead">Die gesetzliche Haftung eines Frachtführers deckt nur einen Bruchteil Ihres Warenwerts. Wir bieten eine „Allgefahren“-Ad-valorem-Deckung, passend zum Afrika-Korridor.</p>
           <ul class="svc-feats">
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Couverture de quai à quai, extensible au porte à porte.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Prime calculée sur la valeur déclarée, sans franchise cachée.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Gestion des sinistres par notre équipe, interlocuteur unique.</li>
-            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> Attestation immédiate pour vos dossiers de financement.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.i.f1">Deckung ab Kai bis Kai, erweiterbar auf Tür zu Tür.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.i.f2">Prämie auf den deklarierten Wert, ohne versteckte Selbstbeteiligung.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.i.f3">Schadenabwicklung durch unser Team, ein Ansprechpartner.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.i.f4">Sofortige Bescheinigung für Ihre Finanzierungsunterlagen.</span></li>
           </ul>
-          <div class="svc-card__chips"><span class="chip">Ad valorem</span><span class="chip">Tous risques</span><span class="chip">Porte à porte</span></div>
-          <a class="btn btn--outline-dark btn--sm" href="cotation.html">Assurer mon expédition</a>
+          <div class="svc-card__chips"><span class="chip">Ad valorem</span><span class="chip" data-i18n="svc.i.chip2">Allgefahren</span><span class="chip" data-i18n="idx.routes.d2d">Tür zu Tür</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html" data-i18n="svc.i.cta">Sendung versichern</a>
         </div>
       </article>
 
     </div>
   </section>
 
-  <!-- ============ TRANSITS INDICATIFS ============ -->
   <section class="section">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow eyebrow--olive">Repères</span>
-        <h2 class="title-lg">Transits &amp; fréquences indicatifs</h2>
-        <p class="lead">Valeurs port à port constatées sur nos lignes, hors formalités douanières. Chaque cotation confirme le sailing exact.</p>
+        <span class="eyebrow eyebrow--olive" data-i18n="svc.table.eyebrow">Orientierung</span>
+        <h2 class="title-lg" data-i18n="svc.table.title">Richt-Transitzeiten &amp; Frequenzen</h2>
+        <p class="lead" data-i18n="svc.table.lead">Auf unseren Linien beobachtete Werte Hafen bis Hafen, ohne Zollformalitäten. Jedes Angebot bestätigt die exakte Abfahrt.</p>
       </div>
       <div class="table-wrap" data-reveal>
         <table class="transit">
-          <caption class="visually-hidden">Transits et fréquences des principales lignes Marine +</caption>
+          <caption class="visually-hidden" data-i18n="svc.table.caption">Transitzeiten und Frequenzen der wichtigsten Travex-Linien</caption>
           <thead>
-            <tr><th scope="col">Liaison</th><th scope="col">Mode</th><th scope="col">Transit indicatif</th><th scope="col">Fréquence</th></tr>
+            <tr><th scope="col" data-i18n="svc.table.th1">Verbindung</th><th scope="col" data-i18n="bk.sched.th2">Modus</th><th scope="col" data-i18n="svc.table.th3">Richt-Transit</th><th scope="col" data-i18n="bk.sched.th3">Frequenz</th></tr>
           </thead>
           <tbody>
-            <tr><td>Le Havre → Dakar</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg>Maritime LCL / FCL</td><td>12 – 14 jours</td><td>Hebdomadaire</td></tr>
-            <tr><td>Le Havre → Abidjan</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg>Maritime LCL / FCL</td><td>14 – 16 jours</td><td>Hebdomadaire</td></tr>
-            <tr><td>Le Havre → Douala</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg>Maritime FCL</td><td>18 – 21 jours</td><td>2 – 3 / mois</td></tr>
-            <tr><td>Le Havre → Pointe-Noire</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg>Maritime FCL</td><td>16 – 19 jours</td><td>2 / mois</td></tr>
-            <tr><td>Le Havre → Casablanca</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg>Maritime FCL</td><td>4 – 6 jours</td><td>Hebdomadaire</td></tr>
-            <tr><td>Paris CDG → Dakar / Abidjan</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-plane"></use></svg>Aérien</td><td>24 – 72 heures</td><td>Quotidienne</td></tr>
+            <tr><td data-i18n="idx.routes.r1t">Hamburg → Dakar</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg><span data-i18n="svc.table.m1">Seefracht LCL / FCL</span></td><td>12 – 14 <span data-i18n="idx.routes.d">T</span></td><td data-i18n="bk.sched.weekly">Wöchentlich</td></tr>
+            <tr><td data-i18n="idx.routes.r2t">Hamburg → Abidjan</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg><span data-i18n="svc.table.m1">Seefracht LCL / FCL</span></td><td>14 – 16 <span data-i18n="idx.routes.d">T</span></td><td data-i18n="bk.sched.weekly">Wöchentlich</td></tr>
+            <tr><td data-i18n="svc.table.r3">Hamburg → Douala</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg><span data-i18n="svc.table.m2">Seefracht FCL</span></td><td>18 – 21 <span data-i18n="idx.routes.d">T</span></td><td data-i18n="svc.table.f3">2 – 3 / Monat</td></tr>
+            <tr><td data-i18n="svc.table.r4">Hamburg → Pointe-Noire</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg><span data-i18n="svc.table.m2">Seefracht FCL</span></td><td>16 – 19 <span data-i18n="idx.routes.d">T</span></td><td data-i18n="svc.table.f4">2 / Monat</td></tr>
+            <tr><td data-i18n="svc.table.r5">Hamburg → Casablanca</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg><span data-i18n="svc.table.m2">Seefracht FCL</span></td><td>4 – 6 <span data-i18n="idx.routes.d">T</span></td><td data-i18n="bk.sched.weekly">Wöchentlich</td></tr>
+            <tr><td data-i18n="svc.table.r6">Hamburg / Frankfurt → Dakar / Abidjan</td><td><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-plane"></use></svg><span data-i18n="bk.mode.air">Luftfracht</span></td><td>24 – 72 h</td><td data-i18n="bk.sched.daily">Täglich</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- ============ FAQ ============ -->
   <section class="section section--white">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">Questions fréquentes</span>
-        <h2 class="title-lg">Tout ce qu'on nous demande avant d'embarquer</h2>
+        <span class="eyebrow" data-i18n="ct.faq.eyebrow">Häufige Fragen</span>
+        <h2 class="title-lg" data-i18n="svc.faq.title">Alles, was man uns vor der Verladung fragt</h2>
       </div>
       <div class="acc-list" data-reveal>
         <div class="acc">
-          <button class="acc__btn" aria-expanded="false">Quel certificat de chargement (BESC, ECTN, BSC, FER) pour ma destination ?
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q1">Welches Ladezertifikat (BESC, ECTN, BSC, FER) braucht mein Ziel?</span>
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
-          <div class="acc__panel"><div class="acc__panel-inner">Chaque pays impose son propre certificat électronique de suivi de cargaison : BESC pour l'Angola et le Gabon, ECTN/BSC pour le Bénin, le Burkina ou le Mali, FER pour le Congo… Indiquez-nous votre destination : nous vérifions l'exigence exacte, l'obtenons dans les délais et l'intégrons à votre cotation.</div></div>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a1">Jedes Land verlangt sein eigenes elektronisches Frachtzertifikat: BESC für Angola und Gabun, ECTN/BSC für Benin, Burkina oder Mali, FER für Kongo… Nennen Sie uns Ihr Ziel: Wir prüfen die genaue Vorgabe, beschaffen sie fristgerecht und integrieren sie in Ihr Angebot.</div></div>
         </div>
         <div class="acc">
-          <button class="acc__btn" aria-expanded="false">Sous quel délai vais-je recevoir ma cotation ?
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q2">Wie schnell erhalte ich mein Angebot?</span>
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
-          <div class="acc__panel"><div class="acc__panel-inner">Moins de 24 h ouvrées pour un flux maritime ou aérien standard. Pour un dossier project cargo (étude de levage, reconnaissance d'itinéraire), comptez 48 à 72 h : le chiffrage reste gratuit et sans engagement.</div></div>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a2">Unter 24 Stunden für einen Standard-See- oder Luftfluss. Für Projektladung (Kranstudie, Routenerkundung) rechnen Sie mit 48 bis 72 h: Die Kalkulation bleibt kostenlos und unverbindlich.</div></div>
         </div>
         <div class="acc">
-          <button class="acc__btn" aria-expanded="false">Livrez-vous les pays sans façade maritime (Mali, Burkina, Tchad…) ?
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q3">Liefern Sie Länder ohne eigenen Seehafen (Mali, Burkina, Tschad…)?</span>
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
-          <div class="acc__panel"><div class="acc__panel-inner">Oui. Nous organisons le post-acheminement routier depuis Dakar, Abidjan, Lomé, Cotonou ou Douala jusqu'à Bamako, Ouagadougou, N'Djaména ou Bangui, avec transitaires locaux agréés et suivi GPS des convois.</div></div>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a3">Ja. Wir organisieren den Straßennachlauf ab Dakar, Abidjan, Lomé, Cotonou oder Douala bis Bamako, Ouagadougou, N'Djamena oder Bangui — mit zugelassenen lokalen Partnern und GPS-Verfolgung der Konvois.</div></div>
         </div>
         <div class="acc">
-          <button class="acc__btn" aria-expanded="false">Prenez-vous en charge les marchandises dangereuses ?
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q4">Übernehmen Sie Gefahrgut?</span>
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
-          <div class="acc__panel"><div class="acc__panel-inner">Oui, selon le code IMDG en maritime et la réglementation IATA DGR en aérien. Transmettez-nous la fiche de données de sécurité (MSDS) et le numéro UN : nous validons l'admissibilité, l'emballage et l'étiquetage avant booking.</div></div>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a4">Ja, gemäß IMDG-Code auf See und IATA DGR in der Luft. Senden Sie uns das Sicherheitsdatenblatt (MSDS) und die UN-Nummer: Wir prüfen Zulässigkeit, Verpackung und Kennzeichnung vor dem Booking.</div></div>
         </div>
         <div class="acc">
-          <button class="acc__btn" aria-expanded="false">Comment suivre mon expédition ?
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q5">Wie verfolge ich meine Sendung?</span>
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
-          <div class="acc__panel"><div class="acc__panel-inner">Votre chargé d'affaires vous alerte à chaque jalon : enlèvement, empotage, départ navire, arrivée port, dédouanement, livraison. Un seul numéro de dossier, un seul interlocuteur, pas de plateforme anonyme.</div></div>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a5">Ihr Sachbearbeiter meldet sich bei jedem Meilenstein: Abholung, Verladung, Schiffsabfahrt, Hafenankunft, Verzollung, Zustellung. Eine Vorgangsnummer, ein Ansprechpartner — keine anonyme Plattform.</div></div>
         </div>
         <div class="acc">
-          <button class="acc__btn" aria-expanded="false">Quelles sont vos conditions de règlement ?
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q6">Welche Zahlungsbedingungen gelten?</span>
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
-          <div class="acc__panel"><div class="acc__panel-inner">Virement à la commande pour les premiers dossiers, puis ouverture de compte à 30 jours après étude. Nos opérations sont régies par les conditions générales TLF (Transports et Logistique de France), disponibles en pied de page.</div></div>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a6">Überweisung bei Beauftragung für erste Dossiers, danach Kontoeröffnung mit 30 Tagen Ziel nach Prüfung. Unsere Geschäfte unterliegen den ADSp (Allgemeine Deutsche Spediteurbedingungen), abrufbar im Fußbereich.</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ CTA ============ -->
   <section class="section section--tight">
     <div class="container">
       <div class="cta-band" data-reveal>
         <div>
-          <h2 class="title-lg">Besoin d'un chiffrage précis ?</h2>
-          <p>Décrivez votre marchandise en deux minutes : notre équipe vous rappelle avec une cotation poste par poste sous 24 h ouvrées.</p>
+          <h2 class="title-lg" data-i18n="svc.band.title">Eine präzise Kalkulation nötig?</h2>
+          <p data-i18n="svc.band.lead">Beschreiben Sie Ihre Ware in zwei Minuten: Unser Team ruft Sie mit einem Angebot Position für Position innerhalb von 24 Stunden zurück.</p>
         </div>
         <div class="cta-band__actions">
-          <a class="btn btn--primary" href="cotation.html">Lancer ma demande
+          <a class="btn btn--primary" href="cotation.html"><span data-i18n="svc.band.cta1">Anfrage starten</span>
             <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
           </a>
-          <a class="btn btn--ghost-dark" href="mailto:contact@marineplus.net">
-            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg> contact@marineplus.net
+          <a class="btn btn--ghost-dark" href="mailto:info@travex-global-forwarding.de">
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg> info@travex-global-forwarding.de
           </a>
         </div>
       </div>
@@ -308,61 +303,55 @@
     <div class="site-footer__grid">
       <div>
         <a class="brand" href="index.html" style="margin-bottom:16px">
-          <span class="brand__mark" aria-hidden="true">M+</span>
-          <span>
-            <span class="brand__name" style="color:#fff">MARINE <span>+</span></span>
-            <span class="brand__tag" style="color:#7fa0ad">Le Havre · Afrique</span>
-          </span>
+          <img class="brand__logo" src="assets/img/logo-travex-white.svg" alt="Travex Global Forwarding">
         </a>
-        <p>Commissionnaire de transport international agréé, spécialisé dans la desserte de l'Afrique : fret maritime, aérien, douane et logistique sur-mesure depuis le port du Havre.</p>
+        <p data-i18n="foot.intro">Zugelassene internationale Spedition mit Schwerpunkt Afrika-Dienste: See- und Luftfracht, Zoll und maßgeschneiderte Logistik aus dem Hafen Hamburg.</p>
         <div class="footer-badges">
-          <span class="footer-badge">Agréé douane</span>
+          <span class="footer-badge" data-i18n="foot.badge1">AEO-zertifiziert</span>
           <span class="footer-badge">IATA</span>
-          <span class="footer-badge">CGV TLF</span>
+          <span class="footer-badge">ADSp</span>
         </div>
         <div class="site-footer__social">
-          <a href="#" aria-label="Marine + sur LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-linkedin"></use></svg></a>
-          <a href="#" aria-label="Marine + sur Facebook"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-facebook"></use></svg></a>
-          <a href="#" aria-label="Marine + sur X"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-xsocial"></use></svg></a>
+          <a href="#" aria-label="Travex auf LinkedIn" data-i18n-aria="foot.social1"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-linkedin"></use></svg></a>
+          <a href="#" aria-label="Travex auf Facebook" data-i18n-aria="foot.social2"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-facebook"></use></svg></a>
+          <a href="#" aria-label="Travex auf X" data-i18n-aria="foot.social3"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-xsocial"></use></svg></a>
         </div>
       </div>
       <div>
-        <h3>Expertises</h3>
+        <h3 data-i18n="foot.expertises">Expertisen</h3>
         <ul>
-          <li><a href="services.html#maritime">Fret maritime FCL / LCL</a></li>
-          <li><a href="services.html#aerien">Fret aérien</a></li>
-          <li><a href="services.html#groupage">Groupage LCL Afrique</a></li>
-          <li><a href="services.html#douane">Douane &amp; conformité</a></li>
-          <li><a href="services.html#logistique">Logistique &amp; entreposage</a></li>
-          <li><a href="services.html#project-cargo">Project cargo</a></li>
-          <li><a href="services.html#assurances">Assurance transport</a></li>
+          <li><a href="services.html#maritime" data-i18n="foot.svc1">Seefracht FCL / LCL</a></li>
+          <li><a href="services.html#aerien" data-i18n="foot.svc2">Luftfracht</a></li>
+          <li><a href="services.html#groupage" data-i18n="foot.svc3">Sammelgut LCL Afrika</a></li>
+          <li><a href="services.html#douane" data-i18n="foot.svc4">Zoll &amp; Compliance</a></li>
+          <li><a href="services.html#logistique" data-i18n="foot.svc5">Logistik &amp; Lagerhaltung</a></li>
+          <li><a href="services.html#project-cargo" data-i18n="foot.svc6">Projektladung</a></li>
+          <li><a href="services.html#assurances" data-i18n="foot.svc7">Transportversicherung</a></li>
         </ul>
       </div>
       <div>
-        <h3>Entreprise</h3>
+        <h3 data-i18n="foot.company">Unternehmen</h3>
         <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="services.html">Services &amp; expertises</a></li>
-          <li><a href="a-propos.html">À propos &amp; réseau</a></li>
-          <li><a href="cotation.html">Demander une cotation</a></li>
-          <li><a href="reservations.html">Réservations &amp; départs</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="mentions-legales.html">Mentions légales</a></li>
-          <li><a href="mentions-legales.html#confidentialite">Politique de confidentialité</a></li>
-          <li><a href="mentions-legales.html#cgv">CGV TLF / Extendo</a></li>
+          <li><a href="index.html" data-i18n="nav.home">Start</a></li>
+          <li><a href="services.html" data-i18n="nav.services">Leistungen &amp; Expertise</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">Über uns &amp; Netzwerk</a></li>
+          <li><a href="cotation.html" data-i18n="nav.cta">Angebot anfordern</a></li>
+          <li><a href="reservations.html" data-i18n="foot.bookings">Buchungen &amp; Abfahrten</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Kontakt</a></li>
+          <li><a href="mentions-legales.html" data-i18n="foot.imprint">Impressum</a></li>
         </ul>
       </div>
       <div>
-        <h3>Contact</h3>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg><span>Marine + France<br>136 rue Victor Hugo<br>76600 Le Havre — France</span></p>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-phone"></use></svg><a href="tel:+33232742690">+33 (0)2 32 74 26 90</a></p>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg><a href="mailto:contact@marineplus.net">contact@marineplus.net</a></p>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg><span>Lun. – Ven. : 08 h 30 – 18 h 00</span></p>
+        <h3 data-i18n="nav.contact">Kontakt</h3>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg><span data-i18n="foot.address">Travex Global Forwarding<br>Hamburg — Deutschland</span></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-phone"></use></svg><a href="tel:+4917650618495">+49 176 50618495</a></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg><a href="mailto:info@travex-global-forwarding.de">info@travex-global-forwarding.de</a></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg><span data-i18n="foot.hours">Mo. – Fr. : 08:30 – 18:00 Uhr</span></p>
         <form id="newsletterForm" class="field" style="margin-top:6px">
-          <label for="newsletter">Veille fret Europe–Afrique (1 e-mail / mois)</label>
+          <label for="newsletter" data-i18n="foot.newsletter">Fracht-News Europa–Afrika (1 E-Mail / Monat)</label>
           <div style="display:flex;gap:8px">
-            <input type="email" id="newsletter" name="newsletter" placeholder="votre@email.com" required>
-            <button class="btn btn--primary btn--sm" type="submit" aria-label="S'inscrire à la veille fret">
+            <input type="email" id="newsletter" name="newsletter" placeholder="ihre@email.de" data-i18n-placeholder="foot.newsletterph" required>
+            <button class="btn btn--primary btn--sm" type="submit" aria-label="Fracht-News abonnieren" data-i18n-aria="foot.newsletterbtn">
               <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-send"></use></svg>
             </button>
           </div>
@@ -370,36 +359,38 @@
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p>© <span data-year>2026</span> Marine + — Tous droits réservés.</p>
-      <nav aria-label="Liens légaux">
-        <a href="mentions-legales.html">Mentions légales</a>
-        <a href="mentions-legales.html#confidentialite">Confidentialité</a>
+      <p data-i18n="foot.rights">© <span data-year>2026</span> Travex Global Forwarding — Alle Rechte vorbehalten.</p>
+      <nav aria-label="Rechtliche Links" data-i18n-aria="foot.legalnav">
+        <a href="mentions-legales.html" data-i18n="foot.imprint">Impressum</a>
+        <a href="mentions-legales.html#confidentialite" data-i18n="foot.privacy">Datenschutz</a>
         <a href="mentions-legales.html#cookies">Cookies</a>
-        <a href="mentions-legales.html#cgv">CGV TLF</a>
+        <a href="mentions-legales.html#cgv" data-i18n="foot.terms">AGB (ADSp)</a>
       </nav>
     </div>
   </div>
 </footer>
 
-<aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Gestion des cookies" aria-modal="false">
-  <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-cookie"></use></svg> Gestion des cookies</h2>
-  <p>Nous utilisons uniquement des cookies techniques pour optimiser votre navigation. Aucun traceur publicitaire tiers n'est déposé.</p>
+<aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie-Verwaltung" aria-modal="false" data-i18n-aria="cookie.aria">
+  <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-cookie"></use></svg> <span data-i18n="cookie.title">Cookie-Verwaltung</span></h2>
+  <p data-i18n="cookie.text">Wir verwenden ausschließlich technische Cookies zur Optimierung Ihrer Navigation. Es werden keine Werbe-Tracker Dritter gesetzt.</p>
   <div class="cookie-banner__actions">
-    <button class="btn btn--primary btn--sm" data-cookie-choice="all">Accepter</button>
-    <button class="btn btn--outline-dark btn--sm" data-cookie-choice="none">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie-choice="all" data-i18n="cookie.accept">Akzeptieren</button>
+    <button class="btn btn--outline-dark btn--sm" data-cookie-choice="none" data-i18n="cookie.refuse">Ablehnen</button>
   </div>
-  <button style="font-size:0.78rem;font-weight:700;color:var(--sea-800)" data-cookie-choice="custom">Personnaliser mes choix</button>
+  <button style="font-size:0.78rem;font-weight:700;color:var(--sea-800)" data-cookie-choice="custom" data-i18n="cookie.custom">Auswahl anpassen</button>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
   <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg>
-  <div><strong class="toast__title">Message</strong><p class="toast__msg">Action effectuée.</p></div>
+  <div><strong class="toast__title">Meldung</strong><p class="toast__msg">Aktion ausgeführt.</p></div>
 </div>
 
-<button class="back-top" id="backTop" aria-label="Revenir en haut de page">
+<button class="back-top" id="backTop" aria-label="Zurück nach oben" data-i18n-aria="common.backtop">
   <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-up"></use></svg>
 </button>
 
+<script src="assets/js/translations.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

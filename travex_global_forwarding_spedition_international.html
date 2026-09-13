@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="idx.title">Travex Global Forwarding | Internationale Spedition Hamburg – Europa–Afrika</title>
   <meta name="description" data-i18n-content="idx.meta" content="Travex Global Forwarding, internationale Spedition aus Hamburg: Seefracht FCL/LCL, Luftfracht, Zoll, Logistik und Projektladung nach über 40 Zielen in Afrika. Angebot in 24 h.">
-  <meta property="og:title" data-i18n-content="idx.ogtitle" content="Travex Global Forwarding — Ihre Logistikdrehscheibe zwischen Europa und Afrika">
-  <meta property="og:description" data-i18n-content="idx.ogdesc" content="See- und Luftfracht, Zoll und Projektladung von Hamburg nach ganz Afrika. Antwort in 24 h.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/img/hero-port-hambourg.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2c4f'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
@@ -36,7 +34,7 @@
       <img class="brand__logo" src="assets/img/logo-travex.svg" alt="Travex Global Forwarding">
     </a>
     <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation" data-i18n-aria="common.navaria">
-      <a href="index.html" aria-current="page" data-i18n="nav.home">Start</a>
+      <a href="index.html" data-i18n="nav.home">Start</a>
       <a href="services.html" data-i18n="nav.services">Leistungen &amp; Expertise</a>
       <a href="a-propos.html" data-i18n="nav.about">Über uns &amp; Netzwerk</a>
       <a href="reservations.html" data-i18n="nav.bookings">Buchungen</a>
@@ -59,73 +57,19 @@
 
 <main id="contenu">
 
-  <!-- ================= HERO ================= -->
-  <section class="hero" aria-label="Travex Global Forwarding Vorstellung" data-i18n-aria="idx.heroaria">
-    <div class="hero__bg" aria-hidden="true">
-      <img src="assets/img/hero-port-hambourg.jpg" alt="" fetchpriority="high">
-    </div>
-    <div class="hero__scrim" aria-hidden="true"></div>
+  <section class="page-hero">
     <div class="container">
-      <div class="hero__copy">
-        <p class="hero__badge"><i aria-hidden="true"></i> <span data-i18n="idx.badge">Internationale Spedition — Hamburg</span></p>
-        <h1 data-i18n="idx.h1">Ihre Logistikdrehscheibe zwischen Europa und <span class="accent">Afrika</span>.</h1>
-        <p class="hero__lead" data-i18n="idx.lead">Travex Global Forwarding plant, steuert und sichert Ihre See-, Luft- und Landverkehre nach über 40 afrikanischen Zielen — aus dem Hafen Hamburg. Ein Ansprechpartner, von der Buchung bis zur Letzten Meile.</p>
-        <div class="hero__cta">
-          <a class="btn btn--primary" href="cotation.html"><span data-i18n="idx.cta1">Angebot anfordern</span>
-            <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
-          </a>
-          <a class="btn btn--outline" href="services.html" data-i18n="idx.cta2">Leistungen entdecken</a>
-        </div>
-      </div>
-
-      <!-- Schnellangebot -->
-      <form class="quick-quote" id="quickQuote" aria-label="Schnellangebot" data-i18n-aria="idx.qqaria">
-        <h2 data-i18n="idx.qq.title">Schnellangebot</h2>
-        <p data-i18n="idx.qq.lead">Schätzen Sie Ihre Verbindung in 30 Sekunden ein: Unser Angebotsteam antwortet innerhalb von 24 Stunden.</p>
-        <div class="field">
-          <label for="qq-from" data-i18n="idx.qq.from">Abgang</label>
-          <select id="qq-from" name="from">
-            <option value="DE" selected data-i18n="idx.qq.fromDE">Deutschland — Hamburg / Bremerhaven</option>
-            <option value="BE" data-i18n="idx.qq.fromBE">Belgien — Antwerpen</option>
-            <option value="NL" data-i18n="idx.qq.fromNL">Niederlande — Rotterdam</option>
-            <option value="FR" data-i18n="idx.qq.fromFR">Frankreich — Le Havre / Marseille</option>
-            <option value="ES" data-i18n="idx.qq.fromES">Spanien</option>
-            <option value="IT" data-i18n="idx.qq.fromIT">Italien</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="qq-to" data-i18n="idx.qq.to">Ziel</label>
-          <select id="qq-to" name="to">
-            <option value="SN" data-i18n="idx.qq.toSN">Senegal — Dakar</option>
-            <option value="CI" data-i18n="idx.qq.toCI">Elfenbeinküste — Abidjan</option>
-            <option value="CM" data-i18n="idx.qq.toCM">Kamerun — Douala</option>
-            <option value="GA" data-i18n="idx.qq.toGA">Gabun — Libreville</option>
-            <option value="CG" data-i18n="idx.qq.toCG">Kongo — Pointe-Noire</option>
-            <option value="TG" data-i18n="idx.qq.toTG">Togo — Lomé</option>
-            <option value="BJ" data-i18n="idx.qq.toBJ">Benin — Cotonou</option>
-            <option value="GN" data-i18n="idx.qq.toGN">Guinea — Conakry</option>
-            <option value="MA" data-i18n="idx.qq.toMA">Marokko — Casablanca</option>
-            <option value="DZ" data-i18n="idx.qq.toDZ">Algerien — Algier</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="qq-mode" data-i18n="idx.qq.mode">Verkehrsträger</label>
-          <select id="qq-mode" name="mode">
-            <option value="LCL" selected data-i18n="idx.qq.modeLCL">Seefracht Sammelcontainer (LCL)</option>
-            <option value="FCL" data-i18n="idx.qq.modeFCL">Vollcontainer (FCL)</option>
-            <option value="AIR" data-i18n="idx.qq.modeAIR">Luftfracht</option>
-            <option value="RORO" data-i18n="idx.qq.modeRORO">RoRo</option>
-            <option value="PROJECT" data-i18n="idx.qq.modePROJECT">Projektladung</option>
-          </select>
-        </div>
-        <button class="btn btn--primary btn--block" type="submit"><span data-i18n="idx.qq.submit">Preis erhalten</span>
-          <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
-        </button>
-      </form>
+      <span class="eyebrow" data-i18n="idx.badge">Internationale Spedition — Hamburg</span>
+      <h1 class="title-xl" data-i18n="idx.h1">Ihre Logistikdrehscheibe zwischen Europa und <span class="accent">Afrika</span>.</h1>
+      <p class="lead" data-i18n="idx.lead">Travex Global Forwarding plant, steuert und sichert Ihre See-, Luft- und Landverkehre nach über 40 afrikanischen Zielen — aus dem Hafen Hamburg. Ein Ansprechpartner, von der Buchung bis zur Letzten Meile.</p>
+      <ul class="page-hero__meta">
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg> <span data-i18n="idx.stat4">Angebotszeit</span> : 24 h</li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-globe"></use></svg> <span data-i18n="idx.stat1">Bediente Länder</span> : 40+</li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-shield"></use></svg> <span data-i18n="svc.meta3">AEO-zertifiziert &amp; IATA</span></li>
+      </ul>
     </div>
   </section>
 
-  <!-- ================= KENNZAHLEN ================= -->
   <section class="stats" aria-label="Travex in Zahlen" data-i18n-aria="idx.statsaria">
     <div class="container stats__grid">
       <div class="stat" data-reveal><span class="stat__value"><span data-count="40" data-suffix="+">0</span></span><span class="stat__label" data-i18n="idx.stat1">Bediente Länder</span></div>
@@ -135,46 +79,11 @@
     </div>
   </section>
 
-  <!-- ================= WARUM TRAVEX ================= -->
-  <section class="section section--white">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow" data-i18n="idx.why.eyebrow">Warum Travex</span>
-        <h2 class="title-lg" data-i18n="idx.why.title">Die Präzision einer Spedition, die Agilität eines Partners</h2>
-        <p class="lead" data-i18n="idx.why.lead">Von Hamburg aus steuern wir jedes Glied Ihrer Lieferkette mit einer Obsession: Ihre Ware kommt pünktlich an, zum vereinbarten Preis, mit konformer Dokumentation.</p>
-      </div>
-      <div class="grid-4">
-        <article class="card" data-reveal>
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-route"></use></svg></div>
-          <h3 data-i18n="idx.why.c1t">Beherrschung des Afrika-Korridors</h3>
-          <p data-i18n="idx.why.c1p">Regelmäßige See- und Luftfrachtlinien ab Hamburg, Bremerhaven und den großen europäischen Hubs nach West- und Zentralafrika sowie in den Maghreb.</p>
-        </article>
-        <article class="card" data-reveal style="--i:1">
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-users"></use></svg></div>
-          <h3 data-i18n="idx.why.c2t">Ein Ansprechpartner</h3>
-          <p data-i18n="idx.why.c2p">Ein fester Sachbearbeiter für Angebot, Dokumentation, Zoll und Tracking: Sie müssen Ihren Fall nie zweimal erklären — wir kennen ihn bereits.</p>
-        </article>
-        <article class="card" data-reveal style="--i:2">
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-globe"></use></svg></div>
-          <h3 data-i18n="idx.why.c3t">Netzwerk zertifizierter Agenten</h3>
-          <p data-i18n="idx.why.c3p">Auditierte Partner in über 40 Ländern für die Zustellung Door-to-Door, DAP oder DDP — auch in Binnenländern.</p>
-        </article>
-        <article class="card" data-reveal style="--i:3">
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-shield"></use></svg></div>
-          <h3 data-i18n="idx.why.c4t">Transparenz &amp; Rückverfolgbarkeit</h3>
-          <p data-i18n="idx.why.c4p">Detaillierte Angebote Position für Position, Meldungen bei jedem Meilenstein und Ad-valorem-Versicherung für entspannte Transporte.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= EXPERTISEN ================= -->
   <section class="section">
     <div class="container">
       <div class="section-head section-head--center" data-reveal>
         <span class="eyebrow eyebrow--olive" data-i18n="idx.exp.eyebrow">Unsere Expertisen</span>
         <h2 class="title-lg" data-i18n="idx.exp.title">Sechs Gewerke, eine Verantwortungskette</h2>
-        <p class="lead" data-i18n="idx.exp.lead">Jeder Fluss ist anders: Wir kombinieren die richtigen Verkehrsträger, Dokumente und Partner.</p>
       </div>
       <div class="grid-3">
         <article class="card svc-card" data-reveal>
@@ -218,7 +127,7 @@
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c5chip1">Übermaß</span><span class="chip" data-i18n="idx.exp.c5chip2">Schwertransporte</span></div>
             <h3 data-i18n="idx.exp.c5t">Projektladung</h3>
-            <p data-i18n="idx.exp.c5p">Schwere Kolli, Ausnahme transporte, industrielles Equipment in Übermaß: Kranstudien und schlüsselfertiger Transport.</p>
+            <p data-i18n="idx.exp.c5p">Schwere Kolli, Ausnahmetransporte, industrielles Equipment in Übermaß: Kranstudien und schlüsselfertiger Transport.</p>
             <a class="svc-card__link" href="services.html#project-cargo"><span data-i18n="common.explore">Mehr erfahren</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
@@ -235,7 +144,6 @@
     </div>
   </section>
 
-  <!-- ================= LINIEN ================= -->
   <section class="section section--dark routes">
     <div class="container">
       <div class="section-head" data-reveal>
@@ -268,7 +176,6 @@
     </div>
   </section>
 
-  <!-- ================= METHODE ================= -->
   <section class="section section--white">
     <div class="container">
       <div class="section-head" data-reveal>
@@ -296,40 +203,37 @@
     </div>
   </section>
 
-  <!-- ================= REFERENZEN ================= -->
   <section class="section">
     <div class="container">
-      <div class="section-head section-head--center" data-reveal>
-        <span class="eyebrow eyebrow--olive" data-i18n="idx.quotes.eyebrow">Sie vertrauen uns ihre Flüsse an</span>
-        <h2 class="title-lg" data-i18n="idx.quotes.title">Vertrauen entsteht Sendung für Sendung</h2>
+      <div class="section-head" data-reveal>
+        <span class="eyebrow" data-i18n="ct.faq.eyebrow">Häufige Fragen</span>
+        <h2 class="title-lg" data-i18n="svc.faq.title">Alles, was man uns vor der Verladung fragt</h2>
       </div>
-      <div class="grid-3">
-        <figure class="card quote-card" data-reveal>
-          <blockquote data-i18n="idx.quotes.q1">Wir verschiffen jeden Monat zwei Container Ersatzteile nach Dakar. Seit Travex das Mandat übernommen hat, gab es drei Jahre lang keinen einzigen verpassten Termin.</blockquote>
-          <figcaption>
-            <span class="quote-card__avatar" aria-hidden="true">AD</span>
-            <span><strong>Awa Diop</strong><small data-i18n="idx.quotes.q1r">Supply-Chain-Direktorin — Agroequipment-Händler, Dakar</small></span>
-          </figcaption>
-        </figure>
-        <figure class="card quote-card" data-reveal style="--i:1">
-          <blockquote data-i18n="idx.quotes.q2">Ein 38-Tonnen-Transformator für Libreville: Kranstudie, Flat Rack, Ausnahmegenehmigungen … alles sauber abgewickelt, von Hamburg bis zur Baustelle.</blockquote>
-          <figcaption>
-            <span class="quote-card__avatar" aria-hidden="true">MB</span>
-            <span><strong>Marc Berville</strong><small data-i18n="idx.quotes.q2r">Projektleiter — Energieindustrie, Normandie</small></span>
-          </figcaption>
-        </figure>
-        <figure class="card quote-card" data-reveal style="--i:2">
-          <blockquote data-i18n="idx.quotes.q3">Das LCL-Sammelgut von Hamburg nach Abidjan hat unsere Kosten halbiert. Und vor allem wissen wir immer, wo unsere Ware ist.</blockquote>
-          <figcaption>
-            <span class="quote-card__avatar" aria-hidden="true">SK</span>
-            <span><strong>Sandra Kouassi</strong><small data-i18n="idx.quotes.q3r">Gründerin — Import-/Exporthaus Kosmetik, Abidjan</small></span>
-          </figcaption>
-        </figure>
+      <div class="acc-list" data-reveal>
+        <div class="acc">
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q2">Wie schnell erhalte ich mein Angebot?</span>
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a2">Unter 24 Stunden für einen Standard-See- oder Luftfluss. Für Projektladung (Kranstudie, Routenerkundung) rechnen Sie mit 48 bis 72 h: Die Kalkulation bleibt kostenlos und unverbindlich.</div></div>
+        </div>
+        <div class="acc">
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q1">Welches Ladezertifikat (BESC, ECTN, BSC, FER) braucht mein Ziel?</span>
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a1">Jedes Land verlangt sein eigenes elektronisches Frachtzertifikat: BESC für Angola und Gabun, ECTN/BSC für Benin, Burkina oder Mali, FER für Kongo… Nennen Sie uns Ihr Ziel: Wir prüfen die genaue Vorgabe, beschaffen sie fristgerecht und integrieren sie in Ihr Angebot.</div></div>
+        </div>
+        <div class="acc">
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q3">Liefern Sie Länder ohne eigenen Seehafen (Mali, Burkina, Tschad…)?</span>
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a3">Ja. Wir organisieren den Straßennachlauf ab Dakar, Abidjan, Lomé, Cotonou oder Douala bis Bamako, Ouagadougou, N'Djamena oder Bangui — mit zugelassenen lokalen Partnern und GPS-Verfolgung der Konvois.</div></div>
+        </div>
+        <div class="acc">
+          <button class="acc__btn" aria-expanded="false"><span data-i18n="svc.faq.q5">Wie verfolge ich meine Sendung?</span>
+            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-chevron"></use></svg></button>
+          <div class="acc__panel"><div class="acc__panel-inner" data-i18n="svc.faq.a5">Ihr Sachbearbeiter meldet sich bei jedem Meilenstein: Abholung, Verladung, Schiffsabfahrt, Hafenankunft, Verzollung, Zustellung. Eine Vorgangsnummer, ein Ansprechpartner — keine anonyme Plattform.</div></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= CTA ================= -->
   <section class="section section--tight">
     <div class="container">
       <div class="cta-band" data-reveal>
@@ -422,7 +326,6 @@
   </div>
 </footer>
 
-<!-- Cookie-Banner -->
 <aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie-Verwaltung" aria-modal="false" data-i18n-aria="cookie.aria">
   <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-cookie"></use></svg> <span data-i18n="cookie.title">Cookie-Verwaltung</span></h2>
   <p data-i18n="cookie.text">Wir verwenden ausschließlich technische Cookies zur Optimierung Ihrer Navigation. Es werden keine Werbe-Tracker Dritter gesetzt.</p>
@@ -433,7 +336,6 @@
   <button style="font-size:0.78rem;font-weight:700;color:var(--sea-800)" data-cookie-choice="custom" data-i18n="cookie.custom">Auswahl anpassen</button>
 </aside>
 
-<!-- Toast -->
 <div class="toast" id="toast" role="status" aria-live="polite">
   <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg>
   <div><strong class="toast__title">Meldung</strong><p class="toast__msg">Aktion ausgeführt.</p></div>

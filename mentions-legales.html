@@ -1,101 +1,90 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mentions légales &amp; confidentialité | Marine +</title>
-  <meta name="description" content="Mentions légales, politique de confidentialité (RGPD), gestion des cookies et conditions générales de vente de Marine +, commissionnaire de transport international au Havre.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23055169'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='26' font-weight='bold' text-anchor='middle' fill='%23fff'%3EM+%3C/text%3E%3C/svg%3E">
+  <title data-i18n="leg.title">Impressum, Datenschutz &amp; AGB | Travex Global Forwarding</title>
+  <meta name="description" data-i18n-content="leg.meta" content="Impressum, Datenschutzerklärung (DSGVO), Cookies und AGB (ADSp) von Travex Global Forwarding, Hamburg.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2c4f'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+<a class="skip-link" href="#contenu" data-i18n="common.skip">Zum Hauptinhalt springen</a>
 
 <header class="site-header">
   <div class="container site-header__bar">
-    <a class="brand" href="index.html" aria-label="Marine + — retour à l'accueil">
-      <span class="brand__mark" aria-hidden="true">M+</span>
-      <span>
-        <span class="brand__name">MARINE <span>+</span></span>
-        <span class="brand__tag">Le Havre · Afrique</span>
-      </span>
+    <a class="brand" href="index.html" aria-label="Travex Global Forwarding — Startseite" data-i18n-aria="common.brandaria">
+      <img class="brand__logo" src="assets/img/logo-travex.svg" alt="Travex Global Forwarding">
     </a>
-    <nav class="main-nav" id="mainNav" aria-label="Navigation principale">
-      <a href="index.html">Accueil</a>
-      <a href="services.html">Services &amp; Expertises</a>
-      <a href="a-propos.html">À propos &amp; Réseau</a>
-      <a href="reservations.html">Réservations</a>
-      <a href="contact.html">Contact</a>
-      <a class="btn btn--primary btn--sm nav-cta" href="cotation.html">Demander une cotation</a>
+    <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation" data-i18n-aria="common.navaria">
+      <a href="index.html" data-i18n="nav.home">Start</a>
+      <a href="services.html" data-i18n="nav.services">Leistungen &amp; Expertise</a>
+      <a href="a-propos.html" data-i18n="nav.about">Über uns &amp; Netzwerk</a>
+      <a href="reservations.html" data-i18n="nav.bookings">Buchungen</a>
+      <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+      <a class="btn btn--primary btn--sm nav-cta" href="cotation.html" data-i18n="nav.cta">Angebot anfordern</a>
     </nav>
+    <div class="lang-switch" role="group" aria-label="Sprache wählen" data-i18n-aria="common.langaria">
+      <button type="button" data-lang="de" class="is-active" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">
       <svg class="icon icon-burger" aria-hidden="true"><use href="assets/img/icons.svg#i-burger"></use></svg>
       <svg class="icon icon-close" aria-hidden="true"><use href="assets/img/icons.svg#i-close"></use></svg>
-      <span class="visually-hidden">Ouvrir le menu</span>
+      <span class="visually-hidden" data-i18n="common.menu">Menü öffnen</span>
     </button>
   </div>
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 </header>
 
 <main id="contenu">
+
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">Informations légales</span>
-      <h1 class="title-xl">Mentions légales, confidentialité &amp; CGV</h1>
-      <p class="lead">Tout ce que la loi nous impose de vous dire, écrit lisiblement. Les champs marqués <span style="background:rgba(225,126,35,.25);color:#ffd9b0;padding:1px 6px;border-radius:4px;font-weight:700">[à compléter]</span> seront renseignés avant la mise en production.</p>
+      <span class="eyebrow" data-i18n="leg.eyebrow">Rechtliches</span>
+      <h1 class="title-xl" data-i18n="leg.h1">Impressum, Datenschutz &amp; AGB</h1>
+      <p class="lead" data-i18n="leg.lead">Transparenz ist Teil unseres Vertragsverhältnisses: Betreiber, Hosting, Datenverarbeitung und anwendbare Bedingungen auf einen Blick.</p>
     </div>
   </section>
 
   <section class="section section--white">
     <div class="container legal">
+      <h2 id="editeur" data-i18n="leg.h2a">1. Betreiber der Website</h2>
+      <p data-i18n="leg.p1">Travex Global Forwarding — Hamburg, Deutschland. Telefon: +49 176 50618495 · E-Mail: info@travex-global-forwarding.de. Vertretungsberechtigte Geschäftsführung und Umsatzsteuer-ID auf Anfrage.</p>
 
-      <h2 id="editeur">1. Éditeur du site</h2>
-      <p>Le site est édité par <strong>Marine +</strong>, société par actions simplifiée au capital de <span class="placeholder">[à compléter] €</span>, immatriculée au RCS du Havre sous le numéro <span class="placeholder">[à compléter]</span>, SIRET <span class="placeholder">[à compléter]</span>, dont le siège social est situé 136 rue Victor Hugo, 76600 Le Havre, France.</p>
-      <p>Téléphone : +33 (0)2 32 74 26 90 — E-mail : contact@marineplus.net.<br>
-      Directeur de la publication : <span class="placeholder">[à compléter]</span>.<br>
-      N° TVA intracommunautaire : <span class="placeholder">[à compléter]</span>.</p>
+      <h2 id="hebergeur" data-i18n="leg.h2b">2. Hosting</h2>
+      <p data-i18n="leg.p2">Diese Website wird innerhalb der Europäischen Union gehostet. Die erhobenen technischen Verbindungsdaten (IP-Adresse, Zeitstempel) dienen ausschließlich dem Betrieb und der Sicherheit des Dienstes.</p>
 
-      <h2 id="hebergeur">2. Hébergement</h2>
-      <p>Le site est hébergé par <span class="placeholder">[à compléter — nom, adresse et téléphone de l'hébergeur]</span>. L'hébergeur assure la disponibilité du site 24 h/24 mais n'est en aucun cas responsable des contenus publiés par l'éditeur.</p>
+      <h2 id="propriete" data-i18n="leg.h2c">3. Geistiges Eigentum</h2>
+      <p data-i18n="leg.p3">Sämtliche Inhalte (Texte, Bilder, Logo Travex Global Forwarding, Grafiken) sind urheberrechtlich geschützt. Jede Verwendung außerhalb der individuellen Information bedarf der vorherigen schriftlichen Zustimmung.</p>
 
-      <h2 id="propriete">3. Propriété intellectuelle</h2>
-      <p>L'ensemble des éléments du site (textes, logos, images, photographies, iconographie, charte graphique, structure et bases de données) est la propriété exclusive de Marine +, sauf mention contraire. Toute reproduction, représentation, modification ou adaptation, totale ou partielle, par quelque procédé que ce soit, sans autorisation écrite préalable de Marine +, est interdite et constituerait une contrefaçon au sens des articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
-      <p>Crédits photographiques : visuels d'illustration produits pour la présente refonte ; toute utilisation externe requiert l'accord de l'éditeur.</p>
-
-      <h2 id="confidentialite">4. Politique de confidentialité (RGPD)</h2>
-      <p><strong>Responsable du traitement :</strong> Marine +, 136 rue Victor Hugo, 76600 Le Havre. Contact RGPD : <a href="mailto:contact@marineplus.net" style="color:var(--sea-800);font-weight:700">contact@marineplus.net</a>.</p>
-      <p><strong>Données collectées et finalités :</strong></p>
+      <h2 id="confidentialite" data-i18n="leg.h2d">4. Datenschutzerklärung (DSGVO)</h2>
+      <p data-i18n="leg.p4">Verantwortlicher im Sinne der DSGVO ist Travex Global Forwarding, Hamburg. Wir verarbeiten die über Formulare übermittelten Daten (Name, Firma, Kontaktdaten, Sendungsangaben) ausschließlich zur Bearbeitung Ihrer Anfrage, Buchung oder Sendungsverfolgung (Art. 6 Abs. 1 lit. b DSGVO).</p>
       <ul>
-        <li>Formulaire de cotation : identité, coordonnées professionnelles, détails d'expédition — pour établir et suivre votre cotation (exécution de mesures précontractuelles).</li>
-        <li>Newsletter : adresse e-mail — pour l'envoi de notre veille fret (consentement, révocable à tout moment).</li>
-        <li>Mesure d'audience anonyme et cookies techniques — pour assurer le fonctionnement du site.</li>
+        <li data-i18n="leg.li1">Weitergabe an Dritte nur, soweit zur Vertragserfüllung nötig (Reedereien, Fluggesellschaften, Zollbehörden, lokale Agenten).</li>
+        <li data-i18n="leg.li2">Speicherdauer: handels- und steuerrechtliche Fristen (in der Regel 6 bzw. 10 Jahre), danach Löschung.</li>
+        <li data-i18n="leg.li3">Ihre Rechte: Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch — formlos an info@travex-global-forwarding.de.</li>
+        <li data-i18n="leg.li4">Beschwerderecht bei der zuständigen Datenschutzaufsichtsbehörde.</li>
       </ul>
-      <p><strong>Durées de conservation :</strong> demandes de cotation 24 mois après le dernier contact ; newsletter jusqu'à désinscription ; cookies 13 mois maximum.</p>
-      <p><strong>Destinataires :</strong> les seuls services commerciaux et exploitation de Marine +. Aucune cession, aucune location, aucun transfert hors Union européenne.</p>
-      <p><strong>Vos droits :</strong> accès, rectification, effacement, limitation, portabilité et opposition (art. 15 à 21 RGPD). Exercez-les par e-mail ou courrier à l'adresse du siège. Vous pouvez également saisir la CNIL (cnil.fr) si vous estimez que vos droits ne sont pas respectés.</p>
 
-      <h2 id="cookies">5. Cookies</h2>
-      <p>Le site n'utilise <strong>aucun traceur publicitaire tiers</strong>. Sont susceptibles d'être déposés :</p>
-      <ul>
-        <li>Cookies strictement nécessaires : préférences d'affichage, sécurité de session (exempts de consentement).</li>
-        <li>Sauvegarde locale de votre brouillon de cotation (localStorage), stockée uniquement sur votre appareil et supprimable à tout moment via votre navigateur.</li>
-      </ul>
-      <p>Vous pouvez modifier votre choix à tout moment en effaçant les données de navigation du site.</p>
+      <h2 id="cookies" data-i18n="leg.h2e">5. Cookies</h2>
+      <p data-i18n="leg.p5">Es werden ausschließlich technisch notwendige Cookies eingesetzt (Sprachwahl, Cookie-Präferenz). Es findet kein Tracking zu Werbe- oder Analysezwecken statt.</p>
 
-      <h2 id="cgv">6. Conditions générales de vente (CGV TLF / Extendo)</h2>
-      <p>Les opérations de transport, de transit et de logistique confiées à Marine + sont régies par les <strong>conditions générales des entreprises de commission de transport et de logistique (CGV TLF Overseas / Extendo)</strong>, ainsi que, le cas échéant, par les conventions internationales applicables (La Haye-Visby pour le maritime, Montréal pour l'aérien, CMR pour la route).</p>
-      <p>Ces conditions prévoient notamment les plafonds de responsabilité légale des transporteurs et commissionnaires, que l'assurance ad valorem proposée par Marine + permet de compléter à 100 % de la valeur marchande. Le texte intégral des CGV TLF est consultable sur le site de la Fédération des entreprises de transport et logistique de France et disponible sur simple demande à contact@marineplus.net.</p>
+      <h2 id="cgv" data-i18n="leg.h2f">6. Allgemeine Geschäftsbedingungen</h2>
+      <p data-i18n="leg.p6">Für alle Speditions- und Logistikleistungen gelten die Allgemeinen Deutschen Spediteurbedingungen (ADSp) in der jeweils aktuellen Fassung sowie ergänzend die gesetzlichen Bestimmungen des HGB. Die ADSp sind auf Wunsch jederzeit erhältlich und werden jedem Angebot beigefügt.</p>
 
-      <h2 id="mediation">7. Médiation de la consommation</h2>
-      <p>Conformément aux articles L.611-1 et suivants du Code de la consommation, le client consommateur peut, après réclamation écrite auprès de Marine +, recourir gratuitement à un médiateur de la consommation : <span class="placeholder">[à compléter — médiateur désigné]</span>, dont les coordonnées seront portées ici.</p>
+      <h2 id="mediation" data-i18n="leg.h2g">7. Streitbeilegung</h2>
+      <p data-i18n="leg.p7">Travex Global Forwarding ist nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Gerichtsstand für Kaufleute ist Hamburg.</p>
 
-      <h2>8. Mise à jour</h2>
-      <p>Les présentes mentions peuvent être modifiées à tout moment ; la version applicable est celle en ligne à la date de consultation. Dernière mise à jour : septembre 2026.</p>
+      <h2 data-i18n="leg.h2h">8. Aktualisierung</h2>
+      <p data-i18n="leg.p8">Stand: September 2026. Wir behalten uns vor, diese Hinweise bei geänderter Rechtslage oder Leistung anzupassen.</p>
     </div>
   </section>
+
 </main>
 
 <footer class="site-footer">
@@ -103,89 +92,94 @@
     <div class="site-footer__grid">
       <div>
         <a class="brand" href="index.html" style="margin-bottom:16px">
-          <span class="brand__mark" aria-hidden="true">M+</span>
-          <span>
-            <span class="brand__name" style="color:#fff">MARINE <span>+</span></span>
-            <span class="brand__tag" style="color:#7fa0ad">Le Havre · Afrique</span>
-          </span>
+          <img class="brand__logo" src="assets/img/logo-travex-white.svg" alt="Travex Global Forwarding">
         </a>
-        <p>Commissionnaire de transport international agréé, spécialisé dans la desserte de l'Afrique : fret maritime, aérien, douane et logistique sur-mesure depuis le port du Havre.</p>
+        <p data-i18n="foot.intro">Zugelassene internationale Spedition mit Schwerpunkt Afrika-Dienste: See- und Luftfracht, Zoll und maßgeschneiderte Logistik aus dem Hafen Hamburg.</p>
         <div class="footer-badges">
-          <span class="footer-badge">Agréé douane</span>
+          <span class="footer-badge" data-i18n="foot.badge1">AEO-zertifiziert</span>
           <span class="footer-badge">IATA</span>
-          <span class="footer-badge">CGV TLF</span>
+          <span class="footer-badge">ADSp</span>
         </div>
         <div class="site-footer__social">
-          <a href="#" aria-label="Marine + sur LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-linkedin"></use></svg></a>
-          <a href="#" aria-label="Marine + sur Facebook"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-facebook"></use></svg></a>
-          <a href="#" aria-label="Marine + sur X"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-xsocial"></use></svg></a>
+          <a href="#" aria-label="Travex auf LinkedIn" data-i18n-aria="foot.social1"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-linkedin"></use></svg></a>
+          <a href="#" aria-label="Travex auf Facebook" data-i18n-aria="foot.social2"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-facebook"></use></svg></a>
+          <a href="#" aria-label="Travex auf X" data-i18n-aria="foot.social3"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-xsocial"></use></svg></a>
         </div>
       </div>
       <div>
-        <h3>Expertises</h3>
+        <h3 data-i18n="foot.expertises">Expertisen</h3>
         <ul>
-          <li><a href="services.html#maritime">Fret maritime FCL / LCL</a></li>
-          <li><a href="services.html#aerien">Fret aérien</a></li>
-          <li><a href="services.html#groupage">Groupage LCL Afrique</a></li>
-          <li><a href="services.html#douane">Douane &amp; conformité</a></li>
-          <li><a href="services.html#logistique">Logistique &amp; entreposage</a></li>
-          <li><a href="services.html#project-cargo">Project cargo</a></li>
-          <li><a href="services.html#assurances">Assurance transport</a></li>
+          <li><a href="services.html#maritime" data-i18n="foot.svc1">Seefracht FCL / LCL</a></li>
+          <li><a href="services.html#aerien" data-i18n="foot.svc2">Luftfracht</a></li>
+          <li><a href="services.html#groupage" data-i18n="foot.svc3">Sammelgut LCL Afrika</a></li>
+          <li><a href="services.html#douane" data-i18n="foot.svc4">Zoll &amp; Compliance</a></li>
+          <li><a href="services.html#logistique" data-i18n="foot.svc5">Logistik &amp; Lagerhaltung</a></li>
+          <li><a href="services.html#project-cargo" data-i18n="foot.svc6">Projektladung</a></li>
+          <li><a href="services.html#assurances" data-i18n="foot.svc7">Transportversicherung</a></li>
         </ul>
       </div>
       <div>
-        <h3>Entreprise</h3>
+        <h3 data-i18n="foot.company">Unternehmen</h3>
         <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="services.html">Services &amp; expertises</a></li>
-          <li><a href="a-propos.html">À propos &amp; réseau</a></li>
-          <li><a href="cotation.html">Demander une cotation</a></li>
-          <li><a href="reservations.html">Réservations &amp; départs</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="mentions-legales.html">Mentions légales</a></li>
-          <li><a href="mentions-legales.html#confidentialite">Politique de confidentialité</a></li>
-          <li><a href="mentions-legales.html#cgv">CGV TLF / Extendo</a></li>
+          <li><a href="index.html" data-i18n="nav.home">Start</a></li>
+          <li><a href="services.html" data-i18n="nav.services">Leistungen &amp; Expertise</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">Über uns &amp; Netzwerk</a></li>
+          <li><a href="cotation.html" data-i18n="nav.cta">Angebot anfordern</a></li>
+          <li><a href="reservations.html" data-i18n="foot.bookings">Buchungen &amp; Abfahrten</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Kontakt</a></li>
+          <li><a href="mentions-legales.html" data-i18n="foot.imprint">Impressum</a></li>
         </ul>
       </div>
       <div>
-        <h3>Contact</h3>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg><span>Marine + France<br>136 rue Victor Hugo<br>76600 Le Havre — France</span></p>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-phone"></use></svg><a href="tel:+33232742690">+33 (0)2 32 74 26 90</a></p>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg><a href="mailto:contact@marineplus.net">contact@marineplus.net</a></p>
-        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg><span>Lun. – Ven. : 08 h 30 – 18 h 00</span></p>
+        <h3 data-i18n="nav.contact">Kontakt</h3>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg><span data-i18n="foot.address">Travex Global Forwarding<br>Hamburg — Deutschland</span></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-phone"></use></svg><a href="tel:+4917650618495">+49 176 50618495</a></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg><a href="mailto:info@travex-global-forwarding.de">info@travex-global-forwarding.de</a></p>
+        <p class="contact-line"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg><span data-i18n="foot.hours">Mo. – Fr. : 08:30 – 18:00 Uhr</span></p>
+        <form id="newsletterForm" class="field" style="margin-top:6px">
+          <label for="newsletter" data-i18n="foot.newsletter">Fracht-News Europa–Afrika (1 E-Mail / Monat)</label>
+          <div style="display:flex;gap:8px">
+            <input type="email" id="newsletter" name="newsletter" placeholder="ihre@email.de" data-i18n-placeholder="foot.newsletterph" required>
+            <button class="btn btn--primary btn--sm" type="submit" aria-label="Fracht-News abonnieren" data-i18n-aria="foot.newsletterbtn">
+              <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-send"></use></svg>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p>© <span data-year>2026</span> Marine + — Tous droits réservés.</p>
-      <nav aria-label="Liens légaux">
-        <a href="mentions-legales.html">Mentions légales</a>
-        <a href="mentions-legales.html#confidentialite">Confidentialité</a>
+      <p data-i18n="foot.rights">© <span data-year>2026</span> Travex Global Forwarding — Alle Rechte vorbehalten.</p>
+      <nav aria-label="Rechtliche Links" data-i18n-aria="foot.legalnav">
+        <a href="mentions-legales.html" data-i18n="foot.imprint">Impressum</a>
+        <a href="mentions-legales.html#confidentialite" data-i18n="foot.privacy">Datenschutz</a>
         <a href="mentions-legales.html#cookies">Cookies</a>
-        <a href="mentions-legales.html#cgv">CGV TLF</a>
+        <a href="mentions-legales.html#cgv" data-i18n="foot.terms">AGB (ADSp)</a>
       </nav>
     </div>
   </div>
 </footer>
 
-<aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Gestion des cookies" aria-modal="false">
-  <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-cookie"></use></svg> Gestion des cookies</h2>
-  <p>Nous utilisons uniquement des cookies techniques pour optimiser votre navigation. Aucun traceur publicitaire tiers n'est déposé.</p>
+<aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie-Verwaltung" aria-modal="false" data-i18n-aria="cookie.aria">
+  <h2><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-cookie"></use></svg> <span data-i18n="cookie.title">Cookie-Verwaltung</span></h2>
+  <p data-i18n="cookie.text">Wir verwenden ausschließlich technische Cookies zur Optimierung Ihrer Navigation. Es werden keine Werbe-Tracker Dritter gesetzt.</p>
   <div class="cookie-banner__actions">
-    <button class="btn btn--primary btn--sm" data-cookie-choice="all">Accepter</button>
-    <button class="btn btn--outline-dark btn--sm" data-cookie-choice="none">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie-choice="all" data-i18n="cookie.accept">Akzeptieren</button>
+    <button class="btn btn--outline-dark btn--sm" data-cookie-choice="none" data-i18n="cookie.refuse">Ablehnen</button>
   </div>
-  <button style="font-size:0.78rem;font-weight:700;color:var(--sea-800)" data-cookie-choice="custom">Personnaliser mes choix</button>
+  <button style="font-size:0.78rem;font-weight:700;color:var(--sea-800)" data-cookie-choice="custom" data-i18n="cookie.custom">Auswahl anpassen</button>
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
   <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg>
-  <div><strong class="toast__title">Message</strong><p class="toast__msg">Action effectuée.</p></div>
+  <div><strong class="toast__title">Meldung</strong><p class="toast__msg">Aktion ausgeführt.</p></div>
 </div>
 
-<button class="back-top" id="backTop" aria-label="Revenir en haut de page">
+<button class="back-top" id="backTop" aria-label="Zurück nach oben" data-i18n-aria="common.backtop">
   <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-up"></use></svg>
 </button>
 
+<script src="assets/js/translations.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

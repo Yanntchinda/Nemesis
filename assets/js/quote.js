@@ -15,13 +15,14 @@
   var steps = Array.prototype.slice.call(document.querySelectorAll(".wstep"));
   var current = 0;
 
-  var MODE_LABELS = {
-    LCL: "Groupage maritime (LCL)",
-    FCL: "Conteneur complet (FCL)",
-    AIR: "Fret aérien",
-    RORO: "Roulier (RO/RO)",
-    PROJECT: "Project cargo / colis lourd"
+  var MODE_DE = {
+    LCL: "Sammelgut Seefracht (LCL)",
+    FCL: "Vollcontainer (FCL)",
+    AIR: "Luftfracht",
+    RORO: "RoRo",
+    PROJECT: "Projektladung / Schwerkolli"
   };
+  function modeLabel(m) { return window.t("qt.mode." + m, MODE_DE[m] || ""); }
 
   /* ---------- Helpers ---------- */
   function val(name) {
@@ -77,7 +78,7 @@
       if (val("container")) parts.push(val("container") + " × " + (val("containerQty") || "1"));
     } else if (mode === "LCL") {
       if (val("volume")) parts.push(val("volume") + " m³");
-      if (val("packages")) parts.push(val("packages") + " colis");
+      if (val("packages")) parts.push(val("packages") + " " + window.t("qt.pkg", "Colli"));
     } else if (mode === "AIR") {
       if (val("airWeight")) parts.push(val("airWeight") + " kg");
     } else if (mode === "RORO") {
@@ -87,7 +88,7 @@
       if (val("projectWeight")) parts.push(val("projectWeight") + " kg");
     }
     if (form.querySelector('[name="insurance"]') && form.querySelector('[name="insurance"]').checked) {
-      parts.push("Assurance ad valorem");
+      parts.push(window.t("qt.ins", "Ad-valorem-Versicherung"));
     }
     return parts.join(" · ");
   }
@@ -95,11 +96,11 @@
     var from = selectedText("from");
     var to = selectedText("to");
     setSum("sum-route", (from || to) ? (from || "—") + "  →  " + (to || "—") : "");
-    setSum("sum-mode", MODE_LABELS[modeValue()] || "");
+    setSum("sum-mode", modeLabel(modeValue()));
     setSum("sum-incoterm", val("incoterm"));
     setSum("sum-cargo", cargoSummary());
     var d = val("date");
-    setSum("sum-date", d ? new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "");
+    setSum("sum-date", d ? new Date(d + "T12:00:00").toLocaleDateString({ de: "de-DE", en: "en-GB", fr: "fr-FR" }[window.travexLang()] || "de-DE", { day: "numeric", month: "long", year: "numeric" }) : "");
     var who = [val("firstname"), val("lastname")].filter(Boolean).join(" ");
     var co = val("company");
     setSum("sum-contact", [who, co].filter(Boolean).join(" — "));
@@ -138,7 +139,7 @@
       if (bad) ok = false;
     });
     if (!ok) {
-      window.showToast("Champs incomplets", "Merci de compléter les champs signalés en rouge avant de continuer.");
+      window.showToast(window.t("qt.invalidT", "Felder unvollständig"), window.t("qt.invalidP", "Bitte die rot markierten Felder ergänzen, bevor Sie fortfahren."));
     }
     return ok;
   }
@@ -224,7 +225,7 @@
     if (!consent || !consent.checked) {
       var wrap = consent ? consent.closest(".field") : null;
       if (wrap) wrap.classList.add("invalid");
-      window.showToast("Consentement requis", "Merci d'accepter le traitement de vos données pour recevoir votre cotation.");
+      window.showToast(window.t("qt.consentT", "Einwilligung erforderlich"), window.t("qt.consentP", "Bitte stimmen Sie der Datenverarbeitung zu, um Ihr Angebot zu erhalten."));
       return;
     }
     for (var i = 0; i < panels.length - 1; i++) {
@@ -232,7 +233,7 @@
     }
     var submitBtn = document.getElementById("quoteSubmit");
     submitBtn.disabled = true;
-    submitBtn.textContent = "Envoi en cours…";
+    submitBtn.textContent = window.t("qt.sending", "Wird gesendet…");
 
     window.setTimeout(function () {
       var ref = "MP-" + new Date().getFullYear() + "-" + String(Math.floor(1000 + Math.random() * 9000));
@@ -243,18 +244,18 @@
       var mailto = document.getElementById("mailtoLink");
       if (mailto) {
         var lines = [
-          "Demande de cotation " + ref,
-          "Trajet : " + (selectedText("from") || "—") + " -> " + (selectedText("to") || "—"),
-          "Mode : " + (MODE_LABELS[modeValue()] || "—"),
-          "Incoterm : " + (val("incoterm") || "—"),
-          "Marchandise : " + (cargoSummary() || "—"),
-          "Date souhaitée : " + (val("date") || "à convenir"),
-          "Contact : " + [val("firstname"), val("lastname")].filter(Boolean).join(" ") + " — " + val("company"),
-          "Email : " + val("email") + " | Tél : " + (val("phonePrefix") + " " + val("phone")),
-          "Remarques : " + (val("remarks") || "—")
+          window.t("qt.mail.title", "Angebotsanfrage %s").replace("%s", ref),
+          window.t("qt.mail.route", "Route: ") + (selectedText("from") || "—") + " -> " + (selectedText("to") || "—"),
+          window.t("qt.mail.mode", "Modus: ") + (modeLabel(modeValue()) || "—"),
+          window.t("qt.mail.incoterm", "Incoterm: ") + (val("incoterm") || "—"),
+          window.t("qt.mail.cargo", "Ware: ") + (cargoSummary() || "—"),
+          window.t("qt.mail.date", "Wunschtermin: ") + (val("date") || window.t("qt.mail.tba", "zu vereinbaren")),
+          window.t("qt.mail.contact", "Kontakt: ") + [val("firstname"), val("lastname")].filter(Boolean).join(" ") + " — " + val("company"),
+          window.t("qt.mail.email", "E-Mail: ") + val("email") + " | " + window.t("qt.mail.tel", "Tel: ") + (val("phonePrefix") + " " + val("phone")),
+          window.t("qt.mail.remarks", "Bemerkungen: ") + (val("remarks") || "—")
         ];
-        mailto.href = "mailto:contact@marineplus.net?subject=" +
-          encodeURIComponent("Demande de cotation " + ref) +
+        mailto.href = "mailto:info@travex-global-forwarding.de?subject=" +
+          encodeURIComponent(window.t("qt.mail.title", "Angebotsanfrage %s").replace("%s", ref)) +
           "&body=" + encodeURIComponent(lines.join("\n"));
       }
 
@@ -264,7 +265,7 @@
       if (asideSummary) asideSummary.hidden = true;
       var success = document.getElementById("successPanel");
       if (success) success.classList.add("is-visible");
-      window.showToast("Demande transmise", "Référence " + ref + " — notre pôle cotations vous répond sous 24 h ouvrées.");
+      window.showToast(window.t("qt.sentT", "Anfrage übermittelt"), window.t("qt.sentP", "Zeichen %s — unser Angebotsteam antwortet innerhalb von 24 Stunden.").replace("%s", ref));
     }, 900);
   });
 
@@ -280,7 +281,7 @@
       if (success) success.classList.remove("is-visible");
       var submitBtn = document.getElementById("quoteSubmit");
       submitBtn.disabled = false;
-      submitBtn.textContent = "Envoyer ma demande";
+      submitBtn.textContent = window.t("qt.submit", "Anfrage senden");
       syncDynamic();
       updateSummary();
       goTo(0);

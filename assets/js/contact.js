@@ -47,7 +47,7 @@
         firstBad.focus();
         firstBad.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-      window.showToast("Formulaire incomplet", "Merci de corriger les champs signalés en rouge.");
+      window.showToast(window.t("form.incompleteT", "Formular unvollständig"), window.t("form.incompleteP", "Bitte die rot markierten Felder korrigieren."));
       return;
     }
 
@@ -61,7 +61,7 @@
       success.classList.add("is-visible");
       success.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-    window.showToast("Message envoyé", "Réf. " + ref + " — réponse sous 24 h ouvrées.");
+    window.showToast(window.t("ct.sentT", "Nachricht gesendet"), window.t("ct.sentP", "Zeichen %s — Antwort in 24 Stunden.").replace("%s", ref));
   });
 
   if (again) {

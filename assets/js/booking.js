@@ -13,11 +13,12 @@
   var refEl = document.getElementById("bookingRef");
   var again = document.getElementById("bookingAgain");
 
-  var MODE_LABELS = {
-    LCL: "Groupage maritime (LCL)",
-    FCL: "Conteneur complet (FCL)",
-    AIR: "Fret aérien",
-    RORO: "Roulier (RO/RO)"
+  var MODE_LABELS = { LCL: "bk.mode.lcl", FCL: "bk.mode.fcl", AIR: "bk.mode.air", RORO: "bk.mode.roro" };
+  var MODE_DE = {
+    LCL: "Sammelgut LCL",
+    FCL: "Vollcontainer FCL",
+    AIR: "Luftfracht",
+    RORO: "RoRo"
   };
 
   /* Groupes de champs affichés selon le mode choisi */
@@ -120,8 +121,8 @@
 
   function updateSummary() {
     if (sumMode) {
-      var label = MODE_LABELS[getMode()];
-      setText(sumMode, label || "À sélectionner");
+      var label = window.t(MODE_LABELS[getMode()], MODE_DE[getMode()]);
+      setText(sumMode, label || "");
       if (!label) sumMode.classList.add("empty");
     }
     var from = document.getElementById("b-from");
@@ -129,7 +130,7 @@
     var to = document.getElementById("b-to");
     if (sumTo && to) {
       setText(sumTo, to.value ? to.options[to.selectedIndex].text : "");
-      if (!to.value) sumTo.textContent = "À sélectionner";
+      if (!to.value) sumTo.textContent = window.t("bk.sum.empty1", "Auszuwählen");
     }
     var dateTxt = "";
     if (dateInput && dateInput.value) {
@@ -138,12 +139,12 @@
     }
     if (sumDate) {
       setText(sumDate, dateTxt);
-      if (!dateTxt) sumDate.textContent = "À indiquer";
+      if (!dateTxt) sumDate.textContent = window.t("bk.sum.empty2", "Anzugeben");
     }
     var cargo = cargoSummary();
     if (sumCargo) {
       setText(sumCargo, cargo);
-      if (!cargo) sumCargo.textContent = "À détailler";
+      if (!cargo) sumCargo.textContent = window.t("bk.sum.empty3", "Zu präzisieren");
     }
   }
 
@@ -189,7 +190,7 @@
         firstBad.scrollIntoView({ behavior: "smooth", block: "center" });
         firstBad.focus({ preventScroll: true });
       }
-      window.showToast("Formulaire incomplet", "Merci de corriger les champs signalés en rouge.");
+      window.showToast(window.t("form.incompleteT", "Formular unvollständig"), window.t("form.incompleteP", "Bitte die rot markierten Felder korrigieren."));
       return;
     }
 
@@ -203,7 +204,7 @@
       success.classList.add("is-visible");
       success.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-    window.showToast("Réservation enregistrée", "Réf. " + ref + " — confirmation d'espace sous 4 h ouvrées.");
+    window.showToast(window.t("bk.sentT", "Buchung erfasst"), window.t("bk.sentP", "Zeichen %s — Frachtraumbestätigung in 4 Stunden.").replace("%s", ref));
   });
 
   if (again) {

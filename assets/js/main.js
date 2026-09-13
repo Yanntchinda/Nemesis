@@ -187,11 +187,11 @@
       try { window.localStorage.setItem(COOKIE_KEY, choice); } catch (err) { /* ignore */ }
       hideCookies();
       if (choice === "all") {
-        window.showToast("Cookies acceptés", "Vos préférences ont été enregistrées. Merci !");
+        window.showToast(window.t("cookie.toastAllT", "Cookies akzeptiert"), window.t("cookie.toastAllP", "Ihre Einstellungen wurden gespeichert. Danke!"));
       } else if (choice === "none") {
-        window.showToast("Cookies refusés", "Seuls les cookies strictement nécessaires restent actifs.");
+        window.showToast(window.t("cookie.toastNoneT", "Cookies abgelehnt"), window.t("cookie.toastNoneP", "Es bleiben nur technisch notwendige Cookies aktiv."));
       } else {
-        window.showToast("Personnalisation", "Aucun traceur tiers n'est chargé sur ce site : seuls des cookies techniques sont utilisés.");
+        window.showToast(window.t("cookie.toastCustomT", "Anpassung"), window.t("cookie.toastCustomP", "Es werden keine Drittanbieter-Tracker geladen: nur technische Cookies."));
       }
     });
   }
@@ -219,12 +219,12 @@
       e.preventDefault();
       var email = news.querySelector('input[type="email"]');
       if (!email.value || email.value.indexOf("@") < 0) {
-        window.showToast("Adresse invalide", "Merci de saisir une adresse e-mail valide.");
+        window.showToast(window.t("foot.newsErrT", "Ungültige Adresse"), window.t("foot.newsErrP", "Bitte eine gültige E-Mail-Adresse eingeben."));
         email.focus();
         return;
       }
       news.reset();
-      window.showToast("Inscription confirmée", "Vous recevrez notre veille fret Europe–Afrique chaque mois.");
+      window.showToast(window.t("foot.newsOkT", "Anmeldung bestätigt"), window.t("foot.newsOkP", "Sie erhalten jeden Monat unsere Fracht-News Europa–Afrika."));
     });
   }
 })();
