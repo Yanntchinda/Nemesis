@@ -81,19 +81,10 @@
   /* ----- Compteurs animés ----- */
   var counters = document.querySelectorAll("[data-count]");
   function animateCounter(el) {
+    /* Affichage direct de la valeur finale, sans animation */
     var target = parseFloat(el.getAttribute("data-count")) || 0;
     var suffix = el.getAttribute("data-suffix") || "";
-    var dur = 1500;
-    var t0 = null;
-    function frame(t) {
-      if (t0 === null) t0 = t;
-      var p = Math.min(1, (t - t0) / dur);
-      var eased = 1 - Math.pow(1 - p, 3);
-      var val = Math.round(target * eased);
-      el.textContent = val.toLocaleString("fr-FR") + suffix;
-      if (p < 1) window.requestAnimationFrame(frame);
-    }
-    window.requestAnimationFrame(frame);
+    el.textContent = target.toLocaleString("fr-FR") + suffix;
   }
   if ("IntersectionObserver" in window && counters.length) {
     var cio = new IntersectionObserver(function (entries) {
