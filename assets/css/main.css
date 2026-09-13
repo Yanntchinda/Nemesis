@@ -708,9 +708,20 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   .hero__bg img { animation: none; }
 }
 
-/* ---------- Travex : logo & sélecteur de langue ---------- */
+/* ---------- Travex : mot-symbole & sélecteur de langue ---------- */
 .brand__logo { height: 50px; width: auto; display: block; }
 .site-footer .brand__logo { height: 56px; }
+.brand__wordmark { display: grid; line-height: 1; white-space: nowrap; }
+.brand__wordmark-name {
+  font-family: var(--font-display); font-weight: 800; font-style: italic;
+  font-size: 1.55rem; letter-spacing: -0.02em; color: var(--sea-900);
+}
+.brand__wordmark-sub {
+  font-size: 0.56rem; font-weight: 700; letter-spacing: 0.34em;
+  text-transform: uppercase; color: var(--ink-500); margin-top: 4px; padding-left: 2px;
+}
+.site-footer .brand__wordmark-name { color: #fff; font-size: 1.7rem; }
+.site-footer .brand__wordmark-sub { color: var(--accent-light); }
 .lang-switch {
   display: flex; gap: 3px; padding: 4px; margin-left: 10px;
   border: 1px solid var(--line); border-radius: 999px; background: #fff;
