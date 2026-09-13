@@ -711,14 +711,14 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 /* ---------- Travex : mot-symbole & sélecteur de langue ---------- */
 .brand__logo { height: 50px; width: auto; display: block; }
 .site-footer .brand__logo { height: 56px; }
-.brand__wordmark { display: grid; line-height: 1; white-space: nowrap; }
+.brand__wordmark { display: inline-flex; align-items: baseline; gap: 8px; line-height: 1; white-space: nowrap; }
 .brand__wordmark-name {
   font-family: var(--font-display); font-weight: 800; font-style: italic;
   font-size: 1.55rem; letter-spacing: -0.02em; color: var(--sea-900);
 }
 .brand__wordmark-sub {
-  font-size: 0.56rem; font-weight: 700; letter-spacing: 0.34em;
-  text-transform: uppercase; color: var(--ink-500); margin-top: 4px; padding-left: 2px;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--ink-500);
 }
 .site-footer .brand__wordmark-name { color: #fff; font-size: 1.7rem; }
 .site-footer .brand__wordmark-sub { color: var(--accent-light); }
