@@ -405,6 +405,22 @@ h1, h2, h3, h4 {
   .svc-slider__track .svc-card { flex-basis: 86%; }
 }
 
+/* ---------- Slider de services dans l'en-tête (hero) ---------- */
+.hero__slider { grid-column: 1 / -1; margin-top: clamp(28px, 4vw, 48px); }
+.hero-slider__title { color: #fff; font-size: 1.25rem; margin-bottom: 16px; }
+.hero .svc-slider__btn { background: rgba(255, 255, 255, 0.08); border-color: var(--line-dark); color: #fff; }
+.hero .svc-slider__btn:hover { background: rgba(255, 255, 255, 0.18); }
+.hero .svc-card { background: rgba(255, 255, 255, 0.06); border-color: var(--line-dark); }
+.hero .svc-card::before { display: none; }
+.hero .svc-card:hover { box-shadow: none; border-color: rgba(255, 255, 255, 0.32); }
+.hero .svc-card figure { background: rgba(255, 255, 255, 0.08); }
+.hero .svc-card figure .icon { color: #cbd5e0; }
+.hero .svc-card h3 { color: #fff; }
+.hero .svc-card p { color: #b8c4d8; }
+.hero .svc-card .chip { background: rgba(255, 255, 255, 0.1); color: #cbd5e0; }
+.hero .svc-card__link { color: #cbd5e0; }
+.hero .svc-card__link:hover { color: #fff; }
+
 /* ---------- Lignes / réseau (bande sombre) ---------- */
 .routes { position: relative; }
 .routes__list { display: grid; gap: 16px; }
@@ -944,24 +960,17 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           <svg class="icon icon-arrow-right" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
         </button>
       </form>
-    </div>
-  </section>
 
-
-
-  <!-- ================= SERVICES (SLIDER) ================= -->
-  <section class="section section--white" id="services">
-    <div class="container">
-      <div class="section-head">
-        <h2 class="title-lg" data-i18n="idx.svc.title">Nos services</h2>
-      </div>
-      <div class="svc-slider">
-        <button class="svc-slider__btn svc-slider__btn--prev" type="button" aria-label="Services précédents" data-i18n-aria="idx.svc.prev">
-          <svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="#i-arrow-right"></use></svg>
-          <span class="visually-hidden" data-i18n="idx.svc.prev">Services précédents</span>
-        </button>
-        <div class="svc-slider__track">
-        <article class="card svc-card">
+      <!-- Slider services (en-tête) -->
+      <div class="hero__slider">
+        <h2 class="hero-slider__title" data-i18n="idx.svc.title">Nos services</h2>
+        <div class="svc-slider">
+          <button class="svc-slider__btn svc-slider__btn--prev" type="button" aria-label="Services précédents" data-i18n-aria="idx.svc.prev">
+            <svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="#i-arrow-right"></use></svg>
+            <span class="visually-hidden" data-i18n="idx.svc.prev">Services précédents</span>
+          </button>
+          <div class="svc-slider__track">
+          <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ship"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">FCL</span><span class="chip">LCL</span><span class="chip">Reefer</span></div>
@@ -970,7 +979,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/maritime"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card">
+          <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-plane"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c2chip1">Express</span><span class="chip" data-i18n="idx.exp.c2chip2">Affrètement</span></div>
@@ -979,7 +988,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/aerien"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card">
+          <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-container"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">LCL/LCL</span><span class="chip" data-i18n="idx.exp.c3chip2">Hebdo</span></div>
@@ -988,7 +997,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/groupage"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card">
+          <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-warehouse"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">4 500 m²</span><span class="chip">Cross-Dock</span></div>
@@ -997,7 +1006,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/logistique"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card">
+          <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-crane"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c5chip1">Hors gabarit</span><span class="chip" data-i18n="idx.exp.c5chip2">Convois</span></div>
@@ -1006,7 +1015,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/project-cargo"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card">
+          <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-doc"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">BESC / ECTN</span><span class="chip" data-i18n="idx.exp.c6chip2">Import-Export</span></div>
@@ -1015,14 +1024,18 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/douane"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
+          </div>
+          <button class="svc-slider__btn svc-slider__btn--next" type="button" aria-label="Services suivants" data-i18n-aria="idx.svc.next">
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            <span class="visually-hidden" data-i18n="idx.svc.next">Services suivants</span>
+          </button>
         </div>
-        <button class="svc-slider__btn svc-slider__btn--next" type="button" aria-label="Services suivants" data-i18n-aria="idx.svc.next">
-          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
-          <span class="visually-hidden" data-i18n="idx.svc.next">Services suivants</span>
-        </button>
       </div>
     </div>
   </section>
+
+
+
 
   <!-- ================= LINIEN ================= -->
   <section class="section section--dark routes">
