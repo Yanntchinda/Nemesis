@@ -382,6 +382,29 @@ h1, h2, h3, h4 {
 }
 .chip--orange { background: rgba(74, 85, 104, 0.12); color: var(--orange-600); }
 
+/* ---------- Slider de services (accueil) ---------- */
+.svc-slider { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; }
+.svc-slider__track {
+  display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 4px 2px;
+}
+.svc-slider__track::-webkit-scrollbar { display: none; }
+.svc-slider__track .svc-card { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; min-width: 0; }
+.svc-slider__btn {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line); background: var(--card); color: var(--sea-900);
+}
+.svc-slider__btn:hover { background: var(--sea-100); }
+.svc-slider__btn .icon { width: 18px; height: 18px; }
+@media (max-width: 1020px) {
+  .svc-slider__track .svc-card { flex-basis: calc((100% - 20px) / 2); }
+}
+@media (max-width: 640px) {
+  .svc-slider { grid-template-columns: 1fr; }
+  .svc-slider__btn { display: none; }
+  .svc-slider__track .svc-card { flex-basis: 86%; }
+}
+
 /* ---------- Lignes / réseau (bande sombre) ---------- */
 .routes { position: relative; }
 .routes__list { display: grid; gap: 16px; }
@@ -826,7 +849,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     </a>
     <nav class="main-nav" id="mainNav" aria-label="Navigation principale" data-i18n-aria="common.navaria">
       <a href="#index" aria-current="page" data-i18n="nav.home">Accueil</a>
-      <a href="#services" data-i18n="nav.services">Services &amp; Expertises</a>
+      <a href="#services" data-i18n="nav.services">Nos services</a>
       <a href="#a-propos" data-i18n="nav.about">À propos &amp; Réseau</a>
       <a href="#reservations" data-i18n="nav.bookings">Réservations</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
@@ -878,7 +901,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           <a class="btn btn--primary" href="#cotation"><span data-i18n="idx.cta1">Demander une cotation</span>
             <svg class="icon icon-arrow-right" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
-          <a class="btn btn--outline" href="#services" data-i18n="idx.cta2">Découvrir nos expertises</a>
+          <a class="btn btn--outline" href="#services" data-i18n="idx.cta2">Voir nos services</a>
         </div>
       </div>
 
@@ -924,59 +947,21 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     </div>
   </section>
 
-  <!-- ================= KENNZAHLEN ================= -->
-  <section class="stats" aria-label="Travex en chiffres" data-i18n-aria="idx.statsaria">
-    <div class="container stats__grid">
-      <div class="stat" data-reveal><span class="stat__value"><span data-count="40" data-suffix="+">0</span></span><span class="stat__label" data-i18n="idx.stat1">Pays desservis</span></div>
-      <div class="stat" data-reveal style="--i:1"><span class="stat__value"><span data-count="25" data-suffix="">0</span> <em data-i18n="idx.stat2unit">ans</em></span><span class="stat__label" data-i18n="idx.stat2">D'expertise Afrique</span></div>
-      <div class="stat" data-reveal style="--i:2"><span class="stat__value"><span data-count="12500" data-suffix="+">0</span></span><span class="stat__label" data-i18n="idx.stat3">Expéditions / an</span></div>
-      <div class="stat" data-reveal style="--i:3"><span class="stat__value"><span data-count="24" data-suffix="h">0</span></span><span class="stat__label" data-i18n="idx.stat4">Délai de cotation</span></div>
-    </div>
-  </section>
 
-  <!-- ================= WARUM TRAVEX ================= -->
-  <section class="section section--white">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow" data-i18n="idx.why.eyebrow">Pourquoi Travex</span>
-        <h2 class="title-lg" data-i18n="idx.why.title">La rigueur d'un transitaire, l'agilité d'un partenaire</h2>
-        <p class="lead" data-i18n="idx.why.lead">Depuis Hambourg, nous pilotons chaque maillon de votre chaîne logistique avec une obsession : que votre marchandise arrive à l'heure, au prix convenu, paperwork conforme.</p>
-      </div>
-      <div class="grid-4">
-        <article class="card" data-reveal>
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="#i-route"></use></svg></div>
-          <h3 data-i18n="idx.why.c1t">Maîtrise du corridor Afrique</h3>
-          <p data-i18n="idx.why.c1p">Lignes maritimes et aériennes régulières au départ de Hambourg, Bremerhaven et des grands hubs européens, vers l'Afrique de l'Ouest, centrale et le Maghreb.</p>
-        </article>
-        <article class="card" data-reveal style="--i:1">
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></div>
-          <h3 data-i18n="idx.why.c2t">Interlocuteur unique</h3>
-          <p data-i18n="idx.why.c2p">Un chargé d'affaires dédié pour la cotation, la documentation, la douane et le suivi : vous ne répétez jamais votre dossier, nous le connaissons déjà.</p>
-        </article>
-        <article class="card" data-reveal style="--i:2">
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg></div>
-          <h3 data-i18n="idx.why.c3t">Réseau d'agents certifiés</h3>
-          <p data-i18n="idx.why.c3p">Des partenaires audités dans plus de 40 pays pour la livraison finale en Door-to-Door, DAP ou DDP, y compris dans les zones enclavées.</p>
-        </article>
-        <article class="card" data-reveal style="--i:3">
-          <div class="card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg></div>
-          <h3 data-i18n="idx.why.c4t">Transparence &amp; traçabilité</h3>
-          <p data-i18n="idx.why.c4p">Cotations détaillées poste par poste, alertes à chaque jalon du transport et assurance ad valorem pour voyager l'esprit tranquille.</p>
-        </article>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= EXPERTISEN ================= -->
-  <section class="section">
+  <!-- ================= SERVICES (SLIDER) ================= -->
+  <section class="section section--white" id="services">
     <div class="container">
-      <div class="section-head section-head--center" data-reveal>
-        <span class="eyebrow eyebrow--olive" data-i18n="idx.exp.eyebrow">Nos expertises</span>
-        <h2 class="title-lg" data-i18n="idx.exp.title">Six métiers, une seule chaîne de responsabilité</h2>
-        <p class="lead" data-i18n="idx.exp.lead">Chaque flux est différent : nous composons le bon assemblage de modes, de documents et de partenaires.</p>
+      <div class="section-head">
+        <h2 class="title-lg" data-i18n="idx.svc.title">Nos services</h2>
       </div>
-      <div class="grid-3">
-        <article class="card svc-card" data-reveal>
+      <div class="svc-slider">
+        <button class="svc-slider__btn svc-slider__btn--prev" type="button" aria-label="Services précédents" data-i18n-aria="idx.svc.prev">
+          <svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="#i-arrow-right"></use></svg>
+          <span class="visually-hidden" data-i18n="idx.svc.prev">Services précédents</span>
+        </button>
+        <div class="svc-slider__track">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-ship"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">FCL</span><span class="chip">LCL</span><span class="chip">Reefer</span></div>
@@ -985,7 +970,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/maritime"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card" data-reveal style="--i:1">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-plane"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c2chip1">Express</span><span class="chip" data-i18n="idx.exp.c2chip2">Affrètement</span></div>
@@ -994,7 +979,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/aerien"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card" data-reveal style="--i:2">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-container"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">LCL/LCL</span><span class="chip" data-i18n="idx.exp.c3chip2">Hebdo</span></div>
@@ -1003,7 +988,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/groupage"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card" data-reveal>
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-warehouse"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">4 500 m²</span><span class="chip">Cross-Dock</span></div>
@@ -1012,7 +997,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/logistique"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card" data-reveal style="--i:1">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-crane"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c5chip1">Hors gabarit</span><span class="chip" data-i18n="idx.exp.c5chip2">Convois</span></div>
@@ -1021,7 +1006,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/project-cargo"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
-        <article class="card svc-card" data-reveal style="--i:2">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-doc"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">BESC / ECTN</span><span class="chip" data-i18n="idx.exp.c6chip2">Import-Export</span></div>
@@ -1030,6 +1015,11 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/douane"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
+        </div>
+        <button class="svc-slider__btn svc-slider__btn--next" type="button" aria-label="Services suivants" data-i18n-aria="idx.svc.next">
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          <span class="visually-hidden" data-i18n="idx.svc.next">Services suivants</span>
+        </button>
       </div>
     </div>
   </section>
@@ -1038,8 +1028,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   <section class="section section--dark routes">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow" data-i18n="idx.routes.eyebrow">Lignes phares</span>
-        <h2 class="title-lg" data-i18n="idx.routes.title">Des départs réguliers, des transits maîtrisés</h2>
+        <h2 class="title-lg" data-i18n="idx.routes.title">Nos lignes régulières</h2>
         <p class="lead" data-i18n="idx.routes.lead">Transits indicatifs port à port, hors opérations douanières. Votre chargé d'affaires confirme le sailing exact à la cotation.</p>
       </div>
       <div class="routes__list">
@@ -1067,66 +1056,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     </div>
   </section>
 
-  <!-- ================= METHODE ================= -->
-  <section class="section section--white">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow" data-i18n="idx.method.eyebrow">Notre méthode</span>
-        <h2 class="title-lg" data-i18n="idx.method.title">Quatre étapes, zéro surprise</h2>
-      </div>
-      <ol class="steps">
-        <li class="step" data-reveal>
-          <h3 data-i18n="idx.method.s1t">Cotation sous 24 h</h3>
-          <p data-i18n="idx.method.s1p">Analyse de votre flux, choix du mode et chiffrage détaillé poste par poste, incoterm compris.</p>
-        </li>
-        <li class="step" data-reveal style="--i:1">
-          <h3 data-i18n="idx.method.s2t">Réservation &amp; consolidation</h3>
-          <p data-i18n="idx.method.s2p">Booking auprès des compagnies, enlèvement, empotage ou groupage dans notre entrepôt de Hambourg.</p>
-        </li>
-        <li class="step" data-reveal style="--i:2">
-          <h3 data-i18n="idx.method.s3t">Douane &amp; documentation</h3>
-          <p data-i18n="idx.method.s3p">EXS, connaissements, BESC/ECTN, certificats d'origine : nous préparons 100 % des pièces exigées.</p>
-        </li>
-        <li class="step" data-reveal style="--i:3">
-          <h3 data-i18n="idx.method.s4t">Suivi jusqu'à livraison</h3>
-          <p data-i18n="idx.method.s4p">Alertes à chaque jalon, coordination de l'agent local et livraison finale selon votre incoterm.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
 
-  <!-- ================= REFERENZEN ================= -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head section-head--center" data-reveal>
-        <span class="eyebrow eyebrow--olive" data-i18n="idx.quotes.eyebrow">Ils nous confient leurs flux</span>
-        <h2 class="title-lg" data-i18n="idx.quotes.title">La confiance se construit expédition après expédition</h2>
-      </div>
-      <div class="grid-3">
-        <figure class="card quote-card" data-reveal>
-          <blockquote data-i18n="idx.quotes.q1">Nous expédions chaque mois deux conteneurs de pièces détachées vers Dakar. Depuis que Travex a repris le dossier, plus un seul rendez-vous manqué en trois ans.</blockquote>
-          <figcaption>
-            <span class="quote-card__avatar" aria-hidden="true">AD</span>
-            <span><strong>Awa Diop</strong><small data-i18n="idx.quotes.q1r">Directrice supply chain — distributeur agroéquipement, Dakar</small></span>
-          </figcaption>
-        </figure>
-        <figure class="card quote-card" data-reveal style="--i:1">
-          <blockquote data-i18n="idx.quotes.q2">Un transformateur de 38 tonnes à livrer à Libreville : étude de levage, flatrack, permis exceptionnels… tout a été carré, de Hambourg jusqu'au chantier.</blockquote>
-          <figcaption>
-            <span class="quote-card__avatar" aria-hidden="true">MB</span>
-            <span><strong>Marc Berville</strong><small data-i18n="idx.quotes.q2r">Responsable projets — industriel énergétique, Normandie</small></span>
-          </figcaption>
-        </figure>
-        <figure class="card quote-card" data-reveal style="--i:2">
-          <blockquote data-i18n="idx.quotes.q3">Le groupage LCL de Hambourg vers Abidjan nous a divisé nos coûts par deux. Et surtout, on sait toujours où est notre marchandise.</blockquote>
-          <figcaption>
-            <span class="quote-card__avatar" aria-hidden="true">SK</span>
-            <span><strong>Sandra Kouassi</strong><small data-i18n="idx.quotes.q3r">Fondatrice — maison d'import-export cosmétique, Abidjan</small></span>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
 
   <!-- ================= CTA ================= -->
   <section class="section section--tight">
@@ -2750,7 +2680,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
         </div>
       </div>
       <div>
-        <h3 data-i18n="foot.expertises">Expertises</h3>
+        <h3 data-i18n="foot.expertises">Services</h3>
         <ul>
           <li><a href="#services/maritime" data-i18n="foot.svc1">Fret maritime FCL / LCL</a></li>
           <li><a href="#services/aerien" data-i18n="foot.svc2">Fret aérien</a></li>
@@ -2765,7 +2695,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
         <h3 data-i18n="foot.company">Entreprise</h3>
         <ul>
           <li><a href="#index" data-i18n="nav.home">Accueil</a></li>
-          <li><a href="#services" data-i18n="nav.services">Services &amp; Expertises</a></li>
+          <li><a href="#services" data-i18n="nav.services">Nos services</a></li>
           <li><a href="#a-propos" data-i18n="nav.about">À propos &amp; Réseau</a></li>
           <li><a href="#cotation" data-i18n="nav.cta">Demander une cotation</a></li>
           <li><a href="#reservations" data-i18n="foot.bookings">Réservations &amp; départs</a></li>
@@ -2914,7 +2844,7 @@ window.I18N = {
     "common.brandaria": "Travex Global Forwarding — back to home",
     "common.langaria": "Choose language",
     "nav.home": "Home",
-    "nav.services": "Services &amp; Expertise",
+    "nav.services": "Our services",
     "nav.about": "About us &amp; Network",
     "nav.bookings": "Bookings",
     "nav.contact": "Contact",
@@ -2928,7 +2858,7 @@ window.I18N = {
     "idx.h1": "Your logistics partner between Europe and <span class=\"accent\">Africa</span>.",
     "idx.lead": "Travex Global Forwarding designs, orchestrates and secures your ocean, air and land flows to more than 40 African destinations, out of the port of Hamburg. One single point of contact, from booking to last mile.",
     "idx.cta1": "Request a quote",
-    "idx.cta2": "Discover our expertise",
+    "idx.cta2": "See our services",
     "idx.qqaria": "Quick quote",
     "idx.qq.title": "Quick quote",
     "idx.qq.lead": "Estimate your route in 30 seconds: our pricing team replies within 24 business hours.",
@@ -2996,7 +2926,7 @@ window.I18N = {
     "idx.exp.c6t": "Customs &amp; compliance",
     "idx.exp.c6p": "Import/export clearance and obtaining the certificates required for Africa: BESC, BSC, ECTN, FER.",
     "idx.routes.eyebrow": "Key routes",
-    "idx.routes.title": "Regular sailings, controlled transits",
+    "idx.routes.title": "Our regular routes",
     "idx.routes.lead": "Indicative port-to-port transits, excluding customs operations. Your account manager confirms the exact sailing at quotation.",
     "idx.routes.r1t": "Hamburg → Dakar",
     "idx.routes.r1s": "Weekly LCL groupage · clean stuffing · door-to-door delivery possible",
@@ -3034,7 +2964,7 @@ window.I18N = {
     "foot.social1": "Travex on LinkedIn",
     "foot.social2": "Travex on Facebook",
     "foot.social3": "Travex on X",
-    "foot.expertises": "Expertise",
+    "foot.expertises": "Services",
     "foot.svc1": "Ocean freight FCL / LCL",
     "foot.svc2": "Air freight",
     "foot.svc3": "LCL groupage Africa",
@@ -3547,6 +3477,9 @@ window.I18N = {
     "qt.mail.remarks": "Remarks: ",
     "qt.sentT": "Request transmitted",
     "qt.sentP": "Reference %s — our pricing team replies within 24 business hours.",
+    "idx.svc.title": "Our services",
+    "idx.svc.prev": "Previous services",
+    "idx.svc.next": "Next services"
   }
 };
 </script>
@@ -3844,6 +3777,23 @@ window.I18N = {
       window.location.href = "#cotation" + (params.toString() ? "?" + params.toString() : "");
     });
   }
+
+
+  /* ----- Slider de services (accueil) ----- */
+  document.querySelectorAll(".svc-slider").forEach(function (slider) {
+    var track = slider.querySelector(".svc-slider__track");
+    var prev = slider.querySelector(".svc-slider__btn--prev");
+    var next = slider.querySelector(".svc-slider__btn--next");
+    if (!track) return;
+    function step() {
+      var card = track.querySelector(".svc-card");
+      if (!card) return 300;
+      var gap = parseFloat(window.getComputedStyle(track).columnGap) || 20;
+      return card.getBoundingClientRect().width + gap;
+    }
+    if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "auto" }); });
+    if (next) next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "auto" }); });
+  });
 
   /* ----- Newsletter footer ----- */
   var news = document.getElementById("newsletterForm");

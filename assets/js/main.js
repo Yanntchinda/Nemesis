@@ -203,6 +203,23 @@
     });
   }
 
+
+  /* ----- Slider de services (accueil) ----- */
+  document.querySelectorAll(".svc-slider").forEach(function (slider) {
+    var track = slider.querySelector(".svc-slider__track");
+    var prev = slider.querySelector(".svc-slider__btn--prev");
+    var next = slider.querySelector(".svc-slider__btn--next");
+    if (!track) return;
+    function step() {
+      var card = track.querySelector(".svc-card");
+      if (!card) return 300;
+      var gap = parseFloat(window.getComputedStyle(track).columnGap) || 20;
+      return card.getBoundingClientRect().width + gap;
+    }
+    if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "auto" }); });
+    if (next) next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "auto" }); });
+  });
+
   /* ----- Newsletter footer ----- */
   var news = document.getElementById("newsletterForm");
   if (news) {

@@ -369,6 +369,29 @@ h1, h2, h3, h4 {
 }
 .chip--orange { background: rgba(74, 85, 104, 0.12); color: var(--orange-600); }
 
+/* ---------- Slider de services (accueil) ---------- */
+.svc-slider { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; }
+.svc-slider__track {
+  display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 4px 2px;
+}
+.svc-slider__track::-webkit-scrollbar { display: none; }
+.svc-slider__track .svc-card { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; min-width: 0; }
+.svc-slider__btn {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line); background: var(--card); color: var(--sea-900);
+}
+.svc-slider__btn:hover { background: var(--sea-100); }
+.svc-slider__btn .icon { width: 18px; height: 18px; }
+@media (max-width: 1020px) {
+  .svc-slider__track .svc-card { flex-basis: calc((100% - 20px) / 2); }
+}
+@media (max-width: 640px) {
+  .svc-slider { grid-template-columns: 1fr; }
+  .svc-slider__btn { display: none; }
+  .svc-slider__track .svc-card { flex-basis: 86%; }
+}
+
 /* ---------- Lignes / réseau (bande sombre) ---------- */
 .routes { position: relative; }
 .routes__list { display: grid; gap: 16px; }
