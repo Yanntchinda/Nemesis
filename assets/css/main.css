@@ -369,44 +369,23 @@ h1, h2, h3, h4 {
 }
 .chip--orange { background: rgba(74, 85, 104, 0.12); color: var(--orange-600); }
 
-/* ---------- Slider de services (accueil) ---------- */
-.svc-slider { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; }
-.svc-slider__track {
-  display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
-  scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 4px 2px;
+/* ---------- En-tête : images de fond en slider ---------- */
+.hero__bg img { display: none; }
+.hero__bg img.is-active { display: block; }
+.hero__ctrl { position: absolute; right: 20px; bottom: 18px; z-index: 3; display: flex; align-items: center; gap: 12px; }
+.hero-ctrl__arrow {
+  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line-dark); background: rgba(16, 27, 48, 0.55); color: #fff; cursor: pointer;
 }
-.svc-slider__track::-webkit-scrollbar { display: none; }
-.svc-slider__track .svc-card { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; min-width: 0; }
-.svc-slider__btn {
-  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
-  border: 1px solid var(--line); background: var(--card); color: var(--sea-900);
+.hero-ctrl__arrow:hover { background: rgba(255, 255, 255, 0.18); }
+.hero-ctrl__arrow .icon { width: 16px; height: 16px; }
+.hero__dots { display: flex; gap: 8px; }
+.hero-dot {
+  width: 10px; height: 10px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.7); background: transparent;
 }
-.svc-slider__btn:hover { background: var(--sea-100); }
-.svc-slider__btn .icon { width: 18px; height: 18px; }
-@media (max-width: 1020px) {
-  .svc-slider__track .svc-card { flex-basis: calc((100% - 20px) / 2); }
-}
-@media (max-width: 640px) {
-  .svc-slider { grid-template-columns: 1fr; }
-  .svc-slider__btn { display: none; }
-  .svc-slider__track .svc-card { flex-basis: 86%; }
-}
-
-/* ---------- Slider de services dans l'en-tête (hero) ---------- */
-.hero__slider { grid-column: 1 / -1; margin-top: clamp(28px, 4vw, 48px); }
-.hero-slider__title { color: #fff; font-size: 1.25rem; margin-bottom: 16px; }
-.hero .svc-slider__btn { background: rgba(255, 255, 255, 0.08); border-color: var(--line-dark); color: #fff; }
-.hero .svc-slider__btn:hover { background: rgba(255, 255, 255, 0.18); }
-.hero .svc-card { background: rgba(255, 255, 255, 0.06); border-color: var(--line-dark); }
-.hero .svc-card::before { display: none; }
-.hero .svc-card:hover { box-shadow: none; border-color: rgba(255, 255, 255, 0.32); }
-.hero .svc-card figure { background: rgba(255, 255, 255, 0.08); }
-.hero .svc-card figure .icon { color: #cbd5e0; }
-.hero .svc-card h3 { color: #fff; }
-.hero .svc-card p { color: #b8c4d8; }
-.hero .svc-card .chip { background: rgba(255, 255, 255, 0.1); color: #cbd5e0; }
-.hero .svc-card__link { color: #cbd5e0; }
-.hero .svc-card__link:hover { color: #fff; }
+.hero-dot.is-active { background: #fff; }
+@media (max-width: 640px) { .hero__ctrl { right: 12px; bottom: 12px; } }
 
 /* ---------- Lignes / réseau (bande sombre) ---------- */
 .routes { position: relative; }

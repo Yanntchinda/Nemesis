@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="idx.title">Travex Global Forwarding | Entreprise de logistique et transport entre l'Europe et l'Afrique</title>
-  <meta name="description" data-i18n-content="idx.meta" content="Travex Global Forwarding, entreprise de logistique et transport entre l'Europe et l'Afrique, basée à Hambourg : fret maritime FCL/LCL, fret aérien, douane, logistique et project cargo vers plus de 40 destinations africaines. Cotation sous 24 h.">
+  <meta name="description" data-i18n-content="idx.meta" content="Travex Global Forwarding, entreprise de logistique et transport entre l'Europe et l'Afrique, basée à Hambourg : fret maritime FCL/LCL, fret aérien, douane, logistique et project cargo à destination de l'Afrique. Cotation sous 24 h.">
   <meta property="og:title" data-i18n-content="idx.ogtitle" content="Travex Global Forwarding — Votre partenaire logistique entre l'Europe et l'Afrique">
   <meta property="og:description" data-i18n-content="idx.ogdesc" content="Fret maritime, aérien, douane et project cargo depuis Hambourg vers toute l'Afrique. Réponse sous 24 h.">
   <meta property="og:type" content="website">
@@ -61,14 +61,29 @@
   <!-- ================= HERO ================= -->
   <section class="hero" aria-label="Présentation Travex Global Forwarding" data-i18n-aria="idx.heroaria">
     <div class="hero__bg" aria-hidden="true">
-      <img src="assets/img/hero-port-hambourg.jpg" alt="" fetchpriority="high">
+      <img class="is-active" src="assets/img/hero-port-hambourg.jpg" alt="" fetchpriority="high">
+      <img src="assets/img/hero-port-lehavre.jpg" alt="" loading="lazy">
+      <img src="assets/img/hero-fret-aerien.jpg" alt="" loading="lazy">
     </div>
     <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="hero__ctrl">
+      <button class="hero-ctrl__arrow hero-ctrl__prev" type="button" aria-label="Image précédente" data-i18n-aria="idx.hero.prev">
+        <svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
+      </button>
+      <div class="hero__dots">
+        <button class="hero-dot is-active" type="button" aria-label="Image 1 : port de Hambourg" aria-current="true"></button>
+        <button class="hero-dot" type="button" aria-label="Image 2 : terminal à conteneurs" aria-current="false"></button>
+        <button class="hero-dot" type="button" aria-label="Image 3 : fret aérien de nuit" aria-current="false"></button>
+      </div>
+      <button class="hero-ctrl__arrow hero-ctrl__next" type="button" aria-label="Image suivante" data-i18n-aria="idx.hero.next">
+        <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
+      </button>
+    </div>
     <div class="container">
       <div class="hero__copy">
         <p class="hero__badge"><i aria-hidden="true"></i> <span data-i18n="idx.badge">Entreprise de logistique et transport — Hambourg</span></p>
         <h1 data-i18n="idx.h1">Votre partenaire logistique entre l'Europe et <span class="accent">l'Afrique</span>.</h1>
-        <p class="hero__lead" data-i18n="idx.lead">Travex Global Forwarding conçoit, orchestre et sécurise vos flux maritimes, aériens et terrestres vers plus de 40 destinations africaines, depuis le port de Hambourg. Un interlocuteur unique, de la réservation au dernier kilomètre.</p>
+        <p class="hero__lead" data-i18n="idx.lead">Fret maritime, fret aérien, transport terrestre, douane et logistique : Travex Global Forwarding organise vos expéditions depuis le port de Hambourg, de la réservation au dernier kilomètre.</p>
         <div class="hero__cta">
           <a class="btn btn--primary" href="cotation.html"><span data-i18n="idx.cta1">Demander une cotation</span>
             <svg class="icon icon-arrow-right" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
@@ -117,16 +132,21 @@
         </button>
       </form>
 
-      <!-- Slider services (en-tête) -->
-      <div class="hero__slider">
-        <h2 class="hero-slider__title" data-i18n="idx.svc.title">Nos services</h2>
-        <div class="svc-slider">
-          <button class="svc-slider__btn svc-slider__btn--prev" type="button" aria-label="Services précédents" data-i18n-aria="idx.svc.prev">
-            <svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
-            <span class="visually-hidden" data-i18n="idx.svc.prev">Services précédents</span>
-          </button>
-          <div class="svc-slider__track">
-          <article class="card svc-card">
+    </div>
+  </section>
+
+
+
+
+
+  <!-- ================= SERVICES (énumération) ================= -->
+  <section class="section section--white" id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="title-lg" data-i18n="idx.svc.title">Nos services</h2>
+      </div>
+      <div class="grid-3">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-ship"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">FCL</span><span class="chip">LCL</span><span class="chip">Reefer</span></div>
@@ -135,7 +155,7 @@
             <a class="svc-card__link" href="services.html#maritime"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
-          <article class="card svc-card">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-plane"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c2chip1">Express</span><span class="chip" data-i18n="idx.exp.c2chip2">Affrètement</span></div>
@@ -144,7 +164,7 @@
             <a class="svc-card__link" href="services.html#aerien"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
-          <article class="card svc-card">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-container"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">LCL/LCL</span><span class="chip" data-i18n="idx.exp.c3chip2">Hebdo</span></div>
@@ -153,7 +173,7 @@
             <a class="svc-card__link" href="services.html#groupage"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
-          <article class="card svc-card">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-warehouse"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">4 500 m²</span><span class="chip">Cross-Dock</span></div>
@@ -162,7 +182,7 @@
             <a class="svc-card__link" href="services.html#logistique"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
-          <article class="card svc-card">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-crane"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c5chip1">Hors gabarit</span><span class="chip" data-i18n="idx.exp.c5chip2">Convois</span></div>
@@ -171,7 +191,7 @@
             <a class="svc-card__link" href="services.html#project-cargo"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
-          <article class="card svc-card">
+        <article class="card svc-card">
           <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-doc"></use></svg></figure>
           <div class="svc-card__body">
             <div class="svc-card__chips"><span class="chip">BESC / ECTN</span><span class="chip" data-i18n="idx.exp.c6chip2">Import-Export</span></div>
@@ -180,18 +200,9 @@
             <a class="svc-card__link" href="services.html#douane"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </article>
-          </div>
-          <button class="svc-slider__btn svc-slider__btn--next" type="button" aria-label="Services suivants" data-i18n-aria="idx.svc.next">
-            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow-right"></use></svg>
-            <span class="visually-hidden" data-i18n="idx.svc.next">Services suivants</span>
-          </button>
-        </div>
       </div>
     </div>
   </section>
-
-
-
 
   <!-- ================= LINIEN ================= -->
   <section class="section section--dark routes">

@@ -19,13 +19,13 @@ window.I18N = {
     "nav.contact": "Contact",
     "nav.cta": "Request a quote",
     "idx.title": "Travex Global Forwarding | Logistics and Transport Company between Europe and Africa",
-    "idx.meta": "Travex Global Forwarding, a logistics and transport company between Europe and Africa, based in Hamburg: FCL/LCL ocean freight, air freight, customs, logistics and project cargo to more than 40 African destinations. Quote within 24 h.",
+    "idx.meta": "Travex Global Forwarding, a logistics and transport company between Europe and Africa, based in Hamburg: FCL/LCL ocean freight, air freight, customs, logistics and project cargo bound for Africa. Quote within 24 h.",
     "idx.ogtitle": "Travex Global Forwarding — Your logistics partner between Europe and Africa",
     "idx.ogdesc": "Ocean and air freight, customs and project cargo from Hamburg to all of Africa. Reply within 24 h.",
     "idx.heroaria": "About Travex Global Forwarding",
     "idx.badge": "Logistics and transport company — Hamburg",
     "idx.h1": "Your logistics partner between Europe and <span class=\"accent\">Africa</span>.",
-    "idx.lead": "Travex Global Forwarding designs, orchestrates and secures your ocean, air and land flows to more than 40 African destinations, out of the port of Hamburg. One single point of contact, from booking to last mile.",
+    "idx.lead": "Sea freight, air freight, overland transport, customs and logistics: Travex Global Forwarding organises your shipments out of the port of Hamburg, from booking to the last mile.",
     "idx.cta1": "Request a quote",
     "idx.cta2": "See our services",
     "idx.qqaria": "Quick quote",
@@ -647,7 +647,7 @@ window.I18N = {
     "qt.sentT": "Request transmitted",
     "qt.sentP": "Reference %s — our pricing team replies within 24 business hours.",
     "idx.svc.title": "Our services",
-    "idx.svc.prev": "Previous services",
-    "idx.svc.next": "Next services"
+    "idx.hero.prev": "Previous image",
+    "idx.hero.next": "Next image"
   }
 };

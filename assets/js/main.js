@@ -204,21 +204,38 @@
   }
 
 
-  /* ----- Slider de services (accueil) ----- */
-  document.querySelectorAll(".svc-slider").forEach(function (slider) {
-    var track = slider.querySelector(".svc-slider__track");
-    var prev = slider.querySelector(".svc-slider__btn--prev");
-    var next = slider.querySelector(".svc-slider__btn--next");
-    if (!track) return;
-    function step() {
-      var card = track.querySelector(".svc-card");
-      if (!card) return 300;
-      var gap = parseFloat(window.getComputedStyle(track).columnGap) || 20;
-      return card.getBoundingClientRect().width + gap;
+  /* ----- Slider d'images de fond de l'en-tête (changement instantané) ----- */
+  (function () {
+    var hero = document.querySelector(".hero");
+    if (!hero) return;
+    var imgs = hero.querySelectorAll(".hero__bg img");
+    var dots = hero.querySelectorAll(".hero-dot");
+    if (imgs.length < 2) return;
+    var i = 0;
+    var timer = null;
+    function show(n) {
+      i = (n + imgs.length) % imgs.length;
+      for (var k = 0; k < imgs.length; k++) {
+        imgs[k].classList.toggle("is-active", k === i);
+        if (dots[k]) {
+          dots[k].classList.toggle("is-active", k === i);
+          dots[k].setAttribute("aria-current", k === i ? "true" : "false");
+        }
+      }
     }
-    if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "auto" }); });
-    if (next) next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "auto" }); });
-  });
+    function restart() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(function () { show(i + 1); }, 7000);
+    }
+    var prev = hero.querySelector(".hero-ctrl__prev");
+    var next = hero.querySelector(".hero-ctrl__next");
+    if (prev) prev.addEventListener("click", function () { show(i - 1); restart(); });
+    if (next) next.addEventListener("click", function () { show(i + 1); restart(); });
+    for (var d = 0; d < dots.length; d++) {
+      (function (k) { dots[k].addEventListener("click", function () { show(k); restart(); }); })(d);
+    }
+    restart();
+  })();
 
   /* ----- Newsletter footer ----- */
   var news = document.getElementById("newsletterForm");
