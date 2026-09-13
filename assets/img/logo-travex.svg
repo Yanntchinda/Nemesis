@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" role="img" aria-label="Travex Global Forwarding">
-  <text x="6" y="158" font-family="Arial, Helvetica, sans-serif" font-size="148" font-weight="700" font-style="italic" letter-spacing="-4" fill="#1A2B4C">Travex</text>
-  <path d="M398 122 C448 80 502 60 554 54 C506 84 460 110 420 142 Z" fill="#1A2B4C"/>
-  <path d="M376 162 C414 128 456 102 504 88 C466 118 428 146 396 172 Z" fill="#1A2B4C"/>
-  <text x="10" y="222" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="600" letter-spacing="8" fill="#4A5568">GLOBAL FORWARDING</text>
+  <title>Travex Global Forwarding</title>
+  <text x="8" y="150" font-family="Arial, Helvetica, sans-serif" font-size="140" font-weight="800" font-style="italic" letter-spacing="-3" fill="#1A2B4C">Travex</text>
+  <path d="M400 118 C452 76 508 56 562 50 C512 80 464 108 422 140 Z" fill="#1A2B4C"/>
+  <path d="M378 158 C416 124 458 98 506 84 C468 114 430 142 398 168 Z" fill="#1A2B4C"/>
+  <text x="10" y="220" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="600" letter-spacing="8" textLength="640" lengthAdjust="spacingAndGlyphs" fill="#4A5568">GLOBAL FORWARDING</text>
 </svg>

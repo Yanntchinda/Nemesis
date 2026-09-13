@@ -1,15 +1,15 @@
 /* ==========================================================================
    TRAVEX GLOBAL FORWARDING — Moteur i18n
-   L'allemand (de) est la langue principale : son contenu vit dans le HTML et
-   est capturé au chargement. Le français (fr) et l'anglais (en) proviennent
-   de translations.js (window.I18N). Choix persisté en localStorage.
+   Le français (fr) est la langue principale : son contenu vit dans le HTML et
+   est capturé au chargement. L'anglais (en) provient de translations.js
+   (window.I18N). Choix persisté en localStorage.
    ========================================================================== */
 (function () {
   "use strict";
 
   var STORE_KEY = "travex-lang";
-  var deText = {};   /* clé -> innerHTML allemand capturé */
-  var deAttr = {};   /* "p:clé" / "a:clé" / "c:clé" -> valeur allemande */
+  var deText = {};   /* clé -> innerHTML français capturé */
+  var deAttr = {};   /* "p:clé" / "a:clé" / "c:clé" -> valeur française */
 
   function each(sel, fn) {
     document.querySelectorAll(sel).forEach(fn);
@@ -31,7 +31,7 @@
   }
 
   function currentLang() {
-    try { return localStorage.getItem(STORE_KEY) || "de"; } catch (e) { return "de"; }
+    try { return localStorage.getItem(STORE_KEY) || "fr"; } catch (e) { return "fr"; }
   }
   window.travexLang = currentLang;
 
@@ -39,7 +39,7 @@
   window.t = function (key, fallback) {
     var lang = currentLang();
     var dict = (window.I18N && window.I18N[lang]) || {};
-    if (lang !== "de" && dict[key] !== undefined) return dict[key];
+    if (lang !== "fr" && dict[key] !== undefined) return dict[key];
     if (deText[key] !== undefined) return deText[key];
     return fallback !== undefined ? fallback : key;
   };
@@ -47,7 +47,7 @@
   function apply(lang) {
     var dict = (window.I18N && window.I18N[lang]) || {};
     function pick(map, k) {
-      if (lang === "de") return map[k];
+      if (lang === "fr") return map[k];
       return dict[k] !== undefined ? dict[k] : map[k];
     }
     each("[data-i18n]", function (el) {

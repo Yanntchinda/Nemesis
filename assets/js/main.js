@@ -178,11 +178,11 @@
       try { window.localStorage.setItem(COOKIE_KEY, choice); } catch (err) { /* ignore */ }
       hideCookies();
       if (choice === "all") {
-        window.showToast(window.t("cookie.toastAllT", "Cookies akzeptiert"), window.t("cookie.toastAllP", "Ihre Einstellungen wurden gespeichert. Danke!"));
+        window.showToast(window.t("cookie.toastAllT", "Cookies acceptés"), window.t("cookie.toastAllP", "Vos préférences ont été enregistrées. Merci !"));
       } else if (choice === "none") {
-        window.showToast(window.t("cookie.toastNoneT", "Cookies abgelehnt"), window.t("cookie.toastNoneP", "Es bleiben nur technisch notwendige Cookies aktiv."));
+        window.showToast(window.t("cookie.toastNoneT", "Cookies refusés"), window.t("cookie.toastNoneP", "Seuls les cookies strictement nécessaires restent actifs."));
       } else {
-        window.showToast(window.t("cookie.toastCustomT", "Anpassung"), window.t("cookie.toastCustomP", "Es werden keine Drittanbieter-Tracker geladen: nur technische Cookies."));
+        window.showToast(window.t("cookie.toastCustomT", "Personnalisation"), window.t("cookie.toastCustomP", "Aucun traceur tiers n'est chargé sur ce site : seuls des cookies techniques sont utilisés."));
       }
     });
   }
@@ -210,12 +210,12 @@
       e.preventDefault();
       var email = news.querySelector('input[type="email"]');
       if (!email.value || email.value.indexOf("@") < 0) {
-        window.showToast(window.t("foot.newsErrT", "Ungültige Adresse"), window.t("foot.newsErrP", "Bitte eine gültige E-Mail-Adresse eingeben."));
+        window.showToast(window.t("foot.newsErrT", "Adresse invalide"), window.t("foot.newsErrP", "Merci de saisir une adresse e-mail valide."));
         email.focus();
         return;
       }
       news.reset();
-      window.showToast(window.t("foot.newsOkT", "Anmeldung bestätigt"), window.t("foot.newsOkP", "Sie erhalten jeden Monat unsere Fracht-News Europa–Afrika."));
+      window.showToast(window.t("foot.newsOkT", "Inscription confirmée"), window.t("foot.newsOkP", "Vous recevrez notre veille fret Europe–Afrique chaque mois."));
     });
   }
 })();
