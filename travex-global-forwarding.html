@@ -6,7 +6,7 @@
   <title>Travex Global Forwarding | Internationale Spedition Hamburg – Europa–Afrika</title>
   <meta name="description" data-i18n-content="idx.meta" content="Travex Global Forwarding, internationale Spedition aus Hamburg: Seefracht FCL/LCL, Luftfracht, Zoll, Logistik und Projektladung nach über 40 Zielen in Afrika. Angebot in 24 h.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e2c4f'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A2B4C'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
@@ -18,25 +18,26 @@
    ========================================================================== */
 
 :root {
-  /* Palette sobre : navy + gris neutres + un accent bronze discret */
-  --sea-950: #141b28;
-  --sea-900: #1e2c4f;
-  --sea-800: #2c3d6b;
-  --sea-700: #3d5187;
-  --sea-100: #e9edf5;
-  --orange: #b07a3e;
-  --orange-600: #96662f;
-  --olive: #51695a;
-  --sky: #7f96b8;
+  /* Palette institutionnelle : Bleu Profond / Slate / Gris Brume */
+  --sea-950: #101a30;
+  --sea-900: #1A2B4C;   /* Bleu Profond — couleur principale */
+  --sea-800: #26395f;
+  --sea-700: #35497a;
+  --sea-100: #e2e8f0;
+  --accent-light: #a9b7cc; /* teinte claire du Slate, pour fonds sombres */
+  --orange: #4A5568;    /* Slate / Gris-Bleu — accent secondaire */
+  --orange-600: #2d3748;
+  --olive: #4A5568;     /* états validés, sobres */
+  --sky: #8b99ae;
 
-  --paper: #f7f8fa;
-  --card: #ffffff;
-  --line: #e4e7ec;
+  --paper: #F0F4F8;     /* Gris Brume — fond du site */
+  --card: #FFFFFF;
+  --line: #e2e8f0;
   --line-dark: rgba(255, 255, 255, 0.14);
 
-  --ink-900: #171f2c;
-  --ink-700: #354052;
-  --ink-500: #5d6878;
+  --ink-900: #1A2B4C;
+  --ink-700: #2d3748;
+  --ink-500: #4A5568;
 
   /* Type */
   --font-display: "Sora", "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -108,17 +109,18 @@ h1, h2, h3, h4 {
 .eyebrow::before { content: ""; width: 34px; height: 2px; background: var(--orange); }
 .eyebrow--olive { color: var(--olive); }
 .eyebrow--olive::before { background: var(--olive); }
-.section--dark .eyebrow, .section--deep .eyebrow { color: var(--orange); }
+.section--dark .eyebrow, .section--deep .eyebrow { color: var(--accent-light); }
 
 .title-xl { font-size: clamp(2.1rem, 4.6vw, 3.4rem); font-weight: 800; }
 .title-lg { font-size: clamp(1.7rem, 3.2vw, 2.5rem); font-weight: 800; }
 .title-md { font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 700; }
 .lead { font-size: clamp(1rem, 1.4vw, 1.15rem); color: var(--ink-500); max-width: 62ch; }
-.section--dark .lead, .section--deep .lead { color: #b7cdd6; }
+.section--dark .lead, .section--deep .lead { color: #b8c4d8; }
 .section-head { max-width: 720px; margin-bottom: clamp(36px, 5vw, 60px); display: grid; gap: 16px; justify-items: start; }
 .section-head--center { margin-inline: auto; justify-items: center; text-align: center; }
 
 .accent { color: var(--orange); }
+.hero .accent, .page-hero .accent { color: #cbd5e0; }
 
 /* ---------- Boutons ---------- */
 .btn {
@@ -236,10 +238,10 @@ h1, h2, h3, h4 {
 }
 .page-hero .container { position: relative; display: grid; gap: 18px; justify-items: start; }
 .page-hero h1 { color: #fff; }
-.page-hero .lead { color: #b7cdd6; }
+.page-hero .lead { color: #b8c4d8; }
 .page-hero__meta { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 8px; }
-.page-hero__meta li { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: #cfe0e7; }
-.page-hero__meta .icon { width: 16px; height: 16px; color: var(--orange); }
+.page-hero__meta li { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: #cfd8e6; }
+.page-hero__meta .icon { width: 16px; height: 16px; color: var(--accent-light); }
 
 /* ---------- Hero accueil (sobre : fond navy uni, sans photo) ---------- */
 .hero {
@@ -260,7 +262,7 @@ h1, h2, h3, h4 {
 }
 .hero__copy { display: grid; gap: 22px; justify-items: start; }
 .hero h1 { color: #fff; font-size: clamp(2.3rem, 5vw, 3.9rem); font-weight: 800; }
-.hero__lead { color: #c3d6dd; font-size: clamp(1rem, 1.35vw, 1.14rem); max-width: 56ch; }
+.hero__lead { color: #c6d0e0; font-size: clamp(1rem, 1.35vw, 1.14rem); max-width: 56ch; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 .hero__badge {
   display: inline-flex; align-items: center; gap: 10px;
@@ -268,7 +270,7 @@ h1, h2, h3, h4 {
   background: rgba(255, 255, 255, 0.08); border: 1px solid var(--line-dark);
   font-size: 0.78rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
 }
-.hero__badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(176, 122, 62, 0.25); }
+.hero__badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-light); box-shadow: 0 0 0 4px rgba(169, 183, 204, 0.25); }
 
 /* Widget cotation express */
 .quick-quote {
@@ -277,8 +279,8 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow-3); display: grid; gap: 16px;
 }
 .quick-quote h2 { color: #fff; font-size: 1.15rem; }
-.quick-quote p { font-size: 0.85rem; color: #a9c2cc; }
-.quick-quote .field label { color: #cfe0e7; }
+.quick-quote p { font-size: 0.85rem; color: #aab6ca; }
+.quick-quote .field label { color: #cfd8e6; }
 .quick-quote .field select {
   background: rgba(255, 255, 255, 0.07); border-color: var(--line-dark); color: #fff;
 }
@@ -300,8 +302,8 @@ h1, h2, h3, h4 {
   font-family: var(--font-display); font-weight: 800; font-size: clamp(1.7rem, 3.2vw, 2.6rem);
   color: #fff; font-variant-numeric: tabular-nums;
 }
-.stat__value em { font-style: normal; color: var(--orange); }
-.stat__label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9fbcc8; margin-top: 6px; }
+.stat__value em { font-style: normal; color: #cbd5e0; }
+.stat__label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #a9b7cc; margin-top: 6px; }
 @media (max-width: 860px) { .stats__grid { grid-template-columns: repeat(2, 1fr); } .stat:nth-child(3) { border-left: 0; } .stat { border-top: 1px solid var(--line-dark); } .stat:nth-child(-n+2) { border-top: 0; } }
 
 /* ---------- Cartes génériques ---------- */
@@ -332,8 +334,8 @@ h1, h2, h3, h4 {
 .card__icon .icon { width: 26px; height: 26px; }
 .card--dark { background: rgba(255, 255, 255, 0.05); border-color: var(--line-dark); }
 .card--dark h3 { color: #fff; }
-.card--dark p { color: #a9c2cc; }
-.card--dark .card__icon { background: rgba(176, 122, 62, 0.16); color: var(--orange); }
+.card--dark p { color: #aab6ca; }
+.card--dark .card__icon { background: rgba(169, 183, 204, 0.14); color: var(--accent-light); }
 
 /* Cartes services — en-tête iconographique sobre (pas de photo) */
 .svc-card { padding: 0; display: flex; flex-direction: column; }
@@ -362,7 +364,7 @@ h1, h2, h3, h4 {
   background: var(--sea-100); color: var(--sea-800);
   font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
 }
-.chip--orange { background: rgba(176, 122, 62, 0.14); color: var(--orange-600); }
+.chip--orange { background: rgba(74, 85, 104, 0.12); color: var(--orange-600); }
 
 /* ---------- Lignes / réseau (bande sombre) ---------- */
 .routes { position: relative; }
@@ -379,8 +381,8 @@ h1, h2, h3, h4 {
   background: rgba(255, 255, 255, 0.08); color: #fff; font-weight: 800; font-family: var(--font-display);
 }
 .route-row strong { color: #fff; display: block; }
-.route-row small { color: #9fbcc8; font-size: 0.82rem; }
-.route-row__eta { text-align: right; font-size: 0.82rem; color: #9fbcc8; }
+.route-row small { color: #a9b7cc; font-size: 0.82rem; }
+.route-row__eta { text-align: right; font-size: 0.82rem; color: #a9b7cc; }
 .route-row__eta strong { color: #fff; font-size: 1rem; }
 
 /* ---------- Process ---------- */
@@ -441,10 +443,10 @@ h1, h2, h3, h4 {
 .netmap .arc--2 { stroke: rgba(127, 150, 184, 0.5); animation-duration: 34s; }
 @keyframes dash { to { stroke-dashoffset: -600; } }
 .netmap .pin { fill: #9db3d1; }
-.netmap .pin--eu { fill: var(--orange); }
+.netmap .pin--eu { fill: #cbd5e0; }
 .netmap .pin-halo { fill: var(--sky); opacity: 0.22; animation: halo 2.6s ease-out infinite; transform-origin: center; transform-box: fill-box; }
 @keyframes halo { 0% { transform: scale(0.4); opacity: 0.5; } 100% { transform: scale(2.4); opacity: 0; } }
-.netmap text { font-family: var(--font-body); font-size: 11px; font-weight: 700; fill: #c3d6dd; }
+.netmap text { font-family: var(--font-body); font-size: 11px; font-weight: 700; fill: #c6d0e0; }
 .netmap .land { fill: rgba(255, 255, 255, 0.07); stroke: rgba(255, 255, 255, 0.16); stroke-width: 1; }
 
 .agencies { display: grid; gap: 14px; }
@@ -454,9 +456,9 @@ h1, h2, h3, h4 {
   background: rgba(255, 255, 255, 0.04); transition: border-color 0.25s, transform 0.25s var(--ease);
 }
 .agency:hover { border-color: rgba(255, 255, 255, 0.4); transform: translateX(6px); }
-.agency .icon { width: 20px; height: 20px; color: var(--orange); }
+.agency .icon { width: 20px; height: 20px; color: var(--accent-light); }
 .agency strong { color: #fff; font-size: 0.95rem; display: block; }
-.agency small { color: #9fbcc8; }
+.agency small { color: #a9b7cc; }
 
 /* ---------- Services page : blocs détail ---------- */
 .svc-detail { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(28px, 4.5vw, 64px); align-items: center; padding: clamp(48px, 6vw, 72px) 0; border-top: 1px solid var(--line); }
@@ -586,23 +588,23 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 /* Récapitulatif latéral */
 .quote-summary {
   position: sticky; top: calc(var(--header-h) + 20px);
-  background: var(--sea-950); color: #c3d6dd; border-radius: var(--radius);
+  background: var(--sea-950); color: #c6d0e0; border-radius: var(--radius);
   padding: 26px; box-shadow: var(--shadow-2); display: grid; gap: 14px;
 }
 .quote-summary h2 { color: #fff; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
-.quote-summary h2 .icon { width: 20px; height: 20px; color: var(--orange); }
+.quote-summary h2 .icon { width: 20px; height: 20px; color: var(--accent-light); }
 .quote-summary dl { display: grid; gap: 10px; }
 .quote-summary dl > div { display: grid; gap: 2px; border-bottom: 1px dashed var(--line-dark); padding-bottom: 10px; }
-.quote-summary dt { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #7fa0ad; }
+.quote-summary dt { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #8b99ae; }
 .quote-summary dd { font-size: 0.92rem; font-weight: 700; color: #fff; }
-.quote-summary dd.empty { color: #6d8b98; font-weight: 500; font-style: italic; }
+.quote-summary dd.empty { color: #7a889e; font-weight: 500; font-style: italic; }
 
 /* Écran de succès */
 .success-panel { display: none; text-align: center; padding: clamp(40px, 6vw, 72px) 24px; }
 .success-panel.is-visible { display: grid; justify-items: center; gap: 16px; animation: fadeUp 0.5s var(--ease); }
 .success-panel__icon {
   width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
-  background: rgba(81, 105, 90, 0.15); color: var(--olive);
+  background: rgba(74, 85, 104, 0.12); color: var(--olive);
 }
 .success-panel__icon .icon { width: 40px; height: 40px; }
 .success-ref { font-family: var(--font-display); font-weight: 800; color: var(--sea-800); letter-spacing: 0.08em; }
@@ -616,16 +618,16 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   box-shadow: var(--shadow-1);
 }
 .cta-band h2 { color: #fff; }
-.cta-band p { color: #b7cdd6; max-width: 52ch; }
+.cta-band p { color: #b8c4d8; max-width: 52ch; }
 .cta-band__actions { position: relative; display: grid; gap: 12px; }
 .cta-band .btn--primary { background: #fff; color: var(--sea-900); }
 .cta-band .btn--primary:hover { background: #edf0f6; }
 @media (max-width: 860px) { .cta-band { grid-template-columns: 1fr; } }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--sea-950); color: #9fbcc8; font-size: 0.9rem; }
+.site-footer { background: var(--sea-950); color: #a9b7cc; font-size: 0.9rem; }
 .site-footer a { text-decoration: none; transition: color 0.2s; }
-.site-footer a:hover { color: var(--orange); }
+.site-footer a:hover { color: #e2e8f0; }
 .site-footer__grid {
   display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.2fr; gap: clamp(28px, 4vw, 56px);
   padding: clamp(52px, 7vw, 80px) 0 44px;
@@ -636,30 +638,30 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   color: #fff; font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
   margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
 }
-.site-footer h3::after { content: ""; width: 26px; height: 2px; background: var(--orange); }
+.site-footer h3::after { content: ""; width: 26px; height: 2px; background: var(--accent-light); }
 .site-footer li { margin-bottom: 10px; }
 .site-footer .contact-line { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
-.site-footer .contact-line .icon { width: 17px; height: 17px; color: var(--orange); flex-shrink: 0; margin-top: 3px; }
+.site-footer .contact-line .icon { width: 17px; height: 17px; color: var(--accent-light); flex-shrink: 0; margin-top: 3px; }
 .footer-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .footer-badge {
   padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-dark);
-  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #c3d6dd;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #c6d0e0;
 }
 .site-footer__social { display: flex; gap: 10px; margin-top: 18px; }
 .site-footer__social a {
   width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
-  border: 1px solid var(--line-dark); color: #c3d6dd;
+  border: 1px solid var(--line-dark); color: #c6d0e0;
 }
-.site-footer__social a:hover { border-color: var(--orange); color: var(--orange); }
+.site-footer__social a:hover { border-color: var(--accent-light); color: var(--accent-light); }
 .site-footer__social .icon { width: 17px; height: 17px; }
 .site-footer__bottom {
   border-top: 1px solid var(--line-dark); padding: 22px 0;
   display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between;
-  font-size: 0.78rem; color: #7fa0ad;
+  font-size: 0.78rem; color: #8b99ae;
 }
 .site-footer__bottom nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-.site-footer__bottom a { color: #7fa0ad; }
-.site-footer__bottom a:hover { color: var(--orange); }
+.site-footer__bottom a { color: #8b99ae; }
+.site-footer__bottom a:hover { color: #e2e8f0; }
 
 /* ---------- Cookie banner ---------- */
 .cookie-banner {
@@ -677,15 +679,15 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 /* ---------- Toast ---------- */
 .toast {
   position: fixed; top: 20px; right: 20px; z-index: 150;
-  background: var(--sea-900); color: #fff; border-left: 4px solid var(--orange);
+  background: var(--sea-900); color: #fff; border-left: 4px solid var(--accent-light);
   border-radius: 10px; padding: 16px 20px; box-shadow: var(--shadow-3);
   display: flex; gap: 12px; align-items: flex-start; max-width: 360px;
   transform: translateX(calc(100% + 40px)); transition: transform 0.4s var(--ease);
 }
 .toast.is-visible { transform: none; }
-.toast .icon { width: 20px; height: 20px; color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+.toast .icon { width: 20px; height: 20px; color: var(--accent-light); flex-shrink: 0; margin-top: 2px; }
 .toast strong { display: block; font-size: 0.9rem; }
-.toast p { font-size: 0.8rem; color: #b7cdd6; }
+.toast p { font-size: 0.8rem; color: #b8c4d8; }
 
 /* ---------- Back to top ---------- */
 .back-top {
@@ -696,7 +698,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   transition: all 0.3s var(--ease);
 }
 .back-top.show { opacity: 1; visibility: visible; transform: none; }
-.back-top:hover { background: var(--orange); }
+.back-top:hover { background: var(--sea-950); }
 .back-top .icon { width: 20px; height: 20px; }
 
 /* ---------- Révélation au scroll ---------- */
@@ -710,7 +712,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 .legal p, .legal li { font-size: 0.94rem; color: var(--ink-500); margin-bottom: 10px; }
 .legal li { padding-left: 20px; position: relative; }
 .legal li::before { content: "—"; position: absolute; left: 0; color: var(--orange); }
-.legal .placeholder { background: rgba(176, 122, 62, 0.12); color: var(--orange-600); padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+.legal .placeholder { background: rgba(74, 85, 104, 0.10); color: var(--orange-600); padding: 1px 6px; border-radius: 4px; font-weight: 700; }
 
 /* ---------- Réduction de mouvement ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -749,7 +751,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
 <header class="site-header">
   <div class="container site-header__bar">
     <a class="brand" href="#index" aria-label="Travex Global Forwarding — Startseite" data-i18n-aria="common.brandaria">
-      <img class="brand__logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NjAgMjUwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlRyYXZleCBHbG9iYWwgRm9yd2FyZGluZyI+CiAgPHRleHQgeD0iNiIgeT0iMTU4IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNDgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc3R5bGU9Iml0YWxpYyIgbGV0dGVyLXNwYWNpbmc9Ii00IiBmaWxsPSIjMWUyYzRmIj5UcmF2ZXg8L3RleHQ+CiAgPHBhdGggZD0iTTM5OCAxMjIgQzQ0OCA4MCA1MDIgNjAgNTU0IDU0IEM1MDYgODQgNDYwIDExMCA0MjAgMTQyIFoiIGZpbGw9IiMxZTJjNGYiLz4KICA8cGF0aCBkPSJNMzc2IDE2MiBDNDE0IDEyOCA0NTYgMTAyIDUwNCA4OCBDNDY2IDExOCA0MjggMTQ2IDM5NiAxNzIgWiIgZmlsbD0iIzFlMmM0ZiIvPgogIDx0ZXh0IHg9IjEwIiB5PSIyMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNjAwIiBsZXR0ZXItc3BhY2luZz0iMTMiIGZpbGw9IiM3ZDgzOGMiPkdMT0JBTCBGT1JXQVJESU5HPC90ZXh0Pgo8L3N2Zz4K" alt="Travex Global Forwarding">
+      <img class="brand__logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3MDAgMjUwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlRyYXZleCBHbG9iYWwgRm9yd2FyZGluZyI+CiAgPHRleHQgeD0iNiIgeT0iMTU4IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNDgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc3R5bGU9Iml0YWxpYyIgbGV0dGVyLXNwYWNpbmc9Ii00IiBmaWxsPSIjMUEyQjRDIj5UcmF2ZXg8L3RleHQ+CiAgPHBhdGggZD0iTTM5OCAxMjIgQzQ0OCA4MCA1MDIgNjAgNTU0IDU0IEM1MDYgODQgNDYwIDExMCA0MjAgMTQyIFoiIGZpbGw9IiMxQTJCNEMiLz4KICA8cGF0aCBkPSJNMzc2IDE2MiBDNDE0IDEyOCA0NTYgMTAyIDUwNCA4OCBDNDY2IDExOCA0MjggMTQ2IDM5NiAxNzIgWiIgZmlsbD0iIzFBMkI0QyIvPgogIDx0ZXh0IHg9IjEwIiB5PSIyMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNjAwIiBsZXR0ZXItc3BhY2luZz0iOCIgZmlsbD0iIzRBNTU2OCI+R0xPQkFMIEZPUldBUkRJTkc8L3RleHQ+Cjwvc3ZnPgo=" alt="Travex Global Forwarding">
     </a>
     <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation" data-i18n-aria="common.navaria">
       <a href="#index" aria-current="page" data-i18n="nav.home">Start</a>
@@ -1493,7 +1495,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <div><strong>Douala</strong><small data-i18n="ab.net.a5s">Niederlassung Zentralafrika: Kamerun, Tschad, ZAR</small></div>
             <span class="chip">CM</span>
           </div>
-          <p style="font-size:0.85rem;color:#9fbcc8;margin-top:6px" data-i18n="ab.net.note">+ zertifizierte, auditierte Agenten in über 40 Ländern, von Marokko bis Südafrika, für Door-to-Door-, DAP- oder DDP-Zustellungen.</p>
+          <p style="font-size:0.85rem;color:#a9b7cc;margin-top:6px" data-i18n="ab.net.note">+ zertifizierte, auditierte Agenten in über 40 Ländern, von Marokko bis Südafrika, für Door-to-Door-, DAP- oder DDP-Zustellungen.</p>
         </div>
       </div>
     </div>
@@ -1823,7 +1825,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           <div><dt data-i18n="qt.sum.date">Wunschabgang</dt><dd id="sum-date" class="empty">—</dd></div>
           <div><dt data-i18n="nav.contact">Kontakt</dt><dd id="sum-contact" class="empty">—</dd></div>
         </dl>
-        <p style="font-size:0.78rem;color:#7fa0ad" data-i18n="qt.sum.note">Entwurf wird automatisch auf diesem Gerät gespeichert. Nichts wird vor Schritt 4 gesendet.</p>
+        <p style="font-size:0.78rem;color:#8b99ae" data-i18n="qt.sum.note">Entwurf wird automatisch auf diesem Gerät gespeichert. Nichts wird vor Schritt 4 gesendet.</p>
       </aside>
     </div>
 
@@ -2122,7 +2124,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
               <dd id="bsum-cargo" class="empty" data-i18n="bk.sum.empty3">Zu präzisieren</dd>
             </div>
           </dl>
-          <p style="font-size:0.82rem;color:#7fa0ad" data-i18n="bk.sum.note">Unverbindlich bis zur schriftlichen Bestätigung. Preis nötig? <a href="#cotation" style="color:var(--orange);font-weight:700">Angebot anfordern</a>.</p>
+          <p style="font-size:0.82rem;color:#8b99ae" data-i18n="bk.sum.note">Unverbindlich bis zur schriftlichen Bestätigung. Preis nötig? <a href="#cotation" style="color:var(--orange);font-weight:700">Angebot anfordern</a>.</p>
         </aside>
       </div>
     </div>
@@ -2372,7 +2374,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
               <dd>Deutsch · Français · English</dd>
             </div>
           </dl>
-          <p style="font-size:0.82rem;color:#7fa0ad" data-i18n="ct.aside.note">Travex Global Forwarding — zugelassene internationale Spedition, Hamburg.</p>
+          <p style="font-size:0.82rem;color:#8b99ae" data-i18n="ct.aside.note">Travex Global Forwarding — zugelassene internationale Spedition, Hamburg.</p>
           <a class="btn btn--ghost-dark btn--sm" href="#cotation" data-i18n="ct.aside.cta">Lieber ein Angebot?</a>
         </aside>
       </div>
@@ -2673,7 +2675,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     <div class="site-footer__grid">
       <div>
         <a class="brand" href="#index" style="margin-bottom:16px">
-          <img class="brand__logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NjAgMjUwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlRyYXZleCBHbG9iYWwgRm9yd2FyZGluZyI+CiAgPHRleHQgeD0iNiIgeT0iMTU4IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNDgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc3R5bGU9Iml0YWxpYyIgbGV0dGVyLXNwYWNpbmc9Ii00IiBmaWxsPSIjZmZmZmZmIj5UcmF2ZXg8L3RleHQ+CiAgPHBhdGggZD0iTTM5OCAxMjIgQzQ0OCA4MCA1MDIgNjAgNTU0IDU0IEM1MDYgODQgNDYwIDExMCA0MjAgMTQyIFoiIGZpbGw9IiNmZmZmZmYiLz4KICA8cGF0aCBkPSJNMzc2IDE2MiBDNDE0IDEyOCA0NTYgMTAyIDUwNCA4OCBDNDY2IDExOCA0MjggMTQ2IDM5NiAxNzIgWiIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjEwIiB5PSIyMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNjAwIiBsZXR0ZXItc3BhY2luZz0iMTMiIGZpbGw9IiM5ZmJjYzgiPkdMT0JBTCBGT1JXQVJESU5HPC90ZXh0Pgo8L3N2Zz4K" alt="Travex Global Forwarding">
+          <img class="brand__logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3MDAgMjUwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlRyYXZleCBHbG9iYWwgRm9yd2FyZGluZyI+CiAgPHRleHQgeD0iNiIgeT0iMTU4IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNDgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc3R5bGU9Iml0YWxpYyIgbGV0dGVyLXNwYWNpbmc9Ii00IiBmaWxsPSIjZmZmZmZmIj5UcmF2ZXg8L3RleHQ+CiAgPHBhdGggZD0iTTM5OCAxMjIgQzQ0OCA4MCA1MDIgNjAgNTU0IDU0IEM1MDYgODQgNDYwIDExMCA0MjAgMTQyIFoiIGZpbGw9IiNmZmZmZmYiLz4KICA8cGF0aCBkPSJNMzc2IDE2MiBDNDE0IDEyOCA0NTYgMTAyIDUwNCA4OCBDNDY2IDExOCA0MjggMTQ2IDM5NiAxNzIgWiIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjEwIiB5PSIyMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNjAwIiBsZXR0ZXItc3BhY2luZz0iOCIgZmlsbD0iI0E5QjdDQyI+R0xPQkFMIEZPUldBUkRJTkc8L3RleHQ+Cjwvc3ZnPgo=" alt="Travex Global Forwarding">
         </a>
         <p data-i18n="foot.intro">Zugelassene internationale Spedition mit Schwerpunkt Afrika-Dienste: See- und Luftfracht, Zoll und maßgeschneiderte Logistik aus dem Hafen Hamburg.</p>
         <div class="footer-badges">
