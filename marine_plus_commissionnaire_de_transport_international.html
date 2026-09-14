@@ -3,1079 +3,752 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marine + | Commissionnaire de transport international spécialisé sur l'Afrique</title>
+    <title>Travex Global Forwarding - Transport & Logistique Internationale</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font Montserrat -->
+    <!-- Google Fonts: Inter & Rajdhani -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for corporate icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        marine: {
-                            primary: '#055169',   /* Bleu principal */
-                            dark: '#04455a',      /* Bleu foncé */
-                            orange: '#E17E23',    /* Orange CTA */
-                            green: '#5F7044',     /* Vert bordure */
-                            light: '#F1F1F1',     /* Fond clair */
-                            navy: '#143091',      /* Marine */
-                            accent: '#00B4D8'
+                        corporate: {
+                            dark: '#2c353d',
+                            darker: '#1e242a',
+                            gray: '#e5e7eb',
+                            lightgray: '#f3f4f6',
+                            yellow: '#f59e0b',
+                            blue: '#0055a5',
+                            accentblue: '#0066cc'
                         }
                     },
                     fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Rajdhani', 'sans-serif']
                     }
                 }
             }
         }
     </script>
-    
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #F1F1F1;
-            color: #333333;
-        }
-
-        /* Divi Style Buttons */
-        .btn-divi {
-            background-color: #E17E23;
-            border: 10px solid #E17E23;
-            border-radius: 3px;
-            color: #F1F1F1;
-            font-weight: 700;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-transform: uppercase;
-        }
-        .btn-divi:hover {
-            background-color: #c96b18;
-            border-color: #c96b18;
-            transform: translateY(-1px);
-        }
-
-        .btn-divi-blue {
-            background-color: #055169;
-            border: 10px solid #055169;
-            border-radius: 3px;
-            color: #F1F1F1;
-            font-weight: 700;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .btn-divi-blue:hover {
-            background-color: #04455a;
-            border-color: #04455a;
-        }
-
-        /* Image Vignette Green Border */
-        .img-vignette-green {
-            border: 4px solid #5F7044;
-            border-radius: 18px;
-            overflow: hidden;
-        }
-
-        /* Custom Divi Separator Shapes */
-        .divi-separator-arrow3 {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-        }
-        .divi-separator-arrow3 svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 40px;
-        }
-
-        .divi-separator-slant2 {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-        }
-        .divi-separator-slant2 svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 50px;
-        }
-
-        /* Hero Slider Fade Transition */
-        .hero-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
-            background-size: cover;
-            background-position: center;
-        }
-        .hero-slide.active {
-            opacity: 1;
-            z-index: 10;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #04455a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #E17E23;
-            border-radius: 4px;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: #333333; }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -16px; left: 0; width: 0%; height: 3px; background-color: #f59e0b; transition: width 0.3s ease; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .section-title-bar { width: 45px; height: 3px; background-color: #f59e0b; margin-bottom: 12px; }
+        .hero-slide { opacity: 0; transition: opacity 1.2s ease-in-out; position: absolute; inset: 0; pointer-events: none; }
+        .hero-slide.active { opacity: 1; pointer-events: auto; }
     </style>
 </head>
-<body class="bg-[#F1F1F1] text-gray-800 flex flex-col min-h-screen">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <!-- 1. TOP BAR -->
-    <div class="bg-[#04455a] text-[#F1F1F1] text-xs py-2 px-4 sm:px-8 border-b border-[#055169]/50 z-50">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div class="flex items-center space-x-6 font-semibold">
-                <a href="tel:+33232742690" class="flex items-center gap-2 hover:text-[#E17E23] transition-colors">
-                    <i class="fa-solid fa-phone text-[#E17E23]"></i>
-                    <span>+33 (0)2 32 74 26 90 — Le Havre</span>
-                </a>
-                <span class="hidden md:inline-flex items-center gap-2 text-gray-300">
-                    <i class="fa-solid fa-location-dot text-[#E17E23]"></i>
-                    <span>Port du Havre, France</span>
-                </span>
-            </div>
+    <!-- TOP UTILITY BAR -->
+    <div class="bg-[#1e242a] text-gray-300 text-xs py-2 px-4 sm:px-8 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <a href="#quotation" class="bg-[#E17E23] hover:bg-[#c96b18] text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-all">
-                    Demander une cotation
-                </a>
+                <span class="font-bold text-white bg-blue-600 px-2 py-0.5 rounded text-[11px]">FR | EN</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#entreprise" class="hover:text-amber-400 transition">Entreprise</a>
+                <a href="#emploi" class="hover:text-amber-400 transition">Espace emploi</a>
+                <div class="relative group cursor-pointer">
+                    <span class="hover:text-amber-400 transition inline-flex items-center">
+                        <i class="fa-solid fa-globe mr-1"></i> Emplacements <i class="fa-solid fa-chevron-down ml-1 text-[10px]"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. HEADER & NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-white shadow-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3">
-                <div class="bg-[#055169] text-white p-2.5 rounded-lg flex items-center justify-center font-black text-2xl tracking-tighter shadow-sm">
-                    M<span class="text-[#E17E23]">+</span>
+    <!-- MAIN NAVIGATION BAR -->
+    <header class="bg-[#2c353d] shadow-lg sticky top-0 z-50 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Travex Global Forwarding -->
+                <div class="flex items-center bg-white px-3 py-1.5 rounded shadow-sm border border-gray-300">
+                    <div class="flex flex-col">
+                        <div class="flex items-center space-x-1">
+                            <span class="text-2xl font-black tracking-tighter text-blue-600 font-heading">TRAVEX</span>
+                            <span class="text-[11px] uppercase font-bold tracking-widest text-gray-800">Global Forwarding</span>
+                        </div>
+                        <div class="w-full h-0.5 bg-gray-400 mt-0.5"></div>
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-2xl font-black tracking-tight text-[#055169] uppercase leading-none">MARINE <span class="text-[#E17E23]">+</span></span>
-                    <span class="text-[10px] font-bold tracking-widest text-[#5F7044] uppercase mt-1">LOGISTIQUE & TRANSPORT AFRIQUE</span>
-                </div>
-            </a>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden lg:flex items-center space-x-8 text-sm font-bold text-[#055169]">
-                <a href="#accueil" class="hover:text-[#E17E23] transition-colors py-2 border-b-2 border-[#E17E23]">Accueil</a>
-                <a href="#services" class="hover:text-[#E17E23] transition-colors py-2 border-b-2 border-transparent hover:border-[#E17E23]">Nos Services</a>
-                <a href="#histoire" class="hover:text-[#E17E23] transition-colors py-2 border-b-2 border-transparent hover:border-[#E17E23]">Notre Histoire</a>
-                <a href="#reseau" class="hover:text-[#E17E23] transition-colors py-2 border-b-2 border-transparent hover:border-[#E17E23]">Notre Réseau</a>
-                <a href="#contact" class="hover:text-[#E17E23] transition-colors py-2 border-b-2 border-transparent hover:border-[#E17E23]">Contact</a>
-            </nav>
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8 text-white font-medium text-sm lg:text-base">
+                    <a href="#accueil" class="nav-link active pb-2 text-white hover:text-amber-400 transition">Page d'accueil</a>
+                    <a href="#services" class="nav-link pb-2 text-white hover:text-amber-400 transition">Un service</a>
+                    <a href="#rse" class="nav-link pb-2 text-white hover:text-amber-400 transition">RSE</a>
+                    <a href="#outils" class="nav-link pb-2 text-white hover:text-amber-400 transition">Outils</a>
+                    <a href="#contact" class="nav-link pb-2 text-white hover:text-amber-400 transition">Contact</a>
+                </nav>
 
-            <!-- Language Switcher & CTA -->
-            <div class="hidden sm:flex items-center space-x-6">
-                <div class="flex items-center space-x-2 text-xs font-bold text-[#055169]">
-                    <button class="text-[#E17E23] font-black underline">FR</button>
-                    <span>/</span>
-                    <button class="hover:text-[#E17E23]">EN</button>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="text-white focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
-                <a href="#quotation" class="btn-divi text-xs py-2 px-4">
-                    Cotation Express
-                </a>
             </div>
-
-            <!-- Mobile Menu Toggle Button -->
-            <button id="mobileMenuBtn" class="lg:hidden text-2xl text-[#055169] focus:outline-none">
-                <i class="fa-solid fa-bars" id="menuIcon"></i>
-            </button>
         </div>
 
-        <!-- Mobile Menu Container -->
-        <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-6 space-y-4 font-bold text-[#055169]">
-            <a href="#accueil" class="mobile-link block hover:text-[#E17E23]">Accueil</a>
-            <a href="#services" class="mobile-link block hover:text-[#E17E23]">Nos Services</a>
-            <a href="#histoire" class="mobile-link block hover:text-[#E17E23]">Notre Histoire</a>
-            <a href="#reseau" class="mobile-link block hover:text-[#E17E23]">Notre Réseau</a>
-            <a href="#contact" class="mobile-link block hover:text-[#E17E23]">Contact</a>
-            <div class="pt-4 border-t border-gray-100 flex justify-between items-center">
-                <div class="flex space-x-3 text-sm">
-                    <span class="text-[#E17E23] font-extrabold">FR</span>
-                    <span>|</span>
-                    <span>EN</span>
-                </div>
-                <a href="#quotation" class="btn-divi text-xs py-2 px-3">Demander une cotation</a>
-            </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1e242a] px-4 pt-2 pb-4 space-y-2 border-t border-gray-600">
+            <a href="#accueil" class="block text-white py-2 hover:text-amber-400">Page d'accueil</a>
+            <a href="#services" class="block text-white py-2 hover:text-amber-400">Un service</a>
+            <a href="#rse" class="block text-white py-2 hover:text-amber-400">RSE</a>
+            <a href="#outils" class="block text-white py-2 hover:text-amber-400">Outils</a>
+            <a href="#contact" class="block text-white py-2 hover:text-amber-400">Contact</a>
         </div>
     </header>
 
-    <!-- 3. HERO SLIDER SECTION -->
-    <section id="accueil" class="relative bg-[#04455a] text-white min-h-[520px] sm:min-h-[600px] flex items-center overflow-hidden">
+    <!-- HERO SLIDER BANNER WITH EXACT IMAGES -->
+    <section id="accueil" class="relative h-[500px] md:h-[600px] bg-gray-900 overflow-hidden">
         
-        <!-- Background Slides -->
-        <div class="absolute inset-0">
-            <!-- Slide 1: Maritime -->
-            <div class="hero-slide active" style="background-image: linear-gradient(rgba(4,69,90,0.75), rgba(4,69,90,0.85)), url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1920&q=80');" onerror="this.style.backgroundImage='linear-gradient(rgba(4,69,90,0.85), rgba(4,69,90,0.95))'"></div>
-            <!-- Slide 2: Aérien -->
-            <div class="hero-slide" style="background-image: linear-gradient(rgba(4,69,90,0.75), rgba(4,69,90,0.85)), url('https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=1920&q=80');" onerror="this.style.backgroundImage='linear-gradient(rgba(4,69,90,0.85), rgba(4,69,90,0.95))'"></div>
-            <!-- Slide 3: Logistique Afrique -->
-            <div class="hero-slide" style="background-image: linear-gradient(rgba(4,69,90,0.75), rgba(4,69,90,0.85)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1920&q=80');" onerror="this.style.backgroundImage='linear-gradient(rgba(4,69,90,0.85), rgba(4,69,90,0.95))'"></div>
-        </div>
-
-        <!-- Slider Content -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-20 relative z-20 w-full">
-            <div class="max-w-3xl space-y-6">
-                <div class="inline-block bg-[#5F7044] text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow">
-                    Spécialiste Afrique • Le Havre
-                </div>
-                
-                <h1 class="text-3xl sm:text-5xl lg:text-[55px] font-extrabold leading-tight tracking-tight text-white font-sans">
-                    Votre spécialiste logistique <br class="hidden sm:inline">
-                    <span class="text-[#E17E23]">depuis et vers l'Afrique</span>
-                </h1>
-
-                <p class="text-gray-200 text-base sm:text-lg leading-relaxed max-w-2xl font-medium">
-                    Commissionnaire de transport international basé au Havre. Solutions sur-mesure pour le fret maritime, aérien, le groupage LCL/LCL et la logistique de projet.
-                </p>
-
-                <div class="pt-4 flex flex-col sm:flex-row gap-4">
-                    <a href="#quotation" class="btn-divi text-sm py-3 px-8 text-center">
-                        Demander une cotation
-                    </a>
-                    <a href="#services" class="bg-transparent hover:bg-white/10 text-white border-2 border-white/80 rounded-[3px] font-bold text-sm py-3 px-8 text-center transition-all flex items-center justify-center gap-2">
-                        <span>Nos Services</span>
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
+        <!-- Slide 1: Vehicle Shipping Port (watermarked_img_16487128647210515839.jpg) -->
+        <div class="hero-slide active absolute inset-0">
+            <div class="absolute inset-0 bg-cover bg-center filter brightness-50" style="background-image: url('watermarked_img_16487128647210515839.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+            <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center px-6 sm:px-8">
+                <div class="max-w-2xl bg-black/45 backdrop-blur-sm p-8 rounded-lg border-l-4 border-amber-500 shadow-2xl">
+                    <div class="w-12 h-1 bg-amber-500 mb-3"></div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-amber-400">Transport International</span>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white uppercase tracking-wide mt-1 mb-3">
+                        Expédition de véhicules vers l’Afrique & le Moyen-Orient
+                    </h1>
+                    <p class="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed font-light">
+                        Vous souhaitez expédier un véhicule depuis l’Allemagne ou la France ? TRAVEX GLOBAL FORWARDING s’occupe de votre transport de A à Z avec un professionnalisme reconnu.
+                    </p>
+                    <a href="#contact" class="inline-flex items-center bg-amber-500 hover:bg-amber-600 text-corporate-darker font-bold px-6 py-3 rounded text-sm transition shadow">
+                        <span>Demander un devis</span>
+                        <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Slider Controls -->
-        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-[#E17E23] text-white w-12 h-12 rounded-full flex items-center justify-center transition-all">
+        <!-- Slide 2: Maritime Freight (watermarked_img_16997859117536741671.jpg) -->
+        <div class="hero-slide absolute inset-0">
+            <div class="absolute inset-0 bg-cover bg-center filter brightness-50" style="background-image: url('watermarked_img_16997859117536741671.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+            <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center px-6 sm:px-8">
+                <div class="max-w-2xl bg-black/45 backdrop-blur-sm p-8 rounded-lg border-l-4 border-blue-500 shadow-2xl">
+                    <div class="w-12 h-1 bg-blue-500 mb-3"></div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-blue-400">Maritime & Logistics</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white uppercase tracking-wide mt-1 mb-3">
+                        Fret Maritime de Pointe
+                    </h2>
+                    <p class="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed font-light">
+                        More performance - more success. Nos professionnels du fret maritime gèrent vos flux mondiaux de conteneurs et marchandises avec rigueur de bout en bout.
+                    </p>
+                    <a href="#services" class="inline-flex items-center bg-white hover:bg-gray-100 text-corporate-dark font-bold px-6 py-3 rounded text-sm transition shadow">
+                        <span>Découvrir nos services</span>
+                        <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Road Transport (watermarked_img_15278550726882190481.jpg) -->
+        <div class="hero-slide absolute inset-0">
+            <div class="absolute inset-0 bg-cover bg-center filter brightness-50" style="background-image: url('watermarked_img_15278550726882190481.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+            <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center px-6 sm:px-8">
+                <div class="max-w-2xl bg-black/45 backdrop-blur-sm p-8 rounded-lg border-l-4 border-amber-500 shadow-2xl">
+                    <div class="w-12 h-1 bg-amber-500 mb-3"></div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-amber-400">Routier & Européen</span>
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white uppercase tracking-wide mt-1 mb-3">
+                        Transport Routier International
+                    </h3>
+                    <p class="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed font-light">
+                        Nos solutions d'acheminement routier relient l'Allemagne, la France et l'ensemble de l'Europe avec des départs réguliers et sécurisés.
+                    </p>
+                    <a href="#contact" class="inline-flex items-center bg-amber-500 hover:bg-amber-600 text-corporate-darker font-bold px-6 py-3 rounded text-sm transition shadow">
+                        <span>Contactez nos experts</span>
+                        <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Air Freight (watermarked_img_12938928650659385608.jpg) -->
+        <div class="hero-slide absolute inset-0">
+            <div class="absolute inset-0 bg-cover bg-center filter brightness-50" style="background-image: url('watermarked_img_12938928650659385608.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+            <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center px-6 sm:px-8">
+                <div class="max-w-2xl bg-black/45 backdrop-blur-sm p-8 rounded-lg border-l-4 border-blue-500 shadow-2xl">
+                    <div class="w-12 h-1 bg-blue-500 mb-3"></div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-blue-400">Air Cargo Solutions</span>
+                    <h4 class="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white uppercase tracking-wide mt-1 mb-3">
+                        Fret Aérien Express
+                    </h4>
+                    <p class="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed font-light">
+                        Avec nos solutions d'expédition de fret aérien, nous fournissons la rapidité et la fiabilité absolue dont vos marchandises urgentes ont besoin.
+                    </p>
+                    <a href="#services" class="inline-flex items-center bg-white hover:bg-gray-100 text-corporate-dark font-bold px-6 py-3 rounded text-sm transition shadow">
+                        <span>En savoir plus</span>
+                        <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Navigation Controls -->
+        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white w-12 h-12 rounded-full flex items-center justify-center transition z-20">
             <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-[#E17E23] text-white w-12 h-12 rounded-full flex items-center justify-center transition-all">
+        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white w-12 h-12 rounded-full flex items-center justify-center transition z-20">
             <i class="fa-solid fa-chevron-right"></i>
         </button>
 
-        <!-- Slide Indicators -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex space-x-3">
-            <button onclick="setSlide(0)" class="slide-indicator w-3 h-3 rounded-full bg-[#E17E23] transition-all"></button>
-            <button onclick="setSlide(1)" class="slide-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all"></button>
-            <button onclick="setSlide(2)" class="slide-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all"></button>
-        </div>
-
-        <!-- Divi Separator (arrow3) -->
-        <div class="divi-separator-arrow3">
-            <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path d="M0,0 L500,80 L1000,0 L1000,100 L0,100 Z" fill="#F1F1F1"></path>
-            </svg>
+        <!-- Slider Indicators -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
+            <button onclick="currentSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-amber-500 transition"></button>
+            <button onclick="currentSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/50 transition"></button>
+            <button onclick="currentSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/50 transition"></button>
+            <button onclick="currentSlide(3)" class="slide-dot w-3 h-3 rounded-full bg-white/50 transition"></button>
         </div>
     </section>
 
-    <!-- 4. SECTION INTRO / PRESENTATION -->
-    <section class="py-16 bg-[#F1F1F1] text-gray-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-                <span class="text-[#5F7044] font-extrabold text-sm uppercase tracking-widest">À propos de Marine +</span>
-                <h2 class="text-2xl sm:text-4xl font-black text-[#055169]">
-                    Commissionnaire de transport à l'international spécialisé sur l'Afrique
+    <!-- VEHICLE SHIPPING SECTION -->
+    <section class="py-16 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="w-12 h-1 bg-amber-500 mx-auto mb-3"></div>
+                <h2 class="text-2xl sm:text-3xl font-bold font-heading text-corporate-dark uppercase tracking-wide">
+                    Expédition de Véhicules de A à Z
                 </h2>
-                <div class="w-20 h-1 bg-[#E17E23] mx-auto rounded-full"></div>
-            </div>
-
-            <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-sm border border-gray-200 text-justify leading-relaxed space-y-6">
-                <p class="text-gray-700 text-base sm:text-lg">
-                    Basé au <strong>Havre</strong>, premier port français pour le commerce extérieur, <strong>Marine +</strong> est un commissionnaire de transport international fort de plusieurs décennies d'expertise opérationnelle vers l'ensemble des destinations africaines.
+                <p class="text-gray-600 mt-2 text-sm sm:text-base">
+                    Un seul interlocuteur pour organiser votre véhicule depuis son lieu d’enlèvement en Allemagne ou en France jusqu’au port de destination en Afrique et au Moyen-Orient.
                 </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 text-left">
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-[#5F7044] text-white flex items-center justify-center shrink-0 mt-1 font-bold">
-                            <i class="fa-solid fa-check text-xs"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-[#055169] text-base">Maîtrise complète du corridor Afrique</h4>
-                            <p class="text-xs text-gray-600 mt-1">Liaisons maritimes et aériennes régulières au départ du Havre, Marseille et d'Europe.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-[#5F7044] text-white flex items-center justify-center shrink-0 mt-1 font-bold">
-                            <i class="fa-solid fa-check text-xs"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-[#055169] text-base">Réseau d'agents locaux certifiés</h4>
-                            <p class="text-xs text-gray-600 mt-1">Prise en charge jusqu'à la livraison finale (Door-to-Door, DDP/DAP) dans plus de 40 pays.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-[#5F7044] text-white flex items-center justify-center shrink-0 mt-1 font-bold">
-                            <i class="fa-solid fa-check text-xs"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-[#055169] text-base">Transparence & Réactivité</h4>
-                            <p class="text-xs text-gray-600 mt-1">Interlocuteur unique dédié pour vos cotations, documents douaniers et suivi.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-[#5F7044] text-white flex items-center justify-center shrink-0 mt-1 font-bold">
-                            <i class="fa-solid fa-check text-xs"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-[#055169] text-base">Solutions sur-mesure</h4>
-                            <p class="text-xs text-gray-600 mt-1">FCL, LCL, RO/RO, Project Cargo et transports exceptionnels personnalisés.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. SECTION "L'EXPERTISE MARINE +" (6 SERVICES VIGNETTES BORDURE VERTE #5F7044) -->
-    <section id="services" class="py-20 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-                <span class="text-[#5F7044] font-extrabold text-sm uppercase tracking-widest">Nos compétences</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-[#055169]">L'expertise Marine +</h2>
-                <div class="w-20 h-1 bg-[#E17E23] mx-auto rounded-full"></div>
             </div>
 
-            <!-- Grid 6 Services -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Service 1 -->
-                <div class="bg-[#F1F1F1] p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="img-vignette-green h-48 w-full overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=600&q=80" alt="Fret Maritime" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/055169/FFF?text=Fret+Maritime'">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-location-dot"></i>
                         </div>
-                        <h3 class="text-xl font-black text-[#055169] flex items-center justify-between">
-                            <span>Fret Maritime</span>
-                            <i class="fa-solid fa-ship text-[#E17E23]"></i>
-                        </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">
-                            Conteneurs complets (FCL) et groupage (LCL) au départ de l'ensemble des ports européens vers les hubs portuaires africains.
-                        </p>
+                        <h3 class="font-bold text-gray-800 text-lg uppercase font-heading">Enlèvement du véhicule</h3>
                     </div>
-                    <div class="pt-6">
-                        <a href="#quotation" class="btn-divi-blue w-full text-xs py-2">Demander un tarif</a>
-                    </div>
-                </div>
-
-                <!-- Service 2 -->
-                <div class="bg-[#F1F1F1] p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="img-vignette-green h-48 w-full overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=600&q=80" alt="Fret Aérien" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/055169/FFF?text=Fret+A%C3%A9rien'">
-                        </div>
-                        <h3 class="text-xl font-black text-[#055169] flex items-center justify-between">
-                            <span>Fret Aérien</span>
-                            <i class="fa-solid fa-plane text-[#E17E23]"></i>
-                        </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">
-                            Expéditions aériennes urgentes, vols réguliers et affrètement d'avions cargos dédiés pour vos marchandises sensibles.
-                        </p>
-                    </div>
-                    <div class="pt-6">
-                        <a href="#quotation" class="btn-divi-blue w-full text-xs py-2">Demander un tarif</a>
-                    </div>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="bg-[#F1F1F1] p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="img-vignette-green h-48 w-full overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80" alt="Logistique" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/055169/FFF?text=Logistique'">
-                        </div>
-                        <h3 class="text-xl font-black text-[#055169] flex items-center justify-between">
-                            <span>Logistique</span>
-                            <i class="fa-solid fa-warehouse text-[#E17E23]"></i>
-                        </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">
-                            Entreposage au Havre, empotage, étiquetage, préparation de commandes et gestion des stocks avant expédition.
-                        </p>
-                    </div>
-                    <div class="pt-6">
-                        <a href="#quotation" class="btn-divi-blue w-full text-xs py-2">Demander un tarif</a>
-                    </div>
-                </div>
-
-                <!-- Service 4 -->
-                <div class="bg-[#F1F1F1] p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="img-vignette-green h-48 w-full overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80" alt="Project Cargo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/055169/FFF?text=Project+Cargo'">
-                        </div>
-                        <h3 class="text-xl font-black text-[#055169] flex items-center justify-between">
-                            <span>Project Cargo</span>
-                            <i class="fa-solid fa-truck-monster text-[#E17E23]"></i>
-                        </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">
-                            Gestion des colis lourds, convois exceptionnels, équipements industriels hors-gabarit et projets industriels clé en main.
-                        </p>
-                    </div>
-                    <div class="pt-6">
-                        <a href="#quotation" class="btn-divi-blue w-full text-xs py-2">Demander un tarif</a>
-                    </div>
-                </div>
-
-                <!-- Service 5 -->
-                <div class="bg-[#F1F1F1] p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="img-vignette-green h-48 w-full overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Douanes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/055169/FFF?text=Formalites+Douane'">
-                        </div>
-                        <h3 class="text-xl font-black text-[#055169] flex items-center justify-between">
-                            <span>Douanes</span>
-                            <i class="fa-solid fa-file-contract text-[#E17E23]"></i>
-                        </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">
-                            Dédouanement import/export, obtention des bordereaux de suivi de cargaison (BESC / BSC / FER) obligatoires pour l'Afrique.
-                        </p>
-                    </div>
-                    <div class="pt-6">
-                        <a href="#quotation" class="btn-divi-blue w-full text-xs py-2">Demander un tarif</a>
-                    </div>
-                </div>
-
-                <!-- Service 6 -->
-                <div class="bg-[#F1F1F1] p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="img-vignette-green h-48 w-full overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80" alt="Assurances" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/055169/FFF?text=Assurances+Ad+Valorem'">
-                        </div>
-                        <h3 class="text-xl font-black text-[#055169] flex items-center justify-between">
-                            <span>Assurances</span>
-                            <i class="fa-solid fa-shield-halved text-[#E17E23]"></i>
-                        </h3>
-                        <p class="text-xs text-gray-600 leading-relaxed">
-                            Couverture complète Ad Valorem pour sécuriser l'intégralité de la valeur de vos marchandises durant le transport international.
-                        </p>
-                    </div>
-                    <div class="pt-6">
-                        <a href="#quotation" class="btn-divi-blue w-full text-xs py-2">Demander un tarif</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Divi Separator (slant2) -->
-        <div class="divi-separator-slant2">
-            <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path d="M0,100 L1000,0 L1000,100 Z" fill="#04455a"></path>
-            </svg>
-        </div>
-    </section>
-
-    <!-- 6. SECTION FEATURE / GROUPAGE -->
-    <section class="py-20 bg-[#04455a] text-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <span class="bg-[#E17E23] text-white px-3 py-1 rounded text-xs font-black uppercase tracking-wider">Spécialiste Groupage</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
-                        Le spécialiste du groupage maritime vers l'Afrique
-                    </h2>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Marine + exploite des lignes directes et maîtrisées en conteneurs de groupage (LCL/LCL) au départ du Havre. Bénéficiez de départs hebdomadaires réguliers et de cotations très compétitives.
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Nous organisons l’enlèvement de votre véhicule là où il se trouve en Allemagne ou en France, puis son acheminement vers notre plateforme logistique centrale à Renchen ou directement vers le port d'embarquement.
                     </p>
+                </div>
 
-                    <div class="space-y-3 pt-2">
-                        <div class="bg-[#055169] p-4 rounded-xl border border-white/10 flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-[#E17E23] text-white flex items-center justify-center font-bold text-xl shrink-0">
-                                1
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold text-base">Ligne LCL / LCL Dakar (Sénégal)</h4>
-                                <p class="text-xs text-gray-300">Départ direct hebdomadaire depuis Le Havre - Empotage propre.</p>
-                            </div>
+                <!-- Step 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-truck-fast"></i>
                         </div>
-
-                        <div class="bg-[#055169] p-4 rounded-xl border border-white/10 flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-[#E17E23] text-white flex items-center justify-center font-bold text-xl shrink-0">
-                                2
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold text-base">Ligne LCL / LCL Abidjan (Côte d'Ivoire)</h4>
-                                <p class="text-xs text-gray-300">Départ régulier garanti avec suivi en temps réel jusqu'à destination.</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#055169] p-4 rounded-xl border border-white/10 flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-[#5F7044] text-white flex items-center justify-center font-bold text-xl shrink-0">
-                                <i class="fa-solid fa-globe"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold text-base">FCL Monde vers toute l'Afrique</h4>
-                                <p class="text-xs text-gray-300">Conteneurs complets Dry, Reefer et équipement spécial vers tous les ports africains.</p>
-                            </div>
-                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg uppercase font-heading">Transport Routier & Douane</h3>
                     </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Prise en charge de toutes les formalités douanières d'exportation et acheminement sécurisé vers les principaux terminaux portuaires européens partenaires.
+                    </p>
+                </div>
 
-                    <div class="pt-4">
-                        <a href="#quotation" class="btn-div text-sm py-3 px-8">
-                            Réserver sur nos lignes
+                <!-- Step 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg uppercase font-heading">Transport Maritime</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Expédition sécurisée en conteneur ou en roro vers les ports d'Afrique de l'Ouest, d'Afrique du Nord et du Moyen-Orient avec suivi constant.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Vehicle Types Banner -->
+            <div class="mt-10 bg-blue-50 border border-blue-200 rounded-lg p-6 flex flex-wrap items-center justify-around gap-4 text-center">
+                <span class="font-bold text-blue-900 text-sm md:text-base"><i class="fa-solid fa-car mr-2 text-amber-500"></i> Voitures de tourisme</span>
+                <span class="font-bold text-blue-900 text-sm md:text-base"><i class="fa-solid fa-van-shuttle mr-2 text-amber-500"></i> Véhicules utilitaires</span>
+                <span class="font-bold text-blue-900 text-sm md:text-base"><i class="fa-solid fa-truck-monster mr-2 text-amber-500"></i> 4x4 et SUV</span>
+                <span class="font-bold text-blue-900 text-sm md:text-base"><i class="fa-solid fa-truck mr-2 text-amber-500"></i> Camions et poids lourds</span>
+                <span class="font-bold text-blue-900 text-sm md:text-base"><i class="fa-solid fa-tractor mr-2 text-amber-500"></i> Matériel agricole et engins</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES GRID SECTION -->
+    <section id="services" class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <div class="section-title-bar"></div>
+                <h2 class="text-2xl sm:text-3xl font-bold font-heading text-corporate-dark uppercase">Nos Domaines d'Expertise & Services</h2>
+                <p class="text-gray-600 mt-2">Organisation complète de transport, formalités douanières et logistique internationale.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-48 bg-gray-300 relative overflow-hidden">
+                        <img src="watermarked_img_16997859117536741671.jpg" alt="Fret Maritime" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold font-heading text-corporate-dark mb-2">FRET MARITIME</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Nos professionnels du fret maritime tirent parti de leur vaste expérience pour gérer les flux de marchandises et de véhicules à l'échelle internationale.
+                            </p>
+                        </div>
+                        <a href="#contact" class="text-amber-600 font-semibold text-sm hover:text-amber-700 inline-flex items-center">
+                            Lire la suite <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                         </a>
                     </div>
                 </div>
 
-                <div class="relative">
-                    <div class="img-vignette-green shadow-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80" alt="Groupage Afrique" class="w-full h-[480px] object-cover" onerror="this.src='https://placehold.co/800x600/055169/FFF?text=Groupage+Afrique'">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. SECTION "DÉCOUVREZ NOTRE OFFRE" (12 CARTE PRESTATIONS SUR FOND #055169) -->
-    <section class="py-20 bg-[#055169] text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-                <span class="text-[#E17E23] font-extrabold text-sm uppercase tracking-widest">Solutions Complètes</span>
-                <h2 class="text-3xl sm:text-4xl font-black">Découvrez notre offre</h2>
-                <p class="text-gray-200 text-sm">Une gamme intégrée couvrant la totalité de vos besoins logistiques internationaux.</p>
-                <div class="w-20 h-1 bg-[#E17E23] mx-auto rounded-full"></div>
-            </div>
-
-            <!-- Grid 12 Prestations (4 colonnes desktop) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Card 1 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-plane-departure"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Affrètement aérien</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Vols réguliers et charters express sur l'Afrique.</p>
-                </div>
-
                 <!-- Card 2 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-truck-moving"></i>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-48 bg-gray-300 relative overflow-hidden">
+                        <img src="watermarked_img_15278550726882190481.jpg" alt="Trafics Spéciaux" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-lg font-bold text-white">RO / RO</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Roulier pour véhicules, camions et engins de chantier.</p>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold font-heading text-corporate-dark mb-2">TRAFICS SPECIAUX</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                L'activité inhérente au transport exceptionnel et aux projets hors-gabarit est adossée à une cellule spécialisée pour l'étude et la mise en œuvre logistique.
+                            </p>
+                        </div>
+                        <a href="#contact" class="text-amber-600 font-semibold text-sm hover:text-amber-700 inline-flex items-center">
+                            Lire la suite <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-passport"></i>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-48 bg-gray-300 relative overflow-hidden">
+                        <img src="watermarked_img_16487128647210515839.jpg" alt="Douane" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-lg font-bold text-white">Formalités douane</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Dédouanement et certificats BESC / BSC / FER.</p>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold font-heading text-corporate-dark mb-2">DOUANE</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Vos marchandises et véhicules sont placés sous le régime douanier approprié (EX1, EUR1, T1) jusqu'à la destination finale que vous aurez choisie.
+                            </p>
+                        </div>
+                        <a href="#contact" class="text-amber-600 font-semibold text-sm hover:text-amber-700 inline-flex items-center">
+                            Lire la suite <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Card 4 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-boxes-stacked"></i>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-48 bg-gray-300 relative overflow-hidden">
+                        <img src="watermarked_img_15278550726882190481.jpg" alt="Transport Terrestre" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-lg font-bold text-white">Groupage LCL</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Consolidation propre Le Havre - Dakar / Abidjan.</p>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold font-heading text-corporate-dark mb-2">TRANSPORT TERRESTRE</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Une organisation paneuropéenne qui vous propose des services de ramassage et de livraison de porte à porte sur tout le territoire.
+                            </p>
+                        </div>
+                        <a href="#contact" class="text-amber-600 font-semibold text-sm hover:text-amber-700 inline-flex items-center">
+                            Lire la suite <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Card 5 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-anchor"></i>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-48 bg-gray-300 relative overflow-hidden">
+                        <img src="watermarked_img_12938928650659385608.jpg" alt="Fret Aérien" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-lg font-bold text-white">Affrètement maritime</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Capacité réservée auprès des plus grands armateurs.</p>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold font-heading text-corporate-dark mb-2">FRET AERIEN</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Notre équipe de fret aérien vous garantit que vos expéditions urgentes voyagent dans les meilleures conditions sur les compagnies régulières mondiales.
+                            </p>
+                        </div>
+                        <a href="#contact" class="text-amber-600 font-semibold text-sm hover:text-amber-700 inline-flex items-center">
+                            Lire la suite <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Card 6 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-box-open"></i>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-48 bg-gray-300 relative overflow-hidden">
+                        <img src="watermarked_img_16487128647210515839.jpg" alt="Services Logistiques" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-lg font-bold text-white">LCL sur-mesure</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Groupage personnalisé pour petits et moyens volumes.</p>
-                </div>
-
-                <!-- Card 7 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-box-archive"></i>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold font-heading text-corporate-dark mb-2">SERVICES LOGISTIQUES</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                Solutions sur mesure d'entreposage, de conditionnement, deempotage et de gestion complète de supply chain pour tous types de véhicules et colis.
+                            </p>
+                        </div>
+                        <a href="#contact" class="text-amber-600 font-semibold text-sm hover:text-amber-700 inline-flex items-center">
+                            Lire la suite <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
                     </div>
-                    <h3 class="text-lg font-bold text-white">FCL Dry</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Conteneurs standards 20', 40' Dry et High Cube.</p>
                 </div>
-
-                <!-- Card 8 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-snowflake"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Reefer</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Transport sous température dirigée pour denrées périssables.</p>
-                </div>
-
-                <!-- Card 9 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-ship"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Conventionnel</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Vrac et cargaisons non conteneurisées hors gabarit.</p>
-                </div>
-
-                <!-- Card 10 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-truck-front"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Transport routier</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Pré et post-acheminement routier en Europe et en Afrique.</p>
-                </div>
-
-                <!-- Card 11 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-trailer"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Transports spéciaux</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Convois exceptionnels et escortes réglementées.</p>
-                </div>
-
-                <!-- Card 12 -->
-                <div class="bg-[#04455a] p-6 rounded-xl border border-white/10 hover:border-[#E17E23] transition-all space-y-3 group">
-                    <div class="w-12 h-12 rounded-lg bg-[#055169] text-[#E17E23] flex items-center justify-center text-2xl group-hover:bg-[#E17E23] group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-[#055169] fa-cube"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Flatrack / Open top</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">Équipements conteneurs spéciaux pour pièces hors normes.</p>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <!-- 8. SECTION "CONTACTEZ-NOUS MAINTENANT !" -->
-    <section class="py-16 bg-cover bg-center relative text-white" style="background-image: linear-gradient(rgba(4,69,90,0.85), rgba(4,69,90,0.85)), url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1920&q=80');">
-        <div class="max-w-5xl mx-auto px-4 sm:px-8 text-center space-y-6 relative z-10">
-            <h2 class="text-3xl sm:text-5xl font-black">Contactez-nous maintenant !</h2>
-            <p class="text-lg text-gray-200 max-w-2xl mx-auto">
-                Nos équipes d'experts au Havre sont à votre disposition pour vous conseiller et vous fournir une cotation personnalisée immédiate.
-            </p>
-            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-6">
-                <a href="tel:+33232742690" class="btn-divi text-base py-4 px-8 flex items-center gap-3">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>+33 (0)2 32 74 26 90</span>
-                </a>
-                <a href="mailto:contact@marineplus.net" class="bg-white hover:bg-gray-100 text-[#055169] font-bold py-4 px-8 rounded-[3px] text-sm uppercase tracking-wider transition-all flex items-center gap-3">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>contact@marineplus.net</span>
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- SPECIAL FEATURES & QUOTE FORM SECTION -->
+    <section id="outils" class="py-16 bg-white border-t border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- Left Column: What makes us special -->
+                <div>
+                    <div class="section-title-bar"></div>
+                    <h2 class="text-2xl sm:text-3xl font-bold font-heading text-corporate-dark uppercase mb-4">Qu'est-ce qui nous rend spécial?</h2>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        En tant que société européenne présente dans le monde entier, nous proposons à nos clients un portefeuille de services complet et de haute précision pour chaque expédition de véhicule ou fret industriel.
+                    </p>
 
-    <!-- 9. SECTION "DEMANDEZ UNE COTATION" (FORMULAIRE COMPLET 13 CHAMPS) -->
-    <section id="quotation" class="py-20 bg-[#F1F1F1]">
-        <div class="max-w-5xl mx-auto px-4 sm:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                <span class="text-[#5F7044] font-extrabold text-sm uppercase tracking-widest">Demande en ligne</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-[#055169]">Demandez une cotation</h2>
-                <p class="text-gray-600 text-sm">Remplissez le formulaire ci-dessous pour recevoir une offre tarifaire sur-mesure.</p>
-                <div class="w-20 h-1 bg-[#E17E23] mx-auto rounded-full"></div>
-            </div>
-
-            <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg border border-gray-200">
-                <form id="quoteForm" onsubmit="handleQuoteSubmit(event)" class="space-y-6">
-                    
-                    <!-- Line 1: Nom & Prénom -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">1. Prénom *</label>
-                            <input type="text" required placeholder="Jean" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
+                        <!-- Feature 1 -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded border border-gray-200">
+                            <div class="text-amber-500 text-3xl mt-1">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-corporate-dark text-sm mb-1 uppercase">Emballage et Stockage</h4>
+                                <p class="text-xs text-gray-600">Sécurité maximale pour le stockage temporaire de véhicules.</p>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">2. Nom *</label>
-                            <input type="text" required placeholder="Dupont" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                        </div>
-                    </div>
 
-                    <!-- Line 2: Societé & Email -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">3. Société / Entreprise *</label>
-                            <input type="text" required placeholder="Ex: Global Logistics SAS" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
+                        <!-- Feature 2 -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded border border-gray-200">
+                            <div class="text-amber-500 text-3xl mt-1">
+                                <i class="fa-solid fa-warehouse"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-corporate-dark text-sm mb-1 uppercase">Service d'Entreposage</h4>
+                                <p class="text-xs text-gray-600">Plateformes sécurisées basées en Allemagne et en France.</p>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">4. Email professionnel *</label>
-                            <input type="email" required placeholder="j.dupont@entreprise.com" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                        </div>
-                    </div>
 
-                    <!-- Line 3: Téléphone avec indicatif international -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">5. Indicatif Pays *</label>
-                            <select id="phonePrefix" onchange="updatePhonePreview()" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                                <option value="+33">France (+33)</option>
-                                <option value="+221">Sénégal (+221)</option>
-                                <option value="+225">Côte d'Ivoire (+225)</option>
-                                <option value="+237">Cameroun (+237)</option>
-                                <option value="+241">Gabon (+241)</option>
-                                <option value="+242">Congo (+242)</option>
-                                <option value="+213">Algérie (+213)</option>
-                                <option value="+212">Maroc (+212)</option>
-                                <option value="+216">Tunisie (+216)</option>
-                                <option value="+228">Togo (+228)</option>
-                                <option value="+229">Bénin (+229)</option>
-                                <option value="+223">Mali (+223)</option>
-                                <option value="+224">Guinée (+224)</option>
-                                <option value="+32">Belgique (+32)</option>
-                            </select>
+                        <!-- Feature 3 -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded border border-gray-200">
+                            <div class="text-amber-500 text-3xl mt-1">
+                                <i class="fa-solid fa-truck"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-corporate-dark text-sm mb-1 uppercase">Transport Terrestre</h4>
+                                <p class="text-xs text-gray-600">Enlèvement et acheminement routier dédié en Europe.</p>
+                            </div>
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">6. Téléphone *</label>
-                            <div class="flex gap-2">
-                                <span id="phonePreview" class="bg-gray-200 text-gray-700 px-3 py-3 rounded text-sm font-bold flex items-center">+33</span>
-                                <input type="tel" id="phoneNumber" required placeholder="6 12 34 56 78" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
+
+                        <!-- Feature 4 -->
+                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded border border-gray-200">
+                            <div class="text-amber-500 text-3xl mt-1">
+                                <i class="fa-solid fa-ship"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-corporate-dark text-sm mb-1 uppercase">Services Logistiques</h4>
+                                <p class="text-xs text-gray-600">Gestion douanière et maritime complète et rigoureuse.</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Line 4: Pays d'origine & Pays de destination -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Right Column: Interactive Quote Request Form -->
+                <div id="contact" class="bg-gray-50 p-8 rounded-lg shadow-sm border border-gray-200">
+                    <h2 class="text-xl sm:text-2xl font-bold font-heading text-corporate-dark uppercase mb-6">Demander un Devis Gratuit</h2>
+                    
+                    <form id="quote-form" onsubmit="handleQuoteSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Type de Transport</label>
+                                <select required class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Maritime">Fret Maritime (Véhicules & Conteneurs)</option>
+                                    <option value="Terrestre">Transport Routier Européen</option>
+                                    <option value="Aerien">Fret Aérien Express</option>
+                                    <option value="Special">Trafics Spéciaux</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Dimension / Véhicule</label>
+                                <input type="text" placeholder="Ex: Berline / SUV / 4x4 / Utilitaire" required class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Ville de départ</label>
+                                <input type="text" placeholder="Ex: Berlin, Paris, Renchen, Lyon..." required class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">E-mail</label>
+                                <input type="email" placeholder="votre.email@entreprise.com" required class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
+                            </div>
+                        </div>
+
                         <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">7. Pays d'origine (Départ) *</label>
-                            <select required class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                                <option value="">Sélectionnez le pays de départ</option>
-                                <option value="FR">France (Le Havre / Marseille)</option>
-                                <option value="BE">Belgique (Anvers)</option>
-                                <option value="NL">Pays-Bas (Rotterdam)</option>
-                                <option value="DE">Allemagne (Hambourg)</option>
-                                <option value="ES">Espagne</option>
-                                <option value="IT">Italie</option>
-                                <option value="CN">Chine</option>
-                                <option value="US">États-Unis</option>
-                                <option value="AUTRE">Autre pays</option>
-                            </select>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Ville de livraison / Port de destination</label>
+                            <input type="text" placeholder="Ex: Dakar, Abidjan, Douala, Aqaba, Casablanca..." required class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
                         </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Conditions de vente</label>
+                                <select class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
+                                    <option>Standard / General Terms</option>
+                                    <option>Incoterms 2020 (FOB / CIF / EXW)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Poids brut total (KG)</label>
+                                <input type="number" placeholder="Ex: 2000" class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500">
+                            </div>
+                        </div>
+
                         <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">8. Pays de destination (Arrivée) *</label>
-                            <select required class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                                <option value="">Sélectionnez le pays d'arrivée en Afrique</option>
-                                <option value="SN">Sénégal (Dakar)</option>
-                                <option value="CI">Côte d'Ivoire (Abidjan)</option>
-                                <option value="CM">Cameroun (Douala)</option>
-                                <option value="GA">Gabon (Libreville / Port-Gentil)</option>
-                                <option value="CG">Congo (Pointe-Noire)</option>
-                                <option value="TG">Togo (Lomé)</option>
-                                <option value="BJ">Bénin (Cotonou)</option>
-                                <option value="MA">Maroc (Casablanca)</option>
-                                <option value="DZ">Algérie (Alger)</option>
-                                <option value="TN">Tunisie (Rades)</option>
-                                <option value="ML">Mali (Bamako via Dakar/Abidjan)</option>
-                                <option value="BF">Burkina Faso (Ouagadougou)</option>
-                                <option value="GN">Guinée (Conakry)</option>
-                                <option value="RD">RDC (Matadi)</option>
-                                <option value="AUTRE_AFRIQUE">Autre destination Afrique</option>
-                            </select>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Commentaires</label>
+                            <textarea rows="3" placeholder="Précisions sur l'enlèvement ou le type de véhicule..." class="w-full p-3 bg-white border border-gray-300 rounded text-sm focus:outline-none focus:border-amber-500"></textarea>
                         </div>
-                    </div>
 
-                    <!-- Line 5: Mode de Transport & Type de marchandise -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">9. Mode de transport souhaité *</label>
-                            <select required class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                                <option value="LCL">Groupage maritime (LCL)</option>
-                                <option value="FCL">Conteneur complet (FCL)</option>
-                                <option value="AIR">Fret aérien</option>
-                                <option value="RORO">Roulier (RO/RO)</option>
-                                <option value="PROJECT">Project Cargo / Colis Lourd</option>
-                            </select>
+                        <div class="flex items-center space-x-2 pt-2">
+                            <input type="checkbox" id="privacy" required class="w-4 h-4 text-amber-600 border-gray-300 rounded">
+                            <label for="privacy" class="text-xs text-gray-700">
+                                Politique de confidentialité acceptée.
+                            </label>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">10. Nature de la marchandise *</label>
-                            <input type="text" required placeholder="Ex: Effets personnels, pièces auto, vivres..." class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
+
+                        <div class="pt-4 flex items-center justify-between">
+                            <span class="text-xs text-gray-500">Assistance client directe par nos experts</span>
+                            <button type="submit" class="bg-white hover:bg-amber-500 hover:text-white text-corporate-dark font-bold px-8 py-3 rounded border border-amber-500 transition duration-200 flex items-center space-x-2">
+                                <span>ENVOYER</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
                         </div>
-                    </div>
+                    </form>
 
-                    <!-- Line 6: Volume / Poids & Date prévue -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">11. Volume (m³) / Poids (kg) *</label>
-                            <input type="text" required placeholder="Ex: 5 m³ / 1200 kg ou 1x40' Dry" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-[#055169] mb-2">12. Date d'expédition envisagée</label>
-                            <input type="date" class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]">
-                        </div>
+                    <!-- Success Message Box -->
+                    <div id="form-success" class="hidden mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded text-center text-sm font-semibold">
+                        Votre demande de devis a bien été transmise à notre service logistique. Nous vous répondrons dans les plus brefs délais.
                     </div>
-
-                    <!-- Line 7: Notes complémentaires avec compteur 0/180 -->
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold uppercase text-[#055169]">13. Remarques ou détails complémentaires</label>
-                            <span id="charCounter" class="text-xs text-gray-500 font-bold">0 / 180</span>
-                        </div>
-                        <textarea id="notesInput" maxlength="180" oninput="updateCharCounter()" rows="3" placeholder="Précisions sur l'emballage, le dédouanement..." class="w-full bg-[#F1F1F1] border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:border-[#055169]"></textarea>
-                    </div>
-
-                    <!-- Consent Checkbox -->
-                    <div class="flex items-start gap-3">
-                        <input type="checkbox" required id="consent" class="mt-1 accent-[#E17E23] w-4 h-4">
-                        <label for="consent" class="text-xs text-gray-600 leading-normal">
-                            J'accepte que les informations saisies soient utilisées par <strong>Marine +</strong> pour me recontacter dans le cadre de ma demande de cotation. *
-                        </label>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="pt-4">
-                        <button type="submit" class="btn-divi w-full py-4 text-sm">
-                            Envoyer ma demande de cotation
-                        </button>
-                    </div>
-
-                    <!-- Social Share Buttons -->
-                    <div class="pt-6 border-t border-gray-200 flex flex-wrap items-center justify-center gap-4 text-xs font-bold text-gray-600">
-                        <span>Partager cette page :</span>
-                        <a href="#" class="w-8 h-8 rounded-full bg-[#143091] text-white flex items-center justify-center hover:opacity-80 transition-opacity"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="w-8 h-8 rounded-full bg-[#00B4D8] text-white flex items-center justify-center hover:opacity-80 transition-opacity"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#" class="w-8 h-8 rounded-full bg-[#055169] text-white flex items-center justify-center hover:opacity-80 transition-opacity"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="mailto:?subject=Marine+%20Logistique" class="w-8 h-8 rounded-full bg-[#E17E23] text-white flex items-center justify-center hover:opacity-80 transition-opacity"><i class="fa-solid fa-envelope"></i></a>
-                    </div>
-
-                </form>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 10. FOOTER COMPLET -->
-    <footer id="contact" class="bg-[#04455a] text-gray-300 text-xs border-t border-[#055169]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <!-- NOTRE GROUPE D'ENTREPRISES SECTION -->
+    <section id="rse" class="py-16 bg-gray-200 border-b border-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-xl sm:text-2xl font-bold font-heading text-corporate-dark uppercase tracking-wider mb-10">NOTRE GROUPE D'ENTREPRISES</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- Partner 1 -->
+                <div class="bg-white p-4 rounded shadow-sm border border-gray-200 flex flex-col items-center justify-center relative pb-6">
+                    <span class="font-black text-blue-900 tracking-tighter text-lg font-heading">GONDRAND</span>
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-amber-400"></div>
+                </div>
+                <!-- Partner 2 -->
+                <div class="bg-white p-4 rounded shadow-sm border border-gray-200 flex flex-col items-center justify-center relative pb-6">
+                    <span class="font-bold text-gray-800 text-sm tracking-wide">NAVIGATOR</span>
+                    <span class="text-[9px] text-gray-500 uppercase tracking-widest">Global Logistics</span>
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-red-600"></div>
+                </div>
+                <!-- Partner 3 -->
+                <div class="bg-white p-4 rounded shadow-sm border border-gray-200 flex flex-col items-center justify-center relative pb-6">
+                    <span class="font-bold text-blue-900 text-sm tracking-wide font-heading">MONNARD</span>
+                    <span class="text-[9px] text-gray-500 uppercase">Spedition GmbH</span>
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-cyan-500"></div>
+                </div>
+                <!-- Partner 4 -->
+                <div class="bg-white p-4 rounded shadow-sm border border-gray-200 flex flex-col items-center justify-center relative pb-6">
+                    <span class="font-bold text-blue-900 text-xs tracking-tight font-heading">MONFREIGHT INC.</span>
+                    <span class="text-[8px] text-gray-500 uppercase">International Freight Forwarders</span>
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-cyan-400"></div>
+                </div>
+                <!-- Partner 5 -->
+                <div class="bg-white p-4 rounded shadow-sm border border-gray-200 col-span-2 md:col-span-1 flex flex-col items-center justify-center relative pb-6">
+                    <span class="font-extrabold text-gray-900 text-xs tracking-wider">CARGO FLORES</span>
+                    <span class="text-[7px] text-red-700 uppercase">Part of NGL Gondrand Group</span>
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-red-700"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORLD MAP & LOCATIONS SECTION -->
+    <section class="py-12 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold font-heading text-corporate-dark uppercase text-xl">Réseau International & Plateforme Allemagne</h3>
+                <span class="bg-blue-900 text-white text-xs px-4 py-2 rounded font-semibold uppercase tracking-wider">All Locations</span>
+            </div>
+
+            <!-- Simulated Interactive Map view -->
+            <div class="relative bg-gray-100 rounded-lg overflow-hidden border border-gray-300 h-96 flex items-center justify-center">
+                <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#374151_1px,transparent_1px)] [background-size:16px_16px]"></div>
                 
-                <!-- Col 1: Marine + -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-2">
-                        <div class="bg-[#055169] text-white p-2 rounded font-black text-xl">M+</div>
-                        <span class="text-xl font-black text-white tracking-wider">MARINE +</span>
-                    </div>
-                    <p class="leading-relaxed text-gray-300">
-                        Commissionnaire de transport international agréé, spécialisé dans la desserte de l'Afrique. Fret maritime, aérien et logistique sur-mesure.
-                    </p>
-                    <div class="pt-2">
-                        <span class="inline-block bg-[#5F7044] text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase">Agréé Douane & IATA</span>
-                    </div>
+                <!-- Center point: Renchen Germany Headquarters -->
+                <div class="absolute text-center z-10 bg-white p-4 rounded-lg shadow-lg border border-blue-900 max-w-sm">
+                    <div class="text-blue-900 font-bold text-lg mb-1">TRAVEX GLOBAL FORWARDING</div>
+                    <p class="text-xs text-gray-600 mb-2">Im Brünnel 2, 77871 Renchen – Allemagne</p>
+                    <span class="inline-block bg-amber-500 text-white text-xs px-3 py-1 rounded font-bold uppercase">Plateforme Principale</span>
                 </div>
 
-                <!-- Col 2: Siège Social -->
-                <div class="space-y-3">
-                    <h4 class="text-white font-extrabold text-sm uppercase tracking-wider border-b border-[#055169] pb-2">Siège social</h4>
-                    <p class="font-bold text-white">Marine + France</p>
-                    <p>136 rue Victor Hugo</p>
-                    <p>76600 Le Havre — France</p>
-                    <p class="pt-2"><i class="fa-solid fa-phone text-[#E17E23] mr-2"></i> +33 (0)2 32 74 26 90</p>
-                    <p><i class="fa-solid fa-envelope text-[#E17E23] mr-2"></i> contact@marineplus.net</p>
-                </div>
+                <!-- Decorative map markers -->
+                <div class="absolute top-1/4 left-1/3 w-4 h-4 bg-blue-600 rounded-full animate-ping"></div>
+                <div class="absolute top-1/3 left-1/2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow">58</div>
+                <div class="absolute top-1/2 left-2/3 w-4 h-4 bg-blue-800 rounded-full flex items-center justify-center text-white text-[9px] font-bold">2</div>
+            </div>
+            
+            <div class="mt-4 text-center text-sm text-gray-600 font-medium">
+                La transparence qui fait la différence. Un seul interlocuteur pour l'enlèvement en Allemagne et en France, le transport routier, et l'acheminement maritime.
+            </div>
+        </div>
+    </section>
 
-                <!-- Col 3: Navigation -->
-                <div class="space-y-3">
-                    <h4 class="text-white font-extrabold text-sm uppercase tracking-wider border-b border-[#055169] pb-2">Navigation</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#accueil" class="hover:text-[#E17E23] transition-colors">Accueil</a></li>
-                        <li><a href="#services" class="hover:text-[#E17E23] transition-colors">Nos Services</a></li>
-                        <li><a href="#histoire" class="hover:text-[#E17E23] transition-colors">Notre Histoire</a></li>
-                        <li><a href="#reseau" class="hover:text-[#E17E23] transition-colors">Notre Réseau Afrique</a></li>
-                        <li><a href="#quotation" class="hover:text-[#E17E23] transition-colors">Demander une cotation</a></li>
+    <!-- FOOTER SECTION -->
+    <footer class="bg-[#1e242a] text-gray-400 py-16 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pb-12 border-b border-gray-700">
+                
+                <!-- Downloads Column -->
+                <div>
+                    <h4 class="text-white font-bold font-heading uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">Téléchargements</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition">General Terms and Conditions</a></li>
+                        <li><a href="#" class="hover:text-white transition">Dimensions conteneurs et véhicules</a></li>
+                        <li><a href="#" class="hover:text-white transition">Bilan émissions GES Gondrand</a></li>
+                        <li><a href="#" class="hover:text-white transition">Airlines codes</a></li>
+                        <li><a href="#" class="hover:text-white transition">Plaquette Garonor / Vitrolles</a></li>
+                        <li><a href="#" class="hover:text-white transition">Télécharger Acrobat Reader</a></li>
+                        <li><a href="#" class="hover:text-white transition">TVA & E-Commerce</a></li>
+                        <li><a href="#" class="hover:text-white transition">Douanes & Formalités véhicules</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 4: Contact Rapide -->
-                <div class="space-y-3">
-                    <h4 class="text-white font-extrabold text-sm uppercase tracking-wider border-b border-[#055169] pb-2">Permanence</h4>
-                    <p class="text-gray-300 leading-relaxed">
-                        Bureau ouvert du Lundi au Vendredi de 08h30 à 18h00.
-                    </p>
-                    <a href="#quotation" class="btn-divi w-full py-2.5 text-xs text-center block mt-4">
-                        Devis gratuit 24h
-                    </a>
+                <!-- Global Office Directory -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-white font-bold font-heading uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">Travex Global Network</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                        <div>
+                            <p class="font-semibold text-gray-300">Belgium</p>
+                            <p class="font-semibold text-gray-300">China</p>
+                            <p class="font-semibold text-gray-300">Czech Republic</p>
+                            <p class="font-semibold text-gray-300">France</p>
+                            <p class="font-semibold text-gray-300">Germany (NGL)</p>
+                            <p class="font-semibold text-gray-300">Germany (Monnard)</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-300">Luxembourg</p>
+                            <p class="font-semibold text-gray-300">Mexico</p>
+                            <p class="font-semibold text-gray-300">Morocco</p>
+                            <p class="font-semibold text-gray-300">Netherlands</p>
+                            <p class="font-semibold text-gray-300">New Caledonia</p>
+                            <p class="font-semibold text-gray-300">Senegal</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-300">Spain</p>
+                            <p class="font-semibold text-gray-300">Switzerland</p>
+                            <p class="font-semibold text-gray-300">Tahiti</p>
+                            <p class="font-semibold text-gray-300">Turkey</p>
+                            <p class="font-semibold text-gray-300">United Kingdom</p>
+                            <p class="font-semibold text-gray-300">USA</p>
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
-            <div class="mt-12 pt-8 border-t border-[#055169] flex flex-col sm:flex-row justify-between items-center gap-4 text-gray-400 text-[11px]">
-                <p>&copy; 2026 Marine +. Tous droits réservés. Reproduction conforme marineplus.net.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="hover:underline">Mentions Légales</a>
-                    <a href="#" class="hover:underline">CGV TLF / Extendo</a>
-                    <a href="#" class="hover:underline">Politique de Confidentialité</a>
+            <!-- Certifications & Copyright Footer Bottom -->
+            <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 space-y-4 md:space-y-0">
+                <div class="flex items-center space-x-6">
+                    <span class="uppercase tracking-widest font-semibold text-gray-400">IATA</span>
+                    <span class="uppercase tracking-widest font-semibold text-gray-400">AEO</span>
+                    <span class="uppercase tracking-widest font-semibold text-gray-400">ISO 9001</span>
+                </div>
+                <div>
+                    &copy; 2026 Travex Global Forwarding SA &bull; All rights reserved.
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-white transition">Cookie Policy</a>
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Imprint</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- 11. BANDEAU COOKIES COOKIEYES -->
-    <div id="cookieBanner" class="fixed bottom-4 left-4 z-50 bg-white text-gray-800 p-5 rounded-xl shadow-2xl border border-gray-300 max-w-sm space-y-3">
-        <div class="flex items-center justify-between">
-            <span class="font-extrabold text-sm text-[#055169] flex items-center gap-2">
-                <i class="fa-solid fa-cookie-bite text-[#E17E23]"></i>
-                <span>Gestion des cookies</span>
-            </span>
-            <span class="text-[10px] text-gray-400 uppercase font-bold">CookieYes</span>
-        </div>
-        <p class="text-xs text-gray-600 leading-relaxed">
-            Nous utilisons des cookies pour optimiser votre expérience de navigation et analyser le trafic sur Marine +.
-        </p>
-        <div class="flex flex-col gap-2 pt-1">
-            <div class="flex gap-2">
-                <button onclick="acceptCookies()" class="bg-[#055169] hover:bg-[#04455a] text-white font-bold py-2 px-3 rounded text-xs w-full transition-colors">
-                    Accepter tout
-                </button>
-                <button onclick="rejectCookies()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded text-xs w-full transition-colors">
-                    Tout rejeter
-                </button>
-            </div>
-            <button onclick="customizeCookies()" class="text-center text-xs text-[#055169] font-bold hover:underline">
-                Personnaliser
-            </button>
-        </div>
-    </div>
-
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed top-5 right-5 z-50 bg-[#055169] text-white px-6 py-4 rounded-lg shadow-2xl border-l-4 border-[#E17E23] transform translate-x-full transition-transform duration-300 flex items-center gap-3">
-        <i class="fa-solid fa-circle-check text-[#E17E23] text-xl"></i>
-        <div>
-            <h5 id="toastTitle" class="font-bold text-sm">Message</h5>
-            <p id="toastMessage" class="text-xs text-gray-200">Action effectuée.</p>
-        </div>
-    </div>
-
+    <!-- JavaScript for Slider, Mobile Menu, and Quote Form -->
     <script>
-        // Hero Slider Logic (6.5s auto-fade)
-        let currentSlide = 0;
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Hero Slider Logic with 4 background images
+        let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.hero-slide');
-        const indicators = document.querySelectorAll('.slide-indicator');
-        const slideInterval = 6500; // 6.5s
+        const dots = document.querySelectorAll('.slide-dot');
+        let slideInterval = setInterval(nextSlide, 6000);
 
         function showSlide(index) {
             slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
+                slide.classList.remove('active');
+                dots[i].classList.remove('bg-amber-500');
+                dots[i].classList.add('bg-white/50');
             });
-            indicators.forEach((ind, i) => {
-                if (i === index) {
-                    ind.className = 'slide-indicator w-3 h-3 rounded-full bg-[#E17E23] transition-all';
-                } else {
-                    ind.className = 'slide-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all';
-                }
-            });
-            currentSlide = index;
+            slides[index].classList.add('active');
+            dots[index].classList.remove('bg-white/50');
+            dots[index].classList.add('bg-amber-500');
         }
 
         function nextSlide() {
-            let next = (currentSlide + 1) % slides.length;
-            showSlide(next);
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(currentSlideIndex);
         }
 
         function prevSlide() {
-            let prev = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(prev);
+            currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+            showSlide(currentSlideIndex);
+            resetTimer();
         }
 
-        function setSlide(index) {
-            showSlide(index);
+        function currentSlide(index) {
+            currentSlideIndex = index;
+            showSlide(currentSlideIndex);
+            resetTimer();
         }
 
-        let autoSlide = setInterval(nextSlide, slideInterval);
-
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuIcon = document.getElementById('menuIcon');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            if (mobileMenu.classList.contains('hidden')) {
-                menuIcon.className = 'fa-solid fa-bars';
-            } else {
-                menuIcon.className = 'fa-solid fa-xmark';
-            }
-        });
-
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                menuIcon.className = 'fa-solid fa-bars';
-            });
-        });
-
-        // Phone Prefix Preview
-        function updatePhonePreview() {
-            const prefix = document.getElementById('phonePrefix').value;
-            document.getElementById('phonePreview').innerText = prefix;
+        function resetTimer() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 6000);
         }
 
-        // Notes Character Counter (0 / 180)
-        function updateCharCounter() {
-            const input = document.getElementById('notesInput');
-            const count = input.value.length;
-            document.getElementById('charCounter').innerText = `${count} / 180`;
-        }
-
-        // Form Submit Handler
-        function handleQuoteSubmit(e) {
-            e.preventDefault();
-            showToast('Cotation Transmise', 'Merci ! Votre demande a été transmise à notre pôle Le Havre. Réponse sous 24h.');
-            e.target.reset();
-            updateCharCounter();
-        }
-
-        // Cookie Banner Handlers
-        function acceptCookies() {
-            document.getElementById('cookieBanner').style.display = 'none';
-            showToast('Cookies Acceptés', 'Vos préférences de cookies ont été enregistrées.');
-        }
-
-        function rejectCookies() {
-            document.getElementById('cookieBanner').style.display = 'none';
-            showToast('Cookies Refusés', 'Seuls les cookies strictement nécessaires sont actifs.');
-        }
-
-        function customizeCookies() {
-            showToast('Personnalisation', 'Paramètres CookieYes appliqués.');
-            document.getElementById('cookieBanner').style.display = 'none';
-        }
-
-        // Toast Notification System
-        function showToast(title, message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastTitle').innerText = title;
-            document.getElementById('toastMessage').innerText = message;
-
-            toast.classList.remove('translate-x-full');
+        // Quote Form Handler
+        function handleQuoteSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('quote-form');
+            const successMsg = document.getElementById('form-success');
+            
+            form.style.display = 'none';
+            successMsg.classList.remove('hidden');
+            
             setTimeout(() => {
-                toast.classList.add('translate-x-full');
-            }, 4500);
+                form.reset();
+                form.style.display = 'block';
+                successMsg.classList.add('hidden');
+            }, 5000);
         }
     </script>
 </body>
