@@ -21,6 +21,7 @@ PAGES = [
     ("index",           "index.html"),
     ("services",        "services.html"),
     ("a-propos",        "a-propos.html"),
+    ("reseau",          "reseau.html"),
     ("cotation",        "cotation.html"),
     ("reservations",    "reservations.html"),
     ("contact",         "contact.html"),
@@ -147,6 +148,7 @@ main_js = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
 quote_js = (ROOT / "assets/js/quote.js").read_text(encoding="utf-8")
 contact_js = (ROOT / "assets/js/contact.js").read_text(encoding="utf-8")
 booking_js = (ROOT / "assets/js/booking.js").read_text(encoding="utf-8")
+network_js = (ROOT / "assets/js/network.js").read_text(encoding="utf-8")
 
 # patch main.js: express quote widget -> hash navigation
 main_js = main_js.replace('"cotation.html"', '"#cotation"')
@@ -225,7 +227,12 @@ favicon = re.search(r'<link rel="icon"[^>]*>', index_raw).group(0)
 
 out = []
 out.append("<!DOCTYPE html>")
-out.append('<html lang="de">')
+out.append("<!--\n"
+           "  CONTENU PROVISOIRE \u2014 structure et gabarits d\u00e9finitifs, mais textes,\n"
+           "  coordonn\u00e9es et chiffres sont fictifs : \u00e0 remplacer avant mise en ligne.\n"
+           "  Liste compl\u00e8te : CONTENU-A-REMPLACER.md \u00e0 la racine du d\u00e9p\u00f4t.\n"
+           "-->")
+out.append('<html lang="fr">')
 out.append("<head>")
 out.append('  <meta charset="UTF-8">')
 out.append('  <meta name="viewport" content="width=device-width, initial-scale=1.0">')
@@ -258,6 +265,7 @@ for label, js in [
     ("quote", quote_js),
     ("contact", contact_js),
     ("booking", booking_js),
+    ("network", network_js),
 ]:
     out.append("<script>/* ===== %s.js ===== */" % label)
     out.append(js.rstrip())

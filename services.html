@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+<!--
+  CONTENU PROVISOIRE — structure et gabarits définitifs, mais textes,
+  coordonnées et chiffres ci-dessous sont fictifs : à remplacer avant mise
+  en ligne. Liste complète : CONTENU-A-REMPLACER.md à la racine du dépôt.
+-->
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="svc.title">Services | Travex Global Forwarding — Maritime, aérien, douane, logistique</title>
-  <meta name="description" data-i18n-content="svc.meta" content="Sept métiers, une seule promesse : votre marchandise arrive. Fret maritime FCL/LCL, aérien, groupage, douane, logistique, project cargo et assurance — Travex Global Forwarding Hambourg.">
+  <meta name="description" data-i18n-content="svc.meta" content="Neuf métiers, une seule promesse : votre marchandise arrive. Fret maritime FCL/LCL, aérien, groupage, douane, logistique, project cargo et assurance — Travex Global Forwarding Hambourg.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/img/hero-port-hambourg.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A2B4C'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
@@ -24,7 +29,8 @@
     <nav class="main-nav" id="mainNav" aria-label="Navigation principale" data-i18n-aria="common.navaria">
       <a href="index.html" data-i18n="nav.home">Accueil</a>
       <a href="services.html" aria-current="page" data-i18n="nav.services">Nos services</a>
-      <a href="a-propos.html" data-i18n="nav.about">À propos &amp; Réseau</a>
+      <a href="a-propos.html" data-i18n="nav.about">À propos</a>
+      <a href="reseau.html" data-i18n="nav.network">Réseau &amp; implantations</a>
       <a href="reservations.html" data-i18n="nav.bookings">Réservations</a>
       <a href="contact.html" data-i18n="nav.contact">Contact</a>
       <a class="btn btn--primary btn--sm nav-cta" href="cotation.html" data-i18n="nav.cta">Demander une cotation</a>
@@ -47,7 +53,7 @@
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" data-i18n="nav.services">Services &amp; Expertises</span>
-      <h1 class="title-xl" data-i18n="svc.h1">Sept métiers, une seule promesse : <span class="accent">votre marchandise arrive.</span></h1>
+      <h1 class="title-xl" data-i18n="svc.h1">Neuf métiers, une seule promesse : <span class="accent">votre marchandise arrive.</span></h1>
       <p class="lead" data-i18n="svc.lead">Du conteneur groupé au colis hors gabarit, nous composons la solution technique, documentaire et tarifaire adaptée à chaque flux Europe–Afrique.</p>
       <ul class="page-hero__meta">
         <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-clock"></use></svg> <span data-i18n="svc.meta1">Cotation sous 24 h</span></li>
@@ -61,11 +67,13 @@
     <div class="container subnav__inner">
       <a href="#maritime" class="is-active" data-i18n="foot.svc1sub">Fret maritime</a>
       <a href="#aerien" data-i18n="foot.svc2">Fret aérien</a>
+      <a href="#routier" data-i18n="svc.sub.road">Transport routier</a>
       <a href="#groupage" data-i18n="svc.sub.lcl">Groupage LCL</a>
       <a href="#douane" data-i18n="foot.svc4">Douane &amp; conformité</a>
       <a href="#logistique" data-i18n="svc.sub.logi">Logistique</a>
       <a href="#project-cargo" data-i18n="foot.svc6">Project cargo</a>
       <a href="#assurances" data-i18n="svc.sub.ins">Assurances</a>
+      <a href="#fiscal" data-i18n="svc.sub.fiscal">Représentation fiscale</a>
     </div>
   </nav>
 
@@ -109,6 +117,25 @@
           </ul>
           <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c2chip1">Express</span><span class="chip" data-i18n="svc.a.chip2">Consolidé</span><span class="chip" data-i18n="idx.exp.c2chip2">Affrètement</span><span class="chip">DGR</span></div>
           <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=AIR" data-i18n="svc.a.cta">Coter un flux aérien</a>
+        </div>
+      </article>
+
+      <article class="svc-detail" id="routier">
+        <div class="svc-detail__media svc-detail__media--icon" data-reveal aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-truck"></use></svg>
+        </div>
+        <div class="svc-detail__body" data-reveal>
+          <span class="eyebrow" data-i18n="svc.rt.eyebrow">Transport routier</span>
+          <h2 class="title-md" data-i18n="svc.rt.title">Le premier et le dernier kilomètre, sans couture</h2>
+          <p data-i18n="svc.rt.lead">Entre votre entrepôt et le quai, puis entre le port d'arrivée et votre site : nous organisons la route en lot complet ou partiel, avec des transporteurs référencés et un prix verrouillé à la cotation.</p>
+          <ul class="svc-feats">
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.rt.f1">Lot complet (FTL) et lot partiel (LTL) dans toute l'Union européenne et au Royaume-Uni.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.rt.f2">Enlèvement sur site, cross-docking à Brême ou à Anvers, apport au terminal avant le cut-off.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.rt.f3">Post-acheminement vers les pays enclavés avec convois suivis par GPS et scellés numérotés.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.rt.f4">Caméra tautliner, hayon, plateau et benne selon la marchandise ; arrimage contrôlé au chargement.</span></li>
+          </ul>
+          <div class="svc-card__chips"><span class="chip">FTL</span><span class="chip">LTL</span><span class="chip" data-i18n="svc.rt.chip3">Cross-dock</span><span class="chip" data-i18n="svc.rt.chip4">Convois</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="cotation.html?mode=ROAD" data-i18n="svc.rt.cta">Coter un flux routier</a>
         </div>
       </article>
 
@@ -209,6 +236,26 @@
           </ul>
           <div class="svc-card__chips"><span class="chip">Ad valorem</span><span class="chip" data-i18n="svc.i.chip2">Tous risques</span><span class="chip" data-i18n="idx.routes.d2d">porte à porte</span></div>
           <a class="btn btn--outline-dark btn--sm" href="cotation.html" data-i18n="svc.i.cta">Assurer mon expédition</a>
+        </div>
+      </article>
+
+      <article class="svc-detail" id="fiscal">
+        <div class="svc-detail__media svc-detail__media--icon" data-reveal aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-doc"></use></svg>
+          <span class="chip chip--orange" data-i18n="svc.fi.chip">Anvers &amp; Hambourg</span>
+        </div>
+        <div class="svc-detail__body" data-reveal>
+          <span class="eyebrow" data-i18n="svc.fi.eyebrow">Représentation fiscale &amp; TVA</span>
+          <h2 class="title-md" data-i18n="svc.fi.title">Vendre dans l'Union sans immatriculation à demeure</h2>
+          <p data-i18n="svc.fi.lead">Pour un expéditeur hors UE qui importe en France, en Allemagne ou en Belgique sans numéro de TVA local, nous nous portons représentant fiscal : la déclaration est déposée dans les délais, la TVA est acquittée, vous gardez la main sur vos marges.</p>
+          <ul class="svc-feats">
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.fi.f1">Représentation fiscale globale et locale, caution bancaire constituée par nos soins.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.fi.f2">Dépôt des déclarations de TVA et rapprochement avec les déclarations en douane.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.fi.f3">Classement tarifaire, origine préférentielle et contrôle des valeurs déclarées avant importation.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-check"></use></svg> <span data-i18n="svc.fi.f4">Rapport mensuel unique : volumes, droits, TVA et délais constatés, ligne par ligne.</span></li>
+          </ul>
+          <div class="svc-card__chips"><span class="chip" data-i18n="svc.fi.chip2">TVA import</span><span class="chip">EORI</span><span class="chip" data-i18n="svc.fi.chip3">Régimes économiques</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="contact.html" data-i18n="svc.fi.cta">Parler à un conseiller fiscal du réseau</a>
         </div>
       </article>
 
@@ -338,7 +385,8 @@
         <ul>
           <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
           <li><a href="services.html" data-i18n="nav.services">Nos services</a></li>
-          <li><a href="a-propos.html" data-i18n="nav.about">À propos &amp; Réseau</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
+          <li><a href="reseau.html" data-i18n="nav.network">Réseau &amp; implantations</a></li>
           <li><a href="cotation.html" data-i18n="nav.cta">Demander une cotation</a></li>
           <li><a href="reservations.html" data-i18n="foot.bookings">Réservations &amp; départs</a></li>
           <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>

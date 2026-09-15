@@ -815,3 +815,88 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   .page-hero__meta { gap: 8px 16px; }
   .site-footer__bottom { justify-content: flex-start; }
 }
+
+/* ---------- Page Réseau : outils de filtre ---------- */
+.net-tools {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  padding: 18px 20px; margin-bottom: 34px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+}
+.net-tools__search { position: relative; flex: 1 1 260px; min-width: 220px; }
+.net-tools__search .icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px; color: var(--ink-500); pointer-events: none;
+}
+.net-tools__search input {
+  width: 100%; padding: 12px 14px 12px 42px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--paper); color: var(--ink-900); font: inherit; font-size: 0.94rem;
+}
+.net-tools__search input:focus { outline: 2px solid var(--sea-700); outline-offset: 1px; background: #fff; }
+.net-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.net-filters button {
+  padding: 9px 15px; border: 1px solid var(--line); border-radius: 999px;
+  background: #fff; color: var(--ink-700); font: inherit; font-size: 0.84rem; font-weight: 700;
+  cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.net-filters button:hover { border-color: var(--sea-700); color: var(--sea-900); }
+.net-filters button.is-active { background: var(--sea-900); border-color: var(--sea-900); color: #fff; }
+.net-count { margin-left: auto; font-size: 0.84rem; font-weight: 700; color: var(--ink-500); white-space: nowrap; }
+
+/* ---------- Page Réseau : fiches bureaux ---------- */
+.net-card { display: flex; flex-direction: column; gap: 12px; padding: 22px; }
+.net-card__top { display: flex; align-items: center; gap: 12px; }
+.net-card__code {
+  display: grid; place-items: center; width: 42px; height: 42px; flex: none;
+  border-radius: 11px; background: var(--sea-100); color: var(--sea-900);
+  font-family: var(--font-display); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em;
+}
+.net-card__top h3 { font-family: var(--font-display); font-size: 1.06rem; font-weight: 700; color: var(--ink-900); }
+.net-card__top small { display: block; color: var(--ink-500); font-weight: 600; font-size: 0.8rem; }
+.net-card__role { color: var(--ink-700); font-size: 0.92rem; }
+.net-card__lines { display: grid; gap: 7px; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line); }
+.net-card__lines p { display: flex; align-items: flex-start; gap: 9px; margin: 0; font-size: 0.86rem; color: var(--ink-700); }
+.net-card__lines .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--sea-700); }
+.net-card__lines a { color: var(--sea-900); text-decoration: none; font-weight: 700; }
+.net-card__lines a:hover { text-decoration: underline; }
+[data-net-item].is-hidden { display: none; }
+.net-empty {
+  padding: 26px; border: 1px dashed var(--line); border-radius: var(--radius);
+  color: var(--ink-500); font-weight: 700; text-align: center; background: var(--card);
+}
+
+/* ---------- Page Réseau : liste des agents (fond sombre) ---------- */
+.net-list { display: grid; gap: 12px; }
+.net-row {
+  display: grid; grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 18px; align-items: center; padding: 16px 18px;
+  border: 1px solid var(--line-dark); border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04); transition: border-color 0.25s, background 0.25s;
+}
+.net-row:hover { border-color: rgba(255, 255, 255, 0.38); background: rgba(255, 255, 255, 0.07); }
+.net-row__code {
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 10px; border: 1px solid var(--line-dark);
+  color: var(--accent-light); font-family: var(--font-display); font-size: 0.78rem; font-weight: 800;
+}
+.net-row strong { display: block; color: #fff; font-size: 0.96rem; }
+.net-row small { color: #a9b7cc; font-size: 0.84rem; }
+.net-row__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.net-row__tags .chip { background: rgba(255, 255, 255, 0.1); color: #e6ecf5; border-color: transparent; }
+.net-row__meta { text-align: right; color: var(--accent-light); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+@media (max-width: 860px) {
+  .net-row { grid-template-columns: auto 1fr; }
+  .net-row__tags { grid-column: 1 / -1; }
+  .net-row__meta { grid-column: 1 / -1; text-align: left; }
+}
+
+/* ---------- Page Réseau : atouts corridor ---------- */
+.edge-card { padding: 24px; display: grid; gap: 12px; align-content: start; }
+.edge-card__icon {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px;
+  background: var(--sea-100); color: var(--sea-900);
+}
+.edge-card__icon .icon { width: 24px; height: 24px; }
+.edge-card h3 { font-family: var(--font-display); font-size: 1.02rem; font-weight: 700; color: var(--ink-900); }
+.edge-card p { color: var(--ink-700); font-size: 0.92rem; }

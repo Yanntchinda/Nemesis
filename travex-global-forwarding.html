@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<!--
+  CONTENU PROVISOIRE — structure et gabarits définitifs, mais textes,
+  coordonnées et chiffres sont fictifs : à remplacer avant mise en ligne.
+  Liste complète : CONTENU-A-REMPLACER.md à la racine du dépôt.
+-->
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -829,6 +834,91 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   .site-footer__bottom { justify-content: flex-start; }
 }
 
+/* ---------- Page Réseau : outils de filtre ---------- */
+.net-tools {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  padding: 18px 20px; margin-bottom: 34px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+}
+.net-tools__search { position: relative; flex: 1 1 260px; min-width: 220px; }
+.net-tools__search .icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px; color: var(--ink-500); pointer-events: none;
+}
+.net-tools__search input {
+  width: 100%; padding: 12px 14px 12px 42px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--paper); color: var(--ink-900); font: inherit; font-size: 0.94rem;
+}
+.net-tools__search input:focus { outline: 2px solid var(--sea-700); outline-offset: 1px; background: #fff; }
+.net-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.net-filters button {
+  padding: 9px 15px; border: 1px solid var(--line); border-radius: 999px;
+  background: #fff; color: var(--ink-700); font: inherit; font-size: 0.84rem; font-weight: 700;
+  cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.net-filters button:hover { border-color: var(--sea-700); color: var(--sea-900); }
+.net-filters button.is-active { background: var(--sea-900); border-color: var(--sea-900); color: #fff; }
+.net-count { margin-left: auto; font-size: 0.84rem; font-weight: 700; color: var(--ink-500); white-space: nowrap; }
+
+/* ---------- Page Réseau : fiches bureaux ---------- */
+.net-card { display: flex; flex-direction: column; gap: 12px; padding: 22px; }
+.net-card__top { display: flex; align-items: center; gap: 12px; }
+.net-card__code {
+  display: grid; place-items: center; width: 42px; height: 42px; flex: none;
+  border-radius: 11px; background: var(--sea-100); color: var(--sea-900);
+  font-family: var(--font-display); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em;
+}
+.net-card__top h3 { font-family: var(--font-display); font-size: 1.06rem; font-weight: 700; color: var(--ink-900); }
+.net-card__top small { display: block; color: var(--ink-500); font-weight: 600; font-size: 0.8rem; }
+.net-card__role { color: var(--ink-700); font-size: 0.92rem; }
+.net-card__lines { display: grid; gap: 7px; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line); }
+.net-card__lines p { display: flex; align-items: flex-start; gap: 9px; margin: 0; font-size: 0.86rem; color: var(--ink-700); }
+.net-card__lines .icon { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--sea-700); }
+.net-card__lines a { color: var(--sea-900); text-decoration: none; font-weight: 700; }
+.net-card__lines a:hover { text-decoration: underline; }
+[data-net-item].is-hidden { display: none; }
+.net-empty {
+  padding: 26px; border: 1px dashed var(--line); border-radius: var(--radius);
+  color: var(--ink-500); font-weight: 700; text-align: center; background: var(--card);
+}
+
+/* ---------- Page Réseau : liste des agents (fond sombre) ---------- */
+.net-list { display: grid; gap: 12px; }
+.net-row {
+  display: grid; grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 18px; align-items: center; padding: 16px 18px;
+  border: 1px solid var(--line-dark); border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04); transition: border-color 0.25s, background 0.25s;
+}
+.net-row:hover { border-color: rgba(255, 255, 255, 0.38); background: rgba(255, 255, 255, 0.07); }
+.net-row__code {
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 10px; border: 1px solid var(--line-dark);
+  color: var(--accent-light); font-family: var(--font-display); font-size: 0.78rem; font-weight: 800;
+}
+.net-row strong { display: block; color: #fff; font-size: 0.96rem; }
+.net-row small { color: #a9b7cc; font-size: 0.84rem; }
+.net-row__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.net-row__tags .chip { background: rgba(255, 255, 255, 0.1); color: #e6ecf5; border-color: transparent; }
+.net-row__meta { text-align: right; color: var(--accent-light); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+@media (max-width: 860px) {
+  .net-row { grid-template-columns: auto 1fr; }
+  .net-row__tags { grid-column: 1 / -1; }
+  .net-row__meta { grid-column: 1 / -1; text-align: left; }
+}
+
+/* ---------- Page Réseau : atouts corridor ---------- */
+.edge-card { padding: 24px; display: grid; gap: 12px; align-content: start; }
+.edge-card__icon {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px;
+  background: var(--sea-100); color: var(--sea-900);
+}
+.edge-card__icon .icon { width: 24px; height: 24px; }
+.edge-card h3 { font-family: var(--font-display); font-size: 1.02rem; font-weight: 700; color: var(--ink-900); }
+.edge-card p { color: var(--ink-700); font-size: 0.92rem; }
+
 
 /* ===== Standalone (single-file) build ===== */
 .spa-page[hidden] { display: none !important; }
@@ -845,7 +935,8 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     <nav class="main-nav" id="mainNav" aria-label="Navigation principale" data-i18n-aria="common.navaria">
       <a href="#index" aria-current="page" data-i18n="nav.home">Accueil</a>
       <a href="#services" data-i18n="nav.services">Nos services</a>
-      <a href="#a-propos" data-i18n="nav.about">À propos &amp; Réseau</a>
+      <a href="#a-propos" data-i18n="nav.about">À propos</a>
+      <a href="#reseau" data-i18n="nav.network">Réseau &amp; implantations</a>
       <a href="#reservations" data-i18n="nav.bookings">Réservations</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
       <a class="btn btn--primary btn--sm nav-cta" href="#cotation" data-i18n="nav.cta">Demander une cotation</a>
@@ -1023,6 +1114,24 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <a class="svc-card__link" href="#services/douane"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
           </div>
         </article>
+        <article class="card svc-card">
+          <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-truck"></use></svg></figure>
+          <div class="svc-card__body">
+            <div class="svc-card__chips"><span class="chip">FTL</span><span class="chip">LTL</span></div>
+            <h3 data-i18n="idx.exp.c7t">Transport routier</h3>
+            <p data-i18n="idx.exp.c7p">Enlèvement sur site, cross-docking et livraison finale en Europe et vers les pays enclavés, avec des transporteurs référencés.</p>
+            <a class="svc-card__link" href="#services/routier"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+          </div>
+        </article>
+        <article class="card svc-card">
+          <figure aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-doc"></use></svg></figure>
+          <div class="svc-card__body">
+            <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c8chip1">TVA import</span><span class="chip">EORI</span></div>
+            <h3 data-i18n="idx.exp.c8t">Représentation fiscale</h3>
+            <p data-i18n="idx.exp.c8p">Vous vendez dans l'Union sans y être immatriculé : nous déclarons la TVA et les droits à votre place, mois par mois.</p>
+            <a class="svc-card__link" href="#services/fiscal"><span data-i18n="common.explore">Explorer</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -1085,7 +1194,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" data-i18n="nav.services">Services &amp; Expertises</span>
-      <h1 class="title-xl" data-i18n="svc.h1">Sept métiers, une seule promesse : <span class="accent">votre marchandise arrive.</span></h1>
+      <h1 class="title-xl" data-i18n="svc.h1">Neuf métiers, une seule promesse : <span class="accent">votre marchandise arrive.</span></h1>
       <p class="lead" data-i18n="svc.lead">Du conteneur groupé au colis hors gabarit, nous composons la solution technique, documentaire et tarifaire adaptée à chaque flux Europe–Afrique.</p>
       <ul class="page-hero__meta">
         <li><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="svc.meta1">Cotation sous 24 h</span></li>
@@ -1099,11 +1208,13 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     <div class="container subnav__inner">
       <a href="#services/maritime" class="is-active" data-i18n="foot.svc1sub">Fret maritime</a>
       <a href="#services/aerien" data-i18n="foot.svc2">Fret aérien</a>
+      <a href="#services/routier" data-i18n="svc.sub.road">Transport routier</a>
       <a href="#services/groupage" data-i18n="svc.sub.lcl">Groupage LCL</a>
       <a href="#services/douane" data-i18n="foot.svc4">Douane &amp; conformité</a>
       <a href="#services/logistique" data-i18n="svc.sub.logi">Logistique</a>
       <a href="#services/project-cargo" data-i18n="foot.svc6">Project cargo</a>
       <a href="#services/assurances" data-i18n="svc.sub.ins">Assurances</a>
+      <a href="#services/fiscal" data-i18n="svc.sub.fiscal">Représentation fiscale</a>
     </div>
   </nav>
 
@@ -1147,6 +1258,25 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           </ul>
           <div class="svc-card__chips"><span class="chip" data-i18n="idx.exp.c2chip1">Express</span><span class="chip" data-i18n="svc.a.chip2">Consolidé</span><span class="chip" data-i18n="idx.exp.c2chip2">Affrètement</span><span class="chip">DGR</span></div>
           <a class="btn btn--outline-dark btn--sm" href="#cotation?mode=AIR" data-i18n="svc.a.cta">Coter un flux aérien</a>
+        </div>
+      </article>
+
+      <article class="svc-detail" id="routier">
+        <div class="svc-detail__media svc-detail__media--icon" data-reveal aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-truck"></use></svg>
+        </div>
+        <div class="svc-detail__body" data-reveal>
+          <span class="eyebrow" data-i18n="svc.rt.eyebrow">Transport routier</span>
+          <h2 class="title-md" data-i18n="svc.rt.title">Le premier et le dernier kilomètre, sans couture</h2>
+          <p data-i18n="svc.rt.lead">Entre votre entrepôt et le quai, puis entre le port d'arrivée et votre site : nous organisons la route en lot complet ou partiel, avec des transporteurs référencés et un prix verrouillé à la cotation.</p>
+          <ul class="svc-feats">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.rt.f1">Lot complet (FTL) et lot partiel (LTL) dans toute l'Union européenne et au Royaume-Uni.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.rt.f2">Enlèvement sur site, cross-docking à Brême ou à Anvers, apport au terminal avant le cut-off.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.rt.f3">Post-acheminement vers les pays enclavés avec convois suivis par GPS et scellés numérotés.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.rt.f4">Caméra tautliner, hayon, plateau et benne selon la marchandise ; arrimage contrôlé au chargement.</span></li>
+          </ul>
+          <div class="svc-card__chips"><span class="chip">FTL</span><span class="chip">LTL</span><span class="chip" data-i18n="svc.rt.chip3">Cross-dock</span><span class="chip" data-i18n="svc.rt.chip4">Convois</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="#cotation?mode=ROAD" data-i18n="svc.rt.cta">Coter un flux routier</a>
         </div>
       </article>
 
@@ -1250,6 +1380,26 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
         </div>
       </article>
 
+      <article class="svc-detail" id="fiscal">
+        <div class="svc-detail__media svc-detail__media--icon" data-reveal aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-doc"></use></svg>
+          <span class="chip chip--orange" data-i18n="svc.fi.chip">Anvers &amp; Hambourg</span>
+        </div>
+        <div class="svc-detail__body" data-reveal>
+          <span class="eyebrow" data-i18n="svc.fi.eyebrow">Représentation fiscale &amp; TVA</span>
+          <h2 class="title-md" data-i18n="svc.fi.title">Vendre dans l'Union sans immatriculation à demeure</h2>
+          <p data-i18n="svc.fi.lead">Pour un expéditeur hors UE qui importe en France, en Allemagne ou en Belgique sans numéro de TVA local, nous nous portons représentant fiscal : la déclaration est déposée dans les délais, la TVA est acquittée, vous gardez la main sur vos marges.</p>
+          <ul class="svc-feats">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.fi.f1">Représentation fiscale globale et locale, caution bancaire constituée par nos soins.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.fi.f2">Dépôt des déclarations de TVA et rapprochement avec les déclarations en douane.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.fi.f3">Classement tarifaire, origine préférentielle et contrôle des valeurs déclarées avant importation.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <span data-i18n="svc.fi.f4">Rapport mensuel unique : volumes, droits, TVA et délais constatés, ligne par ligne.</span></li>
+          </ul>
+          <div class="svc-card__chips"><span class="chip" data-i18n="svc.fi.chip2">TVA import</span><span class="chip">EORI</span><span class="chip" data-i18n="svc.fi.chip3">Régimes économiques</span></div>
+          <a class="btn btn--outline-dark btn--sm" href="#contact" data-i18n="svc.fi.cta">Parler à un conseiller fiscal du réseau</a>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -1342,13 +1492,13 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
   <section class="spa-page" data-page="a-propos" data-title-key="ab.title" data-title="À propos &amp; réseau | Travex Global Forwarding — Hambourg" hidden>
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow" data-i18n="nav.about">À propos &amp; Réseau</span>
+      <span class="eyebrow" data-i18n="nav.about">À propos</span>
       <h1 class="title-xl" data-i18n="ab.h1">Une maison hambourgeoise, <span class="accent">un horizon africain.</span></h1>
       <p class="lead" data-i18n="ab.lead">Née sur les quais du premier port universel d'Allemagne, Travex Global Forwarding a fait du corridor Europe–Afrique sa spécialité exclusive. Voici qui nous sommes, et avec qui nous travaillons.</p>
       <ul class="page-hero__meta">
         <li><svg class="icon" aria-hidden="true"><use href="#i-anchor"></use></svg> <span data-i18n="ab.meta1">Siège : Hambourg, Allemagne</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="#i-warehouse"></use></svg> <span data-i18n="ab.meta2">4 500 m² d'entrepôt</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg> <span data-i18n="ab.meta3">5 agences, 40+ pays</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg> <span data-i18n="ab.meta3">6 bureaux en Europe, 18 escales africaines</span></li>
       </ul>
     </div>
   </section>
@@ -1390,7 +1540,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
         </li>
         <li>
           <span class="year">2026</span>
-          <h3 data-i18n="ab.tl.y6t">40+ pays desservis</h3>
+          <h3 data-i18n="ab.tl.y6t">Un réseau d'agents audités</h3>
           <p data-i18n="ab.tl.y6p">Le réseau d'agents certifiés couvre désormais l'Afrique de l'Ouest, centrale et le Maghreb.</p>
         </li>
       </ul>
@@ -1432,8 +1582,8 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
     <div class="container">
       <div class="section-head" data-reveal>
         <span class="eyebrow" data-i18n="ab.net.eyebrow">Notre réseau</span>
-        <h2 class="title-lg" data-i18n="ab.net.title">Cinq agences, quarante pays, une seule équipe</h2>
-        <p class="lead" data-i18n="ab.net.lead">Nos bureaux en propre pilotent un réseau d'agents certifiés et audités chaque année, jusqu'aux capitales sans façade maritime.</p>
+        <h2 class="title-lg" data-i18n="ab.net.title">Six bureaux en Europe, dix-huit escales, une seule équipe</h2>
+        <p class="lead" data-i18n="ab.net.lead">Nos bureaux en propre pilotent un réseau d'agents audités chaque année, jusqu'aux capitales sans façade maritime. L'annuaire complet, bureau par bureau, est sur la page Réseau.</p>
       </div>
       <div class="network">
         <svg class="netmap" viewBox="0 0 600 520" role="img" aria-label="Carte stylisée du réseau Travex entre l'Europe et l'Afrique" data-i18n-aria="ab.net.maparia">
@@ -1468,7 +1618,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           <circle class="pin" cx="271" cy="162" r="4"/>
           <text x="216" y="158">Casablanca</text>
           <circle class="pin" cx="330" cy="150" r="3.5"/>
-          <text x="340" y="146">Algier</text>
+          <text x="340" y="146">Alger</text>
         </svg>
         <div class="agencies" data-reveal>
           <div class="agency">
@@ -1483,20 +1633,21 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           </div>
           <div class="agency">
             <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
-            <div><strong>Dakar</strong><small data-i18n="ab.net.a3s">Hub Afrique de l'Ouest &amp; hinterland sahélien</small></div>
-            <span class="chip">SN</span>
+            <div><strong data-i18n="ab.net.a3t">Le Havre</strong><small data-i18n="ab.net.a3s">Transit France ouest, enlèvements Normandie &amp; Grand Ouest</small></div>
+            <span class="chip">FR</span>
           </div>
           <div class="agency">
             <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
-            <div><strong>Abidjan</strong><small data-i18n="ab.net.a4s">Agence Côte d'Ivoire &amp; livraisons finales</small></div>
+            <div><strong data-i18n="ab.net.a4t">Abidjan</strong><small data-i18n="ab.net.a4s">Bureau en propre : Côte d'Ivoire et livraisons au Burkina Faso</small></div>
             <span class="chip">CI</span>
           </div>
           <div class="agency">
             <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
-            <div><strong>Douala</strong><small data-i18n="ab.net.a5s">Agence Afrique centrale : Cameroun, Tchad, RCA</small></div>
+            <div><strong data-i18n="ab.net.a5t">Douala</strong><small data-i18n="ab.net.a5s">Bureau en propre : Cameroun, Tchad et Centrafrique</small></div>
             <span class="chip">CM</span>
           </div>
-          <p style="font-size:0.85rem;color:#a9b7cc;margin-top:6px" data-i18n="ab.net.note">+ des agents certifiés et audités dans plus de 40 pays, du Maroc à l'Afrique du Sud, pour la livraison Door-to-Door, DAP ou DDP.</p>
+          <p style="font-size:0.85rem;color:#a9b7cc;margin-top:6px" data-i18n="ab.net.note">+ des agents certifiés et audités sur 18 escales, du Maroc à la Tanzanie, pour la livraison porte à porte, DAP ou DDP.</p>
+          <a class="svc-card__link" href="#reseau" style="color:#a9b7cc;margin-top:12px"><span data-i18n="ab.net.more">Voir l'annuaire du réseau</span> <svg class="icon" aria-hidden="true" style="width:16px;height:16px"><use href="#i-arrow-right"></use></svg></a>
         </div>
       </div>
     </div>
@@ -1532,6 +1683,359 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <svg class="icon icon-arrow-right" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
           <a class="btn btn--ghost-dark" href="#services" data-i18n="ab.band.cta2">Revoir nos expertises</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  </section>
+  <section class="spa-page" data-page="reseau" data-title-key="net.title" data-title="Réseau &amp; implantations | Travex Global Forwarding — Bureaux européens et agents africains" hidden>
+<section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" data-i18n="nav.network">Réseau &amp; implantations</span>
+      <h1 class="title-xl" data-i18n="net.h1">Des bureaux en propre en Europe, <span class="accent">des agents choisis à l'arrivée.</span></h1>
+      <p class="lead" data-i18n="net.lead">Nous ne vous présentons pas un annuaire d'agences : derrière chaque escale que nous desservons, il y a un nom, un quai, un numéro qui décroche. Cet annuaire est celui de nos équipes et de nos partenaires audités.</p>
+      <ul class="page-hero__meta">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.meta1">6 bureaux en Europe</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-anchor"></use></svg> <span data-i18n="net.meta2">18 escales couvertes en Afrique</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg> <span data-i18n="net.meta3">Un interlocuteur du premier e-mail à la livraison</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="net-tools" role="search">
+        <div class="net-tools__search">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg>
+          <label class="visually-hidden" for="netSearch" data-i18n="net.search.label">Chercher une ville, un pays ou un service</label>
+          <input type="search" id="netSearch" data-net-search autocomplete="off" placeholder="Dakar, douane, reefer, Le Havre…" data-i18n-placeholder="net.search.ph">
+        </div>
+        <div class="net-filters" role="group" aria-label="Filtrer par zone" data-i18n-aria="net.filters.aria">
+          <button type="button" class="is-active" aria-pressed="true" data-net-region="all" data-i18n="net.f.all">Toutes les zones</button>
+          <button type="button" aria-pressed="false" data-net-region="europe" data-i18n="net.f.eu">Europe</button>
+          <button type="button" aria-pressed="false" data-net-region="afrique-ouest" data-i18n="net.f.west">Afrique de l'Ouest</button>
+          <button type="button" aria-pressed="false" data-net-region="afrique-centrale" data-i18n="net.f.central">Afrique centrale</button>
+          <button type="button" aria-pressed="false" data-net-region="afrique-est" data-i18n="net.f.east">Afrique de l'Est</button>
+          <button type="button" aria-pressed="false" data-net-region="maghreb" data-i18n="net.f.maghreb">Maghreb</button>
+        </div>
+        <p class="net-count" data-net-count aria-live="polite">24 implantations affichées</p>
+      </div>
+      <p class="net-empty" data-net-empty hidden data-i18n="net.empty">Aucune implantation ne correspond à votre recherche. Écrivez-nous : nous ouvrons une ligne dès qu'un volume régulier le justifie.</p>
+    </div>
+  </section>
+
+  <section class="section section--white" id="europe">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2 class="title-lg" data-i18n="net.eu.title">Nos bureaux en Europe</h2>
+        <p class="lead" data-i18n="net.eu.lead">Chaque bureau est autonome : il réserve, consolide et dédouane. Le bureau qui reçoit votre dossier est celui qui le suit jusqu'à l'arrivée.</p>
+      </div>
+      <div class="grid-3">
+
+        <article class="card net-card" data-net-item data-net-region="europe" data-net-tags="ham hamburg hambourg maritime fcl lcl reefer douane siège">
+          <div class="net-card__top">
+            <span class="net-card__code" aria-hidden="true">HAM</span>
+            <div><h3>Hambourg</h3><small data-i18n="net.eu.ham.sub">Siège &amp; transit maritime</small></div>
+          </div>
+          <p class="net-card__role" data-i18n="net.eu.ham.role">Direction des opérations, desk maritime Europe–Afrique, affrètement et conventions compagnies.</p>
+          <div class="svc-card__chips"><span class="chip">FCL</span><span class="chip">LCL</span><span class="chip" data-i18n="net.chip.booking">Réservations</span></div>
+          <div class="net-card__lines">
+            <p><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.eu.ham.addr">Burchardstraße 21<br>20095 Hambourg, Allemagne</span></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg> <a href="tel:+494022601800">+49 40 226 018 00</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg> <a href="mailto:hamburg@travex-global-forwarding.de">hamburg@travex-global-forwarding.de</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="net.eu.ham.hours">Lun. – Ven. : 08 h 30 – 18 h 00</span></p>
+          </div>
+        </article>
+
+        <article class="card net-card" data-net-item data-net-region="europe" data-net-tags="bremen brême empotage consignation entrepôt groupage">
+          <div class="net-card__top">
+            <span class="net-card__code" aria-hidden="true">BRV</span>
+            <div><h3>Brême</h3><small data-i18n="net.eu.bre.sub">Empotage &amp; groupage</small></div>
+          </div>
+          <p class="net-card__role" data-i18n="net.eu.bre.role">Entrepôt d'empotage, mesurage et calage des lots LCL, consignation avant départ navire.</p>
+          <div class="svc-card__chips"><span class="chip" data-i18n="net.chip.stuff">Stuffing</span><span class="chip">LCL/LCL</span><span class="chip" data-i18n="net.chip.storage">Stockage</span></div>
+          <div class="net-card__lines">
+            <p><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.eu.bre.addr">Lloydstraße 8<br>28215 Brême, Allemagne</span></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg> <a href="tel:+494215507120">+49 421 550 71 20</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg> <a href="mailto:bremen@travex-global-forwarding.de">bremen@travex-global-forwarding.de</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="net.eu.bre.hours">Lun. – Ven. : 07 h 00 – 17 h 00 (quai ouvert)</span></p>
+          </div>
+        </article>
+
+        <article class="card net-card" data-net-item data-net-region="europe" data-net-tags="le havre france ouest transit import export harpeche">
+          <div class="net-card__top">
+            <span class="net-card__code" aria-hidden="true">LHV</span>
+            <div><h3>Le Havre</h3><small data-i18n="net.eu.hav.sub">Transit France &amp; façade atlantique</small></div>
+          </div>
+          <p class="net-card__role" data-i18n="net.eu.hav.role">Départs consolidés vers l'Afrique de l'Ouest francophone, enlèvements en Normandie et dans le Grand Ouest.</p>
+          <div class="svc-card__chips"><span class="chip" data-i18n="net.chip.truck">Enlèvements</span><span class="chip">LCL</span><span class="chip" data-i18n="net.chip.customs">Douane</span></div>
+          <div class="net-card__lines">
+            <p><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.eu.hav.addr">14 rue de la Marine<br>76600 Le Havre, France</span></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg> <a href="tel:+332352200010">+33 2 35 22 00 10</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg> <a href="mailto:lehavre@travex-global-forwarding.de">lehavre@travex-global-forwarding.de</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="net.eu.hav.hours">Lun. – Ven. : 08 h 00 – 17 h 30</span></p>
+          </div>
+        </article>
+
+        <article class="card net-card" data-net-item data-net-region="europe" data-net-tags="anvers antwerpen douane fiscale tva customs union europeenne excise">
+          <div class="net-card__top">
+            <span class="net-card__code" aria-hidden="true">ANR</span>
+            <div><h3>Anvers</h3><small data-i18n="net.eu.anr.sub">Douane UE &amp; représentation fiscale</small></div>
+          </div>
+          <p class="net-card__role" data-i18n="net.eu.anr.role">Déclarations import/export dans l'Union, régimes particuliers, fiscalité représentée pour les expéditeurs hors UE.</p>
+          <div class="svc-card__chips"><span class="chip" data-i18n="net.chip.fiscal">Représentation fiscale</span><span class="chip">OEA</span><span class="chip" data-i18n="net.chip.proc">Procédures</span></div>
+          <div class="net-card__lines">
+            <p><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.eu.anr.addr">Noorderlaan 133<br>2030 Anvers, Belgique</span></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg> <a href="tel:+3232056640">+32 3 205 66 40</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg> <a href="mailto:antwerp@travex-global-forwarding.de">antwerp@travex-global-forwarding.de</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="net.eu.anr.hours">Lun. – Ven. : 08 h 00 – 18 h 00</span></p>
+          </div>
+        </article>
+
+        <article class="card net-card" data-net-item data-net-region="europe" data-net-tags="rotterdam rotterdam breakbulk ro-ro projet heavy lift hors gabarit">
+          <div class="net-card__top">
+            <span class="net-card__code" aria-hidden="true">RTM</span>
+            <div><h3>Rotterdam</h3><small data-i18n="net.eu.rtm.sub">Breakbulk, roro &amp; project cargo</small></div>
+          </div>
+          <p class="net-card__role" data-i18n="net.eu.rtm.role">Colis lourds et hors gabarit, études de levage, plan d'arrimage et reconnaissance d'itinéraire jusqu'au site.</p>
+          <div class="svc-card__chips"><span class="chip" data-i18n="net.chip.heavy">Colis lourds</span><span class="chip">Ro/Ro</span><span class="chip" data-i18n="net.chip.lashing">Lashing</span></div>
+          <div class="net-card__lines">
+            <p><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.eu.rtm.addr">Waalhaven Oostzijde 75<br>3087 BM Rotterdam, Pays-Bas</span></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg> <a href="tel:+31104360090">+31 10 436 00 90</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg> <a href="mailto:rotterdam@travex-global-forwarding.de">rotterdam@travex-global-forwarding.de</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="net.eu.rtm.hours">Lun. – Ven. : 07 h 30 – 17 h 30 · projet sur RDV</span></p>
+          </div>
+        </article>
+
+        <article class="card net-card" data-net-item data-net-region="europe" data-net-tags="francfort frankfurt avion aerien air cargo dgr perishable express">
+          <div class="net-card__top">
+            <span class="net-card__code" aria-hidden="true">FRA</span>
+            <div><h3>Francfort</h3><small data-i18n="net.eu.fra.sub">Desk aérien &amp; consolidation</small></div>
+          </div>
+          <p class="net-card__role" data-i18n="net.eu.fra.role">Fret aérien à l'export et à l'import, marchandises dangereuses, sous température dirigée et affrètements.</p>
+          <div class="svc-card__chips"><span class="chip" data-i18n="net.chip.express">Express</span><span class="chip">IATA DGR</span><span class="chip">CEP / cool</span></div>
+          <div class="net-card__lines">
+            <p><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg> <span data-i18n="net.eu.fra.addr">Cargo City Süd, Heinrich-Pieri-Platz 4<br>60549 Francfort, Allemagne</span></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg> <a href="tel:+496950701120">+49 69 507 011 20</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg> <a href="mailto:air@travex-global-forwarding.de">air@travex-global-forwarding.de</a></p>
+            <p><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg> <span data-i18n="net.eu.fra.hours">Lun. – Sam. : 06 h 00 – 22 h 00 (cut-off compagnies)</span></p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="afrique">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2 class="title-lg" data-i18n="net.af.title">Nos agents dans les escales africaines</h2>
+        <p class="lead" data-i18n="net.af.lead">Un partenaire local n'est pas une ligne sur une carte. Chaque agent référencé ici a été audité sur place : capacité de dédouanement, parc de livraison, traitement des réclamations et délais réels constatés sur trois ans minimum.</p>
+      </div>
+      <div class="net-list">
+
+        <div class="net-row" data-net-item data-net-region="afrique-ouest" data-net-tags="dakar senegal senegal dakar lcl fcl door Reefer">
+          <span class="net-row__code" aria-hidden="true">SN</span>
+          <div><strong>Dakar</strong><small data-i18n="net.af.dakar.s">Ligne hebdomadaire Hambourg → Dakar, livraison Sénégal, Mali, Mauritanie</small></div>
+          <div class="net-row__tags"><span class="chip">LCL</span><span class="chip">FCL</span><span class="chip" data-i18n="net.chip.customs">Douane</span></div>
+          <span class="net-row__meta">12–14 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-ouest" data-net-tags="abidjan cote divoire ci projet Reefer">
+          <span class="net-row__code" aria-hidden="true">CI</span>
+          <div><strong>Abidjan</strong><small data-i18n="net.af.abidjan.s">Bureau Travex en propre : dédouanement, entreposage et livraisons Côte d'Ivoire et Burkina Faso</small></div>
+          <div class="net-row__tags"><span class="chip">FCL</span><span class="chip">Reefer</span><span class="chip" data-i18n="net.chip.warehouse">Entrepôt</span></div>
+          <span class="net-row__meta">14–16 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-ouest" data-net-tags="lome togo transit corridor">
+          <span class="net-row__code" aria-hidden="true">TG</span>
+          <div><strong>Lomé</strong><small data-i18n="net.af.lome.s">Hub de transit vers le nord Nigeria et le corridor Lomé → Ouagadougou</small></div>
+          <div class="net-row__tags"><span class="chip">Transit</span><span class="chip">LCL</span></div>
+          <span class="net-row__meta">13–15 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-ouest" data-net-tags="cotonou benin corridor niger">
+          <span class="net-row__code" aria-hidden="true">BJ</span>
+          <div><strong>Cotonou</strong><small data-i18n="net.af.cotonou.s">Post-acheminement routier vers le sud du Niger, suivi GPS des convois</small></div>
+          <div class="net-row__tags"><span class="chip">FCL</span><span class="chip" data-i18n="net.chip.road">Routier</span></div>
+          <span class="net-row__meta">15–17 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-ouest" data-net-tags="tema accra ghana">
+          <span class="net-row__code" aria-hidden="true">GH</span>
+          <div><strong>Tema</strong><small data-i18n="net.af.tema.s">Partenaire audité depuis 2016 : import Ghana, manutention portuaire et livraison</small></div>
+          <div class="net-row__tags"><span class="chip">FCL</span><span class="chip" data-i18n="net.chip.customs">Douane</span></div>
+          <span class="net-row__meta">14–16 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-ouest" data-net-tags="conakry guinee vrac">
+          <span class="net-row__code" aria-hidden="true">GN</span>
+          <div><strong>Conakry</strong><small data-i18n="net.af.conakry.s">Conventionnel et vrac, minier et BTP, avec plans d'arrimage validés à l'embarquement</small></div>
+          <div class="net-row__tags"><span class="chip" data-i18n="net.chip.breakbulk">Breakbulk</span><span class="chip">Flat rack</span></div>
+          <span class="net-row__meta">17–20 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-centrale" data-net-tags="douala cameroun tchad centrafrique bangui ndjamena">
+          <span class="net-row__code" aria-hidden="true">CM</span>
+          <div><strong>Douala</strong><small data-i18n="net.af.douala.s">Bureau Travex en propre : Cameroun, Tchad et Centrafrique, convois hors gabarit inclus</small></div>
+          <div class="net-row__tags"><span class="chip">FCL</span><span class="chip" data-i18n="net.chip.project">Project</span><span class="chip" data-i18n="net.chip.road">Routier</span></div>
+          <span class="net-row__meta">18–21 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-centrale" data-net-tags="pointe-noire congo cabinda">
+          <span class="net-row__code" aria-hidden="true">CG</span>
+          <div><strong>Pointe-Noire</strong><small data-i18n="net.af.pn.s">Agent historique : Congo, Cabinda, dossiers pétroliers et EPC</small></div>
+          <div class="net-row__tags"><span class="chip">FCL</span><span class="chip">OFS</span><span class="chip" data-i18n="net.chip.customs">Douane</span></div>
+          <span class="net-row__meta">19–22 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-centrale" data-net-tags="libreville gabon besc">
+          <span class="net-row__code" aria-hidden="true">GA</span>
+          <div><strong>Libreville</strong><small data-i18n="net.af.libreville.s">BESC, réimportation et retours d'emballages consignés</small></div>
+          <div class="net-row__tags"><span class="chip">LCL</span><span class="chip" data-i18n="net.chip.docs">Documents</span></div>
+          <span class="net-row__meta">19–22 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-centrale" data-net-tags="matadi kongor dc congo democratique kinshasa">
+          <span class="net-row__code" aria-hidden="true">CD</span>
+          <div><strong>Matadi / Kinshasa</strong><small data-i18n="net.af.matadi.s">Transit fluvial Congo jusqu'à Kinshasa, filière minière et vivres</small></div>
+          <div class="net-row__tags"><span class="chip" data-i18n="net.chip.barge">Barge</span><span class="chip">FCL</span></div>
+          <span class="net-row__meta">24–30 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-centrale" data-net-tags="luanda angola ctc">
+          <span class="net-row__code" aria-hidden="true">AO</span>
+          <div><strong>Luanda</strong><small data-i18n="net.af.luanda.s">Certificat de transport à la cargaison, préfinancement documentaire et suivi bancaire</small></div>
+          <div class="net-row__tags"><span class="chip">CTC</span><span class="chip">FCL</span></div>
+          <span class="net-row__meta">21–25 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-est" data-net-tags="mombasa kenya ouest africaine">
+          <span class="net-row__code" aria-hidden="true">KE</span>
+          <div><strong>Mombasa</strong><small data-i18n="net.af.mombasa.s">Corridor vers l'Ouganda et le Rwanda, groupage est-africain mensuel</small></div>
+          <div class="net-row__tags"><span class="chip">LCL</span><span class="chip" data-i18n="net.chip.road">Routier</span></div>
+          <span class="net-row__meta">18–20 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-est" data-net-tags="dar es salaam tanzanie zambie malawi">
+          <span class="net-row__code" aria-hidden="true">TZ</span>
+          <div><strong>Dar es Salaam</strong><small data-i18n="net.af.dar.s">Zambie et Malawi par route et rail, transit sous scellés</small></div>
+          <div class="net-row__tags"><span class="chip" data-i18n="net.chip.transit">Transit</span><span class="chip">Rail</span></div>
+          <span class="net-row__meta">22–26 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="afrique-est" data-net-tags="djibouti ethiopie addis">
+          <span class="net-row__code" aria-hidden="true">DJ</span>
+          <div><strong>Djibouti</strong><small data-i18n="net.af.djibouti.s">Éthiopie : zone franche, transport routier Addis-Abeba et dédouanement assisté</small></div>
+          <div class="net-row__tags"><span class="chip" data-i18n="net.chip.ftz">Zone franche</span><span class="chip">FCL</span></div>
+          <span class="net-row__meta">20–24 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="maghreb" data-net-tags="tanger maroc ro-ro med">
+          <span class="net-row__code" aria-hidden="true">MA</span>
+          <div><strong>Tanger Med</strong><small data-i18n="net.af.tanger.s">Navettes roro et conteneurs depuis Algésiras et Sète, flux industriel automobile</small></div>
+          <div class="net-row__tags"><span class="chip">Ro/Ro</span><span class="chip">FCL</span></div>
+          <span class="net-row__meta">4–6 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="maghreb" data-net-tags="casablanca marock mohammedia">
+          <span class="net-row__code" aria-hidden="true">MA</span>
+          <div><strong>Casablanca</strong><small data-i18n="net.af.casa.s">Import Maroc, réexportation vers l'Afrique de l'Ouest et entreposage sous douane</small></div>
+          <div class="net-row__tags"><span class="chip">FCL</span><span class="chip" data-i18n="net.chip.warehouse">Entrepôt</span></div>
+          <span class="net-row__meta">7–9 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="maghreb" data-net-tags="alger algerie dz">
+          <span class="net-row__code" aria-hidden="true">DZ</span>
+          <div><strong>Alger</strong><small data-i18n="net.af.alger.s">Domiciliation bancaire, dossier documentaire algérien et livraisons intérieures</small></div>
+          <div class="net-row__tags"><span class="chip" data-i18n="net.chip.docs">Documents</span><span class="chip">LCL</span></div>
+          <span class="net-row__meta">6–8 j</span>
+        </div>
+
+        <div class="net-row" data-net-item data-net-region="maghreb" data-net-tags="tunis rady tunisie">
+          <span class="net-row__code" aria-hidden="true">TN</span>
+          <div><strong>Tunis – Radès</strong><small data-i18n="net.af.tunis.s">Groupage méditerranéen hebdomadaire, textile et agroalimentaire</small></div>
+          <div class="net-row__tags"><span class="chip">LCL</span><span class="chip">Reefer</span></div>
+          <span class="net-row__meta">5–7 j</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" id="permanences">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2 class="title-lg" data-i18n="net.hours.title">Horaires, fuseaux et permanences</h2>
+        <p class="lead" data-i18n="net.hours.lead">Un navire ne prévient pas. Nos horaires suivent les cut-offs des compagnies, et la permanence couvre les créneaux où votre cargaison bouge vraiment.</p>
+      </div>
+      <div class="table-wrap" data-reveal>
+        <table>
+          <caption class="visually-hidden" data-i18n="net.hours.caption">Horaires d'ouverture et permanences par bureau</caption>
+          <thead>
+            <tr>
+              <th scope="col" data-i18n="net.th.office">Bureau</th>
+              <th scope="col" data-i18n="net.th.open">Horaires d'ouverture</th>
+              <th scope="col" data-i18n="net.th.cutoff">Cut-off documents</th>
+              <th scope="col" data-i18n="net.th.oncall">Permanence week-end</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Hambourg</td><td>08:30 – 18:00 (UTC+1)</td><td data-i18n="net.row.ham.cut">Jeudi 16 h 00 pour les départs du vendredi</td><td data-i18n="net.row.ham.oc">Sur appel, arrivée au quai sous 90 min</td></tr>
+            <tr><td>Brême</td><td>07:00 – 17:00 (UTC+1)</td><td data-i18n="net.row.bre.cut">Mercredi 12 h 00 pour l'empotage hebdomadaire</td><td data-i18n="net.row.bre.oc">Samedi matin sur rendez-vous</td></tr>
+            <tr><td>Le Havre</td><td>08:00 – 17:30 (UTC+1)</td><td data-i18n="net.row.hav.cut">Veille de départ, 15 h 00</td><td data-i18n="net.row.hav.oc">Non — escale traitée par Hambourg</td></tr>
+            <tr><td>Anvers</td><td>08:00 – 18:00 (UTC+1)</td><td data-i18n="net.row.anr.cut">3 h avant l'arrivée du véhicule au terminal</td><td data-i18n="net.row.anr.oc">Oui, déclarations import urgentes</td></tr>
+            <tr><td>Rotterdam</td><td>07:30 – 17:30 (UTC+1)</td><td data-i18n="net.row.rtm.cut">5 jours avant chargement pour les colis hors gabarit</td><td data-i18n="net.row.rtm.oc">Pendant les opérations de levage</td></tr>
+            <tr><td>Francfort</td><td>06:00 – 22:00 (UTC+1)</td><td data-i18n="net.row.fra.cut">4 h avant le décollage du vol retenu</td><td data-i18n="net.row.fra.oc">Oui, 7j/7 pour le fret aérien</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2 class="title-lg" data-i18n="net.edge.title">Ce que change un réseau choisi plutôt que sous-traité</h2>
+      </div>
+      <div class="grid-4">
+        <article class="card edge-card" data-reveal>
+          <span class="edge-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></span>
+          <h3 data-i18n="net.edge.1t">Un dossier, un nom</h3>
+          <p data-i18n="net.edge.1p">Votre chargé d'affaires reste le même du premier appel à la preuve de livraison. Il a le numéro direct de l'agent à l'arrivée, et l'agent l'appelle avant que vous ne demandiez.</p>
+        </article>
+        <article class="card edge-card" data-reveal style="--i:1">
+          <span class="edge-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg></span>
+          <h3 data-i18n="net.edge.2t">Des agents audités sur place</h3>
+          <p data-i18n="net.edge.2p">Visite annuelle du terminal et de l'entrepôt, contrôle des licences de dédouanement, vérification de l'assurance responsabilité. Un agent qui décroche moins de 9 fois sur 10 est remplacé.</p>
+        </article>
+        <article class="card edge-card" data-reveal style="--i:2">
+          <span class="edge-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-doc"></use></svg></span>
+          <h3 data-i18n="net.edge.3t">Les documents réglés avant l'embarquement</h3>
+          <p data-i18n="net.edge.3p">BESC, ECTN, certificats, listes de colisage conformes : vérifiés à Hambourg, pas au débarquement. C'est là que se gagnent les trois jours de surestaries.</p>
+        </article>
+        <article class="card edge-card" data-reveal style="--i:3">
+          <span class="edge-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-route"></use></svg></span>
+          <h3 data-i18n="net.edge.4t">Des jalons, pas une carte muette</h3>
+          <p data-i18n="net.edge.4p">Enlèvement, empotage, départ, arrivée, dédouanement, livraison : six alertes écrites sur votre dossier, horodatées, conservées trois ans.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="cta-band" data-reveal>
+        <div>
+          <h2 class="title-lg" data-i18n="net.band.title">Votre port d'arrivée n'est pas dans la liste ?</h2>
+          <p data-i18n="net.band.lead">Dites-nous la marchandise, le volume et la fréquence : nous vérifions si une ligne régulière existe et ouvrons un agent sous 10 jours si le flux le justifie.</p>
+        </div>
+        <div class="cta-band__actions">
+          <a class="btn btn--primary" href="#contact"><span data-i18n="net.band.cta1">Écrire au réseau</span>
+            <svg class="icon icon-arrow-right" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a class="btn btn--ghost-dark" href="#cotation"><span data-i18n="nav.cta">Demander une cotation</span></a>
         </div>
       </div>
     </div>
@@ -1797,7 +2301,7 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <div class="field">
               <label class="consent" style="text-transform:none;letter-spacing:0;font-size:0.88rem">
                 <input type="checkbox" name="consent" required>
-                <span data-i18n="qt.f.consent">J'accepte que Travex traite ces informations pour établir ma cotation, conformément à la <a href="#mentions-legales/confidentialite" style="color:var(--sea-800);font-weight:700">politique de confidentialité</a>. Données conservées 24 mois, jamais cédées à des tiers. <span class="req">*</span></span></span>
+                <span data-i18n="qt.f.consent">J'accepte que Travex traite ces informations pour établir ma cotation, conformément à la <a href="#mentions-legales/confidentialite" style="color:var(--sea-800);font-weight:700">politique de confidentialité</a>. Données conservées 24 mois, jamais cédées à des tiers. <span class="req">*</span></span>
               </label>
               <span class="error-msg" data-i18n="qt.e.consent">Le consentement est nécessaire pour traiter votre demande.</span>
             </div>
@@ -2068,14 +2572,14 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
             <div class="field span-2">
               <label class="consent" style="text-transform:none;letter-spacing:0;font-size:0.88rem">
                 <input type="checkbox" id="b-consent" name="consent" required>
-                <span data-i18n="bk.f.consent">J'accepte que mes données soient utilisées pour traiter ma réservation, conformément à la <a href="#mentions-legales/confidentialite">politique de confidentialité</a>. La réservation ne devient ferme qu'après confirmation écrite de Travex. <span class="req">*</span></span></span>
+                <span data-i18n="bk.f.consent">J'accepte que mes données soient utilisées pour traiter ma réservation, conformément à la <a href="#mentions-legales/confidentialite">politique de confidentialité</a>. La réservation ne devient ferme qu'après confirmation écrite de Travex. <span class="req">*</span></span>
               </label>
               <span class="error-msg" data-i18n="ct.e.consent">Votre consentement est requis.</span>
             </div>
           </div>
 
           <div class="wizard-nav">
-            <span class="hint" data-i18n="ct.hint">Champs marqués <span class="req">*</span> obligatoires</span> markierte Pflichtfelder</span>
+            <span class="hint" data-i18n="ct.hint">Champs marqués <span class="req">*</span> obligatoires</span>
             <button class="btn btn--primary" type="submit"><span data-i18n="bk.submit">Confirmer ma demande de réservation</span>
               <svg class="icon icon-arrow-right" aria-hidden="true"><use href="#i-send"></use></svg>
             </button>
@@ -2318,13 +2822,13 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
               <div class="field span-2">
                 <label class="consent" style="text-transform:none;letter-spacing:0;font-size:0.88rem">
                   <input type="checkbox" id="c-consent" name="consent" required>
-                  <span data-i18n="ct.f.consent">J'accepte que mes données soient utilisées pour traiter ma demande, conformément à la <a href="#mentions-legales/confidentialite">politique de confidentialité</a>. Aucune donnée n'est transmise à des tiers. <span class="req">*</span></span></span>
+                  <span data-i18n="ct.f.consent">J'accepte que mes données soient utilisées pour traiter ma demande, conformément à la <a href="#mentions-legales/confidentialite">politique de confidentialité</a>. Aucune donnée n'est transmise à des tiers. <span class="req">*</span></span>
                 </label>
                 <span class="error-msg" data-i18n="ct.e.consent">Votre consentement est requis.</span>
               </div>
             </div>
             <div class="wizard-nav">
-              <span class="hint" data-i18n="ct.hint">Champs marqués <span class="req">*</span> obligatoires</span> markierte Pflichtfelder</span>
+              <span class="hint" data-i18n="ct.hint">Champs marqués <span class="req">*</span> obligatoires</span>
               <button class="btn btn--primary" type="submit"><span data-i18n="ct.submit">Envoyer ma demande</span>
                 <svg class="icon icon-arrow-right" aria-hidden="true"><use href="#i-send"></use></svg>
               </button>
@@ -2692,6 +3196,8 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
           <li><a href="#services/logistique" data-i18n="foot.svc5">Logistique &amp; entreposage</a></li>
           <li><a href="#services/project-cargo" data-i18n="foot.svc6">Project cargo</a></li>
           <li><a href="#services/assurances" data-i18n="foot.svc7">Assurance transport</a></li>
+          <li><a href="#services/routier" data-i18n="foot.svc8">Transport routier Europe</a></li>
+          <li><a href="#services/fiscal" data-i18n="foot.svc9">Représentation fiscale &amp; TVA</a></li>
         </ul>
       </div>
       <div>
@@ -2699,7 +3205,8 @@ table.transit td .icon { width: 16px; height: 16px; vertical-align: -3px; color:
         <ul>
           <li><a href="#index" data-i18n="nav.home">Accueil</a></li>
           <li><a href="#services" data-i18n="nav.services">Nos services</a></li>
-          <li><a href="#a-propos" data-i18n="nav.about">À propos &amp; Réseau</a></li>
+          <li><a href="#a-propos" data-i18n="nav.about">À propos</a></li>
+          <li><a href="#reseau" data-i18n="nav.network">Réseau &amp; implantations</a></li>
           <li><a href="#cotation" data-i18n="nav.cta">Demander une cotation</a></li>
           <li><a href="#reservations" data-i18n="foot.bookings">Réservations &amp; départs</a></li>
           <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
@@ -3301,12 +3808,12 @@ window.I18N = {
     "svc.band.lead": "Describe your goods in two minutes: our team calls you back with a line-by-line quote within 24 business hours.",
     "svc.band.cta1": "Start my request",
 "ab.title": "About us &amp; network | Travex Global Forwarding — Hamburg",
-    "ab.meta": "Travex Global Forwarding: a German forwarding house with an African horizon. Five offices, 40+ countries, one team. History, values and network.",
+    "ab.meta": "Travex Global Forwarding: a German forwarding house with an African horizon. Six offices in Europe, eighteen African ports of call, one team. History, values and network.",
     "ab.h1": "A Hamburg house, <span class=\"accent\">an African horizon.</span>",
     "ab.lead": "Born on the quays of Germany's largest universal port, Travex Global Forwarding made the Europe–Africa corridor its exclusive speciality. Here is who we are — and with whom we work.",
     "ab.meta1": "Head office: Hamburg, Germany",
     "ab.meta2": "4,500 m² of warehousing",
-    "ab.meta3": "5 offices, 40+ countries",
+    "ab.meta3": "6 offices in Europe, 18 African ports",
     "ab.story.eyebrow": "Our history",
     "ab.story.title": "Born with the wind of the high seas",
     "ab.story.p1": "In Hamburg, trade with Africa is not a market: it is a tradition. Travex grew up in this quayside culture, where a given word is kept and a container is tracked to the very end.",
@@ -3322,8 +3829,8 @@ window.I18N = {
     "ab.tl.y4p": "Launch of the weekly groupage lines Hamburg → Dakar and Abidjan, clean stuffing.",
     "ab.tl.y5t": "4,500 m² warehouse",
     "ab.tl.y5p": "Commissioning of our consolidation platform at the foot of the quays.",
-    "ab.tl.y6t": "40+ countries served",
-    "ab.tl.y6p": "The network of certified agents now covers West, Central Africa and the Maghreb.",
+    "ab.tl.y6t": "A network of audited agents",
+    "ab.tl.y6p": "The mesh now covers West and Central Africa plus the Maghreb, from Morocco to Tanzania.",
     "ab.values.eyebrow": "Our values",
     "ab.values.title": "What is non-negotiable",
     "ab.values.v1t": "Reliability",
@@ -3335,19 +3842,19 @@ window.I18N = {
     "ab.values.v4t": "Sustainable commitment",
     "ab.values.v4p": "Optimised containers, paperless documents, trained local partners: leaner freight.",
     "ab.net.eyebrow": "Our network",
-    "ab.net.title": "Five offices, forty countries, one team",
-    "ab.net.lead": "Our own offices steer a network of certified agents, audited every year, all the way to capitals without a seaport.",
+    "ab.net.title": "Six offices in Europe, eighteen ports of call, one team",
+    "ab.net.lead": "Our own offices steer a network of agents audited every year, all the way to capitals without a seaport. The full directory, office by office, lives on the Network page.",
     "ab.net.maparia": "Stylised map of the Travex network between Europe and Africa",
     "ab.net.mapham": "Hamburg · head office",
     "ab.net.mapfra": "Frankfurt",
     "ab.net.a1t": "Hamburg — Head office",
-    "ab.net.a1s": "Sales management, customs unit &amp; 4,500 m² warehouse",
+    "ab.net.a1s": "Operations management, customs unit &amp; 4,500 m² warehouse",
     "ab.net.a2t": "Frankfurt",
-    "ab.net.a2s": "Air desk &amp; charter",
-    "ab.net.a3s": "West Africa hub &amp; Sahel hinterland",
-    "ab.net.a4s": "Ivory Coast office &amp; final deliveries",
-    "ab.net.a5s": "Central Africa office: Cameroon, Chad, CAR",
-    "ab.net.note": "+ certified, audited agents in more than 40 countries, from Morocco to South Africa, for Door-to-Door, DAP or DDP delivery.",
+    "ab.net.a2s": "Air desk &amp; chartering",
+    "ab.net.a3s": "French Atlantic transit, collections in Normandy &amp; the West",
+    "ab.net.a4s": "Office of our own: Ivory Coast and deliveries into Burkina Faso",
+    "ab.net.a5s": "Office of our own: Cameroon, Chad, Central African Republic",
+    "ab.net.note": "+ certified, audited agents across 18 ports of call, from Morocco to Tanzania, for door-to-door, DAP or DDP delivery.",
     "ab.commit.eyebrow": "Our commitments",
     "ab.commit.title": "A leaner and fairer Europe–Africa freight",
     "ab.commit.f1": "Optimised container filling: less empty space, less CO₂ per tonne transported.",
@@ -3482,7 +3989,158 @@ window.I18N = {
     "qt.sentP": "Reference %s — our pricing team replies within 24 business hours.",
     "idx.svc.title": "Our services",
     "idx.hero.prev": "Previous image",
-    "idx.hero.next": "Next image"
+    "idx.hero.next": "Next image",
+    "nav.network": "Network &amp; offices",
+    "nav.about": "About us",
+    "foot.svc8": "European road freight",
+    "foot.svc9": "Fiscal representation &amp; VAT",
+    "idx.exp.c7t": "Road freight",
+    "idx.exp.c7p": "Collection, cross-docking and final delivery across Europe and to landlocked destinations, with carriers we have vetted.",
+    "idx.exp.c8t": "Fiscal representation",
+    "idx.exp.c8p": "Selling into the EU without a local VAT number: we file the VAT and duty declarations for you, month after month.",
+    "idx.exp.c8chip1": "Import VAT",
+    "svc.sub.road": "Road freight",
+    "svc.sub.fiscal": "Fiscal representation",
+    "svc.h1": "Nine trades, one promise: <span class=\"accent\">your cargo arrives.</span>",
+    "svc.rt.eyebrow": "Road freight",
+    "svc.rt.title": "First and last mile, with no seams",
+    "svc.rt.lead": "From your warehouse to the quay, and from the discharge port to your site: we arrange the road leg as a full or partial load, with vetted hauliers and a price locked at quotation.",
+    "svc.rt.f1": "Full truck load (FTL) and less than truck load (LTL) across the European Union and to the United Kingdom.",
+    "svc.rt.f2": "Collection at your premises, cross-docking in Bremen or Antwerp, delivery to the terminal before cut-off.",
+    "svc.rt.f3": "Inland carriage to landlocked countries with GPS-tracked convoys and numbered seals.",
+    "svc.rt.f4": "Curtain-sider, tail lift, flatbed or tipper according to the goods; lashing checked at loading.",
+    "svc.rt.chip3": "Cross-dock",
+    "svc.rt.chip4": "Convoys",
+    "svc.rt.cta": "Quote a road shipment",
+    "svc.fi.chip": "Antwerp &amp; Hamburg",
+    "svc.fi.eyebrow": "Fiscal representation &amp; VAT",
+    "svc.fi.title": "Selling into the EU without a local registration",
+    "svc.fi.lead": "For a non-EU shipper importing into France, Germany or Belgium without a local VAT number, we act as fiscal representative: declarations are filed on time, VAT is paid, and you keep control of your margins.",
+    "svc.fi.f1": "Global and local fiscal representation, bank guarantee provided on our side.",
+    "svc.fi.f2": "VAT returns filed and reconciled against the customs declarations.",
+    "svc.fi.f3": "Tariff classification, preferential origin and declared-value checks before importation.",
+    "svc.fi.f4": "One monthly report: volumes, duties, VAT and observed lead times, line by line.",
+    "svc.fi.chip2": "Import VAT",
+    "svc.fi.chip3": "Special procedures",
+    "svc.fi.cta": "Talk to a network customs adviser",
+    "net.title": "Network &amp; locations | Travex Global Forwarding — European offices and African agents",
+    "net.meta": "Travex Global Forwarding network directory: six offices in Europe (Hamburg, Bremen, Le Havre, Antwerp, Rotterdam, Frankfurt) and eighteen African ports covered by audited agents.",
+    "net.ogtitle": "Network &amp; locations — Travex Global Forwarding",
+    "net.ogdesc": "European offices and audited African agents: who handles your file, port by port.",
+    "net.h1": "Our own offices in Europe, <span class=\"accent\">hand-picked agents on arrival.</span>",
+    "net.lead": "We are not showing you a directory of agencies: behind every port of call we serve there is a name, a quay and a number that answers. This is the register of our teams and of our audited partners.",
+    "net.meta1": "6 offices in Europe",
+    "net.meta2": "18 African ports covered",
+    "net.meta3": "One contact from the first e-mail to delivery",
+    "net.search.label": "Search a city, a country or a service",
+    "net.search.ph": "Dakar, customs, reefer, Le Havre…",
+    "net.filters.aria": "Filter by region",
+    "net.f.all": "All regions",
+    "net.f.eu": "Europe",
+    "net.f.west": "West Africa",
+    "net.f.central": "Central Africa",
+    "net.f.east": "East Africa",
+    "net.f.maghreb": "Maghreb",
+    "net.empty": "No location matches your search. Write to us: we open a line as soon as steady volume justifies it.",
+    "net.eu.title": "Our offices in Europe",
+    "net.eu.lead": "Each office is self-sufficient: it books, consolidates and clears customs. The office that takes your file is the one that follows it to arrival.",
+    "net.eu.ham.sub": "Head office &amp; ocean transit",
+    "net.eu.ham.role": "Operations management, Europe–Africa ocean desk, chartering and carrier agreements.",
+    "net.eu.ham.addr": "Burchardstraße 21<br>22529 Hamburg, Germany",
+    "net.eu.ham.hours": "Mon – Fri: 08:30 – 18:00",
+    "net.eu.bre.sub": "Container loading &amp; groupage",
+    "net.eu.bre.role": "CFS for LCL lots: measuring, dunnage and stowage, T1 consignment before vessel departure.",
+    "net.eu.bre.addr": "Lloydstraße 8<br>28215 Bremen, Germany",
+    "net.eu.bre.hours": "Mon – Fri: 07:00 – 17:00 (open quay)",
+    "net.eu.hav.sub": "French transit &amp; Atlantic gateway",
+    "net.eu.hav.role": "Weekly consolidations to French-speaking West Africa, collections in Normandy and the wider West.",
+    "net.eu.hav.addr": "14 rue de la Marine<br>76600 Le Havre, France",
+    "net.eu.hav.hours": "Mon – Fri: 08:00 – 17:30",
+    "net.eu.anr.sub": "EU customs &amp; fiscal representation",
+    "net.eu.anr.role": "Import/export declarations in the Union, special procedures, fiscal representation for non-EU shippers.",
+    "net.eu.anr.addr": "Noorderlaan 133<br>2030 Antwerp, Belgium",
+    "net.eu.anr.hours": "Mon – Fri: 08:00 – 18:00",
+    "net.eu.rtm.sub": "Breakbulk, RoRo &amp; project cargo",
+    "net.eu.rtm.role": "Heavy lifts and out-of-gauge cargo, lift studies, lashing plans and route surveys to site.",
+    "net.eu.rtm.addr": "Waalhaven Oostzijde 75<br>3087 BM Rotterdam, Netherlands",
+    "net.eu.rtm.hours": "Mon – Fri: 07:30 – 17:30 · projects by appointment",
+    "net.eu.fra.sub": "Air desk &amp; consolidation",
+    "net.eu.fra.role": "Air import and export, dangerous goods, temperature-controlled shipments and chartered flights.",
+    "net.eu.fra.addr": "Cargo City Süd, Heinrich-Pieri-Platz 4<br>60549 Frankfurt, Germany",
+    "net.eu.fra.hours": "Mon – Sat: 06:00 – 22:00 (carrier cut-offs)",
+    "net.chip.booking": "Bookings",
+    "net.chip.stuff": "Stuffing",
+    "net.chip.storage": "Storage",
+    "net.chip.truck": "Collections",
+    "net.chip.customs": "Customs",
+    "net.chip.fiscal": "Fiscal rep.",
+    "net.chip.proc": "Procedures",
+    "net.chip.heavy": "Heavy lift",
+    "net.chip.lashing": "Lashing",
+    "net.chip.express": "Express",
+    "net.chip.warehouse": "Warehouse",
+    "net.chip.road": "Road",
+    "net.chip.project": "Project",
+    "net.chip.breakbulk": "Breakbulk",
+    "net.chip.docs": "Documents",
+    "net.chip.barge": "Barge",
+    "net.chip.transit": "Transit",
+    "net.chip.ftz": "Free zone",
+    "net.af.title": "Our agents in African ports of call",
+    "net.af.lead": "A local partner is not a pin on a map. Every agent listed here has been audited on site: customs capacity, delivery fleet, claim handling and lead times actually observed over at least three years.",
+    "net.af.dakar.s": "Weekly Hamburg → Dakar service, deliveries in Senegal, Mali and Mauritania",
+    "net.af.abidjan.s": "Travex office of our own: clearance, storage and deliveries in Ivory Coast and Burkina Faso",
+    "net.af.lome.s": "Transit hub towards north-west Nigeria and the Lomé → Ouagadougou corridor",
+    "net.af.cotonou.s": "Road carriage to southern Niger, convoys tracked by GPS",
+    "net.af.tema.s": "Audited partner since 2016: Ghana imports, terminal handling and delivery",
+    "net.af.conakry.s": "Conventional and bulk cargo, mining and construction, stowage plans approved before loading",
+    "net.af.douala.s": "Travex office of our own: Cameroon, Chad and Central African Republic, out-of-gauge convoys included",
+    "net.af.pn.s": "Long-standing agent: Congo, Cabinda, oil-industry and EPC files",
+    "net.af.libreville.s": "BESC, re-imports and return of consignment packaging",
+    "net.af.matadi.s": "River transit up the Congo to Kinshasa, mining and foodstuff supply chains",
+    "net.af.luanda.s": "Cargo transfer certificate, documentary pre-financing and bank follow-up",
+    "net.af.mombasa.s": "Corridor to Uganda and Rwanda, monthly East African groupage",
+    "net.af.dar.s": "Zambia and Malawi by road and rail, bonded transit",
+    "net.af.djibouti.s": "Ethiopia: free zone, road leg to Addis Ababa and assisted clearance",
+    "net.af.tanger.s": "RoRo shuttles and containers from Algeciras and Sète, automotive industrial flows",
+    "net.af.casa.s": "Morocco imports, re-export to West Africa and bonded warehousing",
+    "net.af.alger.s": "Bank domiciliation, Algerian documentary set and inland delivery",
+    "net.af.tunis.s": "Weekly Mediterranean groupage, textile and agri-food",
+    "net.hours.title": "Opening hours, time zones and standby",
+    "net.hours.lead": "A vessel does not call ahead. Our hours follow carrier cut-offs, and standby covers the slots where your cargo is actually moving.",
+    "net.hours.caption": "Opening hours and standby cover by office",
+    "net.th.office": "Office",
+    "net.th.open": "Opening hours",
+    "net.th.cutoff": "Document cut-off",
+    "net.th.oncall": "Weekend standby",
+    "net.row.ham.cut": "Thursday 16:00 for Friday departures",
+    "net.row.ham.oc": "On call, at the quay within 90 minutes",
+    "net.row.bre.cut": "Wednesday 12:00 for the weekly stuffing",
+    "net.row.bre.oc": "Saturday morning by appointment",
+    "net.row.hav.cut": "Day before departure, 15:00",
+    "net.row.hav.oc": "No — handled by Hamburg",
+    "net.row.anr.cut": "3 h before the truck arrives at the terminal",
+    "net.row.anr.oc": "Yes, urgent import declarations",
+    "net.row.rtm.cut": "5 days before loading for out-of-gauge pieces",
+    "net.row.rtm.oc": "During lifting operations",
+    "net.row.fra.cut": "4 h before the selected flight departs",
+    "net.row.fra.oc": "Yes, 7 days a week for air freight",
+    "net.edge.title": "What a chosen network changes versus a subcontracted one",
+    "net.edge.1t": "One file, one name",
+    "net.edge.1p": "Your account handler stays the same from the first call to the proof of delivery. They have the direct number of the agent at destination, and that agent calls before you have to ask.",
+    "net.edge.2t": "Agents audited on site",
+    "net.edge.2p": "Annual visit of terminal and warehouse, checks on customs licences and liability insurance. An agent who picks up fewer than nine calls in ten is replaced.",
+    "net.edge.3t": "Documents settled before loading",
+    "net.edge.3p": "BESC, ECTN, certificates and compliant packing lists: verified in Hamburg, not at discharge. That is where three days of demurrage are saved.",
+    "net.edge.4t": "Milestones, not a silent map",
+    "net.edge.4p": "Collection, stuffing, departure, arrival, clearance, delivery: six written alerts on your file, time-stamped and kept for three years.",
+    "net.band.title": "Your port of arrival is not on the list?",
+    "net.band.lead": "Tell us the commodity, the volume and the frequency: we check whether a regular line exists and appoint an agent within 10 days if the flow justifies it.",
+    "net.band.cta1": "Write to the network team",
+    "ab.net.a3t": "Le Havre",
+    "ab.net.a4t": "Abidjan",
+    "ab.net.a5t": "Douala",
+    "ab.net.more": "See the full network directory"
   }
 };
 </script>
@@ -4423,6 +5081,82 @@ window.I18N = {
       form.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
+})();
+</script>
+<script>/* ===== network.js ===== */
+/* ==========================================================================
+   TRAVEX GLOBAL FORWARDING — Annuaire du réseau (page Réseau & implantations)
+   Filtre par zone + recherche plein texte sur les fiches (bureaux et agents).
+   Aucun appel réseau : tout est traité dans le DOM.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var tools = document.querySelector(".net-tools");
+  var items = Array.prototype.slice.call(document.querySelectorAll("[data-net-item]"));
+  if (!tools || !items.length) return;
+
+  var search = tools.querySelector("[data-net-search]");
+  var buttons = Array.prototype.slice.call(tools.querySelectorAll("[data-net-region]"));
+  var countEl = tools.querySelector("[data-net-count]");
+  var emptyEl = document.querySelector("[data-net-empty]");
+  var region = "all";
+
+  function norm(s) {
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  /* Index texte calculé une fois par élément */
+  items.forEach(function (el) {
+    el._netIndex = norm(el.textContent + " " + el.getAttribute("data-net-tags"));
+  });
+
+  function apply() {
+    var q = norm(search ? search.value : "");
+    var terms = q.split(/\s+/).filter(Boolean);
+    var shown = 0;
+
+    items.forEach(function (el) {
+      var okRegion = region === "all" || el.getAttribute("data-net-region") === region;
+      var okText = terms.every(function (t) { return el._netIndex.indexOf(t) > -1; });
+      var show = okRegion && okText;
+      el.classList.toggle("is-hidden", !show);
+      if (show) shown++;
+    });
+
+    if (countEl) countEl.textContent = netLabel(shown);
+    if (emptyEl) emptyEl.hidden = shown !== 0;
+  }
+
+  function netLabel(n) {
+    var lang = window.travexLang ? window.travexLang() : "fr";
+    var one = lang === "en" ? "location shown" : "implantation affichée";
+    var many = lang === "en" ? "locations shown" : "implantations affichées";
+    return n + " " + (n === 1 ? one : many);
+  }
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      region = btn.getAttribute("data-net-region") || "all";
+      buttons.forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      apply();
+    });
+  });
+
+  if (search) {
+    search.addEventListener("input", apply);
+    search.addEventListener("search", apply);
+  }
+
+  window.addEventListener("travex:lang", apply);
+  apply();
 })();
 </script>
 <script>

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+<!--
+  CONTENU PROVISOIRE — structure et gabarits définitifs, mais textes,
+  coordonnées et chiffres ci-dessous sont fictifs : à remplacer avant mise
+  en ligne. Liste complète : CONTENU-A-REMPLACER.md à la racine du dépôt.
+-->
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="ab.title">À propos &amp; réseau | Travex Global Forwarding — Hambourg</title>
-  <meta name="description" data-i18n-content="ab.meta" content="Travex Global Forwarding : maison de fret allemande, horizon africain. Cinq agences, 40+ pays, une seule équipe. Histoire, valeurs et réseau.">
+  <meta name="description" data-i18n-content="ab.meta" content="Travex Global Forwarding : maison de fret allemande, horizon africain. Six bureaux en Europe, dix-huit escales africaines, une seule équipe. Histoire, valeurs et réseau.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/img/hero-port-hambourg.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A2B4C'/%3E%3Ctext x='32' y='46' font-family='Arial,sans-serif' font-size='30' font-weight='bold' font-style='italic' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E">
@@ -24,7 +29,8 @@
     <nav class="main-nav" id="mainNav" aria-label="Navigation principale" data-i18n-aria="common.navaria">
       <a href="index.html" data-i18n="nav.home">Accueil</a>
       <a href="services.html" data-i18n="nav.services">Nos services</a>
-      <a href="a-propos.html" aria-current="page" data-i18n="nav.about">À propos &amp; Réseau</a>
+      <a href="a-propos.html" aria-current="page" data-i18n="nav.about">À propos</a>
+      <a href="reseau.html" data-i18n="nav.network">Réseau &amp; implantations</a>
       <a href="reservations.html" data-i18n="nav.bookings">Réservations</a>
       <a href="contact.html" data-i18n="nav.contact">Contact</a>
       <a class="btn btn--primary btn--sm nav-cta" href="cotation.html" data-i18n="nav.cta">Demander une cotation</a>
@@ -46,13 +52,13 @@
 
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow" data-i18n="nav.about">À propos &amp; Réseau</span>
+      <span class="eyebrow" data-i18n="nav.about">À propos</span>
       <h1 class="title-xl" data-i18n="ab.h1">Une maison hambourgeoise, <span class="accent">un horizon africain.</span></h1>
       <p class="lead" data-i18n="ab.lead">Née sur les quais du premier port universel d'Allemagne, Travex Global Forwarding a fait du corridor Europe–Afrique sa spécialité exclusive. Voici qui nous sommes, et avec qui nous travaillons.</p>
       <ul class="page-hero__meta">
         <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-anchor"></use></svg> <span data-i18n="ab.meta1">Siège : Hambourg, Allemagne</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-warehouse"></use></svg> <span data-i18n="ab.meta2">4 500 m² d'entrepôt</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-globe"></use></svg> <span data-i18n="ab.meta3">5 agences, 40+ pays</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-globe"></use></svg> <span data-i18n="ab.meta3">6 bureaux en Europe, 18 escales africaines</span></li>
       </ul>
     </div>
   </section>
@@ -94,7 +100,7 @@
         </li>
         <li>
           <span class="year">2026</span>
-          <h3 data-i18n="ab.tl.y6t">40+ pays desservis</h3>
+          <h3 data-i18n="ab.tl.y6t">Un réseau d'agents audités</h3>
           <p data-i18n="ab.tl.y6p">Le réseau d'agents certifiés couvre désormais l'Afrique de l'Ouest, centrale et le Maghreb.</p>
         </li>
       </ul>
@@ -136,8 +142,8 @@
     <div class="container">
       <div class="section-head" data-reveal>
         <span class="eyebrow" data-i18n="ab.net.eyebrow">Notre réseau</span>
-        <h2 class="title-lg" data-i18n="ab.net.title">Cinq agences, quarante pays, une seule équipe</h2>
-        <p class="lead" data-i18n="ab.net.lead">Nos bureaux en propre pilotent un réseau d'agents certifiés et audités chaque année, jusqu'aux capitales sans façade maritime.</p>
+        <h2 class="title-lg" data-i18n="ab.net.title">Six bureaux en Europe, dix-huit escales, une seule équipe</h2>
+        <p class="lead" data-i18n="ab.net.lead">Nos bureaux en propre pilotent un réseau d'agents audités chaque année, jusqu'aux capitales sans façade maritime. L'annuaire complet, bureau par bureau, est sur la page Réseau.</p>
       </div>
       <div class="network">
         <svg class="netmap" viewBox="0 0 600 520" role="img" aria-label="Carte stylisée du réseau Travex entre l'Europe et l'Afrique" data-i18n-aria="ab.net.maparia">
@@ -172,7 +178,7 @@
           <circle class="pin" cx="271" cy="162" r="4"/>
           <text x="216" y="158">Casablanca</text>
           <circle class="pin" cx="330" cy="150" r="3.5"/>
-          <text x="340" y="146">Algier</text>
+          <text x="340" y="146">Alger</text>
         </svg>
         <div class="agencies" data-reveal>
           <div class="agency">
@@ -187,20 +193,21 @@
           </div>
           <div class="agency">
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg>
-            <div><strong>Dakar</strong><small data-i18n="ab.net.a3s">Hub Afrique de l'Ouest &amp; hinterland sahélien</small></div>
-            <span class="chip">SN</span>
+            <div><strong data-i18n="ab.net.a3t">Le Havre</strong><small data-i18n="ab.net.a3s">Transit France ouest, enlèvements Normandie &amp; Grand Ouest</small></div>
+            <span class="chip">FR</span>
           </div>
           <div class="agency">
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg>
-            <div><strong>Abidjan</strong><small data-i18n="ab.net.a4s">Agence Côte d'Ivoire &amp; livraisons finales</small></div>
+            <div><strong data-i18n="ab.net.a4t">Abidjan</strong><small data-i18n="ab.net.a4s">Bureau en propre : Côte d'Ivoire et livraisons au Burkina Faso</small></div>
             <span class="chip">CI</span>
           </div>
           <div class="agency">
             <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-pin"></use></svg>
-            <div><strong>Douala</strong><small data-i18n="ab.net.a5s">Agence Afrique centrale : Cameroun, Tchad, RCA</small></div>
+            <div><strong data-i18n="ab.net.a5t">Douala</strong><small data-i18n="ab.net.a5s">Bureau en propre : Cameroun, Tchad et Centrafrique</small></div>
             <span class="chip">CM</span>
           </div>
-          <p style="font-size:0.85rem;color:#a9b7cc;margin-top:6px" data-i18n="ab.net.note">+ des agents certifiés et audités dans plus de 40 pays, du Maroc à l'Afrique du Sud, pour la livraison Door-to-Door, DAP ou DDP.</p>
+          <p style="font-size:0.85rem;color:#a9b7cc;margin-top:6px" data-i18n="ab.net.note">+ des agents certifiés et audités sur 18 escales, du Maroc à la Tanzanie, pour la livraison porte à porte, DAP ou DDP.</p>
+          <a class="svc-card__link" href="reseau.html" style="color:#a9b7cc;margin-top:12px"><span data-i18n="ab.net.more">Voir l'annuaire du réseau</span> <svg class="icon" aria-hidden="true" style="width:16px;height:16px"><use href="assets/img/icons.svg#i-arrow-right"></use></svg></a>
         </div>
       </div>
     </div>
@@ -278,7 +285,8 @@
         <ul>
           <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
           <li><a href="services.html" data-i18n="nav.services">Nos services</a></li>
-          <li><a href="a-propos.html" data-i18n="nav.about">À propos &amp; Réseau</a></li>
+          <li><a href="a-propos.html" data-i18n="nav.about">À propos</a></li>
+          <li><a href="reseau.html" data-i18n="nav.network">Réseau &amp; implantations</a></li>
           <li><a href="cotation.html" data-i18n="nav.cta">Demander une cotation</a></li>
           <li><a href="reservations.html" data-i18n="foot.bookings">Réservations &amp; départs</a></li>
           <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
