@@ -133,15 +133,47 @@ function gondrand_try_serve() {
     if ($ext === 'html') {
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
-        $extra = function_exists('wp_get_custom_css') ? wp_get_custom_css() : '';
-        $inject = '<style id="gondrand-mobile">' . gondrand_mobile_css() . (trim($extra) !== '' ? "\n" . $extra : '') . '</style>';
-        $html = str_replace('</head>', $inject . "\n</head>", $html);
+        $html = str_replace('</head>', gondrand_head_inject() . "\n</head>", $html);
+        $html = str_replace('</body>', gondrand_footer_inject() . "\n</body>", $html);
         echo $html;
         exit;
     }
 
     readfile($real_file);
     exit;
+}
+
+function gondrand_is_customizer() {
+    if (function_exists('is_customize_preview') && is_customize_preview()) {
+        return true;
+    }
+    return isset($_GET['customize_changeset_uuid']) || isset($_POST['wp_customize']);
+}
+
+function gondrand_head_inject() {
+    $out = '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';
+
+    $custom = function_exists('wp_get_custom_css') ? wp_get_custom_css() : '';
+    if (is_string($custom) && trim($custom) !== '') {
+        $out .= '<style id="wp-custom-css">' . wp_strip_all_tags($custom) . '</style>';
+    }
+
+    if (gondrand_is_customizer()) {
+        ob_start();
+        wp_head();
+        $out .= ob_get_clean();
+    }
+
+    return $out;
+}
+
+function gondrand_footer_inject() {
+    if (!gondrand_is_customizer()) {
+        return '';
+    }
+    ob_start();
+    wp_footer();
+    return ob_get_clean();
 }
 
 function gondrand_mobile_css() {
