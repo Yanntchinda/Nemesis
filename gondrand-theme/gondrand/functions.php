@@ -133,12 +133,35 @@ function gondrand_try_serve() {
     if ($ext === 'html') {
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
+        $extra = function_exists('wp_get_custom_css') ? wp_get_custom_css() : '';
+        $inject = '<style id="gondrand-mobile">' . gondrand_mobile_css() . (trim($extra) !== '' ? "\n" . $extra : '') . '</style>';
+        $html = str_replace('</head>', $inject . "\n</head>", $html);
         echo $html;
         exit;
     }
 
     readfile($real_file);
     exit;
+}
+
+function gondrand_mobile_css() {
+    return <<<'CSS'
+@media screen and (max-width: 900px) {
+  html, body { max-width: 100% !important; overflow-x: hidden !important; }
+  .wrap { width: calc(100% - 20px) !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; }
+  .split { display: block !important; }
+  .split > * { display: block !important; width: 100% !important; max-width: 100% !important; float: none !important; margin-left: 0 !important; margin-right: 0 !important; margin-bottom: 22px !important; }
+  .video-box { width: 100% !important; max-width: 100% !important; }
+  .quote, #quote-slot, #special-slot, #q { display: block !important; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; }
+  .quote { padding: 16px !important; overflow: hidden !important; }
+  .grid-2 { display: block !important; }
+  .grid-2 > * { width: 100% !important; max-width: 100% !important; }
+  .cards, .loc-grid, .specials, .mods, .brands, .fgrid, .gallery, .stats { display: block !important; }
+  .cards > *, .loc-grid > *, .specials > *, .gallery > * { width: 100% !important; max-width: 100% !important; margin-bottom: 14px !important; }
+  input, select, textarea, img, svg, iframe { max-width: 100% !important; box-sizing: border-box !important; }
+  .map-card { min-width: 0 !important; width: calc(100% - 24px) !important; left: 12px !important; right: 12px !important; transform: translate(0, -50%) !important; }
+}
+CSS;
 }
 
 function gondrand_field($key) {
