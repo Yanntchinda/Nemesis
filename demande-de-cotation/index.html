@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande de cotation | GONDRAND</title>
+  <link rel="icon" href="../images/logo-gondrand.png">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <section class="page-hero" style="background-image:url('../images/hero-road.jpg')">
+    <div class="wrap">
+      <div class="crumbs"><a href="../index.html">Accueil</a> · Demande de cotation</div>
+      <h1>Recevez des devis gratuits</h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap" style="max-width:860px">
+      <p class="lead" style="margin-bottom:24px">Gondrand est à votre service pour trouver la meilleure solution concernant la logistique et le transport de vos marchandises. Afin d’optimiser le traitement de votre demande, nous vous remercions de bien vouloir répondre au questionnaire ci-dessous qui sera automatiquement transmis au commercial spécialisé ad hoc au regard de la prestation qui vous intéresse.</p>
+      <div class="quote">
+        <form id="quote-form" action="../send.php" method="post">
+          <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="row">
+            <label>Type de transport *</label>
+            <select name="type" required>
+              <option value="">Type de Transport *</option>
+              <option>Entreposage</option>
+              <option>Transport aérien</option>
+              <option>Transport maritime</option>
+              <option>Transport multimodal</option>
+              <option>Transport terrestre</option>
+            </select>
+          </div>
+          <h3 style="color:var(--navy);margin:18px 0 10px">Données du client</h3>
+          <div class="grid-2">
+            <div class="row"><label>Société</label><input name="company" required></div>
+            <div class="row"><label>E-mail *</label><input name="email" type="email" required></div>
+            <div class="row"><label>Téléphone</label><input name="phone"></div>
+            <div class="row"><label>Contact</label><input name="contact"></div>
+          </div>
+          <h3 style="color:var(--navy);margin:18px 0 10px">Départ</h3>
+          <div class="grid-2">
+            <div class="row"><label>Ville</label><input name="from_city" required></div>
+            <div class="row"><label>Pays</label><input name="from_country" required></div>
+          </div>
+          <h3 style="color:var(--navy);margin:18px 0 10px">Arrivée</h3>
+          <div class="grid-2">
+            <div class="row"><label>Ville</label><input name="to_city" required></div>
+            <div class="row"><label>Pays</label><input name="to_country" required></div>
+          </div>
+          <h3 style="color:var(--navy);margin:18px 0 10px">Colis</h3>
+          <div class="grid-2">
+            <div class="row">
+              <label>Type de colis *</label>
+              <select name="parcel" required>
+                <option value="">Type de colis *</option>
+                <option>Palette</option><option>Carton</option><option>Conteneur</option>
+                <option>Caisse bois</option><option>Sur-mesure</option><option>Divers</option>
+              </select>
+            </div>
+            <div class="row"><label>Poids (kg)</label><input name="weight" type="number" min="0"></div>
+            <div class="row"><label>Dimensions (L × l × H)</label><input name="dimensions" placeholder="cm"></div>
+            <div class="row">
+              <label>Marchandise dangereuse</label>
+              <select name="dangerous"><option>Non</option><option>Oui</option></select>
+            </div>
+            <div class="row">
+              <label>Termes de vente *</label>
+              <select name="incoterms" required>
+                <option>EXW</option><option>FCA</option><option>FAS</option><option>FOB</option>
+                <option>CFR</option><option>CIF</option><option>CPT</option><option>CIP</option>
+                <option>DAP</option><option>DPU</option><option>DDP</option>
+              </select>
+            </div>
+          </div>
+          <div class="row"><label>Commentaires</label><textarea name="comments" rows="4"></textarea></div>
+          <div class="row"><label class="check"><input type="checkbox" required> <span>Politique de confidentialité acceptée.</span></label></div>
+          <button class="btn ghost" type="submit">Envoyer →</button>
+        </form>
+        <div class="okbox" id="quote-ok">Votre demande de cotation a bien été transmise au commercial spécialisé. Nous vous remercions.</div>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script>window.BASE="../"; window.PAGE="devis";</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
