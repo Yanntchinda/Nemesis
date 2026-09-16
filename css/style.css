@@ -94,6 +94,13 @@ button, input, select, textarea { font-family: inherit; }
   display: block; padding: 10px 18px; color: var(--ink); font-size: 14px; font-weight: 600;
 }
 .drop-menu a:hover { background: var(--bg); color: var(--navy); }
+.dl-banner {
+  background: var(--navy); padding: 14px 16px; text-align: center; position: relative; z-index: 60;
+}
+.dl-banner .btn {
+  background: var(--gold); color: #062544;
+}
+.dl-banner .btn:hover { background: #e0c36a; color: #062544; }
 .burger {
   display: none; background: none; border: 0; font-size: 26px; color: var(--navy); cursor: pointer;
 }
