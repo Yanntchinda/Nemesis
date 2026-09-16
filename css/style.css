@@ -417,8 +417,22 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); }
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .topbar .wrap,
-  .header .wrap,
+  .topbar .wrap {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px 16px !important;
+  }
+  .top-links {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px 18px !important;
+  }
+  .header .wrap { min-height: 70px; }
   .copy,
   .cookie .actions {
     display: flex !important;
@@ -426,13 +440,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); }
     align-items: flex-start !important;
     gap: 10px !important;
   }
-  .top-links {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-  }
-  .header .wrap { min-height: 70px; }
   .logo { width: 160px !important; }
   .logo img { height: 42px; max-width: 180px !important; }
 

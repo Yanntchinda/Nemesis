@@ -298,9 +298,6 @@
           <button type="button" class="lang-btn${LANG === "en" ? " on" : ""}" data-lang="en">EN</button>
         </div>
         <div class="top-links">
-          <a href="${url("entreprise/index.html")}">${t("nav_company")}</a>
-          <a href="${url("contact/index.html")}#emploi">${t("nav_jobs")}</a>
-          <a href="${url("contact/index.html")}">${t("nav_locations")}</a>
           <a href="${url("demande-de-cotation/index.html")}">${t("nav_rfq")}</a>
         </div>
       </div>
