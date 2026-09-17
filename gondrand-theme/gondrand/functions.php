@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) {
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/chrome.php';
 require get_template_directory() . '/inc/admin.php';
+require get_template_directory() . '/inc/render.php';
 
 add_action('after_setup_theme', function () {
     add_theme_support('title-tag');
@@ -21,7 +22,13 @@ add_action('after_switch_theme', function () {
     if (!get_option('permalink_structure')) {
         update_option('permalink_structure', '/%postname%/');
     }
+    update_option('show_on_front', 'posts');
+    gondrand_disable_root_html();
     flush_rewrite_rules();
+});
+
+add_action('admin_init', function () {
+    gondrand_disable_root_html();
 });
 
 add_action('template_redirect', 'gondrand_try_serve', 0);
@@ -69,6 +76,12 @@ function gondrand_try_serve() {
         $done = true;
         gondrand_handle_mail();
         exit;
+    }
+
+    if ($path === '/' || $path === '/index.html' || $path === '/index.php' || $path === '') {
+        $done = true;
+        gondrand_render_home();
+        return;
     }
 
     $site = get_template_directory() . '/site';
