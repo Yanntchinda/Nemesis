@@ -305,7 +305,7 @@
     <header class="header">
       <div class="wrap">
         <a class="logo" href="${url("index.html")}" aria-label="Gondrand accueil">
-          <img src="${BASE}images/logo-gondrand.png" alt="GONDRAND">
+          <img src="${window.GONDRAND_LOGO || (BASE + "images/logo-gondrand.png")}" alt="GONDRAND">
         </a>
         <button class="burger" id="burger" aria-label="Menu">☰</button>
         <nav class="nav" id="nav">${links}</nav>
@@ -605,6 +605,11 @@
     bindQuote();
     mountAZ();
     slider();
+    tabs();
+    applyI18n();
+  });
+})();
+er();
     tabs();
     applyI18n();
   });

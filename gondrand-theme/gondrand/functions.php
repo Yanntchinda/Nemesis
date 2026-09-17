@@ -9,6 +9,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require get_template_directory() . '/inc/customizer.php';
+
 add_action('after_setup_theme', function () {
     add_theme_support('title-tag');
     show_admin_bar(false);
@@ -21,25 +23,6 @@ add_action('after_switch_theme', function () {
     flush_rewrite_rules();
 });
 
-add_action('customize_register', function ($wp_customize) {
-    $wp_customize->add_section('gondrand', [
-        'title'    => 'Gondrand',
-        'priority' => 30,
-    ]);
-    $wp_customize->add_setting('gondrand_quote_email', [
-        'default'           => get_option('admin_email'),
-        'sanitize_callback' => 'sanitize_email',
-        'transport'         => 'refresh',
-    ]);
-    $wp_customize->add_control('gondrand_quote_email', [
-        'label'       => 'E-mail des demandes de devis',
-        'description' => 'Les formulaires Devis / Cotation sont envoyés à cette adresse.',
-        'section'     => 'gondrand',
-        'type'        => 'email',
-    ]);
-});
-
-add_action('init', 'gondrand_try_serve', 0);
 add_action('template_redirect', 'gondrand_try_serve', 0);
 
 function gondrand_request_path() {
@@ -133,6 +116,7 @@ function gondrand_try_serve() {
     if ($ext === 'html') {
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
+        $html = gondrand_apply_content($html, $path);
         $html = str_replace('</head>', gondrand_head_inject() . "\n</head>", $html);
         $html = str_replace('</body>', gondrand_footer_inject() . "\n</body>", $html);
         echo $html;
@@ -141,6 +125,147 @@ function gondrand_try_serve() {
 
     readfile($real_file);
     exit;
+}
+
+function gondrand_mod($key) {
+    $v = get_theme_mod($key, '');
+    return is_string($v) ? trim($v) : '';
+}
+
+function gondrand_replace_once($html, $pattern, $replacement) {
+    $out = preg_replace($pattern, $replacement, $html, 1);
+    return is_string($out) ? $out : $html;
+}
+
+function gondrand_apply_content($html, $path) {
+    for ($i = 1; $i <= 6; $i++) {
+        $img   = gondrand_mod("gondrand_slide_{$i}_image");
+        $title = gondrand_mod("gondrand_slide_{$i}_title");
+        $text  = gondrand_mod("gondrand_slide_{$i}_text");
+        $url   = gondrand_mod("gondrand_slide_{$i}_url");
+        if ($img !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '/(<article class="slide[^"]*"[^>]*data-slide="' . $i . '"[^>]*style="background-image:url\()([^\)]*)(\)")/i',
+                '$1' . esc_url($img) . '$3'
+            );
+        }
+        if ($title !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '#(<article[^>]*data-slide="' . $i . '"[^>]*>.*?<h2[^>]*>)(.*?)(</h2>)#s',
+                '$1' . esc_html($title) . '$3'
+            );
+        }
+        if ($text !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '#(<article[^>]*data-slide="' . $i . '"[^>]*>.*?<p[^>]*>)(.*?)(</p>)#s',
+                '$1' . esc_html($text) . '$3'
+            );
+        }
+        if ($url !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '#(<article[^>]*data-slide="' . $i . '"[^>]*>.*?<a class="more"[^>]*href=")([^"]*)(")#s',
+                '$1' . esc_url($url) . '$3'
+            );
+        }
+    }
+
+    $h2 = gondrand_mod('gondrand_home_h2');
+    $h3 = gondrand_mod('gondrand_home_h3');
+    $p1 = gondrand_mod('gondrand_home_p1');
+    $p2 = gondrand_mod('gondrand_home_p2');
+    $vid = gondrand_mod('gondrand_home_video');
+    if ($h2 !== '') {
+        $html = gondrand_replace_once($html, '#(<div class="prose">\s*<div class="bar"></div>\s*<h2>)(.*?)(</h2>)#s', '$1' . esc_html($h2) . '$3');
+    }
+    if ($h3 !== '') {
+        $html = gondrand_replace_once($html, '#(data-i18n="about_sub">)(.*?)(</h3>)#s', '$1' . esc_html($h3) . '$3');
+    }
+    if ($p1 !== '') {
+        $html = gondrand_replace_once($html, '#(data-i18n="about_p1">)(.*?)(</p>)#s', '$1' . esc_html($p1) . '$3');
+    }
+    if ($p2 !== '') {
+        $html = gondrand_replace_once($html, '#(data-i18n="about_p2">)(.*?)(</p>)#s', '$1' . esc_html($p2) . '$3');
+    }
+    if ($vid !== '') {
+        $html = gondrand_replace_once($html, '#(<div class="video-box">\s*<img src=")([^"]*)(")#s', '$1' . esc_url($vid) . '$3');
+    }
+
+    for ($i = 1; $i <= 6; $i++) {
+        $cimg   = gondrand_mod("gondrand_card_{$i}_image");
+        $ctitle = gondrand_mod("gondrand_card_{$i}_title");
+        $ctext  = gondrand_mod("gondrand_card_{$i}_text");
+        if ($cimg !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '#(<article class="card"[^>]*data-card="' . $i . '"[^>]*>\s*<img src=")([^"]*)(")#s',
+                '$1' . esc_url($cimg) . '$3'
+            );
+        }
+        if ($ctitle !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '#(<article class="card"[^>]*data-card="' . $i . '"[^>]*>.*?<h3[^>]*>)(.*?)(</h3>)#s',
+                '$1' . esc_html($ctitle) . '$3'
+            );
+        }
+        if ($ctext !== '') {
+            $html = gondrand_replace_once(
+                $html,
+                '#(<article class="card"[^>]*data-card="' . $i . '"[^>]*>.*?<p[^>]*>)(.*?)(</p>)#s',
+                '$1' . esc_html($ctext) . '$3'
+            );
+        }
+    }
+
+    $addr  = gondrand_mod('gondrand_address');
+    $phone = gondrand_mod('gondrand_phone');
+    $email = gondrand_mod('gondrand_email');
+    if ($addr !== '') {
+        $html = str_replace('11 rue de Lübeck', esc_html(preg_replace('/\s+/', ' ', $addr)), $html);
+    }
+    if ($phone !== '') {
+        $html = str_replace('+33 1 44 13 14 00', esc_html($phone), $html);
+    }
+    if ($email !== '') {
+        $html = str_replace('accueil.dg@gondrand.fr', esc_html($email), $html);
+    }
+
+    $slug = trim((string) $path, '/');
+    $slug = preg_replace('#/index\.html$#', '', $slug);
+    $slug = basename($slug === '' ? 'home' : $slug);
+    $page = gondrand_mod('gondrand_page_' . $slug);
+    if ($page !== '') {
+        $html = gondrand_replace_once(
+            $html,
+            '#(<div class="prose"[^>]*>)(.*?)(</div>)#s',
+            '$1' . $page . '$3'
+        );
+    }
+
+    $cms = [];
+    $mods = get_theme_mods();
+    if (!is_array($mods)) {
+        $mods = [];
+    }
+    foreach ($mods as $key => $value) {
+        if (!is_string($key) || strpos($key, 'gondrand_i18n_') !== 0) {
+            continue;
+        }
+        if (!is_string($value) || trim($value) === '') {
+            continue;
+        }
+        $cms[substr($key, strlen('gondrand_i18n_'))] = $value;
+    }
+    $logo = gondrand_mod('gondrand_logo');
+    $boot  = '<script>window.GONDRAND_CMS=' . wp_json_encode($cms) . ';';
+    $boot .= 'window.GONDRAND_LOGO=' . wp_json_encode($logo) . ';</script>';
+    $html = str_replace('</head>', $boot . "\n</head>", $html);
+
+    return $html;
 }
 
 function gondrand_is_customizer() {
