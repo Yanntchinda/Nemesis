@@ -24,7 +24,7 @@ function gondrand_render_home() {
     status_header(200);
     nocache_headers();
     header('Content-Type: text/html; charset=UTF-8');
-    header('X-Gondrand-Theme: 2.1.0');
+    header('X-Gondrand-Theme: 2.1.1');
     header('X-LiteSpeed-Cache-Control: no-cache');
 
     $head = gondrand_head_inject();
@@ -41,7 +41,7 @@ function gondrand_render_home() {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo esc_url($assets . 'css/style.css'); ?>">
-  <!-- gondrand-theme 2.1.0 php-home -->
+  <!-- gondrand-theme 2.1.1 php-home -->
   <?php echo $head; ?>
 </head>
 <body>

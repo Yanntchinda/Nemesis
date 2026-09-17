@@ -29,10 +29,42 @@ function gondrand_image_setting($wp_customize, $id, $label, $section) {
     ]));
 }
 
+add_action('customize_controls_print_styles', function () {
+    echo '<style>
+    .gondrand-cz-banner{background:#062544;color:#fff;padding:14px 16px;margin:0;font-size:13px;line-height:1.45}
+    .gondrand-cz-banner a{color:#c9a84c;font-weight:700}
+    </style>';
+});
+
+add_action('customize_controls_print_footer_scripts', function () {
+    $pages = admin_url('admin.php?page=gondrand-pages');
+    $home  = admin_url('admin.php?page=gondrand-content');
+    ?>
+    <script>
+    (function(){
+      var bar = document.createElement('div');
+      bar.className = 'gondrand-cz-banner';
+      bar.innerHTML = 'Pour modifier <strong>toutes les pages</strong> (textes et images), n’utilisez pas cet écran.<br>'
+        + '<a href="<?php echo esc_url($home); ?>">Gondrand — accueil / slider</a> · '
+        + '<a href="<?php echo esc_url($pages); ?>">Gondrand — toutes les pages</a>';
+      var info = document.getElementById('customize-info');
+      if (info && info.parentNode) info.parentNode.insertBefore(bar, info.nextSibling);
+      else document.body.insertBefore(bar, document.body.firstChild);
+    })();
+    </script>
+    <?php
+});
+
 add_action('customize_register', function ($wp_customize) {
+    $wp_customize->add_section('gondrand_howto', [
+        'title'       => 'Comment modifier le site',
+        'priority'    => 1,
+        'description' => 'Les messages « iframe / sandbox » dans la console sont normaux (WordPress). Ils n’empêchent rien. Pour changer chaque texte et chaque image de chaque page, quittez le personnaliseur (croix en haut à gauche) et ouvrez le menu Gondrand → Toutes les pages. Accueil et slider : menu Gondrand.',
+    ]);
+
     $wp_customize->add_panel('gondrand_panel', [
         'title'       => 'Gondrand — contenu du site',
-        'description' => 'Modifiez les images du slider, les textes et le logo. Laissez un champ vide pour garder le texte d’origine.',
+        'description' => 'Préférez le menu Gondrand (wp-admin) pour modifier toutes les pages. Ici : logo, CSS, e-mail des devis.',
         'priority'    => 10,
     ]);
 

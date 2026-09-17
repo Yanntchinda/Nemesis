@@ -32,7 +32,7 @@ add_action('admin_init', function () {
     gondrand_disable_root_html();
 });
 
-add_action('template_redirect', 'gondrand_try_serve', 0);
+add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_request_path() {
     $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
@@ -129,7 +129,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.1.0');
+        header('X-Gondrand-Theme: 2.1.1');
         header('X-LiteSpeed-Cache-Control: no-cache');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
@@ -276,6 +276,9 @@ function gondrand_head_inject() {
     }
 
     if (gondrand_is_customizer() || is_user_logged_in()) {
+        if (gondrand_is_customizer()) {
+            wp_enqueue_script('customize-preview');
+        }
         ob_start();
         wp_head();
         $out .= ob_get_clean();
