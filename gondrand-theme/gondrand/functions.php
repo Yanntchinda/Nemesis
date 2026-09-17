@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) {
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/chrome.php';
 require get_template_directory() . '/inc/admin.php';
+require get_template_directory() . '/inc/pages.php';
 require get_template_directory() . '/inc/render.php';
 
 add_action('after_setup_theme', function () {
@@ -128,8 +129,13 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
+        header('X-Gondrand-Theme: 2.1.0');
+        header('X-LiteSpeed-Cache-Control: no-cache');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
+        if (function_exists('gondrand_apply_saved_body')) {
+            $html = gondrand_apply_saved_body($html, $path);
+        }
         $html = gondrand_absolutize_assets($html);
         $html = gondrand_inject_chrome($html, $path);
         $html = gondrand_apply_content($html, $path);

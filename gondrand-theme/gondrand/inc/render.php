@@ -24,7 +24,7 @@ function gondrand_render_home() {
     status_header(200);
     nocache_headers();
     header('Content-Type: text/html; charset=UTF-8');
-    header('X-Gondrand-Theme: 2.0.0');
+    header('X-Gondrand-Theme: 2.1.0');
     header('X-LiteSpeed-Cache-Control: no-cache');
 
     $head = gondrand_head_inject();
@@ -41,7 +41,7 @@ function gondrand_render_home() {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo esc_url($assets . 'css/style.css'); ?>">
-  <!-- gondrand-theme 2.0.0 php-home -->
+  <!-- gondrand-theme 2.1.0 php-home -->
   <?php echo $head; ?>
 </head>
 <body>
@@ -80,8 +80,8 @@ function gondrand_render_home() {
   <section class="section alt" id="emplacements">
     <div class="wrap">
       <div class="bar"></div>
-      <h2>GONDRAND FRANCE EMPLACEMENTS</h2>
-      <p class="lead">Un réseau d’agences de métropole, d’outre-mer et de frontière suisse. Sélectionnez une lettre.</p>
+      <h2><?php echo esc_html(gondrand_text('gondrand_loc_title', 'GONDRAND FRANCE EMPLACEMENTS')); ?></h2>
+      <p class="lead"><?php echo esc_html(gondrand_text('gondrand_loc_lead', 'Un réseau d’agences de métropole, d’outre-mer et de frontière suisse. Sélectionnez une lettre.')); ?></p>
       <div class="az" id="az"></div>
       <div class="loc-grid" id="loc-grid"></div>
     </div>
@@ -90,8 +90,8 @@ function gondrand_render_home() {
   <section class="section">
     <div class="wrap">
       <div class="bar"></div>
-      <h2>Services spéciaux</h2>
-      <p class="lead">En tant que membre d’un réseau d’investisseurs internationaux, nous disposons des ressources financières et logistiques nécessaires à la définition et à la réalisation des objectifs de nos clients, tout en les accompagnant tout au long du processus.</p>
+      <h2><?php echo esc_html(gondrand_text('gondrand_specials_title', 'Services spéciaux')); ?></h2>
+      <p class="lead"><?php echo esc_html(gondrand_text('gondrand_specials_lead', 'En tant que membre d’un réseau d’investisseurs internationaux, nous disposons des ressources financières et logistiques nécessaires à la définition et à la réalisation des objectifs de nos clients, tout en les accompagnant tout au long du processus.')); ?></p>
       <div class="cards">
         <?php echo gondrand_home_cards_html(); ?>
       </div>
@@ -106,7 +106,7 @@ function gondrand_render_home() {
   </section>
 
   <section class="map">
-    <img src="<?php echo esc_url($assets . 'images/hero-sea.jpg'); ?>" alt="Réseau mondial">
+    <img src="<?php echo esc_url(gondrand_mod('gondrand_map_image') ?: ($assets . 'images/hero-sea.jpg')); ?>" alt="Réseau mondial">
     <span class="pin" style="left:48%;top:38%"></span>
     <span class="pin" style="left:62%;top:44%"></span>
     <span class="pin" style="left:35%;top:52%"></span>

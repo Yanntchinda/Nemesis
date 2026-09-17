@@ -89,12 +89,12 @@ add_action('admin_notices', function () {
     }
     $moved = get_option('gondrand_moved_index_html');
     $screen = function_exists('get_current_screen') ? get_current_screen() : null;
-    $on = $screen && isset($screen->id) && $screen->id === 'toplevel_page_gondrand-content';
+    $on = $screen && isset($screen->id) && strpos($screen->id, 'gondrand') !== false;
     if ($moved && $on) {
         echo '<div class="notice notice-warning"><p>Un fichier <code>index.html</code> bloquait WordPress à la racine du site. Il a été renommé. Purgez LiteSpeed.</p></div>';
     }
     if (!$on) {
-        echo '<div class="notice notice-info"><p><strong>Gondrand :</strong> pour changer les images et les textes du site, ouvrez le menu <a href="' . esc_url(admin_url('admin.php?page=gondrand-content')) . '">Gondrand</a> (à gauche). Pas « Pages ».</p></div>';
+        echo '<div class="notice notice-info"><p><strong>Gondrand :</strong> pour modifier le site, menu <a href="' . esc_url(admin_url('admin.php?page=gondrand-content')) . '">Gondrand</a> (accueil) ou <a href="' . esc_url(admin_url('admin.php?page=gondrand-pages')) . '">Toutes les pages</a>. Pas le menu « Pages » de WordPress.</p></div>';
     }
 });
 
@@ -135,6 +135,11 @@ function gondrand_save_from_post() {
         'gondrand_phone' => 'sanitize_text_field',
         'gondrand_email' => 'sanitize_email',
         'gondrand_quote_email' => 'sanitize_email',
+        'gondrand_loc_title' => 'sanitize_text_field',
+        'gondrand_loc_lead' => 'sanitize_textarea_field',
+        'gondrand_specials_title' => 'sanitize_text_field',
+        'gondrand_specials_lead' => 'sanitize_textarea_field',
+        'gondrand_map_image' => 'esc_url_raw',
     ];
     foreach ($map as $key => $cb) {
         if (!isset($_POST[$key])) {
@@ -199,7 +204,7 @@ function gondrand_admin_page() {
       <?php if ($root_html) : ?>
         <div class="notice notice-error"><p>Un fichier <code><?php echo esc_html(ABSPATH); ?>index.html</code> empêche WordPress d’afficher vos modifications. Supprimez-le dans le gestionnaire de fichiers LWS (htdocs), ou cliquez Enregistrer pour tenter de le renommer.</p></div>
       <?php endif; ?>
-      <p><strong>Ici</strong> vous ajoutez, remplacez ou supprimez les images du slider et les textes. Cliquez ensuite sur <strong>Enregistrer et publier</strong>.</p>
+      <p><strong>Ici :</strong> accueil (slider, intro, cartes). Pour les autres pages : <a href="<?php echo esc_url(admin_url('admin.php?page=gondrand-pages')); ?>">Toutes les pages</a>. Cliquez ensuite sur <strong>Enregistrer et publier</strong>.</p>
       <form method="post" action="<?php echo esc_url(admin_url('admin.php?page=gondrand-content')); ?>">
         <?php wp_nonce_field('gondrand_save_content'); ?>
         <input type="hidden" name="gondrand_do_save" value="1">
@@ -260,6 +265,21 @@ function gondrand_admin_page() {
               </td>
             </tr>
           <?php endforeach; ?>
+        </table>
+
+        <h2>Emplacements & carte</h2>
+        <table class="form-table" role="presentation">
+          <tr><th>Titre emplacements</th><td><input class="large-text" name="gondrand_loc_title" value="<?php echo esc_attr(gondrand_text('gondrand_loc_title', 'GONDRAND FRANCE EMPLACEMENTS')); ?>"></td></tr>
+          <tr><th>Texte emplacements</th><td><textarea class="large-text" rows="2" name="gondrand_loc_lead"><?php echo esc_textarea(gondrand_text('gondrand_loc_lead', 'Un réseau d’agences de métropole, d’outre-mer et de frontière suisse. Sélectionnez une lettre.')); ?></textarea></td></tr>
+          <tr><th>Titre services spéciaux</th><td><input class="large-text" name="gondrand_specials_title" value="<?php echo esc_attr(gondrand_text('gondrand_specials_title', 'Services spéciaux')); ?>"></td></tr>
+          <tr><th>Texte services spéciaux</th><td><textarea class="large-text" rows="3" name="gondrand_specials_lead"><?php echo esc_textarea(gondrand_text('gondrand_specials_lead', 'En tant que membre d’un réseau d’investisseurs internationaux, nous disposons des ressources financières et logistiques nécessaires à la définition et à la réalisation des objectifs de nos clients, tout en les accompagnant tout au long du processus.')); ?></textarea></td></tr>
+          <tr>
+            <th>Image de la carte</th>
+            <td>
+              <input type="url" class="large-text gondrand-image" name="gondrand_map_image" id="gondrand_map_image" value="<?php echo esc_attr(gondrand_mod('gondrand_map_image') ?: (gondrand_assets() . 'images/hero-sea.jpg')); ?>">
+              <button type="button" class="button gondrand-pick" data-target="gondrand_map_image">Choisir une image</button>
+            </td>
+          </tr>
         </table>
 
         <h2>Coordonnées</h2>
