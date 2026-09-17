@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/chrome.php';
+require get_template_directory() . '/inc/admin.php';
 
 add_action('after_setup_theme', function () {
     add_theme_support('title-tag');
@@ -140,39 +141,9 @@ function gondrand_replace_once($html, $pattern, $replacement) {
 }
 
 function gondrand_apply_content($html, $path) {
-    for ($i = 1; $i <= 6; $i++) {
-        $img   = gondrand_mod("gondrand_slide_{$i}_image");
-        $title = gondrand_mod("gondrand_slide_{$i}_title");
-        $text  = gondrand_mod("gondrand_slide_{$i}_text");
-        $url   = gondrand_mod("gondrand_slide_{$i}_url");
-        if ($img !== '') {
-            $html = gondrand_replace_once(
-                $html,
-                '/(<article class="slide[^"]*"[^>]*data-slide="' . $i . '"[^>]*style="background-image:url\()([^\)]*)(\)")/i',
-                '$1' . esc_url($img) . '$3'
-            );
-        }
-        if ($title !== '') {
-            $html = gondrand_replace_once(
-                $html,
-                '#(<article[^>]*data-slide="' . $i . '"[^>]*>.*?<h2[^>]*>)(.*?)(</h2>)#s',
-                '$1' . esc_html($title) . '$3'
-            );
-        }
-        if ($text !== '') {
-            $html = gondrand_replace_once(
-                $html,
-                '#(<article[^>]*data-slide="' . $i . '"[^>]*>.*?<p[^>]*>)(.*?)(</p>)#s',
-                '$1' . esc_html($text) . '$3'
-            );
-        }
-        if ($url !== '') {
-            $html = gondrand_replace_once(
-                $html,
-                '#(<article[^>]*data-slide="' . $i . '"[^>]*>.*?<a class="more"[^>]*href=")([^"]*)(")#s',
-                '$1' . esc_url($url) . '$3'
-            );
-        }
+    if (function_exists('gondrand_build_slides_html')) {
+        $built = gondrand_build_slides_html(gondrand_get_slides());
+        $html = preg_replace('#<div class="slides">.*?</div>#s', '<div class="slides">' . $built . '</div>', $html, 1);
     }
 
     $h2 = gondrand_mod('gondrand_home_h2');
