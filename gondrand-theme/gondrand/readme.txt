@@ -14,6 +14,16 @@ Thème Gondrand à importer dans WordPress.
 3. Cliquez sur Installer puis Activer
 4. Ouvrez https://votre-domaine.fr — le site Gondrand remplace Twenty Twenty-Five
 
+== Modifier le site ==
+
+Apparence → Personnaliser → Gondrand — contenu du site
+
+- Slider 1 à 6 : image, titre, texte, lien
+- Logo, intro, cartes, coordonnées, menu, textes
+- CSS additionnel : Apparence → Personnaliser → CSS additionnel
+
+Un champ vide conserve le contenu d’origine.
+
 == Devis ==
 
 Apparence → Personnaliser → Gondrand → E-mail des demandes de devis.
