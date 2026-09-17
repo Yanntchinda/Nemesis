@@ -116,6 +116,8 @@ function gondrand_try_serve() {
     if ($ext === 'html') {
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
+        $html = gondrand_absolutize_assets($html);
+        $html = gondrand_inject_chrome($html, $path);
         $html = gondrand_apply_content($html, $path);
         $html = str_replace('</head>', gondrand_head_inject() . "\n</head>", $html);
         $html = str_replace('</body>', gondrand_footer_inject() . "\n</body>", $html);
