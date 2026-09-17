@@ -162,6 +162,8 @@
   };
 
   function t(key) {
+    const cms = window.GONDRAND_CMS || {};
+    if (cms[key]) return cms[key];
     return (I18N[LANG] && I18N[LANG][key]) || (I18N.fr[key]) || key;
   }
 
@@ -305,7 +307,7 @@
     <header class="header">
       <div class="wrap">
         <a class="logo" href="${url("index.html")}" aria-label="Gondrand accueil">
-          <img src="${window.GONDRAND_LOGO || (BASE + "images/logo-gondrand.png")}" alt="GONDRAND">
+          <img src="${window.GONDRAND_LOGO || ((window.GONDRAND_ASSETS || BASE) + "images/logo-gondrand.png")}" alt="GONDRAND">
         </a>
         <button class="burger" id="burger" aria-label="Menu">☰</button>
         <nav class="nav" id="nav">${links}</nav>
@@ -605,11 +607,6 @@
     bindQuote();
     mountAZ();
     slider();
-    tabs();
-    applyI18n();
-  });
-})();
-er();
     tabs();
     applyI18n();
   });
