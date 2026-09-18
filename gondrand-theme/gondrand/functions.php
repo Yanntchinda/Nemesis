@@ -179,7 +179,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.6');
+        header('X-Gondrand-Theme: 2.2.7');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');
@@ -425,9 +425,15 @@ function gondrand_apply_content($html, $path) {
     if (function_exists('gondrand_locations_payload')) {
         $boot .= 'window.GONDRAND_LOCS=' . wp_json_encode(gondrand_locations_payload()) . ';';
     }
+    if (function_exists('gondrand_get_brands')) {
+        $boot .= 'window.GONDRAND_BRANDS=' . wp_json_encode(gondrand_get_brands()) . ';';
+    }
     $boot .= '</script>';
     $html = str_replace('</head>', $boot . "\n</head>", $html);
     $html = gondrand_apply_page_title($html, $path);
+    if (function_exists('gondrand_apply_timeline') && strpos((string) $path, 'entreprise') !== false) {
+        $html = gondrand_apply_timeline($html);
+    }
 
     return $html;
 }
@@ -592,6 +598,8 @@ function gondrand_layout_css() {
 }
 .loc ul, .loc li, .loc p { list-style: none !important; }
 .loc-nearby { display: none !important; }
+.brands { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; gap: 12px !important; }
+.brand img { max-height: 64px !important; max-width: 160px !important; width: auto !important; height: auto !important; object-fit: contain !important; margin: 0 auto 8px !important; }
 CSS;
 }
 

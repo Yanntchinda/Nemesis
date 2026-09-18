@@ -184,6 +184,95 @@ function gondrand_loc_heading() {
     return $v;
 }
 
+function gondrand_default_brands() {
+    return [
+        ['name' => 'TRAVEX', 'sub' => 'GLOBAL FORWARDING', 'image' => '', 'url' => ''],
+    ];
+}
+
+function gondrand_get_brands() {
+    $rows = get_option('gondrand_brands', false);
+    if ($rows === false || !is_array($rows)) {
+        return gondrand_default_brands();
+    }
+    $out = [];
+    foreach ($rows as $r) {
+        if (!is_array($r)) {
+            continue;
+        }
+        $name = isset($r['name']) ? trim((string) $r['name']) : '';
+        $sub = isset($r['sub']) ? trim((string) $r['sub']) : '';
+        $image = isset($r['image']) ? trim((string) $r['image']) : '';
+        $url = isset($r['url']) ? trim((string) $r['url']) : '';
+        if ($name === '' && $image === '') {
+            continue;
+        }
+        $out[] = ['name' => $name, 'sub' => $sub, 'image' => $image, 'url' => $url];
+    }
+    return $out;
+}
+
+function gondrand_save_brands_from_post() {
+    if (!isset($_POST['gondrand_brands_present'])) {
+        return;
+    }
+    $names = isset($_POST['brand_name']) ? (array) wp_unslash($_POST['brand_name']) : [];
+    $subs = isset($_POST['brand_sub']) ? (array) wp_unslash($_POST['brand_sub']) : [];
+    $images = isset($_POST['brand_image']) ? (array) wp_unslash($_POST['brand_image']) : [];
+    $urls = isset($_POST['brand_url']) ? (array) wp_unslash($_POST['brand_url']) : [];
+    $rows = [];
+    foreach ($names as $i => $name) {
+        $name = sanitize_text_field($name);
+        $sub = sanitize_text_field($subs[$i] ?? '');
+        $image = esc_url_raw(trim((string) ($images[$i] ?? '')));
+        $url = esc_url_raw(trim((string) ($urls[$i] ?? '')));
+        if ($name === '' && $image === '') {
+            continue;
+        }
+        $rows[] = ['name' => $name, 'sub' => $sub, 'image' => $image, 'url' => $url];
+    }
+    update_option('gondrand_brands', $rows, false);
+}
+
+function gondrand_brands_html() {
+    $html = '';
+    foreach (gondrand_get_brands() as $b) {
+        $href = $b['url'] !== '' ? $b['url'] : gondrand_home();
+        $html .= '<a class="brand" href="' . esc_url($href) . '">';
+        if ($b['image'] !== '') {
+            $alt = $b['name'] !== '' ? $b['name'] : 'Logo';
+            $html .= '<img src="' . esc_url($b['image']) . '" alt="' . esc_attr($alt) . '">';
+        }
+        if ($b['name'] !== '') {
+            $html .= esc_html($b['name']);
+            if ($b['sub'] !== '') {
+                $html .= '<small>' . esc_html($b['sub']) . '</small>';
+            }
+        }
+        $html .= '</a>';
+    }
+    return $html;
+}
+
+function gondrand_brand_row_html($b) {
+    $img = esc_url($b['image'] ?? '');
+    ob_start();
+    ?>
+    <div class="gondrand-slide gondrand-brand">
+      <img class="gondrand-prev" src="<?php echo $img; ?>" alt="" <?php echo $img ? '' : 'style="display:none"'; ?>>
+      <p>Logo<br>
+        <input type="url" class="large-text gondrand-image" name="brand_image[]" value="<?php echo esc_attr($b['image'] ?? ''); ?>">
+        <button type="button" class="button gondrand-pick">Choisir un logo</button>
+      </p>
+      <p>Nom<br><input class="large-text" name="brand_name[]" value="<?php echo esc_attr($b['name'] ?? ''); ?>" placeholder="TRAVEX"></p>
+      <p>Sous-titre<br><input class="large-text" name="brand_sub[]" value="<?php echo esc_attr($b['sub'] ?? ''); ?>" placeholder="GLOBAL FORWARDING"></p>
+      <p>Lien (facultatif)<br><input class="large-text" name="brand_url[]" value="<?php echo esc_attr($b['url'] ?? ''); ?>" placeholder="https://"></p>
+      <p><button type="button" class="button gondrand-del-brand">Supprimer ce logo</button></p>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 function gondrand_loc_row_html($l) {
     ob_start();
     ?>
@@ -338,6 +427,11 @@ function gondrand_save_from_post() {
         }
     }
 
+    gondrand_save_brands_from_post();
+    if (isset($_POST['gondrand_i18n_group'])) {
+        set_theme_mod('gondrand_i18n_group', sanitize_text_field(wp_unslash($_POST['gondrand_i18n_group'])));
+    }
+
     if (function_exists('gondrand_disable_root_html')) {
         gondrand_disable_root_html();
     }
@@ -391,11 +485,24 @@ function gondrand_admin_page() {
         <?php wp_nonce_field('gondrand_save_content'); ?>
         <input type="hidden" name="gondrand_do_save" value="1">
 
-        <h2>Logo</h2>
+        <h2>Logo du site</h2>
         <p>
           <input type="url" class="large-text gondrand-image" name="gondrand_logo" id="gondrand_logo" value="<?php echo esc_attr(gondrand_mod('gondrand_logo') ?: (gondrand_assets() . 'images/logo-gondrand.png')); ?>">
           <button type="button" class="button gondrand-pick" data-target="gondrand_logo">Choisir une image</button>
         </p>
+
+        <h2>Notre groupe d’entreprises — logos</h2>
+        <p class="description">Bandeau en bas de toutes les pages. Ajoutez un logo (image), un nom, et éventuellement un lien. Les dates de l’historique se gèrent dans <a href="<?php echo esc_url(admin_url('admin.php?page=gondrand-pages&edit=entreprise')); ?>">Toutes les pages → Entreprise</a>.</p>
+        <p><label>Titre du bandeau<br>
+          <input class="large-text" name="gondrand_i18n_group" value="<?php echo esc_attr(gondrand_t('group', "NOTRE GROUPE D'ENTREPRISES")); ?>">
+        </label></p>
+        <input type="hidden" name="gondrand_brands_present" value="1">
+        <div id="gondrand-brands">
+          <?php foreach (gondrand_get_brands() as $brand) : ?>
+            <?php echo gondrand_brand_row_html($brand); ?>
+          <?php endforeach; ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-brand">+ Ajouter un logo</button></p>
 
         <h2>Slider d’accueil</h2>
         <p class="description">Autant d’images que vous voulez. <strong>Supprimer ce slide</strong> l’enlève du site. <strong>Ajouter des images</strong> en prend plusieurs d’un coup.</p>
@@ -623,6 +730,8 @@ function gondrand_admin_page() {
     <script>
     (function(){
       function bindPick(btn){
+        if (btn.getAttribute('data-bound')) return;
+        btn.setAttribute('data-bound', '1');
         btn.addEventListener('click', function(e){
           e.preventDefault();
           var id = this.getAttribute('data-target');
@@ -686,6 +795,23 @@ function gondrand_admin_page() {
           if (row) row.remove();
         }
       });
+      var addBrand = document.getElementById('gondrand-add-brand');
+      if (addBrand) {
+        addBrand.addEventListener('click', function(){
+          var wrap = document.getElementById('gondrand-brands');
+          var tmp = document.createElement('div');
+          tmp.innerHTML = <?php echo wp_json_encode(gondrand_brand_row_html(['name'=>'','sub'=>'','image'=>'','url'=>''])); ?>;
+          wrap.appendChild(tmp.firstElementChild);
+          wrap.querySelectorAll('.gondrand-pick').forEach(bindPick);
+        });
+        document.getElementById('gondrand-brands').addEventListener('click', function(e){
+          if (e.target.classList.contains('gondrand-del-brand')) {
+            e.preventDefault();
+            var row = e.target.closest('.gondrand-brand');
+            if (row) row.remove();
+          }
+        });
+      }
     })();
     </script>
     <style>

@@ -42,8 +42,8 @@ function gondrand_render_home() {
   <link rel="icon" href="<?php echo esc_url($assets . 'images/logo-gondrand.png'); ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('css/style.css') : ($assets . 'css/style.css?ver=2.2.6')); ?>">
-  <!-- gondrand-theme 2.2.6 php-home -->
+  <link rel="stylesheet" href="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('css/style.css') : ($assets . 'css/style.css?ver=2.2.7')); ?>">
+  <!-- gondrand-theme 2.2.7 php-home -->
   <?php echo $head; ?>
 </head>
 <body>
@@ -123,8 +123,8 @@ function gondrand_render_home() {
   </section>
 
   <?php echo gondrand_footer_html(); ?>
-  <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.GONDRAND_CMS=<?php echo wp_json_encode(gondrand_cms_payload()); ?>;window.GONDRAND_LOCS=<?php echo wp_json_encode(gondrand_locations_payload()); ?>;window.PAGE="home";</script>
-  <script src="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('js/main.js') : ($assets . 'js/main.js?ver=2.2.6')); ?>"></script>
+  <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.GONDRAND_CMS=<?php echo wp_json_encode(gondrand_cms_payload()); ?>;window.GONDRAND_LOCS=<?php echo wp_json_encode(gondrand_locations_payload()); ?>;window.GONDRAND_BRANDS=<?php echo wp_json_encode(function_exists('gondrand_get_brands') ? gondrand_get_brands() : []); ?>;window.PAGE="home";</script>
+  <script src="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('js/main.js') : ($assets . 'js/main.js?ver=2.2.7')); ?>"></script>
   <script>
     document.getElementById("special-slot").innerHTML = Travex.specialHTML();
     document.getElementById("quote-slot").innerHTML = Travex.quoteHTML(true);

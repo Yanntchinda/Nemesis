@@ -265,14 +265,26 @@
     </header>`;
   }
 
+  function brandsHTML() {
+    const items = Array.isArray(window.GONDRAND_BRANDS) ? window.GONDRAND_BRANDS : [];
+    if (!items.length) {
+      return `<a class="brand" href="${url("index.html")}">TRAVEX<small>GLOBAL FORWARDING</small></a>`;
+    }
+    return items.map(b => {
+      const href = b.url || url("index.html");
+      const img = b.image ? `<img src="${b.image}" alt="${b.name || "Logo"}">` : "";
+      const name = b.name ? b.name : "";
+      const sub = b.sub ? `<small>${b.sub}</small>` : "";
+      return `<a class="brand" href="${href}">${img}${name}${sub}</a>`;
+    }).join("");
+  }
+
   function footerHTML() {
     return `
     <section class="group">
       <div class="wrap">
         <h2>${t("group")}</h2>
-        <div class="brands">
-          <a class="brand" href="${url("index.html")}">TRAVEX<small>GLOBAL FORWARDING</small></a>
-        </div>
+        <div class="brands">${brandsHTML()}</div>
       </div>
     </section>
     <footer class="footer">

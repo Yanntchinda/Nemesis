@@ -103,7 +103,7 @@ function gondrand_footer_html() {
       <div class="wrap">
         <h2><?php echo esc_html(gondrand_t('group', "NOTRE GROUPE D'ENTREPRISES")); ?></h2>
         <div class="brands">
-          <a class="brand" href="<?php echo esc_url(gondrand_home()); ?>">TRAVEX<small>GLOBAL FORWARDING</small></a>
+          <?php echo function_exists('gondrand_brands_html') ? gondrand_brands_html() : ('<a class="brand" href="' . esc_url(gondrand_home()) . '">TRAVEX<small>GLOBAL FORWARDING</small></a>'); ?>
         </div>
       </div>
     </section>

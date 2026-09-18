@@ -216,6 +216,9 @@ function gondrand_page_text_nodes($dom) {
         if (gondrand_has_ancestor_tag($el, ['script', 'form', 'nav', 'button'])) {
             continue;
         }
+        if (gondrand_has_class_ancestor($el, 'timeline') || gondrand_has_class_ancestor($el, 'tl')) {
+            continue;
+        }
         $class = $el->getAttribute('class');
         if (strpos($class, 'crumbs') !== false) {
             continue;
@@ -257,6 +260,107 @@ function gondrand_has_ancestor_tag($el, $tags) {
         $p = $p->parentNode;
     }
     return false;
+}
+
+function gondrand_has_class_ancestor($el, $class) {
+    $p = $el;
+    while ($p instanceof DOMElement) {
+        $c = ' ' . $p->getAttribute('class') . ' ';
+        if (strpos($c, ' ' . $class . ' ') !== false) {
+            return true;
+        }
+        $p = $p->parentNode;
+    }
+    return false;
+}
+
+function gondrand_default_timeline() {
+    return [
+        ['year' => '1866', 'text' => 'Création de la société de transport TRAVEX GLOBAL FORWARDING par les frères TRAVEX GLOBAL FORWARDING.'],
+        ['year' => '1881', 'text' => 'Après 15 ans d’activité, la société dispose de 16 filiales européennes et une offre de service déjà bien étoffée.'],
+        ['year' => '1890', 'text' => 'TRAVEX GLOBAL FORWARDING à Milan possède un parc hippomobile abritant plus de 350 chevaux.'],
+        ['year' => '1919', 'text' => 'Les frères TRAVEX GLOBAL FORWARDING transforment l’entreprise familiale en société anonyme de transport TRAVEX GLOBAL FORWARDING Frères.'],
+        ['year' => 'Entre-deux-guerres', 'text' => 'Développement d’ATEGE (Allemagne), S.N.T. Fratelli Travex Global Forwarding (Italie), S.A.I.T. Travex Global Forwarding Frères (Suisse), S.F.T. Travex Global Forwarding Frères (France, Belgique, Angleterre).'],
+        ['year' => '1950', 'text' => 'La société est reprise en main par Monsieur Arthur Houart.'],
+        ['year' => '1966', 'text' => 'Centième anniversaire : 270 succursales à travers le monde (110 en France, 72 en Italie, 28 en Allemagne, 27 en Suisse, 20 en Belgique, 7 en Hollande, 6 en Angleterre).'],
+        ['year' => '2016', 'text' => 'Travex Global Forwarding célèbre 150 ans d’activité.'],
+    ];
+}
+
+function gondrand_get_timeline() {
+    $rows = get_option('gondrand_timeline', false);
+    if ($rows === false || !is_array($rows)) {
+        return gondrand_default_timeline();
+    }
+    $out = [];
+    foreach ($rows as $r) {
+        if (!is_array($r)) {
+            continue;
+        }
+        $year = isset($r['year']) ? trim((string) $r['year']) : '';
+        $text = isset($r['text']) ? trim((string) $r['text']) : '';
+        if ($year === '' && $text === '') {
+            continue;
+        }
+        $out[] = ['year' => $year, 'text' => $text];
+    }
+    return $out;
+}
+
+function gondrand_save_timeline_from_post() {
+    if (!isset($_POST['gondrand_timeline_present'])) {
+        return;
+    }
+    $years = isset($_POST['tl_year']) ? (array) wp_unslash($_POST['tl_year']) : [];
+    $texts = isset($_POST['tl_text']) ? (array) wp_unslash($_POST['tl_text']) : [];
+    $rows = [];
+    foreach ($years as $i => $year) {
+        $year = sanitize_text_field($year);
+        $text = sanitize_textarea_field($texts[$i] ?? '');
+        if ($year === '' && $text === '') {
+            continue;
+        }
+        $rows[] = ['year' => $year, 'text' => $text];
+    }
+    update_option('gondrand_timeline', $rows, false);
+}
+
+function gondrand_timeline_html() {
+    $html = '';
+    foreach (gondrand_get_timeline() as $r) {
+        $html .= '<div class="tl">';
+        if ($r['year'] !== '') {
+            $html .= '<b>' . esc_html($r['year']) . '</b>';
+        }
+        if ($r['text'] !== '') {
+            $html .= '<p>' . esc_html($r['text']) . '</p>';
+        }
+        $html .= '</div>';
+    }
+    return $html;
+}
+
+function gondrand_apply_timeline($html) {
+    $inner = gondrand_timeline_html();
+    $out = preg_replace(
+        '#<div class="timeline">.*?</div>#s',
+        '<div class="timeline">' . $inner . '</div>',
+        $html,
+        1
+    );
+    return is_string($out) ? $out : $html;
+}
+
+function gondrand_timeline_row_html($r) {
+    ob_start();
+    ?>
+    <div class="gondrand-block gondrand-tl">
+      <p>Date / année<br><input class="regular-text" name="tl_year[]" value="<?php echo esc_attr($r['year'] ?? ''); ?>" placeholder="ex. 1866"></p>
+      <p>Texte<br><textarea name="tl_text[]" rows="3" class="large-text"><?php echo esc_textarea($r['text'] ?? ''); ?></textarea></p>
+      <p><button type="button" class="button gondrand-del-tl">Supprimer cette date</button></p>
+    </div>
+    <?php
+    return ob_get_clean();
 }
 
 function gondrand_bg_url($style) {
@@ -329,7 +433,11 @@ function gondrand_apply_saved_body($html, $path) {
         $html,
         1
     );
-    return is_string($out) ? $out : $html;
+    $html = is_string($out) ? $out : $html;
+    if ($slug === 'entreprise' && function_exists('gondrand_apply_timeline')) {
+        $html = gondrand_apply_timeline($html);
+    }
+    return $html;
 }
 
 add_action('admin_menu', function () {
@@ -391,8 +499,21 @@ add_action('admin_init', function () {
         gondrand_save_page_name($slug, wp_unslash($_POST['g_page_name']));
     }
 
+    if ($slug === 'entreprise') {
+        gondrand_save_timeline_from_post();
+        if (function_exists('gondrand_save_brands_from_post')) {
+            gondrand_save_brands_from_post();
+        }
+        if (isset($_POST['gondrand_i18n_group'])) {
+            set_theme_mod('gondrand_i18n_group', sanitize_text_field(wp_unslash($_POST['gondrand_i18n_group'])));
+        }
+    }
+
     if (!empty($_POST['gondrand_reset_page'])) {
         delete_option(gondrand_page_option_key($slug));
+        if ($slug === 'entreprise') {
+            delete_option('gondrand_timeline');
+        }
         wp_safe_redirect(admin_url('admin.php?page=gondrand-pages&edit=' . rawurlencode($slug) . '&reset=1'));
         exit;
     }
@@ -569,6 +690,34 @@ function gondrand_page_editor($slug) {
         <input type="hidden" name="gondrand_save_page" value="1">
         <input type="hidden" name="gondrand_page_slug" value="<?php echo esc_attr($slug); ?>">
 
+        <?php if ($slug === 'entreprise') : ?>
+        <h2>Dates / historique</h2>
+        <p class="description">Supprimez une date, modifiez-la, ou ajoutez-en. Cliquez ensuite sur <strong>Enregistrer et publier</strong>.</p>
+        <input type="hidden" name="gondrand_timeline_present" value="1">
+        <div id="gondrand-tls">
+          <?php foreach (gondrand_get_timeline() as $row) : ?>
+            <?php echo gondrand_timeline_row_html($row); ?>
+          <?php endforeach; ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-tl">+ Ajouter une date</button></p>
+
+        <h2>Notre groupe d’entreprises — logos</h2>
+        <p class="description">Ces logos apparaissent en bas de toutes les pages (bandeau « Notre groupe d’entreprises »).</p>
+        <p><label>Titre du bandeau<br>
+          <input class="large-text" name="gondrand_i18n_group" value="<?php echo esc_attr(gondrand_t('group', "NOTRE GROUPE D'ENTREPRISES")); ?>">
+        </label></p>
+        <input type="hidden" name="gondrand_brands_present" value="1">
+        <div id="gondrand-brands">
+          <?php
+          $brands = function_exists('gondrand_get_brands') ? gondrand_get_brands() : [];
+          foreach ($brands as $brand) {
+              echo function_exists('gondrand_brand_row_html') ? gondrand_brand_row_html($brand) : '';
+          }
+          ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-brand">+ Ajouter un logo</button></p>
+        <?php endif; ?>
+
         <h2>Images de la page</h2>
         <p class="description">Remplacez, ou cochez <strong>Supprimer</strong> pour enlever l’image du site.</p>
         <?php if (!$parsed['images']) : ?>
@@ -619,18 +768,20 @@ function gondrand_page_editor($slug) {
     </div>
     <script>
     (function(){
-      document.querySelectorAll('.gondrand-pick').forEach(function(btn){
+      function bindPick(btn){
+        if (btn.getAttribute('data-bound')) return;
+        btn.setAttribute('data-bound', '1');
         btn.addEventListener('click', function(e){
           e.preventDefault();
           var id = this.getAttribute('data-target');
-          var input = document.getElementById(id);
+          var input = id ? document.getElementById(id) : this.parentNode.querySelector('.gondrand-image');
           var frame = wp.media({ title: 'Choisir une image', multiple: false, library: { type: 'image' } });
           frame.on('select', function(){
             var att = frame.state().get('selection').first().toJSON();
             if (input) input.value = att.url;
-            var box = input && input.closest('.gondrand-block');
+            var box = input && (input.closest('.gondrand-block') || input.closest('.gondrand-slide') || input.closest('.gondrand-brand'));
             var prev = box && box.querySelector('.gondrand-prev');
-            if (prev) prev.src = att.url;
+            if (prev) { prev.src = att.url; prev.style.display = 'block'; }
             else if (box) {
               var im = document.createElement('img');
               im.className = 'gondrand-prev';
@@ -640,7 +791,42 @@ function gondrand_page_editor($slug) {
           });
           frame.open();
         });
-      });
+      }
+      document.querySelectorAll('.gondrand-pick').forEach(bindPick);
+      var addTl = document.getElementById('gondrand-add-tl');
+      if (addTl) {
+        addTl.addEventListener('click', function(){
+          var wrap = document.getElementById('gondrand-tls');
+          var tmp = document.createElement('div');
+          tmp.innerHTML = <?php echo wp_json_encode(gondrand_timeline_row_html(['year'=>'','text'=>''])); ?>;
+          wrap.appendChild(tmp.firstElementChild);
+        });
+        document.getElementById('gondrand-tls').addEventListener('click', function(e){
+          if (e.target.classList.contains('gondrand-del-tl')) {
+            e.preventDefault();
+            var row = e.target.closest('.gondrand-tl');
+            if (row) row.remove();
+          }
+        });
+      }
+      var addBrand = document.getElementById('gondrand-add-brand');
+      if (addBrand) {
+        addBrand.addEventListener('click', function(){
+          var wrap = document.getElementById('gondrand-brands');
+          var tmp = document.createElement('div');
+          tmp.innerHTML = <?php echo wp_json_encode(function_exists('gondrand_brand_row_html') ? gondrand_brand_row_html(['name'=>'','sub'=>'','image'=>'','url'=>'']) : ''); ?>;
+          if (!tmp.firstElementChild) return;
+          wrap.appendChild(tmp.firstElementChild);
+          wrap.querySelectorAll('.gondrand-pick').forEach(bindPick);
+        });
+        document.getElementById('gondrand-brands').addEventListener('click', function(e){
+          if (e.target.classList.contains('gondrand-del-brand')) {
+            e.preventDefault();
+            var row = e.target.closest('.gondrand-brand');
+            if (row) row.remove();
+          }
+        });
+      }
     })();
     </script>
     <style>
