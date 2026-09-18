@@ -289,6 +289,9 @@ function gondrand_save_from_post() {
         'gondrand_specials_title' => 'sanitize_text_field',
         'gondrand_specials_lead' => 'sanitize_textarea_field',
         'gondrand_map_image' => 'esc_url_raw',
+        'gondrand_slide_desktop_fit' => 'sanitize_text_field',
+        'gondrand_slide_desktop_pos' => 'sanitize_text_field',
+        'gondrand_slide_desktop_height' => 'sanitize_text_field',
         'gondrand_slide_mobile_fit' => 'sanitize_text_field',
         'gondrand_slide_mobile_pos' => 'sanitize_text_field',
         'gondrand_slide_mobile_height' => 'sanitize_text_field',
@@ -305,14 +308,17 @@ function gondrand_save_from_post() {
         if ($key === 'gondrand_loc_title' && ( $val === '' || stripos($val, 'gondrand') !== false )) {
             $val = 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS';
         }
-        if ($key === 'gondrand_slide_mobile_fit') {
+        if ($key === 'gondrand_slide_mobile_fit' || $key === 'gondrand_slide_desktop_fit') {
             $val = $val === 'cover' ? 'cover' : 'contain';
         }
-        if ($key === 'gondrand_slide_mobile_pos') {
+        if ($key === 'gondrand_slide_mobile_pos' || $key === 'gondrand_slide_desktop_pos') {
             $val = in_array($val, ['top', 'bottom', 'center'], true) ? $val : 'center';
         }
         if ($key === 'gondrand_slide_mobile_height') {
             $val = $val === '' ? '' : (string) max(160, min(900, (int) $val));
+        }
+        if ($key === 'gondrand_slide_desktop_height') {
+            $val = $val === '' ? '' : (string) max(200, min(1400, (int) $val));
         }
         if ($key === 'gondrand_slide_overlay') {
             $val = $val === '' ? '0' : (string) max(0, min(100, (int) $val));
@@ -403,8 +409,41 @@ function gondrand_admin_page() {
           <button type="button" class="button button-primary" id="gondrand-add-many">+ Ajouter des images (médiathèque)</button>
         </p>
 
+        <h3>Slider sur ordinateur (PC)</h3>
+        <p class="description">Par défaut l’<strong>image entière</strong> s’affiche (sans zoom ni coupe). Pour agrandir le bandeau, indiquez une hauteur en pixels (ex. 720, 800, 900).</p>
+        <table class="form-table" role="presentation">
+          <tr>
+            <th>Affichage de l’image</th>
+            <td>
+              <?php $dfit = gondrand_mod('gondrand_slide_desktop_fit') === 'cover' ? 'cover' : 'contain'; ?>
+              <select name="gondrand_slide_desktop_fit">
+                <option value="contain" <?php selected($dfit, 'contain'); ?>>Image entière (recommandé, sans zoom)</option>
+                <option value="cover" <?php selected($dfit, 'cover'); ?>>Remplir le cadre (zoom / recadrage)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Position</th>
+            <td>
+              <?php $dpos = gondrand_mod('gondrand_slide_desktop_pos'); if (!in_array($dpos, ['top', 'bottom', 'center'], true)) { $dpos = 'center'; } ?>
+              <select name="gondrand_slide_desktop_pos">
+                <option value="center" <?php selected($dpos, 'center'); ?>>Centre</option>
+                <option value="top" <?php selected($dpos, 'top'); ?>>Haut</option>
+                <option value="bottom" <?php selected($dpos, 'bottom'); ?>>Bas</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Hauteur (px)</th>
+            <td>
+              <input type="number" class="small-text" name="gondrand_slide_desktop_height" min="200" max="1400" placeholder="auto" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_desktop_height')); ?>">
+              <p class="description">Vide = hauteur automatique (toute l’image). Pour agrandir : 720, 800, 900, 1080…</p>
+            </td>
+          </tr>
+        </table>
+
         <h3>Slider sur téléphone / Android</h3>
-        <p class="description">Sur ordinateur l’image reste comme aujourd’hui. Sur téléphone, par défaut l’<strong>image entière</strong> s’affiche (sans zoom). Vous pouvez changer ce réglage ci-dessous.</p>
+        <p class="description">Sur téléphone, par défaut l’<strong>image entière</strong> s’affiche (sans zoom). Vous pouvez changer ce réglage ci-dessous.</p>
         <table class="form-table" role="presentation">
           <tr>
             <th>Affichage de l’image</th>
