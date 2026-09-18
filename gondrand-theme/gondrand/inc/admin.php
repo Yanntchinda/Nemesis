@@ -50,7 +50,8 @@ function gondrand_build_slides_html($slides) {
         $title = esc_html($s['title']);
         $text = esc_html($s['text']);
         $url = isset($s['url']) ? trim($s['url']) : '';
-        $html .= '<article class="slide' . $active . '" style="background-image:url(\'' . $img . '\')" data-slide="' . ($i + 1) . '">';
+        $html .= '<article class="slide' . $active . '" data-slide="' . ($i + 1) . '">';
+        $html .= '<img class="slide-img" src="' . $img . '" alt="' . $title . '">';
         $html .= '<div class="wrap slide-inner">';
         $html .= '<h2>' . $title . '</h2>';
         $html .= '<div class="tagline">More Performance – More Success</div>';
@@ -294,6 +295,9 @@ function gondrand_save_from_post() {
         'gondrand_specials_title' => 'sanitize_text_field',
         'gondrand_specials_lead' => 'sanitize_textarea_field',
         'gondrand_map_image' => 'esc_url_raw',
+        'gondrand_slide_mobile_fit' => 'sanitize_text_field',
+        'gondrand_slide_mobile_pos' => 'sanitize_text_field',
+        'gondrand_slide_mobile_height' => 'sanitize_text_field',
     ];
     foreach ($map as $key => $cb) {
         if (!isset($_POST[$key])) {
@@ -302,6 +306,15 @@ function gondrand_save_from_post() {
         $val = $cb(wp_unslash($_POST[$key]));
         if ($key === 'gondrand_loc_title' && ( $val === '' || stripos($val, 'gondrand') !== false )) {
             $val = 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS';
+        }
+        if ($key === 'gondrand_slide_mobile_fit') {
+            $val = $val === 'cover' ? 'cover' : 'contain';
+        }
+        if ($key === 'gondrand_slide_mobile_pos') {
+            $val = in_array($val, ['top', 'bottom', 'center'], true) ? $val : 'center';
+        }
+        if ($key === 'gondrand_slide_mobile_height') {
+            $val = $val === '' ? '' : (string) max(160, min(900, (int) $val));
         }
         set_theme_mod($key, $val);
     }
@@ -383,6 +396,39 @@ function gondrand_admin_page() {
           <button type="button" class="button button-secondary" id="gondrand-add-slide">+ Ajouter un slide vide</button>
           <button type="button" class="button button-primary" id="gondrand-add-many">+ Ajouter des images (médiathèque)</button>
         </p>
+
+        <h3>Slider sur téléphone / Android</h3>
+        <p class="description">Sur ordinateur l’image reste comme aujourd’hui. Sur téléphone, par défaut l’<strong>image entière</strong> s’affiche (sans zoom). Vous pouvez changer ce réglage ci-dessous.</p>
+        <table class="form-table" role="presentation">
+          <tr>
+            <th>Affichage de l’image</th>
+            <td>
+              <?php $fit = gondrand_mod('gondrand_slide_mobile_fit') === 'cover' ? 'cover' : 'contain'; ?>
+              <select name="gondrand_slide_mobile_fit">
+                <option value="contain" <?php selected($fit, 'contain'); ?>>Image entière (recommandé, sans zoom)</option>
+                <option value="cover" <?php selected($fit, 'cover'); ?>>Remplir le cadre (zoom / recadrage)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Position</th>
+            <td>
+              <?php $pos = gondrand_mod('gondrand_slide_mobile_pos'); if (!in_array($pos, ['top', 'bottom', 'center'], true)) { $pos = 'center'; } ?>
+              <select name="gondrand_slide_mobile_pos">
+                <option value="center" <?php selected($pos, 'center'); ?>>Centre</option>
+                <option value="top" <?php selected($pos, 'top'); ?>>Haut</option>
+                <option value="bottom" <?php selected($pos, 'bottom'); ?>>Bas</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Hauteur max (px)</th>
+            <td>
+              <input type="number" class="small-text" name="gondrand_slide_mobile_height" min="160" max="900" placeholder="auto" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_mobile_height')); ?>">
+              <p class="description">Vide = hauteur automatique (toute l’image). Exemple : 280 pour limiter la hauteur.</p>
+            </td>
+          </tr>
+        </table>
 
         <h2>Textes d’accueil</h2>
         <table class="form-table" role="presentation">
