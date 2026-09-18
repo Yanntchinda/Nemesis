@@ -329,17 +329,17 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); }
 /* GROUP */
 .group { background: #e9edf1; text-align: center; padding: 56px 0; }
 .group h2 { letter-spacing: .14em; font-size: 20px; margin-bottom: 28px; }
-.brands { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.brands { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
 .brand {
   background: #fff; min-height: 92px; display: flex; flex-direction: column;
   align-items: center; justify-content: center; border-bottom: 4px solid var(--gold);
-  padding: 10px 12px; color: var(--navy); font-weight: 800; letter-spacing: .06em;
+  padding: 10px; color: var(--navy); font-weight: 800; letter-spacing: .06em;
 }
 .brand img {
-  max-height: 64px; max-width: 160px; width: auto; height: auto;
-  object-fit: contain; margin: 0 auto 8px;
+  max-height: 36px; max-width: 120px; width: auto; height: auto;
+  object-fit: contain; margin: 0 auto 6px;
 }
-.brand small { font-weight: 600; color: var(--muted); letter-spacing: .08em; font-size: 10px; display: block; }
+.brand small { font-weight: 600; color: var(--muted); letter-spacing: .08em; font-size: 10px; }
 .brand.ngl { border-bottom-color: #c81e1e; }
 .brand.mon { border-bottom-color: #1aa3c3; }
 .brand.mf { border-bottom-color: #3db7d4; }
