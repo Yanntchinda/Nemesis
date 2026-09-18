@@ -101,9 +101,14 @@ function gondrand_file_body($slug) {
 function gondrand_get_page_body($slug) {
     $saved = get_option(gondrand_page_option_key($slug), '');
     if (is_string($saved) && trim($saved) !== '') {
-        return $saved;
+        $body = $saved;
+    } else {
+        $body = gondrand_file_body($slug);
     }
-    return gondrand_file_body($slug);
+    if ($slug === 'entreprise' && function_exists('gondrand_apply_timeline')) {
+        $body = gondrand_apply_timeline($body);
+    }
+    return $body;
 }
 
 function gondrand_kses_page($html) {
@@ -277,14 +282,11 @@ function gondrand_has_class_ancestor($el, $class) {
 function gondrand_default_timeline() {
     return [
         ['year' => '1866', 'text' => 'Création de la société de transport TRAVEX GLOBAL FORWARDING par les frères TRAVEX GLOBAL FORWARDING.'],
-        ['year' => '1881', 'text' => 'Après 15 ans d’activité, la société dispose de 16 filiales européennes et une offre de service déjà bien étoffée.'],
-        ['year' => '1890', 'text' => 'TRAVEX GLOBAL FORWARDING à Milan possède un parc hippomobile abritant plus de 350 chevaux.'],
-        ['year' => '1919', 'text' => 'Les frères TRAVEX GLOBAL FORWARDING transforment l’entreprise familiale en société anonyme de transport TRAVEX GLOBAL FORWARDING Frères.'],
-        ['year' => 'Entre-deux-guerres', 'text' => 'Développement d’ATEGE (Allemagne), S.N.T. Fratelli Travex Global Forwarding (Italie), S.A.I.T. Travex Global Forwarding Frères (Suisse), S.F.T. Travex Global Forwarding Frères (France, Belgique, Angleterre).'],
-        ['year' => '1950', 'text' => 'La société est reprise en main par Monsieur Arthur Houart.'],
-        ['year' => '1966', 'text' => 'Centième anniversaire : 270 succursales à travers le monde (110 en France, 72 en Italie, 28 en Allemagne, 27 en Suisse, 20 en Belgique, 7 en Hollande, 6 en Angleterre).'],
-        ['year' => '2016', 'text' => 'Travex Global Forwarding célèbre 150 ans d’activité.'],
     ];
+}
+
+function gondrand_timeline_drop_years() {
+    return ['1881', '1890', '1919', 'Entre-deux-guerres', '1950', '1966', '2016'];
 }
 
 function gondrand_get_timeline() {
@@ -292,7 +294,9 @@ function gondrand_get_timeline() {
     if ($rows === false || !is_array($rows)) {
         return gondrand_default_timeline();
     }
+    $drop = array_map('strtolower', gondrand_timeline_drop_years());
     $out = [];
+    $changed = false;
     foreach ($rows as $r) {
         if (!is_array($r)) {
             continue;
@@ -302,7 +306,14 @@ function gondrand_get_timeline() {
         if ($year === '' && $text === '') {
             continue;
         }
+        if ($year !== '' && in_array(strtolower($year), $drop, true)) {
+            $changed = true;
+            continue;
+        }
         $out[] = ['year' => $year, 'text' => $text];
+    }
+    if ($changed) {
+        update_option('gondrand_timeline', $out, false);
     }
     return $out;
 }
@@ -340,15 +351,84 @@ function gondrand_timeline_html() {
     return $html;
 }
 
+function gondrand_replace_div_class($html, $class, $replacement) {
+    $needle = '<div class="' . $class . '">';
+    $pos = strpos($html, $needle);
+    if ($pos === false) {
+        return $html;
+    }
+    $i = $pos + strlen($needle);
+    $depth = 1;
+    $len = strlen($html);
+    while ($i < $len && $depth > 0) {
+        $next_open = stripos($html, '<div', $i);
+        $next_close = stripos($html, '</div>', $i);
+        if ($next_close === false) {
+            break;
+        }
+        if ($next_open !== false && $next_open < $next_close) {
+            $depth++;
+            $i = $next_open + 4;
+        } else {
+            $depth--;
+            if ($depth === 0) {
+                $i = $next_close + 6;
+                break;
+            }
+            $i = $next_close + 6;
+        }
+    }
+    return substr($html, 0, $pos) . $replacement . substr($html, $i);
+}
+
+function gondrand_entreprise_logistics_html() {
+    $quote = function_exists('gondrand_u') ? gondrand_u('demande-de-cotation/index.html') : '../demande-de-cotation/index.html';
+    return '<div id="entreprise-logistics">'
+        . '<p>TRAVEX GLOBAL FORWARDING provides storage and logistics solutions in Renchen, Germany, to support your import and export operations.</p>'
+        . '<p>Our logistics facility allows goods to be received, stored and prepared before their next stage of transportation.</p>'
+        . '<h3>Cargo Reception</h3>'
+        . '<p>Your goods can be received at our logistics facility according to the agreed arrangements.</p>'
+        . '<p>We can coordinate the consolidation of your cargo before its next stage of transportation.</p>'
+        . '<h3>Storage</h3>'
+        . '<p>Do you need to store your goods before shipment?</p>'
+        . '<p>We offer storage solutions for different types of cargo and volumes, subject to available capacity.</p>'
+        . '<h3>Shipment Preparation</h3>'
+        . '<p>We can coordinate various logistics operations before shipment, including:</p>'
+        . '<ul>'
+        . '<li>Cargo reception</li>'
+        . '<li>Storage</li>'
+        . '<li>Consolidation</li>'
+        . '<li>Loading preparation</li>'
+        . '<li>Cargo grouping</li>'
+        . '<li>Shipment preparation</li>'
+        . '</ul>'
+        . '<h3>Container Preparation</h3>'
+        . '<p>Our logistics solution can also be used to prepare cargo for container shipments.</p>'
+        . '<p>Depending on the arrangement, goods can be received, stored and consolidated before being loaded into a container.</p>'
+        . '<h3>A Solution for Businesses</h3>'
+        . '<p>Our logistics facilities can be particularly useful for companies, traders, importers, exporters and operators requiring logistics space in Germany to organize their goods before shipment.</p>'
+        . '<h3>Looking for storage or a logistics solution?</h3>'
+        . '<p>Tell us the type of goods, volume, required storage period and your logistics requirements.</p>'
+        . '<p>We will assess your needs and propose a suitable solution.</p>'
+        . '<p><a class="btn" href="' . esc_url($quote) . '">Request a Quote</a></p>'
+        . '</div>';
+}
+
 function gondrand_apply_timeline($html) {
-    $inner = gondrand_timeline_html();
-    $out = preg_replace(
-        '#<div class="timeline">.*?</div>#s',
-        '<div class="timeline">' . $inner . '</div>',
-        $html,
-        1
-    );
-    return is_string($out) ? $out : $html;
+    $html = preg_replace('#<h3>Les grandes étapes du développement depuis sa création</h3>#', '', $html, 1);
+    $inner = '<div class="timeline">' . gondrand_timeline_html() . '</div>';
+    $has_log = (strpos($html, 'id="entreprise-logistics"') !== false || strpos($html, "id='entreprise-logistics'") !== false);
+    if (!$has_log) {
+        $inner .= gondrand_entreprise_logistics_html();
+    }
+    if (strpos($html, '<div class="timeline">') !== false) {
+        return gondrand_replace_div_class($html, 'timeline', $inner);
+    }
+    if (!$has_log) {
+        $out = preg_replace('#(<div class="prose">)#', '$1' . gondrand_entreprise_logistics_html(), $html, 1);
+        return is_string($out) ? $out : $html;
+    }
+    return $html;
 }
 
 function gondrand_timeline_row_html($r) {
