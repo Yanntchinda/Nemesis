@@ -45,8 +45,8 @@ add_action('customize_controls_print_footer_scripts', function () {
       var bar = document.createElement('div');
       bar.className = 'gondrand-cz-banner';
       bar.innerHTML = 'Pour modifier <strong>toutes les pages</strong> (textes et images), n’utilisez pas cet écran.<br>'
-        + '<a href="<?php echo esc_url($home); ?>">Gondrand — accueil / slider</a> · '
-        + '<a href="<?php echo esc_url($pages); ?>">Gondrand — toutes les pages</a>';
+        + '<a href="<?php echo esc_url($home); ?>">Travex — accueil / slider</a> · '
+        + '<a href="<?php echo esc_url($pages); ?>">Travex — toutes les pages</a>';
       var info = document.getElementById('customize-info');
       if (info && info.parentNode) info.parentNode.insertBefore(bar, info.nextSibling);
       else document.body.insertBefore(bar, document.body.firstChild);
@@ -59,12 +59,12 @@ add_action('customize_register', function ($wp_customize) {
     $wp_customize->add_section('gondrand_howto', [
         'title'       => 'Comment modifier le site',
         'priority'    => 1,
-        'description' => 'Les messages « iframe / sandbox » dans la console sont normaux (WordPress). Ils n’empêchent rien. Pour changer chaque texte et chaque image de chaque page, quittez le personnaliseur (croix en haut à gauche) et ouvrez le menu Gondrand → Toutes les pages. Accueil et slider : menu Gondrand.',
+        'description' => 'Les messages « iframe / sandbox » dans la console sont normaux (WordPress). Ils n’empêchent rien. Pour changer chaque texte et chaque image de chaque page, quittez le personnaliseur (croix en haut à gauche) et ouvrez le menu Travex → Toutes les pages. Accueil et slider : menu Travex.',
     ]);
 
     $wp_customize->add_panel('gondrand_panel', [
-        'title'       => 'Gondrand — contenu du site',
-        'description' => 'Préférez le menu Gondrand (wp-admin) pour modifier toutes les pages. Ici : logo, CSS, e-mail des devis.',
+        'title'       => 'Travex — contenu du site',
+        'description' => 'Préférez le menu Travex (wp-admin) pour modifier toutes les pages. Ici : logo, CSS, e-mail des devis.',
         'priority'    => 10,
     ]);
 

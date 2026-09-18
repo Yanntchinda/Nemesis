@@ -73,8 +73,8 @@ function gondrand_header_html($page = '') {
     </div>
     <header class="header">
       <div class="wrap">
-        <a class="logo" href="<?php echo esc_url($home); ?>" aria-label="Gondrand accueil">
-          <img src="<?php echo esc_url($logo); ?>" alt="GONDRAND">
+        <a class="logo" href="<?php echo esc_url($home); ?>" aria-label="Travex Global Forwarding accueil">
+          <img src="<?php echo esc_url($logo); ?>" alt="TRAVEX GLOBAL FORWARDING">
         </a>
         <button class="burger" id="burger" aria-label="Menu">☰</button>
         <nav class="nav" id="nav"><?php echo $links; ?></nav>
@@ -86,16 +86,13 @@ function gondrand_header_html($page = '') {
 
 function gondrand_footer_html() {
     $phone = gondrand_mod('gondrand_phone');
-    if ($phone === '') {
-        $phone = '+33 1 44 13 14 00';
-    }
     $email = gondrand_mod('gondrand_email');
     if ($email === '') {
-        $email = 'accueil.dg@gondrand.fr';
+        $email = get_option('admin_email');
     }
     $addr = gondrand_mod('gondrand_address');
     if ($addr === '') {
-        $addr = '11 rue de Lübeck<br>75116 Paris';
+        $addr = 'Im Brünnel 2<br>77871 Renchen';
     } else {
         $addr = nl2br(esc_html($addr));
     }
@@ -105,11 +102,7 @@ function gondrand_footer_html() {
       <div class="wrap">
         <h2><?php echo esc_html(gondrand_t('group', "NOTRE GROUPE D'ENTREPRISES")); ?></h2>
         <div class="brands">
-          <a class="brand" href="<?php echo esc_url(gondrand_home()); ?>">GONDRAND<small>FRANCE</small></a>
-          <a class="brand ngl" href="https://ngl-germany.eu/" target="_blank" rel="noopener">NGL<small>GERMANY</small></a>
-          <a class="brand mon" href="https://www.monnard.com/" target="_blank" rel="noopener">MONNARD<small>SPEDITION</small></a>
-          <a class="brand mf" href="https://www.monfreight.com/" target="_blank" rel="noopener">MONFREIGHT<small>INC.</small></a>
-          <a class="brand cf" href="https://www.cargoflores.com/en/" target="_blank" rel="noopener">CARGO FLORES<small>NGL GROUP</small></a>
+          <a class="brand" href="<?php echo esc_url(gondrand_home()); ?>">TRAVEX<small>GLOBAL FORWARDING</small></a>
         </div>
       </div>
     </section>
@@ -128,27 +121,23 @@ function gondrand_footer_html() {
             </ul>
           </div>
           <div>
-            <h4><?php echo esc_html(gondrand_t('network', 'Réseau Gondrand')); ?></h4>
+            <h4><?php echo esc_html(gondrand_t('network', 'Réseau Travex Global Forwarding')); ?></h4>
             <div class="countries">
-              <span>Belgique</span><span>Chine</span><span>Tchéquie</span>
-              <span>France</span><span>Allemagne (NGL)</span><span>Allemagne (Monnard)</span>
-              <span>Luxembourg</span><span>Mexique</span><span>Maroc</span>
-              <span>Pays-Bas</span><span>Nouvelle-Calédonie</span><span>Sénégal</span>
-              <span>Espagne</span><span>Suisse</span><span>Tahiti</span>
-              <span>Turquie</span><span>Royaume-Uni</span><span>USA</span>
+              <span>Allemagne</span><span>France</span><span>Suisse</span>
             </div>
           </div>
           <div>
             <h4><?php echo esc_html(gondrand_t('hq', 'Siège')); ?></h4>
-            <p><?php echo $addr; ?><br><?php echo esc_html(gondrand_t('tel', 'Tél.')); ?> <?php echo esc_html($phone); ?><br>
-            <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></p>
+            <p><?php echo $addr; ?>
+            <?php if ($phone !== '') : ?><br><?php echo esc_html(gondrand_t('tel', 'Tél.')); ?> <?php echo esc_html($phone); ?><?php endif; ?>
+            <?php if ($email !== '') : ?><br><a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a><?php endif; ?></p>
             <p style="margin-top:12px"><a href="<?php echo esc_url(gondrand_u('mentions-legales/index.html')); ?>"><?php echo esc_html(gondrand_t('legal', 'Mentions légales')); ?></a><br>
             <a href="<?php echo esc_url(gondrand_u('mentions-legales/index.html')); ?>#privacy"><?php echo esc_html(gondrand_t('privacy', 'Politique de confidentialité')); ?></a></p>
           </div>
         </div>
         <div class="copy">
           <div class="certs"><span>IATA</span><span>OEA</span><span>ISO 9001</span></div>
-          <div>© 2026 NGL Gondrand Group SA • Tous droits réservés.</div>
+          <div>© 2026 Travex Global Forwarding • Tous droits réservés.</div>
           <div>Logistique depuis 1866</div>
         </div>
       </div>

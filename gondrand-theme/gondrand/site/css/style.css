@@ -1,4 +1,4 @@
-/* GONDRAND France — recreation of gondrand.fr */
+/* TRAVEX GLOBAL FORWARDING France — recreation of gondrand.fr */
 :root {
   --navy: #0a3a6b;
   --navy-2: #0d4a86;
@@ -308,10 +308,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); }
 .az button.on, .az button:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
 .az button:disabled { opacity: .3; cursor: default; background: #f8fafc; color: #94a3b8; }
 .loc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.loc-grid.loc-stack { grid-template-columns: 1fr; max-width: 720px; }
 .loc {
   border: 1px solid var(--line); padding: 16px 16px 14px; background: #fff;
   min-height: 170px;
 }
+.loc.loc-wide { min-height: 0; }
+.loc-nearby { margin-top: 12px; color: #334155; font-size: 14px; line-height: 1.6; }
 .loc h3 { color: var(--navy); font-size: 14px; letter-spacing: .04em; margin-bottom: 8px; }
 .loc p, .loc a { font-size: 13px; color: #475569; }
 .loc a { color: var(--navy-2); display: block; }

@@ -24,7 +24,7 @@ function gondrand_render_home() {
     status_header(200);
     nocache_headers();
     header('Content-Type: text/html; charset=UTF-8');
-    header('X-Gondrand-Theme: 2.1.1');
+    header('X-Gondrand-Theme: 2.2.0');
     header('X-LiteSpeed-Cache-Control: no-cache');
 
     $head = gondrand_head_inject();
@@ -35,8 +35,8 @@ function gondrand_render_home() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GONDRAND | LOGISTICS • MORE PERFORMANCE – MORE SUCCESS</title>
-  <meta name="description" content="Gondrand, logistique depuis 1866.">
+  <title>TRAVEX GLOBAL FORWARDING | LOGISTICS • MORE PERFORMANCE – MORE SUCCESS</title>
+  <meta name="description" content="Travex Global Forwarding, logistique depuis 1866.">
   <link rel="icon" href="<?php echo esc_url($assets . 'images/logo-gondrand.png'); ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -66,10 +66,10 @@ function gondrand_render_home() {
       </div>
       <div>
         <div class="video-box">
-          <img src="<?php echo esc_url($vid); ?>" alt="Gondrand logistique">
+          <img src="<?php echo esc_url($vid); ?>" alt="Travex Global Forwarding logistique">
           <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
             <div style="width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,.9);display:grid;place-items:center;font-size:22px;color:#062544">▶</div>
-            <small style="letter-spacing:.16em;text-transform:uppercase">Gondrand France</small>
+            <small style="letter-spacing:.16em;text-transform:uppercase">Travex Global Forwarding</small>
           </div>
         </div>
         <p style="margin-top:10px;font-size:13px;color:#64748b">GRANDE VALEUR · RAPIDE · IMPORTANT</p>
@@ -80,10 +80,9 @@ function gondrand_render_home() {
   <section class="section alt" id="emplacements">
     <div class="wrap">
       <div class="bar"></div>
-      <h2><?php echo esc_html(gondrand_text('gondrand_loc_title', 'GONDRAND FRANCE EMPLACEMENTS')); ?></h2>
-      <p class="lead"><?php echo esc_html(gondrand_text('gondrand_loc_lead', 'Un réseau d’agences de métropole, d’outre-mer et de frontière suisse. Sélectionnez une lettre.')); ?></p>
-      <div class="az" id="az"></div>
-      <div class="loc-grid" id="loc-grid"></div>
+      <h2><?php echo esc_html(gondrand_text('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING – EMPLACEMENTS')); ?></h2>
+      <p class="lead"><?php echo esc_html(gondrand_text('gondrand_loc_lead', 'Notre point de réception à Renchen, facilement accessible depuis l’Allemagne, la France et la Suisse.')); ?></p>
+      <?php echo gondrand_locations_html(); ?>
     </div>
   </section>
 
@@ -112,19 +111,21 @@ function gondrand_render_home() {
     <span class="pin" style="left:35%;top:52%"></span>
     <span class="pin" style="left:71%;top:36%"></span>
     <div class="map-card">
-      <h3>GONDRAND FRANCE</h3>
-      <p><?php echo esc_html(preg_replace('/\s+/', ' ', wp_strip_all_tags(gondrand_text('gondrand_address', '11 rue de Lübeck — 75116 Paris')))); ?></p>
-      <p>Tél. <?php echo esc_html(gondrand_text('gondrand_phone', '+33 1 44 13 14 00')); ?></p>
+      <h3>TRAVEX GLOBAL FORWARDING</h3>
+      <p><?php echo esc_html(preg_replace('/\s+/', ' ', wp_strip_all_tags(gondrand_text('gondrand_address', 'Im Brünnel 2, 77871 Renchen')))); ?></p>
+      <?php if (gondrand_mod('gondrand_phone') !== '') : ?>
+      <p>Tél. <?php echo esc_html(gondrand_mod('gondrand_phone')); ?></p>
+      <?php endif; ?>
       <a class="btn" href="<?php echo esc_url(gondrand_u('contact/index.html')); ?>" style="margin-top:12px">Toutes les agences</a>
     </div>
   </section>
 
   <?php echo gondrand_footer_html(); ?>
-  <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.PAGE="home";</script>
+  <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.GONDRAND_LOCS=<?php echo wp_json_encode(gondrand_locations_payload()); ?>;window.PAGE="home";</script>
   <script src="<?php echo esc_url($assets . 'js/main.js'); ?>"></script>
   <script>
-    document.getElementById("special-slot").innerHTML = Gondrand.specialHTML();
-    document.getElementById("quote-slot").innerHTML = Gondrand.quoteHTML(true);
+    document.getElementById("special-slot").innerHTML = Travex.specialHTML();
+    document.getElementById("quote-slot").innerHTML = Travex.quoteHTML(true);
   </script>
   <?php echo $foot; ?>
 </body>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Gondrand — thème WordPress qui affiche le site HTML.
+ * Travex — thème WordPress qui affiche le site HTML.
  *
- * Apparence → Personnaliser → Gondrand : adresse e-mail des devis.
+ * Apparence → Personnaliser → Travex : adresse e-mail des devis.
  */
 
 if (!defined('ABSPATH')) {
@@ -254,7 +254,11 @@ function gondrand_apply_content($html, $path) {
     }
     $logo = gondrand_mod('gondrand_logo');
     $boot  = '<script>window.GONDRAND_CMS=' . wp_json_encode($cms) . ';';
-    $boot .= 'window.GONDRAND_LOGO=' . wp_json_encode($logo) . ';</script>';
+    $boot .= 'window.GONDRAND_LOGO=' . wp_json_encode($logo) . ';';
+    if (function_exists('gondrand_locations_payload')) {
+        $boot .= 'window.GONDRAND_LOCS=' . wp_json_encode(gondrand_locations_payload()) . ';';
+    }
+    $boot .= '</script>';
     $html = str_replace('</head>', $boot . "\n</head>", $html);
 
     return $html;
@@ -368,7 +372,7 @@ function gondrand_handle_mail() {
         'Commentaires'           => gondrand_field('comments'),
     ];
 
-    $body  = "Nouvelle demande de devis — Gondrand\n";
+    $body  = "Nouvelle demande de devis — Travex Global Forwarding\n";
     $body .= 'Date : ' . current_time('mysql') . "\n";
     $body .= 'Site : ' . home_url('/') . "\n\n";
     foreach ($lines as $label => $value) {
@@ -377,7 +381,7 @@ function gondrand_handle_mail() {
         }
     }
 
-    $subject = 'Demande de devis Gondrand';
+    $subject = 'Demande de devis Travex Global Forwarding';
     $type    = gondrand_field('type');
     if ($type !== '') {
         $subject .= ' — ' . $type;

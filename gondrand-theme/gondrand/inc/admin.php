@@ -63,10 +63,88 @@ function gondrand_build_slides_html($slides) {
     return $html;
 }
 
+function gondrand_default_locations() {
+    return [
+        [
+            'title'   => 'TRAVEX GLOBAL FORWARDING – RENCHEN',
+            'address' => "Im Brünnel 2\n77871 Renchen",
+            'text'    => "Notre point de réception est facilement accessible depuis :\n\n🇩🇪 Allemagne\n• Renchen – 0 km\n• Appenweier – env. 5 km\n• Achern – env. 8 km\n• Oberkirch – env. 9 km\n• Offenburg – env. 14 km\n• Baden-Baden – env. 25 km\n• Kehl – env. 20 km\n• Karlsruhe – env. 60 km\n• Freiburg – env. 70 km\n• Pforzheim – env. 80 km\n• Stuttgart – env. 130 km\n\n🇫🇷 France\n• Strasbourg – env. 35 km\n• Alsace et environs – facilement accessibles\n\n🇨🇭 Suisse\n• Bâle – env. 140 km\n• Zurich – env. 200 km\n• Berne – env. 220 km",
+        ],
+    ];
+}
+
+function gondrand_get_locations() {
+    $locs = get_option('gondrand_locations', false);
+    if ($locs === false || !is_array($locs)) {
+        return gondrand_default_locations();
+    }
+    $out = [];
+    foreach ($locs as $l) {
+        if (!is_array($l)) {
+            continue;
+        }
+        $title = isset($l['title']) ? trim((string) $l['title']) : '';
+        $address = isset($l['address']) ? trim((string) $l['address']) : '';
+        $text = isset($l['text']) ? (string) $l['text'] : '';
+        if ($title === '' && $address === '' && trim($text) === '') {
+            continue;
+        }
+        $out[] = ['title' => $title, 'address' => $address, 'text' => $text];
+    }
+    return $out;
+}
+
+function gondrand_locations_payload() {
+    $out = [];
+    foreach (gondrand_get_locations() as $l) {
+        $out[] = [
+            'n'       => $l['title'],
+            'a'       => $l['address'],
+            'nearby'  => $l['text'],
+            'title'   => $l['title'],
+            'address' => $l['address'],
+            'text'    => $l['text'],
+        ];
+    }
+    return $out;
+}
+
+function gondrand_locations_html() {
+    $html = '<div class="loc-grid loc-stack" id="loc-grid">';
+    foreach (gondrand_get_locations() as $l) {
+        $html .= '<article class="loc loc-wide">';
+        if ($l['title'] !== '') {
+            $html .= '<h3>' . esc_html($l['title']) . '</h3>';
+        }
+        if ($l['address'] !== '') {
+            $html .= '<p>' . nl2br(esc_html($l['address'])) . '</p>';
+        }
+        if (trim($l['text']) !== '') {
+            $html .= '<div class="loc-nearby">' . nl2br(esc_html($l['text'])) . '</div>';
+        }
+        $html .= '</article>';
+    }
+    $html .= '</div>';
+    return $html;
+}
+
+function gondrand_loc_row_html($l) {
+    ob_start();
+    ?>
+    <div class="gondrand-slide gondrand-loc">
+      <p>Nom<br><input class="large-text" name="loc_title[]" value="<?php echo esc_attr($l['title'] ?? ''); ?>"></p>
+      <p>Adresse<br><textarea name="loc_address[]" rows="2" class="large-text"><?php echo esc_textarea($l['address'] ?? ''); ?></textarea></p>
+      <p>Détail / villes accessibles<br><textarea name="loc_text[]" rows="10" class="large-text"><?php echo esc_textarea($l['text'] ?? ''); ?></textarea></p>
+      <p><button type="button" class="button gondrand-del-loc">Supprimer cet emplacement</button></p>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 add_action('admin_menu', function () {
     add_menu_page(
-        'Gondrand',
-        'Gondrand',
+        'Travex',
+        'Travex',
         'edit_theme_options',
         'gondrand-content',
         'gondrand_admin_page',
@@ -94,7 +172,7 @@ add_action('admin_notices', function () {
         echo '<div class="notice notice-warning"><p>Un fichier <code>index.html</code> bloquait WordPress à la racine du site. Il a été renommé. Purgez LiteSpeed.</p></div>';
     }
     if (!$on) {
-        echo '<div class="notice notice-info"><p><strong>Gondrand :</strong> pour modifier le site, menu <a href="' . esc_url(admin_url('admin.php?page=gondrand-content')) . '">Gondrand</a> (accueil) ou <a href="' . esc_url(admin_url('admin.php?page=gondrand-pages')) . '">Toutes les pages</a>. Pas le menu « Pages » de WordPress.</p></div>';
+        echo '<div class="notice notice-info"><p><strong>Travex :</strong> pour modifier le site, menu <a href="' . esc_url(admin_url('admin.php?page=gondrand-content')) . '">Travex Global Forwarding</a> (accueil) ou <a href="' . esc_url(admin_url('admin.php?page=gondrand-pages')) . '">Toutes les pages</a>. Pas le menu « Pages » de WordPress.</p></div>';
     }
 });
 
@@ -123,6 +201,21 @@ function gondrand_save_from_post() {
         ];
     }
     update_option('gondrand_slides', $slides, false);
+
+    $lt = isset($_POST['loc_title']) ? (array) wp_unslash($_POST['loc_title']) : [];
+    $la = isset($_POST['loc_address']) ? (array) wp_unslash($_POST['loc_address']) : [];
+    $lx = isset($_POST['loc_text']) ? (array) wp_unslash($_POST['loc_text']) : [];
+    $locations = [];
+    foreach ($lt as $i => $title) {
+        $title = sanitize_text_field($title);
+        $address = sanitize_textarea_field($la[$i] ?? '');
+        $text = sanitize_textarea_field($lx[$i] ?? '');
+        if ($title === '' && $address === '' && trim($text) === '') {
+            continue;
+        }
+        $locations[] = ['title' => $title, 'address' => $address, 'text' => $text];
+    }
+    update_option('gondrand_locations', $locations, false);
 
     $map = [
         'gondrand_logo' => 'esc_url_raw',
@@ -190,7 +283,7 @@ function gondrand_admin_page() {
     $root_html = is_file(ABSPATH . 'index.html');
     ?>
     <div class="wrap">
-      <h1>Gondrand — modifier le site</h1>
+      <h1>Travex — modifier le site</h1>
       <?php if (!empty($_GET['saved'])) : ?>
         <div class="notice notice-success is-dismissible">
           <p><strong>Enregistré.</strong> Ouvrez le site (sans cache) :
@@ -267,10 +360,19 @@ function gondrand_admin_page() {
           <?php endforeach; ?>
         </table>
 
+        <h2>Emplacements</h2>
+        <p class="description">Ajoutez, modifiez ou supprimez les agences affichées sur l’accueil et la page Contact.</p>
+        <div id="gondrand-locs">
+          <?php foreach (gondrand_get_locations() as $loc) : ?>
+            <?php echo gondrand_loc_row_html($loc); ?>
+          <?php endforeach; ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-loc">+ Ajouter un emplacement</button></p>
+
         <h2>Emplacements & carte</h2>
         <table class="form-table" role="presentation">
-          <tr><th>Titre emplacements</th><td><input class="large-text" name="gondrand_loc_title" value="<?php echo esc_attr(gondrand_text('gondrand_loc_title', 'GONDRAND FRANCE EMPLACEMENTS')); ?>"></td></tr>
-          <tr><th>Texte emplacements</th><td><textarea class="large-text" rows="2" name="gondrand_loc_lead"><?php echo esc_textarea(gondrand_text('gondrand_loc_lead', 'Un réseau d’agences de métropole, d’outre-mer et de frontière suisse. Sélectionnez une lettre.')); ?></textarea></td></tr>
+          <tr><th>Titre emplacements</th><td><input class="large-text" name="gondrand_loc_title" value="<?php echo esc_attr(gondrand_text('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING – EMPLACEMENTS')); ?>"></td></tr>
+          <tr><th>Texte emplacements</th><td><textarea class="large-text" rows="2" name="gondrand_loc_lead"><?php echo esc_textarea(gondrand_text('gondrand_loc_lead', 'Notre point de réception à Renchen, facilement accessible depuis l’Allemagne, la France et la Suisse.')); ?></textarea></td></tr>
           <tr><th>Titre services spéciaux</th><td><input class="large-text" name="gondrand_specials_title" value="<?php echo esc_attr(gondrand_text('gondrand_specials_title', 'Services spéciaux')); ?>"></td></tr>
           <tr><th>Texte services spéciaux</th><td><textarea class="large-text" rows="3" name="gondrand_specials_lead"><?php echo esc_textarea(gondrand_text('gondrand_specials_lead', 'En tant que membre d’un réseau d’investisseurs internationaux, nous disposons des ressources financières et logistiques nécessaires à la définition et à la réalisation des objectifs de nos clients, tout en les accompagnant tout au long du processus.')); ?></textarea></td></tr>
           <tr>
@@ -284,7 +386,7 @@ function gondrand_admin_page() {
 
         <h2>Coordonnées</h2>
         <table class="form-table" role="presentation">
-          <tr><th>Adresse</th><td><textarea class="large-text" rows="3" name="gondrand_address"><?php echo esc_textarea(gondrand_text('gondrand_address', "11 rue de Lübeck\n75116 Paris")); ?></textarea></td></tr>
+          <tr><th>Adresse</th><td><textarea class="large-text" rows="3" name="gondrand_address"><?php echo esc_textarea(gondrand_text('gondrand_address', "Im Brünnel 2\n77871 Renchen")); ?></textarea></td></tr>
           <tr><th>Téléphone</th><td><input class="regular-text" name="gondrand_phone" value="<?php echo esc_attr(gondrand_text('gondrand_phone', '+33 1 44 13 14 00')); ?>"></td></tr>
           <tr><th>E-mail affiché</th><td><input class="regular-text" type="email" name="gondrand_email" value="<?php echo esc_attr(gondrand_text('gondrand_email', 'accueil.dg@gondrand.fr')); ?>"></td></tr>
           <tr><th>E-mail des devis</th><td><input class="regular-text" type="email" name="gondrand_quote_email" value="<?php echo esc_attr(get_theme_mod('gondrand_quote_email', get_option('admin_email'))); ?>"></td></tr>
@@ -347,6 +449,19 @@ function gondrand_admin_page() {
         if (e.target.classList.contains('gondrand-del')) {
           e.preventDefault();
           var row = e.target.closest('.gondrand-slide');
+          if (row) row.remove();
+        }
+      });
+      document.getElementById('gondrand-add-loc').addEventListener('click', function(){
+        var wrap = document.getElementById('gondrand-locs');
+        var tmp = document.createElement('div');
+        tmp.innerHTML = <?php echo wp_json_encode(gondrand_loc_row_html(['title'=>'','address'=>'','text'=>''])); ?>;
+        wrap.appendChild(tmp.firstElementChild);
+      });
+      document.getElementById('gondrand-locs').addEventListener('click', function(e){
+        if (e.target.classList.contains('gondrand-del-loc')) {
+          e.preventDefault();
+          var row = e.target.closest('.gondrand-loc');
           if (row) row.remove();
         }
       });
