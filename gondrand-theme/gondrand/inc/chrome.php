@@ -32,23 +32,24 @@ function gondrand_header_html($page = '') {
         $logo = $assets . 'images/logo-gondrand.png';
     }
     $nav = [
-        ['home', gondrand_t('nav_home', 'Accueil'), 'index.html'],
-        ['entreprise', gondrand_t('nav_company', 'Entreprise'), 'entreprise/index.html'],
+        ['home', function_exists('gondrand_page_name') ? gondrand_page_name('home') : gondrand_t('nav_home', 'Accueil'), 'index.html'],
+        ['entreprise', function_exists('gondrand_page_name') ? gondrand_page_name('entreprise') : gondrand_t('nav_company', 'Entreprise'), 'entreprise/index.html'],
         ['devis', gondrand_t('nav_quote', 'Devis'), 'demande-de-cotation/index.html'],
-        ['contact', gondrand_t('nav_contact', 'Contact'), 'contact/index.html'],
+        ['contact', function_exists('gondrand_page_name') ? gondrand_page_name('contact') : gondrand_t('nav_contact', 'Contact'), 'contact/index.html'],
     ];
     $services = [
-        [gondrand_t('svc_road', 'Transport terrestre'), 'services/luftfracht-2/'],
-        [gondrand_t('svc_air', 'Fret aérien'), 'services/ueber-uns/'],
-        [gondrand_t('svc_sea', 'Fret maritime'), 'services/beratung-2/'],
-        [gondrand_t('svc_special', 'Trafics spéciaux'), 'services/seefracht-2/'],
-        [gondrand_t('svc_customs', 'Douane'), 'services/zoll-2/'],
-        [gondrand_t('svc_vat', 'TVA / Représentation fiscale'), 'representation-fiscale/index.html'],
+        [function_exists('gondrand_page_name') ? gondrand_page_name('luftfracht-2') : gondrand_t('svc_road', 'Transport terrestre'), 'services/luftfracht-2/'],
+        [function_exists('gondrand_page_name') ? gondrand_page_name('ueber-uns') : gondrand_t('svc_air', 'Fret aérien'), 'services/ueber-uns/'],
+        [function_exists('gondrand_page_name') ? gondrand_page_name('beratung-2') : gondrand_t('svc_sea', 'Fret maritime'), 'services/beratung-2/'],
+        [function_exists('gondrand_page_name') ? gondrand_page_name('seefracht-2') : gondrand_t('svc_special', 'Trafics spéciaux'), 'services/seefracht-2/'],
+        [function_exists('gondrand_page_name') ? gondrand_page_name('zoll-2') : gondrand_t('svc_customs', 'Douane'), 'services/zoll-2/'],
+        [function_exists('gondrand_page_name') ? gondrand_page_name('representation-fiscale') : gondrand_t('svc_vat', 'TVA / Représentation fiscale'), 'representation-fiscale/index.html'],
     ];
     $links = '';
     foreach ($nav as $item) {
         if ($item[0] === 'devis') {
-            $links .= '<div class="drop"><span>' . esc_html(gondrand_t('nav_services', 'Services')) . ' ▾</span><div class="drop-menu">';
+            $svc_label = function_exists('gondrand_page_name') ? gondrand_page_name('services') : gondrand_t('nav_services', 'Services');
+            $links .= '<div class="drop"><span>' . esc_html($svc_label) . ' ▾</span><div class="drop-menu">';
             foreach ($services as $s) {
                 $links .= '<a href="' . esc_url(gondrand_u($s[1])) . '">' . esc_html($s[0]) . '</a>';
             }
@@ -67,7 +68,7 @@ function gondrand_header_html($page = '') {
           <button type="button" class="lang-btn" data-lang="en">EN</button>
         </div>
         <div class="top-links">
-          <a href="<?php echo esc_url(gondrand_u('demande-de-cotation/index.html')); ?>"><?php echo esc_html(gondrand_t('nav_rfq', 'Demande de cotation')); ?></a>
+          <a href="<?php echo esc_url(gondrand_u('demande-de-cotation/index.html')); ?>"><?php echo esc_html(function_exists('gondrand_page_name') ? gondrand_page_name('demande-de-cotation') : gondrand_t('nav_rfq', 'Demande de cotation')); ?></a>
         </div>
       </div>
     </div>

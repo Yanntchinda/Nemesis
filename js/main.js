@@ -69,6 +69,10 @@
       click_here: "cliquez ici",
       send: "Envoyer →",
       quote_ok: "Votre demande a bien été transmise. Un commercial Travex Global Forwarding vous répondra dans les plus brefs délais.",
+      quote_company: "Société", quote_phone: "Téléphone", quote_contact: "Contact",
+      quote_from: "Départ", quote_to: "Arrivée", quote_from_country: "Pays (départ)", quote_to_country: "Pays (arrivée)",
+      quote_client: "Données du client", quote_pack: "Colis", quote_parcel: "Type de colis",
+      quote_dimensions: "Dimensions (L × l × H)", quote_dangerous: "Marchandise dangereuse", quote_comments: "Commentaires",
       special_title: "Qu'est-ce qui nous rend spécial ?",
       special_lead: "En tant que société européenne présente dans le monde entier, nous proposons à nos clients un portefeuille de services complet.",
       pack: "Emballage et stockage", pack_p: "Conditionnement et protection de vos marchandises.",
@@ -146,6 +150,10 @@
       click_here: "click here",
       send: "Send →",
       quote_ok: "Your request has been sent. A Travex Global Forwarding sales contact will get back to you shortly.",
+      quote_company: "Company", quote_phone: "Phone", quote_contact: "Contact",
+      quote_from: "Origin", quote_to: "Destination", quote_from_country: "Country (origin)", quote_to_country: "Country (destination)",
+      quote_client: "Client details", quote_pack: "Parcel", quote_parcel: "Parcel type",
+      quote_dimensions: "Dimensions (L × W × H)", quote_dangerous: "Dangerous goods", quote_comments: "Comments",
       special_title: "What makes us special?",
       special_lead: "As a European company with a worldwide presence, we offer our clients a complete portfolio of services.",
       pack: "Packing and storage", pack_p: "Conditioning and protection of your goods.",
@@ -315,49 +323,83 @@
     </div>`;
   }
 
-  function quoteHTML(compact) {
-    return `
-    <div class="quote" id="devis">
-      <h2>${t("quote_title")}</h2>
-      <form id="quote-form" action="${url("send.php")}" method="post">
-        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  function list(key, fallback) {
+    const cms = window.GONDRAND_CMS || {};
+    if (Array.isArray(cms[key]) && cms[key].length) return cms[key];
+    if (typeof cms[key] === "string" && cms[key].trim()) {
+      return cms[key].split(/\n/).map(s => s.trim()).filter(Boolean);
+    }
+    return fallback;
+  }
+
+  function options(items, placeholder) {
+    const ph = placeholder ? `<option value="">${placeholder}</option>` : "";
+    return ph + items.map(x => `<option>${x}</option>`).join("");
+  }
+
+  function quoteHTML(mode) {
+    const compact = mode === true || mode === "compact";
+    const full = mode === "full";
+    const types = list("quote_types", [t("warehousing"), t("air_t"), t("sea_t"), t("multi_t"), t("road_t")]);
+    const incos = list("quote_incoterms", ["EXW", "FCA", "FAS", "FOB", "CFR", "CIF", "CPT", "CIP", "DAP", "DPU", "DDP"]);
+    const parcels = list("quote_parcels", ["Palette", "Carton", "Conteneur", "Caisse bois", "Sur-mesure", "Divers"]);
+    const extra = compact ? "" : (full ? `
+        <h3 style="color:var(--navy);margin:18px 0 10px">${t("quote_client")}</h3>
         <div class="grid-2">
-          <div class="row">
-            <label>${t("transport_type")}</label>
-            <select name="type" required>
-              <option value="">${t("transport_type_ph")}</option>
-              <option>${t("warehousing")}</option>
-              <option>${t("air_t")}</option>
-              <option>${t("sea_t")}</option>
-              <option>${t("multi_t")}</option>
-              <option>${t("road_t")}</option>
-            </select>
-          </div>
-          <div class="row">
-            <label>${t("incoterms")}</label>
-            <select name="incoterms">
-              <option value="">${t("incoterms")}</option>
-              <option>EXW</option><option>FCA</option><option>FAS</option>
-              <option>FOB</option><option>CFR</option><option>CIF</option>
-              <option>CPT</option><option>CIP</option><option>DAP</option>
-              <option>DPU</option><option>DDP</option>
-            </select>
-          </div>
+          <div class="row"><label>${t("quote_company")}</label><input name="company" required></div>
+          <div class="row"><label>${t("email")}</label><input name="email" type="email" required></div>
+          <div class="row"><label>${t("quote_phone")}</label><input name="phone"></div>
+          <div class="row"><label>${t("quote_contact")}</label><input name="contact"></div>
         </div>
-        ${compact ? "" : `
+        <h3 style="color:var(--navy);margin:18px 0 10px">${t("quote_from")}</h3>
         <div class="grid-2">
-          <div class="row"><label>${t("from_city")}</label><input name="from" required placeholder="City / country"></div>
-          <div class="row"><label>${t("to_city")}</label><input name="to" required placeholder="City / country"></div>
+          <div class="row"><label>${t("from_city")}</label><input name="from_city" required></div>
+          <div class="row"><label>${t("quote_from_country")}</label><input name="from_country" required></div>
+        </div>
+        <h3 style="color:var(--navy);margin:18px 0 10px">${t("quote_to")}</h3>
+        <div class="grid-2">
+          <div class="row"><label>${t("to_city")}</label><input name="to_city" required></div>
+          <div class="row"><label>${t("quote_to_country")}</label><input name="to_country" required></div>
+        </div>
+        <h3 style="color:var(--navy);margin:18px 0 10px">${t("quote_pack")}</h3>
+        <div class="grid-2">
+          <div class="row"><label>${t("quote_parcel")}</label><select name="parcel" required>${options(parcels, t("quote_parcel"))}</select></div>
+          <div class="row"><label>${t("weight")}</label><input name="weight" type="number" min="0"></div>
+          <div class="row"><label>${t("quote_dimensions")}</label><input name="dimensions" placeholder="cm"></div>
+          <div class="row"><label>${t("quote_dangerous")}</label><select name="dangerous"><option>Non</option><option>Oui</option></select></div>
+        </div>
+        <div class="row"><label>${t("quote_comments")}</label><textarea name="comments" rows="4"></textarea></div>
+        ` : `
+        <div class="grid-2">
+          <div class="row"><label>${t("from_city")}</label><input name="from" required></div>
+          <div class="row"><label>${t("to_city")}</label><input name="to" required></div>
         </div>
         <div class="grid-2">
           <div class="row"><label>${t("weight")}</label><input name="weight" type="number" min="0"></div>
-          <div class="row"><label>${t("email")}</label><input name="email" type="email" required placeholder="you@company.com"></div>
-        </div>`}
-        ${compact ? `<div class="row"><label>${t("email")}</label><input name="email" type="email" required placeholder="you@company.com"></div>` : ""}
+          <div class="row"><label>${t("email")}</label><input name="email" type="email" required></div>
+        </div>`);
+    return `
+    <div class="quote" id="devis">
+      ${full ? "" : `<h2>${t("quote_title")}</h2>`}
+      <form id="quote-form" action="${url("send.php")}" method="post">
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="${full ? "row" : "grid-2"}">
+          <div class="row">
+            <label>${t("transport_type")}</label>
+            <select name="type" required>${options(types, t("transport_type_ph"))}</select>
+          </div>
+          ${full ? "" : `<div class="row">
+            <label>${t("incoterms")}</label>
+            <select name="incoterms"><option value="">${t("incoterms")}</option>${incos.map(x => `<option>${x}</option>`).join("")}</select>
+          </div>`}
+        </div>
+        ${extra}
+        ${full ? `<div class="row"><label>${t("incoterms")}</label><select name="incoterms" required>${options(incos, t("incoterms"))}</select></div>` : ""}
+        ${compact ? `<div class="row"><label>${t("email")}</label><input name="email" type="email" required></div>` : ""}
         <div class="row">
           <label class="check"><input type="checkbox" required> <span><a href="${url("mentions-legales/index.html")}#privacy">${t("privacy")}</a> — ${t("privacy_ok")}</span></label>
         </div>
-        <p style="font-size:12px;color:#64748b;margin-bottom:12px">${t("quote_ext").replace(t("click_here"), `<a href="${url("demande-de-cotation/index.html")}">${t("click_here")}</a>`)}</p>
+        ${full ? "" : `<p style="font-size:12px;color:#64748b;margin-bottom:12px">${t("quote_ext").replace(t("click_here"), `<a href="${url("demande-de-cotation/index.html")}">${t("click_here")}</a>`)}</p>`}
         <button class="btn ghost" type="submit">${t("send")}</button>
       </form>
       <div class="okbox" id="quote-ok">${t("quote_ok")}</div>

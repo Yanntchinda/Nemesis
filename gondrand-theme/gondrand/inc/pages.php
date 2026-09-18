@@ -5,20 +5,56 @@ if (!defined('ABSPATH')) {
 
 function gondrand_catalog() {
     return [
-        'home' => ['label' => 'Accueil', 'file' => 'index.html', 'path' => '/', 'home' => true],
-        'entreprise' => ['label' => 'Entreprise', 'file' => 'entreprise/index.html', 'path' => 'entreprise/'],
-        'contact' => ['label' => 'Contact', 'file' => 'contact/index.html', 'path' => 'contact/'],
-        'demande-de-cotation' => ['label' => 'Demande de cotation', 'file' => 'demande-de-cotation/index.html', 'path' => 'demande-de-cotation/'],
-        'services' => ['label' => 'Services', 'file' => 'services/index.html', 'path' => 'services/'],
-        'luftfracht-2' => ['label' => 'Transport terrestre', 'file' => 'services/luftfracht-2/index.html', 'path' => 'services/luftfracht-2/'],
-        'ueber-uns' => ['label' => 'Fret aérien', 'file' => 'services/ueber-uns/index.html', 'path' => 'services/ueber-uns/'],
-        'beratung-2' => ['label' => 'Fret maritime', 'file' => 'services/beratung-2/index.html', 'path' => 'services/beratung-2/'],
-        'seefracht-2' => ['label' => 'Trafics spéciaux', 'file' => 'services/seefracht-2/index.html', 'path' => 'services/seefracht-2/'],
-        'zoll-2' => ['label' => 'Douane (service)', 'file' => 'services/zoll-2/index.html', 'path' => 'services/zoll-2/'],
-        'logistik-2' => ['label' => 'About us', 'file' => 'services/logistik-2/index.html', 'path' => 'services/logistik-2/'],
-        'representation-fiscale' => ['label' => 'Représentation fiscale', 'file' => 'representation-fiscale/index.html', 'path' => 'representation-fiscale/'],
-        'mentions-legales' => ['label' => 'Mentions légales', 'file' => 'mentions-legales/index.html', 'path' => 'mentions-legales/'],
+        'home' => ['label' => 'Accueil', 'file' => 'index.html', 'path' => '/', 'home' => true, 'i18n' => 'nav_home'],
+        'entreprise' => ['label' => 'Entreprise', 'file' => 'entreprise/index.html', 'path' => 'entreprise/', 'i18n' => 'nav_company'],
+        'contact' => ['label' => 'Contact', 'file' => 'contact/index.html', 'path' => 'contact/', 'i18n' => 'nav_contact'],
+        'demande-de-cotation' => ['label' => 'Demande de cotation', 'file' => 'demande-de-cotation/index.html', 'path' => 'demande-de-cotation/', 'i18n' => 'nav_rfq'],
+        'services' => ['label' => 'Services', 'file' => 'services/index.html', 'path' => 'services/', 'i18n' => 'nav_services'],
+        'luftfracht-2' => ['label' => 'Transport terrestre', 'file' => 'services/luftfracht-2/index.html', 'path' => 'services/luftfracht-2/', 'i18n' => 'svc_road'],
+        'ueber-uns' => ['label' => 'Fret aérien', 'file' => 'services/ueber-uns/index.html', 'path' => 'services/ueber-uns/', 'i18n' => 'svc_air'],
+        'beratung-2' => ['label' => 'Fret maritime', 'file' => 'services/beratung-2/index.html', 'path' => 'services/beratung-2/', 'i18n' => 'svc_sea'],
+        'seefracht-2' => ['label' => 'Trafics spéciaux', 'file' => 'services/seefracht-2/index.html', 'path' => 'services/seefracht-2/', 'i18n' => 'svc_special'],
+        'zoll-2' => ['label' => 'Douane (service)', 'file' => 'services/zoll-2/index.html', 'path' => 'services/zoll-2/', 'i18n' => 'svc_customs'],
+        'logistik-2' => ['label' => 'About us', 'file' => 'services/logistik-2/index.html', 'path' => 'services/logistik-2/', 'i18n' => 'about_us'],
+        'representation-fiscale' => ['label' => 'Représentation fiscale', 'file' => 'representation-fiscale/index.html', 'path' => 'representation-fiscale/', 'i18n' => 'svc_vat'],
+        'mentions-legales' => ['label' => 'Mentions légales', 'file' => 'mentions-legales/index.html', 'path' => 'mentions-legales/', 'i18n' => 'legal'],
     ];
+}
+
+function gondrand_page_name($slug) {
+    $saved = get_option('gondrand_page_names', []);
+    if (is_array($saved) && isset($saved[$slug])) {
+        $name = trim((string) $saved[$slug]);
+        if ($name !== '') {
+            return $name;
+        }
+    }
+    $cat = gondrand_catalog();
+    if (isset($cat[$slug]['i18n']) && function_exists('gondrand_t')) {
+        return gondrand_t($cat[$slug]['i18n'], $cat[$slug]['label']);
+    }
+    return $cat[$slug]['label'] ?? $slug;
+}
+
+function gondrand_save_page_name($slug, $name) {
+    $name = sanitize_text_field($name);
+    $saved = get_option('gondrand_page_names', []);
+    if (!is_array($saved)) {
+        $saved = [];
+    }
+    if ($name === '') {
+        unset($saved[$slug]);
+    } else {
+        $saved[$slug] = $name;
+    }
+    update_option('gondrand_page_names', $saved, false);
+    $cat = gondrand_catalog();
+    if ($name !== '' && isset($cat[$slug]['i18n'])) {
+        set_theme_mod('gondrand_i18n_' . $cat[$slug]['i18n'], $name);
+    }
+    if ($slug === 'demande-de-cotation' && $name !== '') {
+        set_theme_mod('gondrand_i18n_nav_rfq', $name);
+    }
 }
 
 function gondrand_path_to_slug($path) {
@@ -316,6 +352,24 @@ add_action('admin_enqueue_scripts', function ($hook) {
 });
 
 add_action('admin_init', function () {
+    if (isset($_POST['gondrand_save_names']) && current_user_can('edit_theme_options')) {
+        check_admin_referer('gondrand_save_names');
+        $posted = isset($_POST['page_name']) ? (array) wp_unslash($_POST['page_name']) : [];
+        foreach (gondrand_catalog() as $slug => $page) {
+            if (!isset($posted[$slug])) {
+                continue;
+            }
+            gondrand_save_page_name($slug, $posted[$slug]);
+        }
+        if (isset($_POST['nav_quote_name'])) {
+            $nq = sanitize_text_field(wp_unslash($_POST['nav_quote_name']));
+            if ($nq !== '') {
+                set_theme_mod('gondrand_i18n_nav_quote', $nq);
+            }
+        }
+        wp_safe_redirect(admin_url('admin.php?page=gondrand-pages&names=1'));
+        exit;
+    }
     if (!isset($_POST['gondrand_save_page'])) {
         return;
     }
@@ -328,6 +382,10 @@ add_action('admin_init', function () {
     if (!isset($cat[$slug]) || !empty($cat[$slug]['home'])) {
         wp_safe_redirect(admin_url('admin.php?page=gondrand-pages'));
         exit;
+    }
+
+    if (isset($_POST['g_page_name'])) {
+        gondrand_save_page_name($slug, wp_unslash($_POST['g_page_name']));
     }
 
     if (!empty($_POST['gondrand_reset_page'])) {
@@ -437,8 +495,14 @@ function gondrand_pages_admin() {
         exit;
     }
     echo '<div class="wrap"><h1>Toutes les pages du site</h1>';
-    echo '<p>Cliquez sur une page pour modifier <strong>chaque texte et chaque image</strong>, en ajouter ou en supprimer. Puis <strong>Enregistrer et publier</strong>.</p>';
-    echo '<table class="widefat striped"><thead><tr><th>Page</th><th></th><th></th></tr></thead><tbody>';
+    if (!empty($_GET['names'])) {
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Noms enregistrés.</strong> Purgez LiteSpeed. Ils apparaissent dans le menu et le titre du navigateur.</p></div>';
+    }
+    echo '<p>Changez le <strong>nom</strong> de chaque page, puis cliquez pour modifier ses textes et images.</p>';
+    echo '<form method="post" action="' . esc_url(admin_url('admin.php?page=gondrand-pages')) . '">';
+    wp_nonce_field('gondrand_save_names');
+    echo '<input type="hidden" name="gondrand_save_names" value="1">';
+    echo '<table class="widefat striped"><thead><tr><th>Nom de la page</th><th></th><th></th></tr></thead><tbody>';
     foreach ($cat as $slug => $page) {
         if (!empty($page['home'])) {
             $url = admin_url('admin.php?page=gondrand-content');
@@ -449,7 +513,7 @@ function gondrand_pages_admin() {
         }
         $custom = !empty($page['home']) || (get_option(gondrand_page_option_key($slug), '') !== '');
         echo '<tr>';
-        echo '<td><strong>' . esc_html($page['label']) . '</strong></td>';
+        echo '<td><input class="large-text" name="page_name[' . esc_attr($slug) . ']" value="' . esc_attr(gondrand_page_name($slug)) . '"></td>';
         echo '<td><a class="button button-primary" href="' . esc_url($url) . '">Modifier cette page</a></td>';
         echo '<td><a href="' . esc_url($view) . '" target="_blank" rel="noopener">Voir</a>';
         if ($custom && empty($page['home'])) {
@@ -457,7 +521,10 @@ function gondrand_pages_admin() {
         }
         echo '</td></tr>';
     }
-    echo '</tbody></table></div>';
+    echo '</tbody></table>';
+    echo '<p style="margin-top:12px"><label>Nom dans le menu (lien Devis)&nbsp; <input class="regular-text" name="nav_quote_name" value="' . esc_attr(gondrand_t('nav_quote', 'Devis')) . '"></label></p>';
+    submit_button('Enregistrer les noms des pages');
+    echo '</form></div>';
 }
 
 function gondrand_page_editor($slug) {
@@ -479,7 +546,7 @@ function gondrand_page_editor($slug) {
     ];
     ?>
     <div class="wrap">
-      <h1>Modifier : <?php echo esc_html($page['label']); ?></h1>
+      <h1>Modifier : <?php echo esc_html(gondrand_page_name($slug)); ?></h1>
       <p>
         <a href="<?php echo esc_url(admin_url('admin.php?page=gondrand-pages')); ?>">&larr; Toutes les pages</a>
         · <a href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">Voir cette page</a>

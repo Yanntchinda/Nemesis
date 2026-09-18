@@ -298,6 +298,9 @@ function gondrand_save_from_post() {
         'gondrand_slide_mobile_fit' => 'sanitize_text_field',
         'gondrand_slide_mobile_pos' => 'sanitize_text_field',
         'gondrand_slide_mobile_height' => 'sanitize_text_field',
+        'gondrand_quote_types' => 'sanitize_textarea_field',
+        'gondrand_quote_parcels' => 'sanitize_textarea_field',
+        'gondrand_quote_incoterms' => 'sanitize_textarea_field',
     ];
     foreach ($map as $key => $cb) {
         if (!isset($_POST[$key])) {
@@ -427,6 +430,72 @@ function gondrand_admin_page() {
               <input type="number" class="small-text" name="gondrand_slide_mobile_height" min="160" max="900" placeholder="auto" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_mobile_height')); ?>">
               <p class="description">Vide = hauteur automatique (toute l’image). Exemple : 280 pour limiter la hauteur.</p>
             </td>
+          </tr>
+        </table>
+
+        <h2>Devis / demande de cotation</h2>
+        <p class="description">Modifiez le titre, les libellés, les listes (une option par ligne) et le message de confirmation. Cela s’applique à l’accueil, aux pages services et à la page Demande de cotation.</p>
+        <?php
+        $qd = function_exists('gondrand_quote_defaults') ? gondrand_quote_defaults() : [];
+        $q_labels = [
+            'nav_quote' => 'Nom du menu (Devis)',
+            'quote_title' => 'Titre du formulaire',
+            'quote_intro' => 'Texte d’intro (page devis)',
+            'transport_type' => 'Libellé type de transport',
+            'transport_type_ph' => 'Placeholder type de transport',
+            'incoterms' => 'Libellé incoterms',
+            'quote_client' => 'Titre bloc client',
+            'quote_company' => 'Société',
+            'email' => 'E-mail',
+            'quote_phone' => 'Téléphone',
+            'quote_contact' => 'Contact',
+            'quote_from' => 'Titre départ',
+            'from_city' => 'Ville de départ',
+            'quote_from_country' => 'Pays de départ',
+            'quote_to' => 'Titre arrivée',
+            'to_city' => "Ville d'arrivée",
+            'quote_to_country' => "Pays d'arrivée",
+            'quote_pack' => 'Titre colis',
+            'quote_parcel' => 'Type de colis',
+            'weight' => 'Poids',
+            'quote_dimensions' => 'Dimensions',
+            'quote_dangerous' => 'Marchandise dangereuse',
+            'quote_comments' => 'Commentaires',
+            'privacy_ok' => 'Texte confidentialité',
+            'quote_ext' => 'Lien vers le formulaire complet',
+            'click_here' => 'Texte du lien « cliquez ici »',
+            'send' => 'Bouton envoyer',
+            'quote_ok' => 'Message de confirmation',
+        ];
+        ?>
+        <table class="form-table" role="presentation">
+          <?php foreach ($q_labels as $key => $label) :
+              $fallback = $qd[$key] ?? '';
+              $val = gondrand_t($key, $fallback);
+              $rows = in_array($key, ['quote_intro', 'quote_ok', 'quote_ext'], true) ? 3 : 1;
+          ?>
+            <tr>
+              <th><?php echo esc_html($label); ?></th>
+              <td>
+                <?php if ($rows > 1) : ?>
+                  <textarea class="large-text" rows="<?php echo (int) $rows; ?>" name="q_<?php echo esc_attr($key); ?>"><?php echo esc_textarea($val); ?></textarea>
+                <?php else : ?>
+                  <input class="large-text" name="q_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($val); ?>">
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+          <tr>
+            <th>Types de transport<br><span class="description">Une option par ligne</span></th>
+            <td><textarea class="large-text" rows="6" name="gondrand_quote_types"><?php echo esc_textarea(gondrand_mod('gondrand_quote_types') ?: "Entreposage\nTransport aérien\nTransport maritime\nTransport multimodal\nTransport terrestre"); ?></textarea></td>
+          </tr>
+          <tr>
+            <th>Types de colis<br><span class="description">Une option par ligne</span></th>
+            <td><textarea class="large-text" rows="6" name="gondrand_quote_parcels"><?php echo esc_textarea(gondrand_mod('gondrand_quote_parcels') ?: "Palette\nCarton\nConteneur\nCaisse bois\nSur-mesure\nDivers"); ?></textarea></td>
+          </tr>
+          <tr>
+            <th>Incoterms<br><span class="description">Une option par ligne</span></th>
+            <td><textarea class="large-text" rows="6" name="gondrand_quote_incoterms"><?php echo esc_textarea(gondrand_mod('gondrand_quote_incoterms') ?: "EXW\nFCA\nFAS\nFOB\nCFR\nCIF\nCPT\nCIP\nDAP\nDPU\nDDP"); ?></textarea></td>
           </tr>
         </table>
 

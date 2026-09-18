@@ -137,7 +137,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.2');
+        header('X-Gondrand-Theme: 2.2.3');
         header('X-LiteSpeed-Cache-Control: no-cache');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
@@ -160,6 +160,129 @@ function gondrand_try_serve() {
 function gondrand_mod($key) {
     $v = get_theme_mod($key, '');
     return is_string($v) ? trim($v) : '';
+}
+
+function gondrand_quote_defaults() {
+    return [
+        'quote_title' => 'Demander un devis gratuit',
+        'quote_intro' => 'Travex Global Forwarding est à votre service pour trouver la meilleure solution concernant la logistique et le transport de vos marchandises.',
+        'transport_type' => 'Type de transport',
+        'transport_type_ph' => 'Type de Transport',
+        'warehousing' => 'Entreposage',
+        'air_t' => 'Transport aérien',
+        'sea_t' => 'Transport maritime',
+        'multi_t' => 'Transport multimodal',
+        'road_t' => 'Transport terrestre',
+        'incoterms' => 'Conditions de vente',
+        'from_city' => 'Ville de départ',
+        'to_city' => "Ville d'arrivée",
+        'weight' => 'Poids (kg)',
+        'email' => 'E-mail',
+        'quote_company' => 'Société',
+        'quote_phone' => 'Téléphone',
+        'quote_contact' => 'Contact',
+        'quote_from' => 'Départ',
+        'quote_to' => 'Arrivée',
+        'quote_from_country' => 'Pays (départ)',
+        'quote_to_country' => 'Pays (arrivée)',
+        'quote_client' => 'Données du client',
+        'quote_pack' => 'Colis',
+        'quote_parcel' => 'Type de colis',
+        'quote_dimensions' => 'Dimensions (L × l × H)',
+        'quote_dangerous' => 'Marchandise dangereuse',
+        'quote_comments' => 'Commentaires',
+        'privacy_ok' => 'Politique de confidentialité acceptée.',
+        'quote_ext' => 'Pour une version étendue du formulaire, cliquez ici.',
+        'click_here' => 'cliquez ici',
+        'send' => 'Envoyer →',
+        'quote_ok' => 'Votre demande a bien été transmise. Un commercial Travex Global Forwarding vous répondra dans les plus brefs délais.',
+        'nav_quote' => 'Devis',
+    ];
+}
+
+function gondrand_quote_list($key, $fallback) {
+    $v = gondrand_mod($key);
+    if ($v === '') {
+        $v = $fallback;
+    }
+    $lines = preg_split('/\R/u', $v);
+    $out = [];
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line !== '') {
+            $out[] = $line;
+        }
+    }
+    return $out;
+}
+
+function gondrand_cms_payload() {
+    $cms = [];
+    $mods = get_theme_mods();
+    if (!is_array($mods)) {
+        $mods = [];
+    }
+    foreach ($mods as $key => $value) {
+        if (!is_string($key) || strpos($key, 'gondrand_i18n_') !== 0) {
+            continue;
+        }
+        if (!is_string($value) || trim($value) === '') {
+            continue;
+        }
+        $cms[substr($key, strlen('gondrand_i18n_'))] = $value;
+    }
+    foreach (gondrand_quote_defaults() as $key => $fallback) {
+        $v = gondrand_mod('gondrand_i18n_' . $key);
+        if ($v !== '') {
+            $cms[$key] = $v;
+        } elseif ($key !== 'quote_intro' && (!isset($cms[$key]) || $cms[$key] === '')) {
+            $cms[$key] = $fallback;
+        }
+    }
+    if (function_exists('gondrand_catalog')) {
+        foreach (gondrand_catalog() as $slug => $page) {
+            if (empty($page['i18n'])) {
+                continue;
+            }
+            $cms[$page['i18n']] = gondrand_page_name($slug);
+        }
+        $cms['nav_quote'] = gondrand_t('nav_quote', 'Devis');
+        $cms['nav_rfq'] = gondrand_page_name('demande-de-cotation');
+    }
+    $cms['quote_types'] = gondrand_quote_list(
+        'gondrand_quote_types',
+        "Entreposage\nTransport aérien\nTransport maritime\nTransport multimodal\nTransport terrestre"
+    );
+    $cms['quote_parcels'] = gondrand_quote_list(
+        'gondrand_quote_parcels',
+        "Palette\nCarton\nConteneur\nCaisse bois\nSur-mesure\nDivers"
+    );
+    $cms['quote_incoterms'] = gondrand_quote_list(
+        'gondrand_quote_incoterms',
+        "EXW\nFCA\nFAS\nFOB\nCFR\nCIF\nCPT\nCIP\nDAP\nDPU\nDDP"
+    );
+    return $cms;
+}
+
+function gondrand_apply_page_title($html, $path) {
+    if (!function_exists('gondrand_path_to_slug') || !function_exists('gondrand_page_name')) {
+        return $html;
+    }
+    $slug = gondrand_path_to_slug($path);
+    if ($slug === '' || $slug === 'home') {
+        return $html;
+    }
+    $name = gondrand_page_name($slug);
+    if ($name === '') {
+        return $html;
+    }
+    $out = preg_replace(
+        '#<title>.*?</title>#s',
+        '<title>' . esc_html($name) . ' | TRAVEX GLOBAL FORWARDING</title>',
+        $html,
+        1
+    );
+    return is_string($out) ? $out : $html;
 }
 
 function gondrand_replace_once($html, $pattern, $replacement) {
@@ -246,28 +369,15 @@ function gondrand_apply_content($html, $path) {
         );
     }
 
-    $cms = [];
-    $mods = get_theme_mods();
-    if (!is_array($mods)) {
-        $mods = [];
-    }
-    foreach ($mods as $key => $value) {
-        if (!is_string($key) || strpos($key, 'gondrand_i18n_') !== 0) {
-            continue;
-        }
-        if (!is_string($value) || trim($value) === '') {
-            continue;
-        }
-        $cms[substr($key, strlen('gondrand_i18n_'))] = $value;
-    }
     $logo = gondrand_mod('gondrand_logo');
-    $boot  = '<script>window.GONDRAND_CMS=' . wp_json_encode($cms) . ';';
+    $boot  = '<script>window.GONDRAND_CMS=' . wp_json_encode(gondrand_cms_payload()) . ';';
     $boot .= 'window.GONDRAND_LOGO=' . wp_json_encode($logo) . ';';
     if (function_exists('gondrand_locations_payload')) {
         $boot .= 'window.GONDRAND_LOCS=' . wp_json_encode(gondrand_locations_payload()) . ';';
     }
     $boot .= '</script>';
     $html = str_replace('</head>', $boot . "\n</head>", $html);
+    $html = gondrand_apply_page_title($html, $path);
 
     return $html;
 }

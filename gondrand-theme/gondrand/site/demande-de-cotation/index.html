@@ -86,5 +86,14 @@
   <div id="site-footer"></div>
   <script>window.BASE="../"; window.PAGE="devis";</script>
   <script src="../js/main.js"></script>
+  <script>
+    (function(){
+      var cms = window.GONDRAND_CMS || {};
+      var intro = document.getElementById("quote-intro");
+      if (intro && cms.quote_intro) intro.textContent = cms.quote_intro;
+      var q = document.getElementById("q");
+      if (q) q.innerHTML = Travex.quoteHTML("full");
+    })();
+  </script>
 </body>
 </html>

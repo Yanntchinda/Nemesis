@@ -24,7 +24,7 @@ function gondrand_render_home() {
     status_header(200);
     nocache_headers();
     header('Content-Type: text/html; charset=UTF-8');
-    header('X-Gondrand-Theme: 2.2.2');
+    header('X-Gondrand-Theme: 2.2.3');
     header('X-LiteSpeed-Cache-Control: no-cache');
 
     $head = gondrand_head_inject();
@@ -40,8 +40,8 @@ function gondrand_render_home() {
   <link rel="icon" href="<?php echo esc_url($assets . 'images/logo-gondrand.png'); ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo esc_url($assets . 'css/style.css?ver=2.2.2'); ?>">
-  <!-- gondrand-theme 2.2.2 php-home -->
+  <link rel="stylesheet" href="<?php echo esc_url($assets . 'css/style.css?ver=2.2.3'); ?>">
+  <!-- gondrand-theme 2.2.3 php-home -->
   <?php echo $head; ?>
 </head>
 <body>
@@ -121,8 +121,8 @@ function gondrand_render_home() {
   </section>
 
   <?php echo gondrand_footer_html(); ?>
-  <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.GONDRAND_LOCS=<?php echo wp_json_encode(gondrand_locations_payload()); ?>;window.PAGE="home";</script>
-  <script src="<?php echo esc_url($assets . 'js/main.js?ver=2.2.2'); ?>"></script>
+  <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.GONDRAND_CMS=<?php echo wp_json_encode(gondrand_cms_payload()); ?>;window.GONDRAND_LOCS=<?php echo wp_json_encode(gondrand_locations_payload()); ?>;window.PAGE="home";</script>
+  <script src="<?php echo esc_url($assets . 'js/main.js?ver=2.2.3'); ?>"></script>
   <script>
     document.getElementById("special-slot").innerHTML = Travex.specialHTML();
     document.getElementById("quote-slot").innerHTML = Travex.quoteHTML(true);
