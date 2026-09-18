@@ -52,7 +52,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '229';
+    return $v !== '' ? (string) $v : '230';
 }
 
 function gondrand_purge_caches() {
@@ -152,6 +152,15 @@ function gondrand_try_serve() {
     $ext = strtolower(pathinfo($real_file, PATHINFO_EXTENSION));
     if ($ext === 'php') {
         return;
+    }
+
+    if ($ext === 'html' && function_exists('gondrand_path_to_slug') && function_exists('gondrand_page_is_hidden')) {
+        $slug = gondrand_path_to_slug($path);
+        if (gondrand_page_is_hidden($slug)) {
+            $done = true;
+            wp_safe_redirect(home_url('/'));
+            exit;
+        }
     }
 
     $done = true;

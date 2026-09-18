@@ -36,6 +36,50 @@ function gondrand_page_name($slug) {
     return $cat[$slug]['label'] ?? $slug;
 }
 
+function gondrand_hidden_slugs() {
+    $v = get_option('gondrand_hidden_pages', []);
+    if (!is_array($v)) {
+        return [];
+    }
+    $out = [];
+    foreach ($v as $slug) {
+        $slug = sanitize_key((string) $slug);
+        if ($slug !== '' && $slug !== 'home') {
+            $out[] = $slug;
+        }
+    }
+    return array_values(array_unique($out));
+}
+
+function gondrand_page_is_hidden($slug) {
+    $slug = sanitize_key((string) $slug);
+    if ($slug === '' || $slug === 'home') {
+        return false;
+    }
+    return in_array($slug, gondrand_hidden_slugs(), true);
+}
+
+function gondrand_hide_page($slug) {
+    $slug = sanitize_key($slug);
+    $cat = gondrand_catalog();
+    if ($slug === '' || $slug === 'home' || !isset($cat[$slug]) || !empty($cat[$slug]['home'])) {
+        return false;
+    }
+    $hidden = gondrand_hidden_slugs();
+    if (!in_array($slug, $hidden, true)) {
+        $hidden[] = $slug;
+        update_option('gondrand_hidden_pages', $hidden, false);
+    }
+    return true;
+}
+
+function gondrand_restore_page($slug) {
+    $slug = sanitize_key($slug);
+    $hidden = array_values(array_diff(gondrand_hidden_slugs(), [$slug]));
+    update_option('gondrand_hidden_pages', $hidden, false);
+    return true;
+}
+
 function gondrand_save_page_name($slug, $name) {
     $name = sanitize_text_field($name);
     $saved = get_option('gondrand_page_names', []);
@@ -540,6 +584,24 @@ add_action('admin_enqueue_scripts', function ($hook) {
 });
 
 add_action('admin_init', function () {
+    if (isset($_GET['gondrand_hide']) && current_user_can('edit_theme_options')) {
+        check_admin_referer('gondrand_hide_page');
+        gondrand_hide_page(sanitize_key(wp_unslash($_GET['gondrand_hide'])));
+        if (function_exists('gondrand_touch_bust')) {
+            gondrand_touch_bust();
+        }
+        wp_safe_redirect(admin_url('admin.php?page=gondrand-pages&hidden=1'));
+        exit;
+    }
+    if (isset($_GET['gondrand_restore']) && current_user_can('edit_theme_options')) {
+        check_admin_referer('gondrand_restore_page');
+        gondrand_restore_page(sanitize_key(wp_unslash($_GET['gondrand_restore'])));
+        if (function_exists('gondrand_touch_bust')) {
+            gondrand_touch_bust();
+        }
+        wp_safe_redirect(admin_url('admin.php?page=gondrand-pages&restored=1'));
+        exit;
+    }
     if (isset($_POST['gondrand_save_names']) && current_user_can('edit_theme_options')) {
         check_admin_referer('gondrand_save_names');
         $posted = isset($_POST['page_name']) ? (array) wp_unslash($_POST['page_name']) : [];
@@ -705,12 +767,19 @@ function gondrand_pages_admin() {
     if (!empty($_GET['names'])) {
         echo '<div class="notice notice-success is-dismissible"><p><strong>Noms enregistrés.</strong> Purgez LiteSpeed. Ils apparaissent dans le menu et le titre du navigateur.</p></div>';
     }
-    echo '<p>Changez le <strong>nom</strong> de chaque page, puis cliquez pour modifier ses textes et images.</p>';
+    if (!empty($_GET['hidden'])) {
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Page supprimée du site.</strong> Elle n’apparaît plus dans le menu. Vous pouvez la restaurer ci-dessous.</p></div>';
+    }
+    if (!empty($_GET['restored'])) {
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Page restaurée.</strong> Elle est de nouveau visible sur le site.</p></div>';
+    }
+    echo '<p>Changez le <strong>nom</strong> de chaque page, ou <strong>supprimez</strong> une page pour l’enlever du menu et du site (l’accueil ne peut pas être supprimée).</p>';
     echo '<form method="post" action="' . esc_url(admin_url('admin.php?page=gondrand-pages')) . '">';
     wp_nonce_field('gondrand_save_names');
     echo '<input type="hidden" name="gondrand_save_names" value="1">';
-    echo '<table class="widefat striped"><thead><tr><th>Nom de la page</th><th></th><th></th></tr></thead><tbody>';
+    echo '<table class="widefat striped"><thead><tr><th>Nom de la page</th><th></th><th></th><th></th></tr></thead><tbody>';
     foreach ($cat as $slug => $page) {
+        $gone = function_exists('gondrand_page_is_hidden') && gondrand_page_is_hidden($slug);
         if (!empty($page['home'])) {
             $url = admin_url('admin.php?page=gondrand-content');
             $view = home_url('/?nocache=' . time());
@@ -719,12 +788,29 @@ function gondrand_pages_admin() {
             $view = home_url('/' . ltrim($page['path'], '/') . '?nocache=' . time());
         }
         $custom = !empty($page['home']) || (get_option(gondrand_page_option_key($slug), '') !== '');
-        echo '<tr>';
-        echo '<td><input class="large-text" name="page_name[' . esc_attr($slug) . ']" value="' . esc_attr(gondrand_page_name($slug)) . '"></td>';
+        echo '<tr' . ($gone ? ' style="opacity:.55"' : '') . '>';
+        echo '<td><input class="large-text" name="page_name[' . esc_attr($slug) . ']" value="' . esc_attr(gondrand_page_name($slug)) . '">';
+        if ($gone) {
+            echo '<p class="description" style="color:#b32d2e;margin:.4em 0 0">Supprimée du site</p>';
+        }
+        echo '</td>';
         echo '<td><a class="button button-primary" href="' . esc_url($url) . '">Modifier cette page</a></td>';
-        echo '<td><a href="' . esc_url($view) . '" target="_blank" rel="noopener">Voir</a>';
-        if ($custom && empty($page['home'])) {
+        echo '<td>';
+        if (!$gone) {
+            echo '<a href="' . esc_url($view) . '" target="_blank" rel="noopener">Voir</a>';
+        }
+        if ($custom && empty($page['home']) && !$gone) {
             echo ' · <span style="color:#00a32a">modifiée</span>';
+        }
+        echo '</td><td>';
+        if (empty($page['home'])) {
+            if ($gone) {
+                $rurl = wp_nonce_url(admin_url('admin.php?page=gondrand-pages&gondrand_restore=' . rawurlencode($slug)), 'gondrand_restore_page');
+                echo '<a class="button" href="' . esc_url($rurl) . '">Restaurer</a>';
+            } else {
+                $hurl = wp_nonce_url(admin_url('admin.php?page=gondrand-pages&gondrand_hide=' . rawurlencode($slug)), 'gondrand_hide_page');
+                echo '<a class="button" style="color:#b32d2e" href="' . esc_url($hurl) . '" onclick="return confirm('Supprimer cette page du site (menu et visiteurs) ? Vous pourrez la restaurer ensuite.');">Supprimer</a>';
+            }
         }
         echo '</td></tr>';
     }
@@ -757,6 +843,14 @@ function gondrand_page_editor($slug) {
       <p>
         <a href="<?php echo esc_url(admin_url('admin.php?page=gondrand-pages')); ?>">&larr; Toutes les pages</a>
         · <a href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">Voir cette page</a>
+        <?php if (function_exists('gondrand_page_is_hidden') && gondrand_page_is_hidden($slug)) : ?>
+          · <span style="color:#b32d2e">Cette page est supprimée du site.</span>
+          <?php $rurl = wp_nonce_url(admin_url('admin.php?page=gondrand-pages&gondrand_restore=' . rawurlencode($slug)), 'gondrand_restore_page'); ?>
+          <a class="button" href="<?php echo esc_url($rurl); ?>">Restaurer</a>
+        <?php else : ?>
+          <?php $hurl = wp_nonce_url(admin_url('admin.php?page=gondrand-pages&gondrand_hide=' . rawurlencode($slug)), 'gondrand_hide_page'); ?>
+          · <a href="<?php echo esc_url($hurl); ?>" style="color:#b32d2e" onclick="return confirm('Supprimer cette page du site ? Vous pourrez la restaurer ensuite.');">Supprimer cette page</a>
+        <?php endif; ?>
       </p>
       <?php if (!empty($_GET['saved'])) : ?>
         <div class="notice notice-success is-dismissible"><p><strong>Enregistré et publié.</strong> Purgez LiteSpeed si besoin. <a href="<?php echo esc_url($view); ?>" target="_blank">Voir la page</a></p></div>
