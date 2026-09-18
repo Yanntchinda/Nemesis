@@ -335,6 +335,9 @@ function gondrand_save_from_post() {
     if (function_exists('gondrand_disable_root_html')) {
         gondrand_disable_root_html();
     }
+    if (function_exists('gondrand_touch_bust')) {
+        gondrand_touch_bust();
+    }
 
     return 'saved';
 }
@@ -366,7 +369,9 @@ function gondrand_admin_page() {
         <div class="notice notice-success is-dismissible">
           <p><strong>Enregistré.</strong> Ouvrez le site (sans cache) :
             <a href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">voir le site</a>
-            — puis LiteSpeed → Purger tout.</p>
+            Cache LiteSpeed purgé automatiquement.
+            Sur Android : fermez Chrome complètement, puis rouvrez
+            <a href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">ce lien</a>.</p>
         </div>
       <?php endif; ?>
       <?php if (!empty($_GET['reset'])) : ?>

@@ -367,6 +367,9 @@ add_action('admin_init', function () {
                 set_theme_mod('gondrand_i18n_nav_quote', $nq);
             }
         }
+        if (function_exists('gondrand_touch_bust')) {
+            gondrand_touch_bust();
+        }
         wp_safe_redirect(admin_url('admin.php?page=gondrand-pages&names=1'));
         exit;
     }
@@ -474,6 +477,9 @@ add_action('admin_init', function () {
 
     if (function_exists('gondrand_disable_root_html')) {
         gondrand_disable_root_html();
+    }
+    if (function_exists('gondrand_touch_bust')) {
+        gondrand_touch_bust();
     }
 
     wp_safe_redirect(admin_url('admin.php?page=gondrand-pages&edit=' . rawurlencode($slug) . '&saved=1'));

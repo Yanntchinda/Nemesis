@@ -25,6 +25,9 @@ add_action('after_switch_theme', function () {
     }
     update_option('show_on_front', 'posts');
     gondrand_disable_root_html();
+    if (function_exists('gondrand_touch_bust')) {
+        gondrand_touch_bust();
+    }
     $title = get_theme_mod('gondrand_loc_title', '');
     if (!is_string($title) || $title === '' || stripos($title, 'gondrand') !== false) {
         set_theme_mod('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS');
@@ -40,7 +43,46 @@ add_action('admin_init', function () {
     }
 });
 
+add_action('template_redirect', function () {
+    if (function_exists('do_action')) {
+        do_action('litespeed_control_set_nocache', 'travex-html');
+    }
+}, 1);
 add_action('template_redirect', 'gondrand_try_serve', 20);
+
+function gondrand_bust() {
+    $v = get_option('gondrand_bust', '');
+    return $v !== '' ? (string) $v : '225';
+}
+
+function gondrand_purge_caches() {
+    if (has_action('litespeed_purge_all')) {
+        do_action('litespeed_purge_all');
+    }
+    if (has_action('litespeed_purge_cssjs')) {
+        do_action('litespeed_purge_cssjs');
+    }
+    if (class_exists('LiteSpeed\\Purge') && method_exists('LiteSpeed\\Purge', 'purge_all')) {
+        \LiteSpeed\Purge::purge_all();
+    }
+}
+
+function gondrand_touch_bust() {
+    update_option('gondrand_bust', (string) time(), false);
+    gondrand_purge_caches();
+}
+
+function gondrand_asset($rel) {
+    $rel = ltrim((string) $rel, '/');
+    return gondrand_assets() . $rel . '?ver=' . rawurlencode(gondrand_bust());
+}
+
+function gondrand_bust_html($html) {
+    $ver = rawurlencode(gondrand_bust());
+    $html = preg_replace('#(css/style\.css)(\?ver=[^"\']*)?#', '$1?ver=' . $ver, $html);
+    $html = preg_replace('#(js/main\.js)(\?ver=[^"\']*)?#', '$1?ver=' . $ver, $html);
+    return is_string($html) ? $html : $html;
+}
 
 function gondrand_request_path() {
     $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
@@ -137,8 +179,10 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.4');
+        header('X-Gondrand-Theme: 2.2.5');
         header('X-LiteSpeed-Cache-Control: no-cache');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
         if (function_exists('gondrand_apply_saved_body')) {
@@ -147,12 +191,18 @@ function gondrand_try_serve() {
         $html = gondrand_absolutize_assets($html);
         $html = gondrand_inject_chrome($html, $path);
         $html = gondrand_apply_content($html, $path);
+        $html = gondrand_bust_html($html);
         $html = str_replace('</head>', gondrand_head_inject() . "\n</head>", $html);
         $html = str_replace('</body>', gondrand_footer_inject() . "\n</body>", $html);
         echo $html;
         exit;
     }
 
+    if (in_array($ext, ['css', 'js'], true)) {
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('X-LiteSpeed-Cache-Control: no-cache');
+    }
     readfile($real_file);
     exit;
 }
@@ -390,7 +440,8 @@ function gondrand_is_customizer() {
 }
 
 function gondrand_head_inject() {
-    $out = '<style id="gondrand-layout">' . gondrand_layout_css() . '</style>';
+    $out = '<!-- travex-bust ' . esc_html(gondrand_bust()) . ' -->';
+    $out .= '<style id="gondrand-layout">' . gondrand_layout_css() . '</style>';
     $out .= '<style id="gondrand-slider">' . gondrand_slider_css() . '</style>';
     $out .= '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';
 
