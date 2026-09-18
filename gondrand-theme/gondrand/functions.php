@@ -137,7 +137,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.3');
+        header('X-Gondrand-Theme: 2.2.4');
         header('X-LiteSpeed-Cache-Control: no-cache');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
@@ -444,11 +444,22 @@ function gondrand_slide_mobile_height() {
     return max(160, min(900, (int) $v));
 }
 
+function gondrand_slide_overlay() {
+    $v = gondrand_mod('gondrand_slide_overlay');
+    if ($v === '' || !is_numeric($v)) {
+        return 0;
+    }
+    return max(0, min(100, (int) $v)) / 100;
+}
+
 function gondrand_slider_css() {
     $fit = gondrand_slide_mobile_fit();
     $pos = gondrand_slide_mobile_pos();
     $h = gondrand_slide_mobile_height();
+    $ov = gondrand_slide_overlay();
     $css = '.slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;pointer-events:none;}';
+    $css .= '.slide-inner,.slide h2,.slide p,.slide .tagline,.slide .more{display:none !important;}';
+    $css .= '.slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(6,20,40,' . $ov . ') !important;z-index:1;}';
     $css .= '@media screen and (max-width:900px){';
     if ($fit === 'cover') {
         $height = $h ? $h . 'px' : '420px';
@@ -463,10 +474,8 @@ function gondrand_slider_css() {
         $css .= '.slide{position:relative !important;inset:auto !important;display:none !important;height:auto !important;min-height:0 !important;background-size:contain !important;background-position:' . $pos . ' !important;background-repeat:no-repeat !important;}';
         $css .= '.slide.active{display:block !important;opacity:1 !important;}';
         $css .= '.slide-img{position:relative !important;inset:auto !important;width:100% !important;height:auto !important;' . $max . 'object-fit:contain !important;object-position:' . $pos . ' !important;}';
-        $css .= '.slide-inner{position:absolute !important;left:0 !important;right:0 !important;bottom:0 !important;top:auto !important;height:auto !important;padding-top:16px !important;padding-bottom:16px !important;justify-content:flex-end !important;}';
-        $css .= '.slide::after{background:linear-gradient(180deg,rgba(6,20,40,.15) 0%,rgba(6,20,40,.7) 100%) !important;}';
-        $css .= '.slide h2{font-size:22px !important;}';
-        $css .= '.slide p{font-size:13px !important;max-width:100% !important;}';
+        $css .= '.slide-inner,.slide h2,.slide p,.slide .tagline,.slide .more{display:none !important;}';
+        $css .= '.slide::after{background:rgba(6,20,40,' . $ov . ') !important;}';
         $css .= '.hero-nav button{top:38% !important;width:38px !important;height:38px !important;}';
     }
     $css .= '}';

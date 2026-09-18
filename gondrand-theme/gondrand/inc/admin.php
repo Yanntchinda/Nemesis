@@ -50,16 +50,10 @@ function gondrand_build_slides_html($slides) {
         $title = esc_html($s['title']);
         $text = esc_html($s['text']);
         $url = isset($s['url']) ? trim($s['url']) : '';
+        $alt = $title !== '' ? $title : ('Slide ' . ($i + 1));
         $html .= '<article class="slide' . $active . '" data-slide="' . ($i + 1) . '">';
-        $html .= '<img class="slide-img" src="' . $img . '" alt="' . $title . '">';
-        $html .= '<div class="wrap slide-inner">';
-        $html .= '<h2>' . $title . '</h2>';
-        $html .= '<div class="tagline">More Performance – More Success</div>';
-        $html .= '<p>' . $text . '</p>';
-        if ($url !== '') {
-            $html .= '<a class="more" href="' . esc_url($url) . '">Lire la suite : →</a>';
-        }
-        $html .= '</div></article>';
+        $html .= '<img class="slide-img" src="' . $img . '" alt="' . $alt . '">';
+        $html .= '</article>';
     }
     return $html;
 }
@@ -298,6 +292,7 @@ function gondrand_save_from_post() {
         'gondrand_slide_mobile_fit' => 'sanitize_text_field',
         'gondrand_slide_mobile_pos' => 'sanitize_text_field',
         'gondrand_slide_mobile_height' => 'sanitize_text_field',
+        'gondrand_slide_overlay' => 'sanitize_text_field',
         'gondrand_quote_types' => 'sanitize_textarea_field',
         'gondrand_quote_parcels' => 'sanitize_textarea_field',
         'gondrand_quote_incoterms' => 'sanitize_textarea_field',
@@ -318,6 +313,9 @@ function gondrand_save_from_post() {
         }
         if ($key === 'gondrand_slide_mobile_height') {
             $val = $val === '' ? '' : (string) max(160, min(900, (int) $val));
+        }
+        if ($key === 'gondrand_slide_overlay') {
+            $val = $val === '' ? '0' : (string) max(0, min(100, (int) $val));
         }
         set_theme_mod($key, $val);
     }
@@ -670,9 +668,9 @@ function gondrand_slide_row_html($i, $s) {
         <button type="button" class="button gondrand-pick">Choisir / remplacer l’image</button>
         <button type="button" class="button gondrand-del">Supprimer ce slide</button>
       </p>
-      <p>Titre<br><input class="large-text" name="slide_title[]" value="<?php echo $title; ?>"></p>
-      <p>Texte<br><textarea name="slide_text[]" rows="3"><?php echo $text; ?></textarea></p>
-      <p>Lien (facultatif)<br><input class="large-text" name="slide_url[]" value="<?php echo $url; ?>"></p>
+      <input type="hidden" name="slide_title[]" value="<?php echo $title; ?>">
+      <input type="hidden" name="slide_text[]" value="">
+      <input type="hidden" name="slide_url[]" value="<?php echo $url; ?>">
     </div>
     <?php
     return ob_get_clean();
