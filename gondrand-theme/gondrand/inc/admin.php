@@ -65,12 +65,61 @@ function gondrand_build_slides_html($slides) {
 
 function gondrand_default_locations() {
     return [
-        [
-            'title'   => 'TRAVEX GLOBAL FORWARDING – RENCHEN',
-            'address' => "Im Brünnel 2\n77871 Renchen",
-            'text'    => "Notre point de réception est facilement accessible depuis :\n\n🇩🇪 Allemagne\n• Renchen – 0 km\n• Appenweier – env. 5 km\n• Achern – env. 8 km\n• Oberkirch – env. 9 km\n• Offenburg – env. 14 km\n• Baden-Baden – env. 25 km\n• Kehl – env. 20 km\n• Karlsruhe – env. 60 km\n• Freiburg – env. 70 km\n• Pforzheim – env. 80 km\n• Stuttgart – env. 130 km\n\n🇫🇷 France\n• Strasbourg – env. 35 km\n• Alsace et environs – facilement accessibles\n\n🇨🇭 Suisse\n• Bâle – env. 140 km\n• Zurich – env. 200 km\n• Berne – env. 220 km",
-        ],
+        ['title' => 'TRAVEX GLOBAL FORWARDING – RENCHEN', 'address' => "Im Brünnel 2\n77871 Renchen", 'text' => ''],
+        ['title' => 'Renchen', 'address' => "Allemagne\n0 km", 'text' => ''],
+        ['title' => 'Appenweier', 'address' => "Allemagne\nenv. 5 km", 'text' => ''],
+        ['title' => 'Achern', 'address' => "Allemagne\nenv. 8 km", 'text' => ''],
+        ['title' => 'Oberkirch', 'address' => "Allemagne\nenv. 9 km", 'text' => ''],
+        ['title' => 'Offenburg', 'address' => "Allemagne\nenv. 14 km", 'text' => ''],
+        ['title' => 'Kehl', 'address' => "Allemagne\nenv. 20 km", 'text' => ''],
+        ['title' => 'Baden-Baden', 'address' => "Allemagne\nenv. 25 km", 'text' => ''],
+        ['title' => 'Karlsruhe', 'address' => "Allemagne\nenv. 60 km", 'text' => ''],
+        ['title' => 'Freiburg', 'address' => "Allemagne\nenv. 70 km", 'text' => ''],
+        ['title' => 'Pforzheim', 'address' => "Allemagne\nenv. 80 km", 'text' => ''],
+        ['title' => 'Stuttgart', 'address' => "Allemagne\nenv. 130 km", 'text' => ''],
+        ['title' => 'Strasbourg', 'address' => "France\nenv. 35 km", 'text' => ''],
+        ['title' => 'Alsace et environs', 'address' => "France\nFacilement accessibles", 'text' => ''],
+        ['title' => 'Bâle', 'address' => "Suisse\nenv. 140 km", 'text' => ''],
+        ['title' => 'Zurich', 'address' => "Suisse\nenv. 200 km", 'text' => ''],
+        ['title' => 'Berne', 'address' => "Suisse\nenv. 220 km", 'text' => ''],
     ];
+}
+
+function gondrand_expand_location_cards($locs) {
+    $cards = [];
+    foreach ($locs as $l) {
+        $title = isset($l['title']) ? trim((string) $l['title']) : '';
+        $address = isset($l['address']) ? trim((string) $l['address']) : '';
+        $text = isset($l['text']) ? (string) $l['text'] : '';
+        if ($title !== '' || $address !== '') {
+            $cards[] = ['title' => $title, 'address' => $address, 'text' => ''];
+        }
+        if (trim($text) === '') {
+            continue;
+        }
+        $group = '';
+        foreach (preg_split('/\R/u', $text) as $line) {
+            $line = trim($line);
+            $line = preg_replace('/^[•📍📌*\-]+\s*/u', '', $line);
+            if ($line === '' || stripos($line, 'Notre point') === 0) {
+                continue;
+            }
+            if (preg_match('/Allemagne|France|Suisse/u', $line) && !preg_match('/km/i', $line)) {
+                $group = trim(preg_replace('/[\x{1F1E6}-\x{1F1FF}]/u', '', $line));
+                continue;
+            }
+            if (preg_match('/^(.+?)\s+[–—-]\s+(.+)$/u', $line, $m)) {
+                $cards[] = [
+                    'title'   => trim($m[1]),
+                    'address' => trim(($group !== '' ? $group . "\n" : '') . $m[2]),
+                    'text'    => '',
+                ];
+            } else {
+                $cards[] = ['title' => $line, 'address' => $group, 'text' => ''];
+            }
+        }
+    }
+    return $cards ?: $locs;
 }
 
 function gondrand_get_locations() {
@@ -91,7 +140,12 @@ function gondrand_get_locations() {
         }
         $out[] = ['title' => $title, 'address' => $address, 'text' => $text];
     }
-    return $out;
+    $expanded = gondrand_expand_location_cards($out);
+    if (count($out) === 1 && count($expanded) > 1) {
+        update_option('gondrand_locations', $expanded, false);
+        return $expanded;
+    }
+    return $expanded;
 }
 
 function gondrand_locations_payload() {
@@ -110,22 +164,29 @@ function gondrand_locations_payload() {
 }
 
 function gondrand_locations_html() {
-    $html = '<div class="loc-grid loc-stack" id="loc-grid">';
+    $html = '<div class="loc-grid" id="loc-grid">';
     foreach (gondrand_get_locations() as $l) {
-        $html .= '<article class="loc loc-wide">';
+        $html .= '<article class="loc">';
         if ($l['title'] !== '') {
             $html .= '<h3>' . esc_html($l['title']) . '</h3>';
         }
-        if ($l['address'] !== '') {
-            $html .= '<p>' . nl2br(esc_html($l['address'])) . '</p>';
-        }
-        if (trim($l['text']) !== '') {
-            $html .= '<div class="loc-nearby">' . nl2br(esc_html($l['text'])) . '</div>';
+        $body = trim($l['address'] . "\n" . ($l['text'] ?? ''));
+        $body = preg_replace('/^[•📍📌*\-]+\s*/mu', '', $body);
+        if ($body !== '') {
+            $html .= '<p>' . nl2br(esc_html($body)) . '</p>';
         }
         $html .= '</article>';
     }
     $html .= '</div>';
     return $html;
+}
+
+function gondrand_loc_heading() {
+    $v = gondrand_mod('gondrand_loc_title');
+    if ($v === '' || stripos($v, 'gondrand') !== false) {
+        return 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS';
+    }
+    return $v;
 }
 
 function gondrand_loc_row_html($l) {
@@ -134,7 +195,7 @@ function gondrand_loc_row_html($l) {
     <div class="gondrand-slide gondrand-loc">
       <p>Nom<br><input class="large-text" name="loc_title[]" value="<?php echo esc_attr($l['title'] ?? ''); ?>"></p>
       <p>Adresse<br><textarea name="loc_address[]" rows="2" class="large-text"><?php echo esc_textarea($l['address'] ?? ''); ?></textarea></p>
-      <p>Détail / villes accessibles<br><textarea name="loc_text[]" rows="10" class="large-text"><?php echo esc_textarea($l['text'] ?? ''); ?></textarea></p>
+      <p>Complément<br><textarea name="loc_text[]" rows="2" class="large-text"><?php echo esc_textarea($l['text'] ?? ''); ?></textarea></p>
       <p><button type="button" class="button gondrand-del-loc">Supprimer cet emplacement</button></p>
     </div>
     <?php
@@ -239,6 +300,9 @@ function gondrand_save_from_post() {
             continue;
         }
         $val = $cb(wp_unslash($_POST[$key]));
+        if ($key === 'gondrand_loc_title' && ( $val === '' || stripos($val, 'gondrand') !== false )) {
+            $val = 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS';
+        }
         set_theme_mod($key, $val);
     }
 
@@ -371,7 +435,7 @@ function gondrand_admin_page() {
 
         <h2>Emplacements & carte</h2>
         <table class="form-table" role="presentation">
-          <tr><th>Titre emplacements</th><td><input class="large-text" name="gondrand_loc_title" value="<?php echo esc_attr(gondrand_text('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING – EMPLACEMENTS')); ?>"></td></tr>
+          <tr><th>Titre emplacements</th><td><input class="large-text" name="gondrand_loc_title" value="<?php echo esc_attr(gondrand_loc_heading()); ?>"></td></tr>
           <tr><th>Texte emplacements</th><td><textarea class="large-text" rows="2" name="gondrand_loc_lead"><?php echo esc_textarea(gondrand_text('gondrand_loc_lead', 'Notre point de réception à Renchen, facilement accessible depuis l’Allemagne, la France et la Suisse.')); ?></textarea></td></tr>
           <tr><th>Titre services spéciaux</th><td><input class="large-text" name="gondrand_specials_title" value="<?php echo esc_attr(gondrand_text('gondrand_specials_title', 'Services spéciaux')); ?>"></td></tr>
           <tr><th>Texte services spéciaux</th><td><textarea class="large-text" rows="3" name="gondrand_specials_lead"><?php echo esc_textarea(gondrand_text('gondrand_specials_lead', 'En tant que membre d’un réseau d’investisseurs internationaux, nous disposons des ressources financières et logistiques nécessaires à la définition et à la réalisation des objectifs de nos clients, tout en les accompagnant tout au long du processus.')); ?></textarea></td></tr>

@@ -196,7 +196,23 @@
 
   const LOCS = {
     R: [
-      { n: "TRAVEX GLOBAL FORWARDING – RENCHEN", a: "Im Brünnel 2\n77871 Renchen", t: "", e: [], nearby: "Notre point de réception est facilement accessible depuis :\n\n🇩🇪 Allemagne\n• Renchen – 0 km\n• Appenweier – env. 5 km\n• Achern – env. 8 km\n• Oberkirch – env. 9 km\n• Offenburg – env. 14 km\n• Baden-Baden – env. 25 km\n• Kehl – env. 20 km\n• Karlsruhe – env. 60 km\n• Freiburg – env. 70 km\n• Pforzheim – env. 80 km\n• Stuttgart – env. 130 km\n\n🇫🇷 France\n• Strasbourg – env. 35 km\n• Alsace et environs – facilement accessibles\n\n🇨🇭 Suisse\n• Bâle – env. 140 km\n• Zurich – env. 200 km\n• Berne – env. 220 km" }
+      { n: "TRAVEX GLOBAL FORWARDING – RENCHEN", a: "Im Brünnel 2\n77871 Renchen" },
+      { n: "Renchen", a: "Allemagne\n0 km" },
+      { n: "Appenweier", a: "Allemagne\nenv. 5 km" },
+      { n: "Achern", a: "Allemagne\nenv. 8 km" },
+      { n: "Oberkirch", a: "Allemagne\nenv. 9 km" },
+      { n: "Offenburg", a: "Allemagne\nenv. 14 km" },
+      { n: "Kehl", a: "Allemagne\nenv. 20 km" },
+      { n: "Baden-Baden", a: "Allemagne\nenv. 25 km" },
+      { n: "Karlsruhe", a: "Allemagne\nenv. 60 km" },
+      { n: "Freiburg", a: "Allemagne\nenv. 70 km" },
+      { n: "Pforzheim", a: "Allemagne\nenv. 80 km" },
+      { n: "Stuttgart", a: "Allemagne\nenv. 130 km" },
+      { n: "Strasbourg", a: "France\nenv. 35 km" },
+      { n: "Alsace et environs", a: "France\nFacilement accessibles" },
+      { n: "Bâle", a: "Suisse\nenv. 140 km" },
+      { n: "Zurich", a: "Suisse\nenv. 200 km" },
+      { n: "Berne", a: "Suisse\nenv. 220 km" }
     ]
   };
 
@@ -390,6 +406,11 @@
       const key = el.getAttribute("data-i18n");
       if (I18N[LANG] && I18N[LANG][key]) el.textContent = I18N[LANG][key];
     });
+    document.querySelectorAll("h2").forEach(el => {
+      if (/gondrand/i.test(el.textContent) && /emplacements|locations/i.test(el.textContent)) {
+        el.textContent = LANG === "en" ? "TRAVEX GLOBAL FORWARDING LOCATIONS" : "TRAVEX GLOBAL FORWARDING EMPLACEMENTS";
+      }
+    });
     document.querySelectorAll(".crumbs a").forEach(a => {
       if (/Accueil|Home/.test(a.textContent.trim())) a.textContent = t("home_crumb");
     });
@@ -465,20 +486,40 @@
     return out;
   }
 
+  function flattenLocs(items) {
+    const cards = [];
+    let group = "";
+    items.forEach(x => {
+      const title = x.n || x.title || "";
+      const address = x.a || x.address || "";
+      const extra = x.nearby || x.text || "";
+      if (title || address) cards.push({ title, address });
+      String(extra).split(/\n/).forEach(line => {
+        line = line.replace(/^[•📍📌*\-]+\s*/, "").trim();
+        if (!line || /^Notre point/.test(line)) return;
+        if (/Allemagne|France|Suisse/.test(line) && !/km/i.test(line)) {
+          group = line.replace(/[\u{1F1E6}-\u{1F1FF}]/gu, "").trim();
+          return;
+        }
+        const m = line.match(/^(.+?)\s+[–—-]\s+(.+)$/);
+        if (m) cards.push({ title: m[1].trim(), address: (group ? group + "\n" : "") + m[2].trim() });
+        else cards.push({ title: line, address: group || "" });
+      });
+    });
+    return cards;
+  }
+
   function renderLocations() {
     const grid = document.getElementById("loc-grid");
     if (!grid) return;
     const az = document.getElementById("az");
     if (az) az.style.display = "none";
-    grid.classList.add("loc-stack");
-    const items = locItems();
+    const items = flattenLocs(locItems());
+    grid.className = "loc-grid";
     grid.innerHTML = items.map(x => `
-      <article class="loc loc-wide">
-        <h3>${x.n || x.title || ""}</h3>
-        <p>${(x.a || x.address || "").replace(/\n/g, "<br>")}</p>
-        ${x.t ? `<p>${t("tel")} ${x.t}</p>` : ""}
-        ${(x.e || []).map(m => `<a href="mailto:${m}">${m}</a>`).join("")}
-        ${x.nearby || x.text ? `<div class="loc-nearby">${(x.nearby || x.text || "").replace(/\n/g, "<br>")}</div>` : ""}
+      <article class="loc">
+        <h3>${x.title || ""}</h3>
+        <p>${(x.address || "").replace(/\n/g, "<br>")}</p>
       </article>`).join("");
   }
 

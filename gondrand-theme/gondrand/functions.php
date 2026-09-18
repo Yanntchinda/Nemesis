@@ -25,11 +25,19 @@ add_action('after_switch_theme', function () {
     }
     update_option('show_on_front', 'posts');
     gondrand_disable_root_html();
+    $title = get_theme_mod('gondrand_loc_title', '');
+    if (!is_string($title) || $title === '' || stripos($title, 'gondrand') !== false) {
+        set_theme_mod('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS');
+    }
     flush_rewrite_rules();
 });
 
 add_action('admin_init', function () {
     gondrand_disable_root_html();
+    $title = get_theme_mod('gondrand_loc_title', '');
+    if (is_string($title) && stripos($title, 'gondrand') !== false) {
+        set_theme_mod('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS');
+    }
 });
 
 add_action('template_redirect', 'gondrand_try_serve', 20);
@@ -129,7 +137,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.1.1');
+        header('X-Gondrand-Theme: 2.2.1');
         header('X-LiteSpeed-Cache-Control: no-cache');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
@@ -272,7 +280,8 @@ function gondrand_is_customizer() {
 }
 
 function gondrand_head_inject() {
-    $out = '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';
+    $out = '<style id="gondrand-layout">' . gondrand_layout_css() . '</style>';
+    $out .= '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';
 
     $custom = function_exists('wp_get_custom_css') ? wp_get_custom_css() : '';
     if (is_string($custom) && trim($custom) !== '') {
@@ -300,6 +309,32 @@ function gondrand_footer_inject() {
     return ob_get_clean();
 }
 
+function gondrand_layout_css() {
+    return <<<'CSS'
+.logo {
+  display: flex !important; align-items: center !important;
+  overflow: visible !important; width: auto !important;
+  min-width: 320px; max-width: 480px; height: 76px !important;
+  flex: 0 0 auto !important;
+}
+.logo img {
+  height: 72px !important; width: auto !important; max-width: 460px !important;
+  max-height: 76px !important; object-fit: contain !important;
+  position: static !important; transform: none !important; left: auto !important; top: auto !important;
+}
+.loc-grid {
+  display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important;
+  max-width: none !important;
+}
+.loc {
+  border: 1px solid #e4e8ee !important; padding: 16px 16px 14px !important;
+  background: #fff !important; min-height: 170px !important; list-style: none !important;
+}
+.loc ul, .loc li, .loc p { list-style: none !important; }
+.loc-nearby { display: none !important; }
+CSS;
+}
+
 function gondrand_mobile_css() {
     return <<<'CSS'
 @media screen and (max-width: 900px) {
@@ -316,6 +351,8 @@ function gondrand_mobile_css() {
   .cards > *, .loc-grid > *, .specials > *, .gallery > * { width: 100% !important; max-width: 100% !important; margin-bottom: 14px !important; }
   input, select, textarea, img, svg, iframe { max-width: 100% !important; box-sizing: border-box !important; }
   .map-card { min-width: 0 !important; width: calc(100% - 24px) !important; left: 12px !important; right: 12px !important; transform: translate(0, -50%) !important; }
+  .logo { min-width: 0 !important; max-width: 70% !important; height: auto !important; }
+  .logo img { height: 48px !important; max-width: 220px !important; }
 }
 CSS;
 }
