@@ -468,6 +468,10 @@ function gondrand_admin_page() {
     ?>
     <div class="wrap">
       <h1>Travex — modifier le site</h1>
+      <?php if (!empty($_GET['purged'])) : ?>
+        <div class="notice notice-success is-dismissible"><p><strong>Cache vidé.</strong> Sur Android : fermez Chrome, puis rouvrez le site. Les modifications doivent apparaître.</p></div>
+      <?php endif; ?>
+      <?php if (function_exists('gondrand_purge_button')) { gondrand_purge_button(); } ?>
       <?php if (!empty($_GET['saved'])) : ?>
         <div class="notice notice-success is-dismissible">
           <p><strong>Enregistré.</strong> Ouvrez le site (sans cache) :

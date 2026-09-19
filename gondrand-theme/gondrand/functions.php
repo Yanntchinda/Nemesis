@@ -56,7 +56,27 @@ add_action('admin_init', function () {
     if (is_string($logo) && stripos($logo, 'gondrand') !== false) {
         remove_theme_mod('gondrand_logo');
     }
+    if (isset($_GET['gondrand_purge']) && current_user_can('edit_theme_options')) {
+        check_admin_referer('gondrand_purge');
+        gondrand_touch_bust();
+        $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : 'gondrand-content';
+        if ($page !== 'gondrand-pages') {
+            $page = 'gondrand-content';
+        }
+        wp_safe_redirect(admin_url('admin.php?page=' . $page . '&purged=1'));
+        exit;
+    }
 });
+
+function gondrand_purge_button() {
+    $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : 'gondrand-content';
+    if ($page !== 'gondrand-pages') {
+        $page = 'gondrand-content';
+    }
+    $url = wp_nonce_url(admin_url('admin.php?page=' . $page . '&gondrand_purge=1'), 'gondrand_purge');
+    echo '<p><a class="button button-primary" href="' . esc_url($url) . '">Purger tout le cache (PC + Android)</a> ';
+    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement.</span></p>';
+}
 
 add_action('template_redirect', function () {
     if (function_exists('do_action')) {
@@ -67,7 +87,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '236';
+    return $v !== '' ? (string) $v : '237';
 }
 
 function gondrand_purge_caches() {
@@ -216,7 +236,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.16');
+        header('X-Gondrand-Theme: 2.2.17');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');

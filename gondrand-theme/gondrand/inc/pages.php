@@ -764,6 +764,12 @@ function gondrand_pages_admin() {
         exit;
     }
     echo '<div class="wrap"><h1>Toutes les pages du site</h1>';
+    if (!empty($_GET['purged'])) {
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Cache vidé.</strong> Sur Android : fermez Chrome, puis rouvrez le site.</p></div>';
+    }
+    if (function_exists('gondrand_purge_button')) {
+        gondrand_purge_button();
+    }
     if (!empty($_GET['names'])) {
         echo '<div class="notice notice-success is-dismissible"><p><strong>Noms enregistrés.</strong> Purgez LiteSpeed. Ils apparaissent dans le menu et le titre du navigateur.</p></div>';
     }
