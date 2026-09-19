@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aperçu mobile Gondrand</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #1b2430; font-family: Arial, sans-serif; }
+    body { display: flex; flex-direction: column; align-items: center; padding: 16px 12px 24px; box-sizing: border-box; }
+    h1 { color: #c9a84c; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 14px; }
+    .phone {
+      width: min(390px, 100%);
+      height: min(760px, calc(100vh - 70px));
+      background: #000;
+      border: 10px solid #0a0a0a;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    }
+    .phone iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Aperçu Android — 390px</h1>
+  <div class="phone">
+    <iframe src="index.html" title="Site Gondrand mobile"></iframe>
+  </div>
+</body>
+</html>
