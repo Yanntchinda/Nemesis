@@ -60,7 +60,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '234';
+    return $v !== '' ? (string) $v : '235';
 }
 
 function gondrand_purge_caches() {
@@ -196,7 +196,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.14');
+        header('X-Gondrand-Theme: 2.2.15');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');
@@ -548,7 +548,7 @@ function gondrand_slide_img_clip($pos) {
     return 'top:50% !important;bottom:auto !important;transform:translateY(-50%) !important;';
 }
 
-function gondrand_slide_rules($fit, $pos, $h, $ov, $cover_fallback) {
+function gondrand_slide_rules($fit, $pos, $h, $ov, $cover_fallback, $clip_height = true) {
     $css = '';
     $css .= '.slide{display:block !important;}';
     if ($fit === 'cover') {
@@ -560,18 +560,25 @@ function gondrand_slide_rules($fit, $pos, $h, $ov, $cover_fallback) {
         $css .= '.slide-img{position:absolute !important;inset:0 !important;width:100% !important;height:100% !important;object-fit:cover !important;object-position:' . $pos . ' !important;}';
         return $css;
     }
-    if ($h) {
+    if ($h && $clip_height) {
         $css .= '.hero{height:' . $h . 'px !important;min-height:0 !important;overflow:hidden !important;background:#111 !important;position:relative !important;}';
         $css .= '.slides{position:absolute !important;inset:0 !important;height:100% !important;}';
         $css .= '.slide{position:absolute !important;inset:0 !important;opacity:0 !important;z-index:0 !important;overflow:hidden !important;background:#111 !important;}';
         $css .= '.slide.active{opacity:1 !important;z-index:1 !important;}';
         $css .= '.slide-img{position:absolute !important;left:0 !important;right:0 !important;width:100% !important;height:auto !important;max-width:none !important;max-height:none !important;object-fit:cover !important;object-position:' . $pos . ' !important;' . gondrand_slide_img_clip($pos) . '}';
+    } elseif ($h && !$clip_height) {
+        $css .= '.hero{height:' . $h . 'px !important;min-height:0 !important;overflow:hidden !important;background:#111 !important;position:relative !important;}';
+        $css .= '.slides{position:absolute !important;inset:0 !important;height:100% !important;}';
+        $css .= '.slide{position:absolute !important;inset:0 !important;opacity:0 !important;z-index:0 !important;overflow:hidden !important;background:#111 !important;}';
+        $css .= '.slide.active{opacity:1 !important;z-index:1 !important;}';
+        $css .= '.slide-img{position:absolute !important;inset:0 !important;width:100% !important;height:100% !important;max-width:100% !important;object-fit:contain !important;object-position:' . $pos . ' !important;transform:none !important;}';
+        $css .= '.hero-nav button{top:38% !important;}';
     } else {
         $css .= '.hero{height:auto !important;min-height:0 !important;overflow:hidden !important;background:#111 !important;position:relative !important;}';
         $css .= '.slides{position:relative !important;inset:auto !important;height:auto !important;}';
         $css .= '.slide{position:absolute !important;left:0 !important;right:0 !important;top:0 !important;opacity:0 !important;z-index:0 !important;height:auto !important;pointer-events:none !important;}';
         $css .= '.slide.active{position:relative !important;opacity:1 !important;z-index:1 !important;pointer-events:auto !important;}';
-        $css .= '.slide-img{position:relative !important;inset:auto !important;width:100% !important;height:auto !important;max-height:none !important;transform:none !important;object-fit:contain !important;object-position:' . $pos . ' !important;display:block !important;}';
+        $css .= '.slide-img{position:relative !important;inset:auto !important;width:100% !important;height:auto !important;max-width:100% !important;max-height:none !important;transform:none !important;object-fit:contain !important;object-position:' . $pos . ' !important;display:block !important;}';
         $css .= '.hero-nav button{top:38% !important;}';
     }
     $css .= '.slide-inner,.slide h2,.slide p,.slide .tagline,.slide .more{display:none !important;}';
@@ -583,22 +590,24 @@ function gondrand_slider_css() {
     $ov = gondrand_slide_overlay();
     $css = '.slide-inner,.slide h2,.slide p,.slide .tagline,.slide .more{display:none !important;}';
     $css .= '.slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(6,20,40,' . $ov . ') !important;z-index:1;}';
-    $css .= '@media screen and (min-width:901px){';
+    $css .= '@media screen and (min-width:981px){';
     $css .= gondrand_slide_rules(
         gondrand_slide_fit('gondrand_slide_desktop_fit'),
         gondrand_slide_pos('gondrand_slide_desktop_pos'),
         gondrand_slide_height_px('gondrand_slide_desktop_height', 200, 1400),
         $ov,
-        '620px'
+        '620px',
+        true
     );
     $css .= '}';
-    $css .= '@media screen and (max-width:900px){';
+    $css .= '@media screen and (max-width:980px){';
     $css .= gondrand_slide_rules(
         gondrand_slide_mobile_fit(),
         gondrand_slide_mobile_pos(),
         gondrand_slide_mobile_height(),
         $ov,
-        '420px'
+        '420px',
+        false
     );
     $css .= '}';
     return $css;

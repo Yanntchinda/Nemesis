@@ -553,7 +553,7 @@ function gondrand_admin_page() {
         </table>
 
         <h3>Slider sur téléphone / Android</h3>
-        <p class="description">Sur téléphone, par défaut l’<strong>image entière</strong> s’affiche (sans zoom). Vous pouvez changer ce réglage ci-dessous.</p>
+        <p class="description">Anciens paramètres : l’<strong>image entière</strong> s’affiche, sans zoom ni recadrage. Le PC n’est pas modifié. « Image entière » + hauteur vide = toute la photo.</p>
         <table class="form-table" role="presentation">
           <tr>
             <th>Affichage de l’image</th>
@@ -580,7 +580,7 @@ function gondrand_admin_page() {
             <th>Hauteur max (px)</th>
             <td>
               <input type="number" class="small-text" name="gondrand_slide_mobile_height" min="160" max="900" placeholder="auto" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_mobile_height')); ?>">
-              <p class="description">Vide = hauteur automatique (toute l’image). Exemple : 280 pour limiter la hauteur.</p>
+              <p class="description">Vide = toute l’image. Une valeur limite la hauteur, l’image reste entière (sans recadrage, contrairement au PC).</p>
             </td>
           </tr>
         </table>
