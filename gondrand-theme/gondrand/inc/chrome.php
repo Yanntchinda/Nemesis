@@ -11,6 +11,14 @@ function gondrand_assets() {
     return trailingslashit(get_template_directory_uri() . '/site');
 }
 
+function gondrand_logo_url() {
+    $v = function_exists('gondrand_mod') ? gondrand_mod('gondrand_logo') : '';
+    if (is_string($v) && $v !== '' && stripos($v, 'gondrand') === false) {
+        return $v;
+    }
+    return gondrand_assets() . 'images/logo-travex.png';
+}
+
 function gondrand_t($key, $fallback) {
     $v = gondrand_mod('gondrand_i18n_' . $key);
     return $v !== '' ? $v : $fallback;
@@ -27,10 +35,7 @@ function gondrand_u($path) {
 function gondrand_header_html($page = '') {
     $home = gondrand_home();
     $assets = gondrand_assets();
-    $logo = gondrand_mod('gondrand_logo');
-    if ($logo === '') {
-        $logo = $assets . 'images/logo-gondrand.png';
-    }
+    $logo = gondrand_logo_url();
     $hidden = function_exists('gondrand_page_is_hidden') ? 'gondrand_page_is_hidden' : null;
     $nav = [
         ['home', function_exists('gondrand_page_name') ? gondrand_page_name('home') : gondrand_t('nav_home', 'Accueil'), 'index.html', 'home'],

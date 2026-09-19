@@ -32,6 +32,10 @@ add_action('after_switch_theme', function () {
     if (!is_string($title) || $title === '' || stripos($title, 'gondrand') !== false) {
         set_theme_mod('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS');
     }
+    $logo = get_theme_mod('gondrand_logo', '');
+    if (is_string($logo) && ($logo === '' || stripos($logo, 'gondrand') !== false)) {
+        remove_theme_mod('gondrand_logo');
+    }
     flush_rewrite_rules();
 });
 
@@ -40,6 +44,10 @@ add_action('admin_init', function () {
     $title = get_theme_mod('gondrand_loc_title', '');
     if (is_string($title) && stripos($title, 'gondrand') !== false) {
         set_theme_mod('gondrand_loc_title', 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS');
+    }
+    $logo = get_theme_mod('gondrand_logo', '');
+    if (is_string($logo) && stripos($logo, 'gondrand') !== false) {
+        remove_theme_mod('gondrand_logo');
     }
 });
 
@@ -52,7 +60,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '231';
+    return $v !== '' ? (string) $v : '232';
 }
 
 function gondrand_purge_caches() {
@@ -188,7 +196,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.11');
+        header('X-Gondrand-Theme: 2.2.12');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');
@@ -428,7 +436,7 @@ function gondrand_apply_content($html, $path) {
         );
     }
 
-    $logo = gondrand_mod('gondrand_logo');
+    $logo = function_exists('gondrand_logo_url') ? gondrand_logo_url() : gondrand_mod('gondrand_logo');
     $boot  = '<script>window.GONDRAND_CMS=' . wp_json_encode(gondrand_cms_payload()) . ';';
     $boot .= 'window.GONDRAND_LOGO=' . wp_json_encode($logo) . ';';
     if (function_exists('gondrand_locations_payload')) {

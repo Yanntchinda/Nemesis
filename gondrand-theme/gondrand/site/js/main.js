@@ -257,7 +257,7 @@
     <header class="header">
       <div class="wrap">
         <a class="logo" href="${url("index.html")}" aria-label="Travex Global Forwarding accueil">
-          <img src="${window.GONDRAND_LOGO || ((window.GONDRAND_ASSETS || BASE) + "images/logo-gondrand.png")}" alt="TRAVEX GLOBAL FORWARDING">
+          <img src="${window.GONDRAND_LOGO || ((window.GONDRAND_ASSETS || BASE) + "images/logo-travex.png")}" alt="TRAVEX GLOBAL FORWARDING">
         </a>
         <button class="burger" id="burger" aria-label="Menu">☰</button>
         <nav class="nav" id="nav">${links}</nav>

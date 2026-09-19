@@ -487,7 +487,7 @@ function gondrand_admin_page() {
 
         <h2>Logo du site</h2>
         <p>
-          <input type="url" class="large-text gondrand-image" name="gondrand_logo" id="gondrand_logo" value="<?php echo esc_attr(gondrand_mod('gondrand_logo') ?: (gondrand_assets() . 'images/logo-gondrand.png')); ?>">
+          <input type="url" class="large-text gondrand-image" name="gondrand_logo" id="gondrand_logo" value="<?php echo esc_attr(function_exists('gondrand_logo_url') ? gondrand_logo_url() : (gondrand_assets() . 'images/logo-travex.png')); ?>">
           <button type="button" class="button gondrand-pick" data-target="gondrand_logo">Choisir une image</button>
         </p>
 
