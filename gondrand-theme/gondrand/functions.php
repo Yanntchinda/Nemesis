@@ -9,6 +9,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!defined('DONOTCACHEPAGE')) {
+    define('DONOTCACHEPAGE', true);
+}
+if (!defined('LSCACHE_NO_CACHE')) {
+    define('LSCACHE_NO_CACHE', true);
+}
+
 require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/chrome.php';
 require get_template_directory() . '/inc/admin.php';
@@ -60,7 +67,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '235';
+    return $v !== '' ? (string) $v : '236';
 }
 
 function gondrand_purge_caches() {
@@ -69,6 +76,9 @@ function gondrand_purge_caches() {
     }
     if (has_action('litespeed_purge_cssjs')) {
         do_action('litespeed_purge_cssjs');
+    }
+    if (has_action('litespeed_purge_url')) {
+        do_action('litespeed_purge_url', home_url('/'));
     }
     if (class_exists('LiteSpeed\\Purge') && method_exists('LiteSpeed\\Purge', 'purge_all')) {
         \LiteSpeed\Purge::purge_all();
@@ -137,6 +147,16 @@ function gondrand_try_serve() {
         exit;
     }
 
+    if ($path === '/travex-bust.json' || $path === '/travex-bust.json/') {
+        $done = true;
+        nocache_headers();
+        header('Content-Type: application/json; charset=utf-8');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('X-LiteSpeed-Cache-Control: no-cache');
+        echo wp_json_encode(['bust' => gondrand_bust()]);
+        exit;
+    }
+
     if ($path === '/' || $path === '/index.html' || $path === '/index.php' || $path === '') {
         $done = true;
         gondrand_render_home();
@@ -196,10 +216,11 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.15');
+        header('X-Gondrand-Theme: 2.2.16');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');
+        header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
         if (function_exists('gondrand_apply_saved_body')) {
@@ -439,6 +460,8 @@ function gondrand_apply_content($html, $path) {
     $logo = function_exists('gondrand_logo_url') ? gondrand_logo_url() : gondrand_mod('gondrand_logo');
     $boot  = '<script>window.GONDRAND_CMS=' . wp_json_encode(gondrand_cms_payload()) . ';';
     $boot .= 'window.GONDRAND_LOGO=' . wp_json_encode($logo) . ';';
+    $boot .= 'window.TRAVEX_BUST=' . wp_json_encode(gondrand_bust()) . ';';
+    $boot .= 'window.TRAVEX_BUST_URL=' . wp_json_encode(home_url('/travex-bust.json')) . ';';
     if (function_exists('gondrand_locations_payload')) {
         $boot .= 'window.GONDRAND_LOCS=' . wp_json_encode(gondrand_locations_payload()) . ';';
     }
@@ -464,6 +487,8 @@ function gondrand_is_customizer() {
 
 function gondrand_head_inject() {
     $out = '<!-- travex-bust ' . esc_html(gondrand_bust()) . ' -->';
+    $out .= '<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">';
+    $out .= '<meta http-equiv="Pragma" content="no-cache">';
     $out .= '<style id="gondrand-layout">' . gondrand_layout_css() . '</style>';
     $out .= '<style id="gondrand-slider">' . gondrand_slider_css() . '</style>';
     $out .= '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';
@@ -602,13 +627,18 @@ function gondrand_slider_css() {
     $css .= '}';
     $css .= '@media screen and (max-width:980px){';
     $css .= gondrand_slide_rules(
-        gondrand_slide_mobile_fit(),
+        'contain',
         gondrand_slide_mobile_pos(),
-        gondrand_slide_mobile_height(),
+        0,
         $ov,
         '420px',
         false
     );
+    $css .= '.hero,.hero .slides,.hero .slide.active{height:auto !important;max-height:none !important;min-height:0 !important;overflow:visible !important;}';
+    $css .= '.hero .slides{position:relative !important;inset:auto !important;}';
+    $css .= '.hero .slide{position:absolute !important;left:0 !important;right:0 !important;top:0 !important;bottom:auto !important;inset:auto !important;height:auto !important;overflow:visible !important;}';
+    $css .= '.hero .slide.active{position:relative !important;}';
+    $css .= '.hero .slide-img{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;height:auto !important;max-width:100% !important;max-height:none !important;object-fit:contain !important;object-position:center center !important;transform:none !important;display:block !important;}';
     $css .= '}';
     return $css;
 }

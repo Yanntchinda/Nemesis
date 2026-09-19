@@ -581,6 +581,62 @@
     renderLocations();
   }
 
+  function isAndroidPhone() {
+    return /Android/i.test(navigator.userAgent || "") || window.matchMedia("(max-width: 980px)").matches;
+  }
+
+  function fitAndroidSlider() {
+    if (!isAndroidPhone()) return;
+    const hero = document.querySelector(".hero");
+    if (!hero) return;
+    ["height", "maxHeight", "minHeight"].forEach(k => hero.style.setProperty(k.replace(/[A-Z]/g, m => "-" + m.toLowerCase()), k === "minHeight" ? "0" : "auto", "important"));
+    hero.style.setProperty("overflow", "visible", "important");
+    const slidesBox = hero.querySelector(".slides");
+    if (slidesBox) {
+      slidesBox.style.setProperty("position", "relative", "important");
+      slidesBox.style.setProperty("height", "auto", "important");
+    }
+    hero.querySelectorAll(".slide").forEach(s => {
+      s.style.setProperty("height", "auto", "important");
+      s.style.setProperty("overflow", "visible", "important");
+    });
+    hero.querySelectorAll(".slide-img").forEach(img => {
+      img.style.setProperty("position", "relative", "important");
+      img.style.setProperty("inset", "auto", "important");
+      img.style.setProperty("width", "100%", "important");
+      img.style.setProperty("height", "auto", "important");
+      img.style.setProperty("max-width", "100%", "important");
+      img.style.setProperty("max-height", "none", "important");
+      img.style.setProperty("object-fit", "contain", "important");
+      img.style.setProperty("object-position", "center center", "important");
+      img.style.setProperty("transform", "none", "important");
+      img.style.setProperty("display", "block", "important");
+    });
+  }
+
+  function watchTravexBust() {
+    const known = window.TRAVEX_BUST;
+    const url = window.TRAVEX_BUST_URL;
+    if (!known || !url) return;
+    const check = () => {
+      fetch(url, { cache: "no-store", credentials: "same-origin" })
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.bust && String(d.bust) !== String(known)) {
+            location.reload();
+          }
+        })
+        .catch(() => {});
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) check();
+    });
+    window.addEventListener("pageshow", (e) => {
+      if (e.persisted) location.reload();
+    });
+    setInterval(check, 6000);
+  }
+
   function slider() {
     const slides = Array.from(document.querySelectorAll(".slide"));
     if (slides.length < 2) return;
@@ -594,6 +650,7 @@
         s.style.opacity = on ? "1" : "0";
         s.style.zIndex = on ? "1" : "0";
       });
+      fitAndroidSlider();
       navs.forEach((c, k) => c.classList.toggle("active", k === i));
     };
     show(i);
@@ -637,7 +694,11 @@
     bindQuote();
     mountAZ();
     slider();
+    fitAndroidSlider();
+    watchTravexBust();
     tabs();
     applyI18n();
+    window.addEventListener("resize", fitAndroidSlider);
+    window.addEventListener("orientationchange", fitAndroidSlider);
   });
 })();
