@@ -582,27 +582,29 @@
   }
 
   function isAndroidPhone() {
-    return /Android/i.test(navigator.userAgent || "") || window.matchMedia("(max-width: 980px)").matches;
+    return /Android/i.test(navigator.userAgent || "");
   }
 
   function fitAndroidSlider() {
     if (!isAndroidPhone()) return;
-    const hero = document.querySelector(".hero");
-    if (!hero) return;
-    ["height", "maxHeight", "minHeight"].forEach(k => hero.style.setProperty(k.replace(/[A-Z]/g, m => "-" + m.toLowerCase()), k === "minHeight" ? "0" : "auto", "important"));
-    hero.style.setProperty("overflow", "visible", "important");
-    const slidesBox = hero.querySelector(".slides");
-    if (slidesBox) {
-      slidesBox.style.setProperty("position", "relative", "important");
-      slidesBox.style.setProperty("height", "auto", "important");
+    var css = "html body .hero,html body .hero .slides,html body .hero .slide.active{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;}"
+      + "html body .hero .slides{position:relative!important;inset:auto!important;}"
+      + "html body .hero .slide{height:auto!important;overflow:visible!important;transform:none!important;-webkit-transform:none!important;}"
+      + "html body .hero .slide.active{position:relative!important;}"
+      + "html body .hero .slide .slide-img,html body .hero img.slide-img{position:static!important;display:block!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;margin:0 auto!important;object-fit:contain!important;object-position:center center!important;transform:none!important;-webkit-transform:none!important;inset:auto!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;}";
+    var s = document.getElementById("travex-android-slider");
+    if (!s) {
+      s = document.createElement("style");
+      s.id = "travex-android-slider";
+      (document.head || document.documentElement).appendChild(s);
     }
-    hero.querySelectorAll(".slide").forEach(s => {
-      s.style.setProperty("height", "auto", "important");
-      s.style.setProperty("overflow", "visible", "important");
-    });
-    hero.querySelectorAll(".slide-img").forEach(img => {
-      img.style.setProperty("position", "relative", "important");
-      img.style.setProperty("inset", "auto", "important");
+    s.textContent = css;
+    var hero = document.querySelector(".hero");
+    if (!hero) return;
+    hero.style.setProperty("height", "auto", "important");
+    hero.style.setProperty("overflow", "visible", "important");
+    hero.querySelectorAll(".slide-img").forEach(function (img) {
+      img.style.setProperty("position", "static", "important");
       img.style.setProperty("width", "100%", "important");
       img.style.setProperty("height", "auto", "important");
       img.style.setProperty("max-width", "100%", "important");
@@ -610,7 +612,7 @@
       img.style.setProperty("object-fit", "contain", "important");
       img.style.setProperty("object-position", "center center", "important");
       img.style.setProperty("transform", "none", "important");
-      img.style.setProperty("display", "block", "important");
+      img.style.setProperty("margin", "0 auto", "important");
     });
   }
 

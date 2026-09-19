@@ -505,6 +505,19 @@ function gondrand_is_customizer() {
     return isset($_GET['customize_changeset_uuid']) || isset($_POST['wp_customize']);
 }
 
+function gondrand_is_android() {
+    $ua = isset($_SERVER['HTTP_USER_AGENT']) ? (string) $_SERVER['HTTP_USER_AGENT'] : '';
+    return stripos($ua, 'Android') !== false;
+}
+
+function gondrand_android_slider_css() {
+    return 'html body .hero,html body .hero .slides,html body .hero .slide.active{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;}'
+        . 'html body .hero .slides{position:relative!important;inset:auto!important;}'
+        . 'html body .hero .slide{height:auto!important;overflow:visible!important;transform:none!important;}'
+        . 'html body .hero .slide.active{position:relative!important;}'
+        . 'html body .hero .slide .slide-img,html body .hero img.slide-img{position:static!important;display:block!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;margin:0 auto!important;object-fit:contain!important;object-position:center center!important;transform:none!important;-webkit-transform:none!important;inset:auto!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;}';
+}
+
 function gondrand_head_inject() {
     $out = '<!-- travex-bust ' . esc_html(gondrand_bust()) . ' -->';
     $out .= '<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">';
@@ -512,6 +525,9 @@ function gondrand_head_inject() {
     $out .= '<style id="gondrand-layout">' . gondrand_layout_css() . '</style>';
     $out .= '<style id="gondrand-slider">' . gondrand_slider_css() . '</style>';
     $out .= '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';
+    if (gondrand_is_android()) {
+        $out .= '<style id="travex-android-slider">' . gondrand_android_slider_css() . '</style>';
+    }
 
     $custom = function_exists('wp_get_custom_css') ? wp_get_custom_css() : '';
     if (is_string($custom) && trim($custom) !== '') {
