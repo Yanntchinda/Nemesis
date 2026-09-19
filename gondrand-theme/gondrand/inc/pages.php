@@ -809,7 +809,7 @@ function gondrand_pages_admin() {
                 echo '<a class="button" href="' . esc_url($rurl) . '">Restaurer</a>';
             } else {
                 $hurl = wp_nonce_url(admin_url('admin.php?page=gondrand-pages&gondrand_hide=' . rawurlencode($slug)), 'gondrand_hide_page');
-                echo '<a class="button" style="color:#b32d2e" href="' . esc_url($hurl) . '" onclick="return confirm('Supprimer cette page du site (menu et visiteurs) ? Vous pourrez la restaurer ensuite.');">Supprimer</a>';
+                echo '<a class="button" style="color:#b32d2e" href="' . esc_url($hurl) . '" onclick="return confirm(' . wp_json_encode('Supprimer cette page du site (menu et visiteurs) ? Vous pourrez la restaurer ensuite.') . ');">Supprimer</a>';
             }
         }
         echo '</td></tr>';
