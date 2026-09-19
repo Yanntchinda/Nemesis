@@ -397,6 +397,9 @@ function gondrand_save_from_post() {
         if ($key === 'gondrand_loc_title' && ( $val === '' || stripos($val, 'gondrand') !== false )) {
             $val = 'TRAVEX GLOBAL FORWARDING EMPLACEMENTS';
         }
+        if ($key === 'gondrand_logo' && stripos((string) $val, 'gondrand') !== false) {
+            $val = '';
+        }
         if ($key === 'gondrand_slide_mobile_fit' || $key === 'gondrand_slide_desktop_fit') {
             $val = $val === 'cover' ? 'cover' : 'contain';
         }
@@ -844,6 +847,4 @@ function gondrand_slide_row_html($i, $s) {
     </div>
     <?php
     return ob_get_clean();
-}
-ean();
 }
