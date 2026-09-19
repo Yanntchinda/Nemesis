@@ -517,7 +517,7 @@ function gondrand_admin_page() {
         </p>
 
         <h3>Slider sur ordinateur (PC)</h3>
-        <p class="description">Par défaut l’<strong>image entière</strong> s’affiche (sans zoom ni coupe). Pour agrandir le bandeau, indiquez une hauteur en pixels (ex. 720, 800, 900).</p>
+        <p class="description">Par défaut l’<strong>image entière</strong> s’affiche. Une hauteur plus petite <strong>rogne</strong> le bandeau (haut/bas) sans miniaturiser l’image.</p>
         <table class="form-table" role="presentation">
           <tr>
             <th>Affichage de l’image</th>
@@ -844,4 +844,6 @@ function gondrand_slide_row_html($i, $s) {
     </div>
     <?php
     return ob_get_clean();
+}
+ean();
 }

@@ -24,7 +24,7 @@ function gondrand_render_home() {
     status_header(200);
     nocache_headers();
     header('Content-Type: text/html; charset=UTF-8');
-    header('X-Gondrand-Theme: 2.2.9');
+    header('X-Gondrand-Theme: 2.2.11');
     header('X-LiteSpeed-Cache-Control: no-cache');
     header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
     header('Pragma: no-cache');
@@ -42,8 +42,8 @@ function gondrand_render_home() {
   <link rel="icon" href="<?php echo esc_url($assets . 'images/logo-gondrand.png'); ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('css/style.css') : ($assets . 'css/style.css?ver=2.2.9')); ?>">
-  <!-- gondrand-theme 2.2.9 php-home -->
+  <link rel="stylesheet" href="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('css/style.css') : ($assets . 'css/style.css?ver=2.2.11')); ?>">
+  <!-- gondrand-theme 2.2.11 php-home -->
   <?php echo $head; ?>
 </head>
 <body>

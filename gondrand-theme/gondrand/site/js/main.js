@@ -582,15 +582,21 @@
   }
 
   function slider() {
-    const slides = document.querySelectorAll(".slide");
-    if (!slides.length) return;
-    let i = 0;
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    if (slides.length < 2) return;
+    let i = Math.max(0, slides.findIndex(s => s.classList.contains("active")));
     const navs = document.querySelectorAll(".rev_slider_nav, .icon-card");
     const show = (n) => {
-      i = (n + slides.length) % slides.length;
-      slides.forEach((s, k) => s.classList.toggle("active", k === i));
+      i = ((n % slides.length) + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        const on = k === i;
+        s.classList.toggle("active", on);
+        s.style.opacity = on ? "1" : "0";
+        s.style.zIndex = on ? "1" : "0";
+      });
       navs.forEach((c, k) => c.classList.toggle("active", k === i));
     };
+    show(i);
     navs.forEach((c, k) => c.addEventListener("click", (e) => {
       e.preventDefault();
       const idx = parseInt(c.getAttribute("data-slide"), 10);
@@ -600,7 +606,19 @@
     const next = document.querySelector(".hero-nav .next");
     if (prev) prev.onclick = () => show(i - 1);
     if (next) next.onclick = () => show(i + 1);
-    setInterval(() => show(i + 1), 7000);
+    let startX = 0;
+    const hero = document.querySelector(".hero");
+    if (hero) {
+      hero.addEventListener("touchstart", (e) => {
+        startX = e.changedTouches[0] ? e.changedTouches[0].clientX : 0;
+      }, { passive: true });
+      hero.addEventListener("touchend", (e) => {
+        const x = e.changedTouches[0] ? e.changedTouches[0].clientX : startX;
+        const dx = x - startX;
+        if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+    }
+    setInterval(() => show(i + 1), 5000);
   }
 
   function tabs() {
