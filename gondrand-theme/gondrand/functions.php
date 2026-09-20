@@ -93,7 +93,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '239';
+    return $v !== '' ? (string) $v : '241';
 }
 
 function gondrand_purge_caches() {
@@ -242,7 +242,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.20');
+        header('X-Gondrand-Theme: 2.2.21');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');
@@ -519,8 +519,8 @@ function gondrand_is_android() {
 function gondrand_android_slider_css() {
     return 'html.travex-android .hero,html.travex-android .hero .slides{height:auto!important;max-height:none!important;min-height:0!important;overflow:hidden!important;position:relative!important;}'
         . 'html.travex-android .hero .slides{inset:auto!important;}'
-        . 'html.travex-android .hero .slide{display:block!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;inset:auto!important;width:100%!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:none!important;}'
-        . 'html.travex-android .hero .slide.active{height:auto!important;overflow:visible!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;z-index:1!important;}'
+        . 'html.travex-android .hero .slide{display:none!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;inset:auto!important;width:100%!important;height:auto!important;margin:0!important;overflow:visible!important;opacity:1!important;visibility:visible!important;transform:none!important;}'
+        . 'html.travex-android .hero .slide.active{display:block!important;}'
         . 'html.travex-android .hero .slide-img,html.travex-android .hero img.slide-img{position:static!important;inset:auto!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important;-webkit-object-fit:contain!important;object-position:center center!important;transform:none!important;margin:0 auto!important;display:block!important;}';
 }
 

@@ -639,12 +639,13 @@
         s.style.opacity = on ? "1" : "0";
         s.style.zIndex = on ? "1" : "0";
         if (isAndroidPhone()) {
-          s.style.setProperty("display", "block", "important");
+          s.style.setProperty("display", on ? "block" : "none", "important");
           s.style.setProperty("position", "relative", "important");
-          s.style.setProperty("height", on ? "auto" : "0", "important");
-          s.style.setProperty("overflow", on ? "visible" : "hidden", "important");
-          s.style.setProperty("visibility", on ? "visible" : "hidden", "important");
-          s.style.setProperty("opacity", on ? "1" : "0", "important");
+          s.style.setProperty("height", "auto", "important");
+          s.style.setProperty("overflow", "visible", "important");
+          s.style.setProperty("opacity", "1", "important");
+          s.style.setProperty("visibility", "visible", "important");
+          s.style.setProperty("transform", "none", "important");
         }
       });
       fitAndroidSlider();
