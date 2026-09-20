@@ -87,7 +87,7 @@ add_action('template_redirect', 'gondrand_try_serve', 20);
 
 function gondrand_bust() {
     $v = get_option('gondrand_bust', '');
-    return $v !== '' ? (string) $v : '237';
+    return $v !== '' ? (string) $v : '238';
 }
 
 function gondrand_purge_caches() {
@@ -236,7 +236,7 @@ function gondrand_try_serve() {
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.17');
+        header('X-Gondrand-Theme: 2.2.19');
         header('X-LiteSpeed-Cache-Control: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Pragma: no-cache');
@@ -522,6 +522,8 @@ function gondrand_head_inject() {
     $out = '<!-- travex-bust ' . esc_html(gondrand_bust()) . ' -->';
     $out .= '<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">';
     $out .= '<meta http-equiv="Pragma" content="no-cache">';
+    $out .= '<script>if(/Android/i.test(navigator.userAgent||""))document.documentElement.classList.add("travex-android");</script>';
+    $out .= '<style id="travex-android-slider">html.travex-android .hero,html.travex-android .hero .slides,html.travex-android .hero .slide.active{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important}html.travex-android .hero .slides{position:relative!important;inset:auto!important}html.travex-android .hero .slide{display:block!important;position:absolute!important;left:0!important;right:0!important;top:0!important;bottom:auto!important;width:100%!important;height:auto!important;overflow:visible!important;transform:none!important;-webkit-transform:none!important}html.travex-android .hero .slide.active{position:relative!important;opacity:1!important;z-index:1!important}html.travex-android .hero .slide-img,html.travex-android .hero img.slide-img{position:static!important;inset:auto!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important;-webkit-object-fit:contain!important;object-position:center center!important;transform:none!important;-webkit-transform:none!important;margin:0 auto!important;display:block!important}</style>';
     $out .= '<style id="gondrand-layout">' . gondrand_layout_css() . '</style>';
     $out .= '<style id="gondrand-slider">' . gondrand_slider_css() . '</style>';
     $out .= '<style id="gondrand-mobile">' . gondrand_mobile_css() . '</style>';

@@ -651,6 +651,18 @@
         s.classList.toggle("active", on);
         s.style.opacity = on ? "1" : "0";
         s.style.zIndex = on ? "1" : "0";
+        if (isAndroidPhone()) {
+          s.style.setProperty("display", "block", "important");
+          s.style.setProperty("position", on ? "relative" : "absolute", "important");
+          s.style.setProperty("left", "0", "important");
+          s.style.setProperty("right", "0", "important");
+          s.style.setProperty("top", "0", "important");
+          s.style.setProperty("bottom", "auto", "important");
+          s.style.setProperty("width", "100%", "important");
+          s.style.setProperty("height", "auto", "important");
+          s.style.setProperty("overflow", "visible", "important");
+          s.style.setProperty("transform", "none", "important");
+        }
       });
       fitAndroidSlider();
       navs.forEach((c, k) => c.classList.toggle("active", k === i));
