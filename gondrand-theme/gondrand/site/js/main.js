@@ -612,26 +612,42 @@
   }
 
   function watchTravexBust() {
-    const known = window.TRAVEX_BUST;
+    const known = String(window.TRAVEX_BUST || "");
     const url = window.TRAVEX_BUST_URL;
     if (!known || !url) return;
+    const hardReload = () => {
+      try {
+        // Bypass bfcache + Android Chrome HTTP cache
+        const s = window.sessionStorage;
+        s && s.setItem("g-bust-reload", "1");
+        // location.replace to avoid going back to a cached copy
+        window.location.replace(window.location.href.split("#")[0] + "?v=" + Date.now() + window.location.hash);
+      } catch (e) {
+        window.location.reload(true);
+      }
+    };
     const check = () => {
-      fetch(url, { cache: "no-store", credentials: "same-origin" })
+      fetch(url + (url.indexOf("?")>=0?"&":"?") + "_=" + Date.now(), {
+        cache: "no-store", credentials: "same-origin",
+        headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" }
+      })
         .then(r => r.json())
         .then(d => {
-          if (d && d.bust && String(d.bust) !== String(known)) {
-            location.reload();
-          }
+          if (d && d.bust && String(d.bust) !== known) hardReload();
         })
         .catch(() => {});
     };
+    // On page restore from bfcache (Android back button), force reload
+    window.addEventListener("pageshow", (e) => {
+      if (e.persisted) { hardReload(); return; }
+      check();
+    });
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) check();
     });
-    window.addEventListener("pageshow", (e) => {
-      if (e.persisted) location.reload();
-    });
-    setInterval(check, 6000);
+    window.addEventListener("focus", check);
+    // Faster polling: every 3s so Android gets updates within ~3-6s
+    setInterval(check, 3000);
   }
 
   function slider() {

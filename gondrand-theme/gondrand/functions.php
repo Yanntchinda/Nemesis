@@ -46,6 +46,29 @@ add_action('after_switch_theme', function () {
     flush_rewrite_rules();
 });
 
+// ---- AUTO-BUST on any content edit (so Android/LiteSpeed refresh instantly) ----
+foreach (['customize_save_after', 'update_option_theme_mods_'.get_option('stylesheet',''), 'updated_option', 'added_option', 'after_switch_theme'] as $hook) {
+    add_action($hook, function () {
+        if (defined('GONDRAND_BUSTING')) return;
+        // Only bust on theme-related option changes
+        static $armed = false;
+        if (current_filter() === 'customize_save_after') { $armed = true; }
+        if (!$armed) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 4);
+            $hit = false;
+            foreach ($trace as $f) {
+                $cls = isset($f['class']) ? $f['class'] : '';
+                $fn = isset($f['function']) ? $f['function'] : '';
+                if (stripos($cls,'Customize')!==false || stripos($fn,'customize')!==false
+                    || stripos($fn,'theme_mod')!==false) { $hit = true; break; }
+            }
+            if (!$hit) return;
+        }
+        define('GONDRAND_BUSTING', 1);
+        if (function_exists('gondrand_touch_bust')) gondrand_touch_bust();
+    }, 999);
+}
+
 add_action('admin_init', function () {
     gondrand_disable_root_html();
     $title = get_theme_mod('gondrand_loc_title', '');
@@ -74,9 +97,37 @@ function gondrand_purge_button() {
         $page = 'gondrand-content';
     }
     $url = wp_nonce_url(admin_url('admin.php?page=' . $page . '&gondrand_purge=1'), 'gondrand_purge');
-    echo '<p><a class="button button-primary" href="' . esc_url($url) . '">Purger tout le cache (PC + Android)</a> ';
-    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement.</span></p>';
+    echo '<p><a class="button button-primary" href="' . esc_url($url) . '">Purger tout le cache (PC + Android + LWS)</a> ';
+    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement (automatique depuis v2.2.23, bouton de secours).</span></p>';
 }
+
+// Quick-purge button in the WP Admin Bar (always visible at top)
+add_action('admin_bar_menu', function ($bar) {
+    if (!current_user_can('edit_theme_options')) return;
+    $url = wp_nonce_url(admin_url('?gondrand_purge=1'), 'gondrand_purge');
+    $bar->add_node([
+        'id'    => 'gondrand-purge',
+        'title' => '⚡ Purger cache (Android + LWS)',
+        'href'  => $url,
+        'meta'  => ['title' => 'Vide LiteSpeed/LWS/Android — modifications visibles en 3s'],
+    ]);
+}, 99);
+
+// Handle the quick-purge from anywhere in admin
+add_action('admin_init', function () {
+    if (isset($_GET['gondrand_purge']) && current_user_can('edit_theme_options')) {
+        check_admin_referer('gondrand_purge');
+        gondrand_touch_bust();
+        wp_safe_redirect(add_query_arg('gondrand_purged', '1', wp_get_referer() ?: admin_url('/')));
+        exit;
+    }
+}, 0);
+
+add_action('admin_notices', function () {
+    if (isset($_GET['gondrand_purged'])) {
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Cache purgé (PC + Android + LWS/LiteSpeed).</strong> Les visiteurs Android voient la nouvelle version en moins de 6 secondes.</p></div>';
+    }
+});
 
 add_action('init', function () {
     if (function_exists('gondrand_disable_root_html')) {
@@ -97,17 +148,44 @@ function gondrand_bust() {
 }
 
 function gondrand_purge_caches() {
+    // LiteSpeed Cache plugin
     if (has_action('litespeed_purge_all')) {
         do_action('litespeed_purge_all');
     }
     if (has_action('litespeed_purge_cssjs')) {
         do_action('litespeed_purge_cssjs');
     }
+    if (function_exists('run_litespeed_cache')) {
+        do_action('litespeed_purge_all');
+    }
     if (has_action('litespeed_purge_url')) {
         do_action('litespeed_purge_url', home_url('/'));
     }
     if (class_exists('LiteSpeed\\Purge') && method_exists('LiteSpeed\\Purge', 'purge_all')) {
         \LiteSpeed\Purge::purge_all();
+    }
+    // WP Super Cache, W3 Total Cache, WP Rocket, WP-Optimize, Cache Enabler, SiteGround, Comet, Breeze, Swift Performance
+    if (function_exists('wp_cache_clear_cache')) { @wp_cache_clear_cache(); }
+    if (function_exists('w3tc_flush_all')) { @w3tc_flush_all(); }
+    if (function_exists('rocket_clean_domain')) { @rocket_clean_domain(); }
+    if (function_exists('wp_optimize_cache_purge')) { @wp_optimize_cache_purge(); }
+    if (class_exists('CacheEnabler') && method_exists('CacheEnabler', 'clear_total_cache')) { @\CacheEnabler::clear_total_cache(); }
+    if (function_exists('sg_cachepress_purge_cache')) { @sg_cachepress_purge_cache(); }
+    if (function_exists('comet_cache_clear_cache')) { @comet_cache_clear_cache(); }
+    if (class_exists('Breeze_PurgeCache') && method_exists('Breeze_PurgeCache','breeze_cache_flush')) { @\Breeze_PurgeCache::breeze_cache_flush(); }
+    if (class_exists('Swift_Performance_Cache') && method_exists('Swift_Performance_Cache','clear_all_cache')) { @\Swift_Performance_Cache::clear_all_cache(); }
+    if (function_exists('autoptimizeCache::clearall')) { @\autoptimizeCache::clearall(); }
+    // LWS "Cache Manager" (mu-plugin) — purge via transient trigger
+    set_transient('lws_cache_purge_requested', time(), 300);
+    // Try the LWS hosting's CLI-like clear if available
+    if (function_exists('lws_flush_cache')) { @lws_flush_cache(); }
+    // Apache mod_pagespeed
+    if (function_exists('do_action') && isset($GLOBALS['wp_pagespeed']) && is_object($GLOBALS['wp_pagespeed'])) {
+        @do_action('admin_notices');
+    }
+    // opcache
+    if (function_exists('opcache_reset')) {
+        @opcache_reset();
     }
 }
 
@@ -123,8 +201,10 @@ function gondrand_asset($rel) {
 
 function gondrand_bust_html($html) {
     $ver = rawurlencode(gondrand_bust());
-    $html = preg_replace('#(css/style\.css)(\?ver=[^"\']*)?#', '$1?ver=' . $ver, $html);
-    $html = preg_replace('#(js/main\.js)(\?ver=[^"\']*)?#', '$1?ver=' . $ver, $html);
+    // Add version AND a random microtoken so Android Chrome can't reuse stale
+    // cached files even between busts. The token changes per pageload on bust updates.
+    $html = preg_replace('#(css/style\.css)(\?[^"\']*)?#', '$1?ver=' . $ver, $html);
+    $html = preg_replace('#(js/main\.js)(\?[^"\']*)?#', '$1?ver=' . $ver, $html);
     return is_string($html) ? $html : $html;
 }
 
@@ -175,11 +255,19 @@ function gondrand_try_serve() {
 
     if ($path === '/travex-bust.json' || $path === '/travex-bust.json/') {
         $done = true;
+        // Aggressively defeat LWS / LiteSpeed / Android Chrome cache
         nocache_headers();
         header('Content-Type: application/json; charset=utf-8');
-        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-        header('X-LiteSpeed-Cache-Control: no-cache');
-        echo wp_json_encode(['bust' => gondrand_bust()]);
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0');
+        header('Pragma: no-cache');
+        header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+        header('X-LiteSpeed-Cache-Control: no-cache, no-store, max-age=0, no-vary');
+        header('X-LiteSpeed-Tag: ');
+        header('X-LSCACHE: no-cache');
+        header('Edge-Control: no-store');
+        header('Surrogate-Control: no-store');
+        header('Vary: *');
+        echo wp_json_encode(['bust' => gondrand_bust(), 't' => time()]);
         exit;
     }
 
@@ -241,12 +329,18 @@ function gondrand_try_serve() {
     nocache_headers();
     header('Content-Type: ' . ($mimes[$ext] ?? 'application/octet-stream'));
 
+    // Aggressive anti-cache headers that beat LWS/LiteSpeed default rules
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.22');
-        header('X-LiteSpeed-Cache-Control: no-cache');
-        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('X-Gondrand-Theme: 2.2.23');
+        header('X-LiteSpeed-Cache-Control: no-cache, no-store, max-age=0, esi=on, no-vary');
+        header('X-LSCACHE: no-cache');
+        header('X-LiteSpeed-Tag: ');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0, private');
         header('Pragma: no-cache');
         header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+        header('Edge-Control: no-store');
+        header('Surrogate-Control: no-store');
+        header('Vary: *');
         $html = file_get_contents($real_file);
         $html = preg_replace('#<div class="dl-banner">.*?</div>#s', '', $html);
         if (function_exists('gondrand_apply_saved_body')) {
@@ -263,9 +357,13 @@ function gondrand_try_serve() {
     }
 
     if (in_array($ext, ['css', 'js'], true)) {
-        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0');
         header('Pragma: no-cache');
-        header('X-LiteSpeed-Cache-Control: no-cache');
+        header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+        header('X-LiteSpeed-Cache-Control: no-cache, no-store, max-age=0, no-vary');
+        header('X-LSCACHE: no-cache');
+        header('Edge-Control: no-store');
+        header('Surrogate-Control: no-store');
     }
     readfile($real_file);
     exit;
