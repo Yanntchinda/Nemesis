@@ -102,7 +102,7 @@ function gondrand_purge_button() {
     }
     $url = wp_nonce_url(admin_url('admin.php?page=' . $page . '&gondrand_purge=1'), 'gondrand_purge');
     echo '<p><a class="button button-primary" href="' . esc_url($url) . '">Purger tout le cache (PC + Android + LWS)</a> ';
-    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement (automatique depuis v2.2.25, bouton de secours).</span></p>';
+    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement (automatique depuis v2.2.26, bouton de secours).</span></p>';
 }
 
 // Quick-purge button in the WP Admin Bar (always visible at top)
@@ -237,17 +237,28 @@ function gondrand_touch_bust() {
 // Write LiteSpeed/APCu-resistant .htaccess rules to DISABLE server-side cache
 // for all HTML/json responses served by this theme. This is what beats LWS.
 function gondrand_write_htaccess() {
-    $marker = 'GONDRAND-NOCACHE';
     $htaccess = ABSPATH . '.htaccess';
     if (!is_writable($htaccess) && !file_exists($htaccess)) {
-        // Try creating it
         @touch($htaccess);
     }
     if (!is_writable($htaccess)) return;
+
+    // LWS Optimize rewrites / to a pre-generated HTML file before WordPress runs.
+    // Therefore this block must be placed BEFORE # BEGIN LSCACHE, not appended at
+    // the end of .htaccess where it is too late to stop that rewrite.
     $rules = <<<'HTA'
+# BEGIN GONDRAND-NOCACHE-EARLY
+# This block must stay before LSCACHE and LWS Optimize rules.
 <IfModule LiteSpeed>
+CacheDisable public /
+CacheDisable private /
+</IfModule>
+<IfModule mod_rewrite.c>
 RewriteEngine On
-# Do not cache the WordPress-rendered front end on the LWS server/CDN.
+# Make LWS Optimize skip its pre-generated index files for clean front-end URLs.
+RewriteCond %{REQUEST_URI} /$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^(.*)$ /$1?do_not_cache_lwsoptimize=1 [N]
 RewriteRule .* - [E=Cache-Control:no-cache]
 </IfModule>
 <IfModule mod_headers.c>
@@ -258,11 +269,26 @@ Header always set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
 Header always set Edge-Control "no-store"
 Header always set Surrogate-Control "no-store"
 </IfModule>
+# END GONDRAND-NOCACHE-EARLY
 HTA;
-    require_once ABSPATH . 'wp-admin/includes/misc.php';
-    if (function_exists('insert_with_markers')) {
-        @insert_with_markers($htaccess, $marker, explode("\n", $rules));
+
+    $content = @file_get_contents($htaccess);
+    if (!is_string($content)) return;
+    // Remove old copies, including the previous block that was appended too late.
+    $content = preg_replace(
+        '~# BEGIN GONDRAND-NOCACHE(?:-EARLY)?\\b.*?# END GONDRAND-NOCACHE(?:-EARLY)?\\s*~s',
+        '',
+        $content
+    );
+    if (!is_string($content)) return;
+
+    $anchor = strpos($content, '# BEGIN LSCACHE');
+    if ($anchor === false) {
+        $content = $rules . "\n\n" . ltrim($content);
+    } else {
+        $content = substr($content, 0, $anchor) . $rules . "\n\n" . substr($content, $anchor);
     }
+    @file_put_contents($htaccess, $content, LOCK_EX);
 }
 add_action('after_switch_theme', 'gondrand_write_htaccess', 5);
 
@@ -442,7 +468,7 @@ function gondrand_try_serve() {
 
     // Aggressive anti-cache headers that beat LWS/LiteSpeed default rules
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.25');
+        header('X-Gondrand-Theme: 2.2.26');
         header('X-LiteSpeed-Cache-Control: no-cache, no-store, max-age=0, esi=on, no-vary');
         header('X-LSCACHE: no-cache');
         header('X-LiteSpeed-Tag: ');

@@ -483,7 +483,7 @@ function gondrand_admin_page() {
     $root_html = is_file(ABSPATH . 'index.html');
     ?>
     <div class="wrap">
-      <h1>Travex — modifier le site <small style="font-weight:400;color:#646970">(thème 2.2.25)</small></h1>
+      <h1>Travex — modifier le site <small style="font-weight:400;color:#646970">(thème 2.2.26)</small></h1>
       <?php if (!empty($_GET['purged'])) : ?>
         <div class="notice notice-success is-dismissible"><p><strong>Cache vidé.</strong> Sur Android : fermez Chrome, puis rouvrez le site. Les modifications doivent apparaître.</p></div>
       <?php endif; ?>
