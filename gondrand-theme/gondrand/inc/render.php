@@ -25,7 +25,7 @@ function gondrand_render_home() {
     status_header(200);
     nocache_headers();
     header('Content-Type: text/html; charset=UTF-8');
-    header('X-Gondrand-Theme: 2.2.26');
+    header('X-Gondrand-Theme: 2.2.27');
     header('X-LiteSpeed-Cache-Control: no-cache, no-store, max-age=0, esi=on, no-vary');
     header('X-LSCACHE: no-cache');
     header('X-LiteSpeed-Tag: ');
@@ -52,8 +52,8 @@ function gondrand_render_home() {
   <link rel="icon" href="<?php echo esc_url(function_exists('gondrand_logo_url') ? gondrand_logo_url() : ($assets . 'images/logo-travex.png')); ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('css/style.css') : ($assets . 'css/style.css?ver=2.2.26')); ?>">
-  <!-- gondrand-theme 2.2.26 php-home -->
+  <link rel="stylesheet" href="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('css/style.css') : ($assets . 'css/style.css?ver=2.2.27')); ?>">
+  <!-- gondrand-theme 2.2.27 php-home -->
   <?php echo $head; ?>
 </head>
 <body>
@@ -139,7 +139,7 @@ function gondrand_render_home() {
 
   <?php echo gondrand_footer_html(); ?>
   <script>window.BASE=<?php echo wp_json_encode($home); ?>;window.GONDRAND_ASSETS=<?php echo wp_json_encode($assets); ?>;window.GONDRAND_CMS=<?php echo wp_json_encode(gondrand_cms_payload()); ?>;window.GONDRAND_LOCS=<?php echo wp_json_encode(gondrand_locations_payload()); ?>;window.GONDRAND_BRANDS=<?php echo wp_json_encode(function_exists('gondrand_get_brands') ? gondrand_get_brands() : []); ?>;window.TRAVEX_BUST=<?php echo wp_json_encode(gondrand_bust()); ?>;window.TRAVEX_BUST_URL=<?php echo wp_json_encode(home_url('/travex-bust.json')); ?>;window.GONDRAND_LOGO=<?php echo wp_json_encode(function_exists('gondrand_logo_url') ? gondrand_logo_url() : ''); ?>;window.PAGE="home";</script>
-  <script src="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('js/main.js') : ($assets . 'js/main.js?ver=2.2.26')); ?>"></script>
+  <script src="<?php echo esc_url(function_exists('gondrand_asset') ? gondrand_asset('js/main.js') : ($assets . 'js/main.js?ver=2.2.27')); ?>"></script>
   <script>
     document.getElementById("special-slot").innerHTML = Travex.specialHTML();
     document.getElementById("quote-slot").innerHTML = Travex.quoteHTML(true);
