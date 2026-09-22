@@ -573,28 +573,33 @@
   }
 
   function fitSlider() {
-    // Robust cross-platform fit (Android included):
-    // - slides container is sized to the active slide height
-    // - inactive slides absolutely sit behind the active one
+    // Desktop may use the active image height. Mobile/Android must NOT do that:
+    // different image aspect ratios would make the hero grow and shrink.
     var hero = document.querySelector(".hero");
     var wrap = hero && hero.querySelector(".slides");
     if (!wrap) return;
+    var mobile = isAndroid() || (window.matchMedia && window.matchMedia("(max-width: 980px)").matches);
+    if (mobile) {
+      document.documentElement.classList.toggle("travex-android", isAndroid());
+      // Let the fixed CSS height (default 420px or the admin value) control it.
+      wrap.style.height = "";
+      wrap.style.minHeight = "";
+      wrap.style.maxHeight = "";
+      wrap.querySelectorAll(".slide-img").forEach(function (img) {
+        img.style.position = "";
+        img.style.width = "";
+        img.style.height = "";
+        img.style.maxWidth = "";
+        img.style.display = "";
+        img.style.objectFit = "";
+        img.style.objectPosition = "";
+      });
+      return;
+    }
     var active = wrap.querySelector(".slide.active") || wrap.querySelector(".slide");
     if (active) {
       var h = active.offsetHeight;
       if (h > 0) wrap.style.height = h + "px";
-    }
-    if (isAndroid()) {
-      document.documentElement.classList.add("travex-android");
-      wrap.querySelectorAll(".slide-img").forEach(function (img) {
-        img.style.position = "relative";
-        img.style.width = "100%";
-        img.style.height = "auto";
-        img.style.maxWidth = "100%";
-        img.style.display = "block";
-        img.style.objectFit = "contain";
-        img.style.objectPosition = "center center";
-      });
     }
   }
 

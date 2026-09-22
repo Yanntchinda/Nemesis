@@ -483,7 +483,7 @@ function gondrand_admin_page() {
     $root_html = is_file(ABSPATH . 'index.html');
     ?>
     <div class="wrap">
-      <h1>Travex — modifier le site <small style="font-weight:400;color:#646970">(thème 2.2.26)</small></h1>
+      <h1>Travex — modifier le site <small style="font-weight:400;color:#646970">(thème 2.2.27)</small></h1>
       <?php if (!empty($_GET['purged'])) : ?>
         <div class="notice notice-success is-dismissible"><p><strong>Cache vidé.</strong> Sur Android : fermez Chrome, puis rouvrez le site. Les modifications doivent apparaître.</p></div>
       <?php endif; ?>
@@ -597,10 +597,10 @@ function gondrand_admin_page() {
             </td>
           </tr>
           <tr>
-            <th>Hauteur max (px)</th>
+            <th>Hauteur fixe du slider (px)</th>
             <td>
-              <input type="number" class="small-text" name="gondrand_slide_mobile_height" min="160" max="900" placeholder="auto" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_mobile_height')); ?>">
-              <p class="description">Vide = toute l’image. Une valeur limite la hauteur, l’image reste entière (sans recadrage, contrairement au PC).</p>
+              <input type="number" class="small-text" name="gondrand_slide_mobile_height" min="160" max="900" placeholder="420" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_mobile_height') ?: '420'); ?>">
+              <p class="description">420 px par défaut. Cette hauteur reste fixe pendant le défilement ; l’image s’adapte à l’intérieur sans redimensionner le slider. Valeur conseillée : 360 à 520 px.</p>
             </td>
           </tr>
         </table>

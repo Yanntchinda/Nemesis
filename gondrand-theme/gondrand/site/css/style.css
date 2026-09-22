@@ -588,3 +588,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); }
     transform: translate(0, -50%) !important;
   }
 }
+
+/* Fixed mobile hero: the active image must never change the slider height. */
+@media screen and (max-width: 980px) {
+  .hero { height: 420px !important; min-height: 0 !important; max-height: 420px !important; overflow: hidden !important; position: relative !important; background: #111 !important; }
+  .hero .slides { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; min-height: 0 !important; max-height: none !important; overflow: hidden !important; }
+  .hero .slide { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; overflow: hidden !important; }
+  .hero .slide.active { position: absolute !important; inset: 0 !important; }
+  .hero .slide-img { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: contain !important; object-position: center center !important; }
+}

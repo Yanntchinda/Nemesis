@@ -102,7 +102,7 @@ function gondrand_purge_button() {
     }
     $url = wp_nonce_url(admin_url('admin.php?page=' . $page . '&gondrand_purge=1'), 'gondrand_purge');
     echo '<p><a class="button button-primary" href="' . esc_url($url) . '">Purger tout le cache (PC + Android + LWS)</a> ';
-    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement (automatique depuis v2.2.26, bouton de secours).</span></p>';
+    echo '<span class="description">À cliquer après une modification si le téléphone n’affiche pas le changement (automatique depuis v2.2.27, bouton de secours).</span></p>';
 }
 
 // Quick-purge button in the WP Admin Bar (always visible at top)
@@ -468,7 +468,7 @@ function gondrand_try_serve() {
 
     // Aggressive anti-cache headers that beat LWS/LiteSpeed default rules
     if ($ext === 'html') {
-        header('X-Gondrand-Theme: 2.2.26');
+        header('X-Gondrand-Theme: 2.2.27');
         header('X-LiteSpeed-Cache-Control: no-cache, no-store, max-age=0, esi=on, no-vary');
         header('X-LSCACHE: no-cache');
         header('X-LiteSpeed-Tag: ');
@@ -755,11 +755,19 @@ function gondrand_is_android() {
 }
 
 function gondrand_android_slider_css() {
-    return 'html.travex-android .hero,html.travex-android .hero .slides{height:auto!important;max-height:none!important;min-height:0!important;overflow:hidden!important;position:relative!important;}'
-        . 'html.travex-android .hero .slides{width:100%!important;inset:auto!important;min-height:1px!important;}'
-        . 'html.travex-android .hero .slide{position:absolute!important;left:0!important;right:0!important;top:0!important;width:100%!important;height:auto!important;margin:0!important;opacity:0!important;visibility:hidden!important;z-index:1!important;pointer-events:none!important;overflow:visible!important;transform:none!important;-webkit-transform:none!important;-webkit-backface-visibility:hidden!important;backface-visibility:hidden!important;-webkit-transition:opacity 700ms ease!important;transition:opacity 700ms ease!important;}'
-        . 'html.travex-android .hero .slide.active{position:relative!important;opacity:1!important;visibility:visible!important;z-index:2!important;pointer-events:auto!important;}'
-        . 'html.travex-android .hero .slide-img,html.travex-android .hero img.slide-img{position:relative!important;inset:auto!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important;-webkit-object-fit:contain!important;object-position:center center!important;-webkit-transform:translateZ(0)!important;transform:translateZ(0)!important;margin:0!important;display:block!important;-webkit-backface-visibility:hidden!important;backface-visibility:hidden!important;}';
+    // A fixed viewport prevents Android from resizing the hero when the next
+    // image has a different aspect ratio. The image fits INSIDE this viewport.
+    $height = gondrand_slide_mobile_height();
+    if (!$height) {
+        $height = 420;
+    }
+    $fit = gondrand_slide_mobile_fit();
+    $pos = gondrand_slide_mobile_pos();
+    return 'html.travex-android .hero{height:' . $height . 'px!important;min-height:0!important;max-height:' . $height . 'px!important;overflow:hidden!important;position:relative!important;background:#111!important;}'
+        . 'html.travex-android .hero .slides{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;overflow:hidden!important;}'
+        . 'html.travex-android .hero .slide{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;opacity:0!important;visibility:hidden!important;z-index:1!important;pointer-events:none!important;overflow:hidden!important;transform:none!important;-webkit-transform:none!important;-webkit-backface-visibility:hidden!important;backface-visibility:hidden!important;-webkit-transition:opacity 700ms ease!important;transition:opacity 700ms ease!important;}'
+        . 'html.travex-android .hero .slide.active{position:absolute!important;inset:0!important;opacity:1!important;visibility:visible!important;z-index:2!important;pointer-events:auto!important;}'
+        . 'html.travex-android .hero .slide-img,html.travex-android .hero img.slide-img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:' . $fit . '!important;-webkit-object-fit:' . $fit . '!important;object-position:' . $pos . '!important;-webkit-transform:translateZ(0)!important;transform:translateZ(0)!important;margin:0!important;display:block!important;-webkit-backface-visibility:hidden!important;backface-visibility:hidden!important;}';
 }
 
 function gondrand_head_inject() {
@@ -834,7 +842,9 @@ function gondrand_slide_mobile_pos() {
 }
 
 function gondrand_slide_mobile_height() {
-    return gondrand_slide_height_px('gondrand_slide_mobile_height', 160, 900);
+    $height = gondrand_slide_height_px('gondrand_slide_mobile_height', 160, 900);
+    // Fixed default: different image ratios must never resize the Android hero.
+    return $height ?: 420;
 }
 
 function gondrand_slide_overlay() {
@@ -909,18 +919,13 @@ function gondrand_slider_css() {
     $css .= '}';
     $css .= '@media screen and (max-width:980px){';
     $css .= gondrand_slide_rules(
-        'contain',
+        gondrand_slide_mobile_fit(),
         gondrand_slide_mobile_pos(),
-        0,
+        gondrand_slide_mobile_height(),
         $ov,
         '420px',
         false
     );
-    $css .= '.hero,.hero .slides{height:auto !important;max-height:none !important;min-height:0 !important;overflow:hidden !important;}';
-    $css .= '.hero .slides{position:relative !important;width:100% !important;inset:auto !important;min-height:1px !important;}';
-    $css .= '.hero .slide{position:absolute !important;left:0 !important;right:0 !important;top:0 !important;bottom:auto !important;inset:auto !important;width:100% !important;height:auto !important;overflow:visible !important;opacity:0 !important;visibility:hidden !important;z-index:1 !important;pointer-events:none !important;-webkit-backface-visibility:hidden !important;backface-visibility:hidden !important;transition:opacity 700ms ease !important;}';
-    $css .= '.hero .slide.active{position:relative !important;opacity:1 !important;visibility:visible !important;z-index:2 !important;pointer-events:auto !important;}';
-    $css .= '.hero .slide-img{position:relative !important;inset:auto !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;height:auto !important;max-width:100% !important;max-height:none !important;object-fit:contain !important;object-position:center center !important;transform:translateZ(0) !important;-webkit-transform:translateZ(0) !important;display:block !important;-webkit-backface-visibility:hidden !important;backface-visibility:hidden !important;}';
     $css .= '}';
     return $css;
 }
