@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEMESIS — IA Marketing Autonome (Gemini)</title>
+<title>NEMESIS — IA Marketing Autonome</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -36,7 +36,7 @@
   <aside class="w-64 bg-[#0d1320] border-r border-gray-800 p-4 hidden md:flex flex-col gap-1 sticky top-0 h-screen">
     <div class="mb-6 px-2">
       <div class="text-2xl font-black tracking-widest text-violet-400">NEMESIS</div>
-      <div class="text-xs text-gray-500">IA marketing autonome · Gemini</div>
+      <div class="text-xs text-gray-500">IA marketing autonome · <span class="aiName">Gemini</span></div>
     </div>
     <div class="tab active" data-tab="dashboard"><i class="fa-solid fa-gauge-high w-4"></i>Tableau de bord</div>
     <div class="tab" data-tab="brand"><i class="fa-solid fa-building w-4"></i>Profil entreprise</div>
@@ -117,7 +117,7 @@
         <div><label class="l">Mots/sujets interdits</label><input class="inp" data-b="forbidden" placeholder="ex : prix exacts, concurrents"></div>
       </div>
       <div class="mt-4 flex gap-2"><button class="btn b-main" onclick="saveBrand()"><i class="fa-solid fa-floppy-disk"></i>Enregistrer</button>
-      <button class="btn b-sec" onclick="aiImproveBrand()"><i class="fa-solid fa-wand-magic-sparkles"></i>Laisser Gemini enrichir le profil</button></div>
+      <button class="btn b-sec" onclick="aiImproveBrand()"><i class="fa-solid fa-wand-magic-sparkles"></i>Laisser l'IA enrichir le profil</button></div>
     </section>
 
     <!-- ============ CONNECTIONS ============ -->
@@ -125,12 +125,25 @@
       <h1 class="text-2xl font-bold mb-6">Connexions</h1>
       <div class="grid lg:grid-cols-3 gap-6">
         <div class="card">
-          <h2 class="font-semibold flex items-center gap-2"><i class="fa-solid fa-gem text-violet-400"></i>Google Gemini</h2>
-          <p class="text-xs text-gray-400 mt-1">Clé gratuite sur <a class="text-violet-300 underline" href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></p>
-          <label class="l">Clé API</label><input type="password" class="inp" data-c="geminiKey">
-          <label class="l">Modèle texte</label><input class="inp" data-c="model" list="modelList"><datalist id="modelList"></datalist>
-          <label class="l">Modèle image (optionnel)</label><input class="inp" data-c="imageModel" placeholder="gemini-2.5-flash-image">
+          <h2 class="font-semibold flex items-center gap-2"><i class="fa-solid fa-brain text-violet-400"></i>Moteur IA</h2>
+          <label class="l">Fournisseur</label>
+          <select class="inp" data-c="provider" onchange="onProviderChange()">
+            <option value="gemini">Google Gemini</option>
+            <option value="anthropic">Anthropic Claude</option>
+            <option value="openai">OpenAI ChatGPT</option>
+            <option value="openrouter">OpenRouter (Grok, Qwen, Kimi, Llama, DeepSeek…)</option>
+            <option value="custom">API compatible OpenAI (personnalisée)</option>
+          </select>
+          <p id="providerHelp" class="text-xs text-gray-400 mt-2"></p>
+          <div id="customUrlWrap" class="hidden"><label class="l">URL de base de l'API</label><input class="inp" data-c="customUrl" placeholder="https://api.x.ai/v1"></div>
+          <label class="l">Clé API</label><input type="password" class="inp" id="providerKey">
+          <label class="l">Modèle</label><input class="inp" id="providerModel" list="modelList"><datalist id="modelList"></datalist>
           <div class="flex gap-2 mt-3 flex-wrap"><button class="btn b-sec" onclick="testGemini()">Tester</button><button class="btn b-sec" onclick="listModels()">Lister les modèles</button></div>
+          <details class="mt-4"><summary class="text-xs text-gray-400 cursor-pointer">Images IA (Gemini uniquement)</summary>
+            <p class="text-xs text-gray-500 mt-1">Les images sont générées par Gemini : il faut une clé Gemini même si vous utilisez un autre moteur pour le texte.</p>
+            <label class="l">Clé Gemini (images)</label><input type="password" class="inp" data-c="geminiKey">
+            <label class="l">Modèle image</label><input class="inp" data-c="imageModel" placeholder="gemini-2.5-flash-image">
+          </details>
         </div>
         <div class="card">
           <h2 class="font-semibold flex items-center gap-2"><i class="fa-brands fa-facebook text-blue-500"></i>Page Facebook</h2>
@@ -162,7 +175,7 @@
     <!-- ============ STRATEGY ============ -->
     <section id="tab-strategy" class="tabc hidden">
       <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
-        <div><h1 class="text-2xl font-bold">Stratégie marketing</h1><p class="text-gray-400 text-sm">Gemini conçoit un plan éditorial ; l'agent s'en sert pour choisir ses sujets.</p></div>
+        <div><h1 class="text-2xl font-bold">Stratégie marketing</h1><p class="text-gray-400 text-sm">L'IA conçoit un plan éditorial ; l'agent s'en sert pour choisir ses sujets.</p></div>
         <button id="btnPlan" class="btn b-main" onclick="generatePlan()"><i class="fa-solid fa-wand-magic-sparkles"></i>Générer le plan sur 14 jours</button>
       </div>
       <div id="stratSummary" class="card mb-4 text-sm text-gray-300 whitespace-pre-wrap hidden"></div>
@@ -227,7 +240,7 @@
         <div class="card">
           <div class="flex justify-between items-center"><h2 class="font-semibold"><i class="fa-brands fa-facebook text-blue-500"></i> Publications</h2><label class="sw"><input type="checkbox" data-ap="fbEnabled"><span></span></label></div>
           <label class="l">Heures de publication (HH:MM, séparées par virgule)</label><input class="inp" data-ap="fbHours">
-          <label class="l">Générer une image avec Gemini</label><label class="sw"><input type="checkbox" data-ap="fbImages"><span></span></label>
+          <label class="l">Générer une image (Gemini)</label><label class="sw"><input type="checkbox" data-ap="fbImages"><span></span></label>
           <label class="l">Validation humaine avant publication</label><label class="sw"><input type="checkbox" data-ap="fbApproval"><span></span></label>
         </div>
         <div class="card">
@@ -260,11 +273,11 @@
 
 <script>
 /* =====================================================================
-   NEMESIS — Agent marketing autonome (Gemini + Facebook + Email)
+   NEMESIS — Agent marketing autonome (Gemini / Claude / GPT / OpenRouter + Facebook + Email)
    ===================================================================== */
 const KEY = 'nemesis_state_v1';
 const DEFAULT = {
-  config:{geminiKey:'',model:'gemini-2.5-flash',imageModel:'gemini-2.5-flash-image',fbPageId:'',fbToken:'',fbVersion:'v23.0',
+  config:{provider:'gemini',keys:{},models:{},customUrl:'',geminiKey:'',model:'gemini-2.5-flash',imageModel:'gemini-2.5-flash-image',fbPageId:'',fbToken:'',fbVersion:'v23.0',
           ejsService:'',ejsTemplate:'',ejsPublic:'',ejsPrivate:'',testEmail:''},
   brand:{name:'Travex Global Forwarding',website:'',
     description:"Commissionnaire de transport international : fret maritime, aérien et routier, dédouanement, entreposage et logistique de bout en bout.",
@@ -306,24 +319,59 @@ function toast(msg, lvl='info'){
 }
 
 /* ===================== GEMINI ===================== */
+const PROVIDERS={
+  gemini:{name:'Gemini',model:'gemini-2.5-flash',help:'Clé gratuite sur <a class="text-violet-300 underline" target="_blank" href="https://aistudio.google.com/apikey">aistudio.google.com/apikey</a>',models:['gemini-2.5-flash','gemini-2.5-pro','gemini-2.5-flash-lite']},
+  anthropic:{name:'Claude',model:'claude-sonnet-4-5',help:'Clé sur <a class="text-violet-300 underline" target="_blank" href="https://console.anthropic.com/settings/keys">console.anthropic.com</a> (payant, crédits prépayés)',models:['claude-sonnet-4-5','claude-opus-4-1','claude-haiku-4-5']},
+  openai:{name:'ChatGPT',model:'gpt-4o-mini',help:'Clé sur <a class="text-violet-300 underline" target="_blank" href="https://platform.openai.com/api-keys">platform.openai.com</a> (payant)',models:['gpt-4o-mini','gpt-4o','gpt-4.1','gpt-4.1-mini']},
+  openrouter:{name:'OpenRouter',model:'x-ai/grok-4',help:'Une seule clé pour des centaines de modèles (Grok, Qwen, Kimi, Claude, GPT, DeepSeek…) : <a class="text-violet-300 underline" target="_blank" href="https://openrouter.ai/keys">openrouter.ai/keys</a>',models:['x-ai/grok-4','qwen/qwen3-max','moonshotai/kimi-k2','deepseek/deepseek-chat','anthropic/claude-sonnet-4.5','openai/gpt-4o-mini','google/gemini-2.5-flash']},
+  custom:{name:'API perso',model:'',help:'Tout service compatible OpenAI (/chat/completions) : xAI (https://api.x.ai/v1), DeepSeek (https://api.deepseek.com/v1), Mistral (https://api.mistral.ai/v1), Groq, Ollama local…',models:[]}
+};
+const prov=()=>S.config.provider||'gemini';
+const provKey=()=>prov()==='gemini'?(S.config.keys.gemini||S.config.geminiKey):S.config.keys[prov()];
+const provModel=()=>S.config.models[prov()]||PROVIDERS[prov()].model;
+function parseJsonLoose(txt){
+  try{ return JSON.parse(txt); }catch(e){ const m=txt.match(/[\[{][\s\S]*[\]}]/); if(m) return JSON.parse(m[0]); throw new Error('JSON invalide renvoyé par l\'IA'); }
+}
+// Fonction centrale : appelle le moteur IA choisi (le nom "gemini" est conservé pour compatibilité)
 async function gemini(prompt, {json=false, system=null, temperature=0.9}={}){
-  const c=S.config; if(!c.geminiKey) throw new Error('Clé Gemini manquante (onglet Connexions)');
-  const body={contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature}};
-  if(json) body.generationConfig.responseMimeType='application/json';
-  body.systemInstruction={parts:[{text:system||systemPrompt()}]};
-  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(c.model)}:generateContent`,{
-    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':c.geminiKey},body:JSON.stringify(body)});
-  const d=await r.json();
-  if(!r.ok) throw new Error('Gemini : '+(d.error?.message||r.status));
-  const txt=(d.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
-  if(!txt) throw new Error('Gemini : réponse vide ('+(d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'?')+')');
+  const P=prov(), key=provKey(), model=provModel(), sys=system||systemPrompt();
+  if(!key) throw new Error(`Clé API ${PROVIDERS[P].name} manquante (onglet Connexions)`);
+  if(!model) throw new Error('Modèle IA non renseigné');
+  const userMsg=json?prompt+'\n\nRéponds uniquement avec du JSON valide, sans texte autour ni balises markdown.':prompt;
+  let txt='';
+  if(P==='gemini'){
+    const body={contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature},systemInstruction:{parts:[{text:sys}]}};
+    if(json) body.generationConfig.responseMimeType='application/json';
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
+      method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
+    const d=await r.json(); if(!r.ok) throw new Error('Gemini : '+(d.error?.message||r.status));
+    txt=(d.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+    if(!txt) throw new Error('Gemini : réponse vide ('+(d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'?')+')');
+  } else if(P==='anthropic'){
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,
+      'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model,max_tokens:2048,temperature:Math.min(temperature,1),system:sys,messages:[{role:'user',content:userMsg}]})});
+    const d=await r.json(); if(!r.ok) throw new Error('Claude : '+(d.error?.message||r.status));
+    txt=(d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+  } else {
+    const base=P==='openai'?'https://api.openai.com/v1':P==='openrouter'?'https://openrouter.ai/api/v1':(S.config.customUrl||'').replace(/\/+$/,'');
+    if(!base) throw new Error('URL de l\'API personnalisée manquante');
+    const headers={'Content-Type':'application/json','Authorization':'Bearer '+key};
+    if(P==='openrouter'){ headers['HTTP-Referer']=location.origin||'https://nemesis.local'; headers['X-Title']='NEMESIS Marketing'; }
+    const body={model,temperature,messages:[{role:'system',content:sys},{role:'user',content:userMsg}]};
+    if(json && (P==='openai')) body.response_format={type:'json_object'};
+    const r=await fetch(base+'/chat/completions',{method:'POST',headers,body:JSON.stringify(body)});
+    const d=await r.json(); if(!r.ok) throw new Error(PROVIDERS[P].name+' : '+(d.error?.message||JSON.stringify(d.error)||r.status));
+    txt=(d.choices?.[0]?.message?.content||'').trim();
+  }
+  if(!txt) throw new Error(PROVIDERS[P].name+' : réponse vide');
   if(!json) return txt;
-  try{ return JSON.parse(txt); }catch(e){ const m=txt.match(/[\[{][\s\S]*[\]}]/); if(m) return JSON.parse(m[0]); throw new Error('JSON invalide renvoyé par Gemini'); }
+  return parseJsonLoose(txt.replace(/^```(?:json)?\s*|\s*```$/g,''));
 }
 async function geminiImage(prompt){
-  const c=S.config; if(!c.imageModel) throw new Error('Pas de modèle image');
+  const c=S.config; if(!c.imageModel) throw new Error('Pas de modèle image'); const gk=c.geminiKey||c.keys.gemini; if(!gk) throw new Error('Clé Gemini requise pour les images (Connexions > Images IA)');
   const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(c.imageModel)}:generateContent`,{
-    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':c.geminiKey},
+    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':gk},
     body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}})});
   const d=await r.json(); if(!r.ok) throw new Error('Gemini image : '+(d.error?.message||r.status));
   const p=(d.candidates?.[0]?.content?.parts||[]).find(p=>p.inlineData||p.inline_data);
@@ -388,7 +436,7 @@ async function sendEmail(to, toName, subject, text){
 
 /* ===================== ACTIONS IA ===================== */
 async function generatePlan(){
-  const btn=$('#btnPlan'); btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>Gemini réfléchit…';
+  const btn=$('#btnPlan'); btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>L\'IA réfléchit…';
   try{
     const d=await gemini(`Construis une stratégie marketing Facebook sur 14 jours pour l'entreprise.
 Renvoie UNIQUEMENT ce JSON : {"summary":"résumé de la stratégie en 5-8 lignes (piliers, angle, objectifs)","plan":[{"day":1,"pillar":"...","format":"éducatif|preuve|offre|coulisses|question|conseil|actualité","idea":"idée précise du post"}]} avec 14 éléments.
@@ -524,7 +572,7 @@ function startAgent(){
 function stopAgent(silent){ clearTimeout(timer); timer=null; if(!silent){ S.runtime.running=false; save(); log('Agent arrêté','warn'); } renderStatus(); }
 function setupIssues(){
   const c=S.config, w=[];
-  if(!c.geminiKey) w.push('Clé Gemini manquante');
+  if(!provKey()) w.push('Clé API du moteur IA manquante ('+PROVIDERS[prov()].name+')');
   if(S.autopilot.fbEnabled && (!c.fbPageId||!c.fbToken)) w.push('Facebook non connecté');
   if(S.autopilot.emailEnabled && (!c.ejsService||!c.ejsTemplate||!c.ejsPublic)) w.push('EmailJS non connecté');
   if(S.autopilot.emailEnabled && !S.contacts.length) w.push('Aucun contact email');
@@ -533,14 +581,14 @@ function setupIssues(){
 
 /* ===================== UI HANDLERS ===================== */
 async function withBusy(fn, label){ toast(label+'…'); try{ await fn(); }catch(e){ log(e.message,'err'); toast(e.message,'err'); } }
-const uiGeneratePost=()=>withBusy(()=>generatePost(),'Gemini rédige un post');
+const uiGeneratePost=()=>withBusy(()=>generatePost(),'L\'IA rédige un post');
 const uiReplyComments=()=>withBusy(async()=>{ const n=await replyComments(); toast(n+' réponse(s) publiée(s)','ok'); },'Analyse des commentaires');
-const uiGenerateEmail=()=>withBusy(async()=>{ const c=nextContact(); if(!c) throw new Error('Aucun contact à contacter pour le moment'); await generateEmail(c); },'Gemini rédige un email');
+const uiGenerateEmail=()=>withBusy(async()=>{ const c=nextContact(); if(!c) throw new Error('Aucun contact à contacter pour le moment'); await generateEmail(c); },'L\'IA rédige un email');
 
 function bindFields(attr, obj){ $$(`[${attr}]`).forEach(el=>{ const k=el.getAttribute(attr); if(el.type==='checkbox') el.checked=!!obj[k]; else el.value=obj[k]??''; }); }
 function readFields(attr, obj){ $$(`[${attr}]`).forEach(el=>{ const k=el.getAttribute(attr); obj[k]=el.type==='checkbox'?el.checked:(el.type==='number'?+el.value:el.value.trim()); }); }
 function saveBrand(){ readFields('data-b',S.brand); save(); renderAll(); toast('Profil enregistré','ok'); }
-function saveConfig(){ readFields('data-c',S.config); save(); renderAll(); toast('Connexions enregistrées','ok'); }
+function saveConfig(){ readFields('data-c',S.config); S.config.keys[prov()]=$('#providerKey').value.trim(); S.config.models[prov()]=$('#providerModel').value.trim(); save(); renderAll(); toast('Connexions enregistrées','ok'); }
 function saveCampaign(){ readFields('data-cp',S.campaign); save(); toast('Campagne enregistrée','ok'); }
 function saveAutopilot(){ readFields('data-ap',S.autopilot); save(); renderAll(); toast('Pilote automatique enregistré','ok'); if(timer){ startAgent(); } }
 
@@ -550,13 +598,18 @@ async function aiImproveBrand(){
     const d=await gemini(`Améliore et complète ce profil marketing pour qu'il soit plus précis et vendeur, sans rien inventer de factuel (pas de chiffres, pas de clients fictifs). Renvoie UNIQUEMENT le JSON avec les mêmes clés : ${JSON.stringify(S.brand)}`,{json:true,temperature:0.6});
     for(const k in S.brand) if(typeof d[k]==='string' && d[k].trim()) S.brand[k]=d[k];
     save(); bindFields('data-b',S.brand); toast('Profil enrichi — relisez-le','ok');
-  },'Gemini analyse le profil');
+  },'L\'IA analyse le profil');
 }
-async function testGemini(){ saveConfig(); await withBusy(async()=>{ const t=await gemini('Réponds juste "OK NEMESIS prêt".',{temperature:0}); toast('Gemini : '+t,'ok'); log('Test Gemini réussi','ok'); },'Test Gemini'); }
+async function testGemini(){ saveConfig(); await withBusy(async()=>{ const t=await gemini('Réponds juste "OK NEMESIS prêt".',{temperature:0}); toast(PROVIDERS[prov()].name+' : '+t,'ok'); log('Test IA réussi ('+PROVIDERS[prov()].name+' / '+provModel()+')','ok'); },'Test du moteur IA'); }
 async function listModels(){ saveConfig(); await withBusy(async()=>{
-  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200',{headers:{'x-goog-api-key':S.config.geminiKey}}); const d=await r.json();
-  if(!r.ok) throw new Error(d.error?.message); const ms=(d.models||[]).filter(m=>m.supportedGenerationMethods?.includes('generateContent')).map(m=>m.name.replace('models/',''));
-  $('#modelList').innerHTML=ms.map(m=>`<option value="${esc(m)}">`).join(''); toast(ms.length+' modèles disponibles (cliquez dans le champ modèle)','ok'); },'Récupération des modèles'); }
+  const P=prov(), key=provKey(); let ms=[];
+  if(P==='gemini'){ const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200',{headers:{'x-goog-api-key':key}}); const d=await r.json();
+    if(!r.ok) throw new Error(d.error?.message); ms=(d.models||[]).filter(m=>m.supportedGenerationMethods?.includes('generateContent')).map(m=>m.name.replace('models/','')); }
+  else if(P==='anthropic'){ const r=await fetch('https://api.anthropic.com/v1/models?limit=100',{headers:{'x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}}); const d=await r.json();
+    if(!r.ok) throw new Error(d.error?.message); ms=(d.data||[]).map(m=>m.id); }
+  else { const base=P==='openai'?'https://api.openai.com/v1':P==='openrouter'?'https://openrouter.ai/api/v1':(S.config.customUrl||'').replace(/\/+$/,'');
+    const r=await fetch(base+'/models',{headers:{'Authorization':'Bearer '+key}}); const d=await r.json(); if(!r.ok) throw new Error(d.error?.message||r.status); ms=(d.data||[]).map(m=>m.id).sort(); }
+  $('#modelList').innerHTML=ms.map(m=>`<option value="${esc(m)}">`).join(''); toast(ms.length+' modèles disponibles (cliquez dans le champ Modèle)','ok'); },'Récupération des modèles'); }
 async function testFacebook(){ saveConfig(); await withBusy(async()=>{ const d=await fbGet(`/${S.config.fbPageId}`,{fields:'name,fan_count'}); toast(`Connecté à la Page « ${d.name} » (${d.fan_count??'?'} fans)`,'ok'); log('Facebook connecté : '+d.name,'ok'); },'Test Facebook'); }
 async function testEmail(){ saveConfig(); await withBusy(async()=>{ if(!S.config.testEmail) throw new Error('Renseignez un email de test');
   await sendEmail(S.config.testEmail,'Test','Test NEMESIS','Ceci est un email de test envoyé par votre agent NEMESIS.'); toast('Email de test envoyé','ok'); log('Test email envoyé','ok'); },'Envoi du test'); }
@@ -680,8 +733,19 @@ function renderDash(){
   $('#nextActions').innerHTML=acts.map(a=>`<li>${a}</li>`).join('')||'<li class="text-gray-500">Aucun canal activé (onglet Pilote automatique).</li>';
   $('#directive').value=S.directive;
 }
+function renderProvider(){
+  const P=prov(), D=PROVIDERS[P];
+  $('#providerHelp').innerHTML=D.help; $('#customUrlWrap').classList.toggle('hidden',P!=='custom');
+  $('#providerKey').value=provKey()||''; $('#providerModel').value=provModel();
+  $('#modelList').innerHTML=D.models.map(m=>`<option value="${esc(m)}">`).join('');
+  $$('.aiName').forEach(el=>el.textContent=D.name);
+}
+function onProviderChange(){
+  S.config.keys[prov()]=$('#providerKey').value.trim(); S.config.models[prov()]=$('#providerModel').value.trim();
+  S.config.provider=$('[data-c="provider"]').value; save(); renderProvider();
+}
 function renderAll(){ renderDash(); renderPlan(); renderPosts(); renderEmails(); renderLogs(); renderStatus(); }
-function initFields(){ bindFields('data-b',S.brand); bindFields('data-c',S.config); bindFields('data-cp',S.campaign); bindFields('data-ap',S.autopilot); }
+function initFields(){ bindFields('data-b',S.brand); bindFields('data-c',S.config); renderProvider(); bindFields('data-cp',S.campaign); bindFields('data-ap',S.autopilot); }
 
 function showTab(t){ $$('.tabc').forEach(s=>s.classList.add('hidden')); $('#tab-'+t).classList.remove('hidden'); $$('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t)); $('#mobileTabs').value=t; }
 $$('.tab').forEach(t=>t.onclick=()=>showTab(t.dataset.tab)); $('#mobileTabs').onchange=e=>showTab(e.target.value);
