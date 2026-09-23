@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEMESIS — IA Marketing Autonome (Gemini)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body{background:#0b0f17;color:#e5e7eb;font-family:Inter,system-ui,sans-serif}
+  .card{background:#111827;border:1px solid #1f2937;border-radius:14px;padding:18px}
+  .inp{width:100%;background:#0b1220;border:1px solid #334155;border-radius:8px;padding:8px 10px;color:#e5e7eb;font-size:14px}
+  .inp:focus{outline:none;border-color:#8b5cf6}
+  label.l{display:block;font-size:12px;color:#94a3b8;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-weight:600;font-size:14px;transition:.15s;cursor:pointer}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .b-main{background:#7c3aed;color:#fff}.b-main:hover{background:#6d28d9}
+  .b-sec{background:#1f2937;color:#e5e7eb;border:1px solid #374151}.b-sec:hover{background:#273244}
+  .b-ok{background:#059669;color:#fff}.b-ok:hover{background:#047857}
+  .b-bad{background:#dc2626;color:#fff}.b-bad:hover{background:#b91c1c}
+  .tab{padding:10px 14px;border-radius:8px;color:#94a3b8;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:14px}
+  .tab:hover{background:#1f2937;color:#fff}.tab.active{background:#7c3aed22;color:#c4b5fd;border:1px solid #7c3aed55}
+  .pill{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+  .log-info{color:#93c5fd}.log-ok{color:#6ee7b7}.log-warn{color:#fcd34d}.log-err{color:#fca5a5}
+  .pulse{animation:p 1.6s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.35}}
+  table td,table th{padding:6px 8px;border-bottom:1px solid #1f2937;font-size:13px;text-align:left}
+  .sw{position:relative;width:42px;height:22px;flex-shrink:0}.sw input{opacity:0;width:0;height:0}
+  .sw span{position:absolute;inset:0;background:#374151;border-radius:99px;transition:.2s;cursor:pointer}
+  .sw span:before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+  .sw input:checked+span{background:#7c3aed}.sw input:checked+span:before{transform:translateX(20px)}
+</style>
+</head>
+<body class="min-h-screen">
+<div class="flex min-h-screen">
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-[#0d1320] border-r border-gray-800 p-4 hidden md:flex flex-col gap-1 sticky top-0 h-screen">
+    <div class="mb-6 px-2">
+      <div class="text-2xl font-black tracking-widest text-violet-400">NEMESIS</div>
+      <div class="text-xs text-gray-500">IA marketing autonome · Gemini</div>
+    </div>
+    <div class="tab active" data-tab="dashboard"><i class="fa-solid fa-gauge-high w-4"></i>Tableau de bord</div>
+    <div class="tab" data-tab="brand"><i class="fa-solid fa-building w-4"></i>Profil entreprise</div>
+    <div class="tab" data-tab="connections"><i class="fa-solid fa-plug w-4"></i>Connexions</div>
+    <div class="tab" data-tab="strategy"><i class="fa-solid fa-chess w-4"></i>Stratégie</div>
+    <div class="tab" data-tab="facebook"><i class="fa-brands fa-facebook w-4"></i>Facebook</div>
+    <div class="tab" data-tab="email"><i class="fa-solid fa-envelope w-4"></i>Emails</div>
+    <div class="tab" data-tab="autopilot"><i class="fa-solid fa-robot w-4"></i>Pilote automatique</div>
+    <div class="tab" data-tab="logs"><i class="fa-solid fa-terminal w-4"></i>Journal</div>
+    <div class="mt-auto text-[11px] text-gray-500 px-2 leading-relaxed">
+      <i class="fa-solid fa-shield-halved"></i> Vos clés restent dans ce navigateur (localStorage). N'hébergez pas ce fichier publiquement.
+    </div>
+  </aside>
+
+  <main class="flex-1 p-4 md:p-8 max-w-6xl">
+    <!-- Mobile tabs -->
+    <select id="mobileTabs" class="inp md:hidden mb-4">
+      <option value="dashboard">Tableau de bord</option><option value="brand">Profil entreprise</option>
+      <option value="connections">Connexions</option><option value="strategy">Stratégie</option>
+      <option value="facebook">Facebook</option><option value="email">Emails</option>
+      <option value="autopilot">Pilote automatique</option><option value="logs">Journal</option>
+    </select>
+
+    <!-- ============ DASHBOARD ============ -->
+    <section id="tab-dashboard" class="tabc">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl font-bold">Tableau de bord</h1>
+          <p class="text-gray-400 text-sm">Mission unique : développer <span id="dashBrand" class="text-violet-300 font-semibold"></span> via Facebook et l'email.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div id="agentStatus" class="pill bg-gray-700 text-gray-300">ARRÊTÉ</div>
+          <button id="btnStart" class="btn b-ok"><i class="fa-solid fa-play"></i>Démarrer l'agent</button>
+          <button id="btnStop" class="btn b-bad hidden"><i class="fa-solid fa-stop"></i>Arrêter</button>
+        </div>
+      </div>
+      <div id="setupWarn" class="card border-amber-700 bg-amber-950/30 mb-6 hidden text-amber-200 text-sm"></div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="card"><div class="text-gray-400 text-xs">Posts publiés</div><div id="stPosts" class="text-3xl font-bold text-blue-400">0</div></div>
+        <div class="card"><div class="text-gray-400 text-xs">Emails envoyés</div><div id="stEmails" class="text-3xl font-bold text-emerald-400">0</div></div>
+        <div class="card"><div class="text-gray-400 text-xs">Commentaires répondus</div><div id="stComments" class="text-3xl font-bold text-amber-400">0</div></div>
+        <div class="card"><div class="text-gray-400 text-xs">En attente de validation</div><div id="stPending" class="text-3xl font-bold text-violet-400">0</div></div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="card">
+          <div class="flex justify-between items-center mb-3"><h2 class="font-semibold">Activité en direct</h2><span id="nextTick" class="text-xs text-gray-500"></span></div>
+          <div id="dashLog" class="font-mono text-xs space-y-1 h-72 overflow-auto"></div>
+        </div>
+        <div class="card">
+          <h2 class="font-semibold mb-3">Donner un ordre à l'IA</h2>
+          <p class="text-xs text-gray-400 mb-2">Directive prioritaire prise en compte dans tous les contenus générés (ex : « Promo -15 % sur le fret aérien jusqu'au 30/10 », « Mettre en avant le dédouanement »).</p>
+          <textarea id="directive" class="inp h-24" placeholder="Votre directive de campagne actuelle…"></textarea>
+          <div class="flex gap-2 mt-3 flex-wrap">
+            <button id="btnSaveDirective" class="btn b-main"><i class="fa-solid fa-bolt"></i>Appliquer</button>
+            <button id="btnRunNow" class="btn b-sec"><i class="fa-solid fa-forward"></i>Exécuter un cycle maintenant</button>
+          </div>
+          <h3 class="font-semibold mt-6 mb-2 text-sm">Prochaines actions</h3>
+          <ul id="nextActions" class="text-sm text-gray-300 space-y-1"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BRAND ============ -->
+    <section id="tab-brand" class="tabc hidden">
+      <h1 class="text-2xl font-bold mb-1">Profil entreprise</h1>
+      <p class="text-gray-400 text-sm mb-6">C'est le « cerveau » de l'agent : plus c'est précis, meilleur est le marketing.</p>
+      <div class="card grid md:grid-cols-2 gap-x-6">
+        <div><label class="l">Nom de l'entreprise</label><input class="inp" data-b="name"></div>
+        <div><label class="l">Site web / lien d'action</label><input class="inp" data-b="website" placeholder="https://..."></div>
+        <div class="md:col-span-2"><label class="l">Description de l'activité</label><textarea class="inp h-20" data-b="description"></textarea></div>
+        <div><label class="l">Produits / services clés</label><textarea class="inp h-24" data-b="services"></textarea></div>
+        <div><label class="l">Cible (clients idéaux)</label><textarea class="inp h-24" data-b="audience"></textarea></div>
+        <div><label class="l">Arguments différenciants</label><textarea class="inp h-20" data-b="usp"></textarea></div>
+        <div><label class="l">Offre / appel à l'action</label><textarea class="inp h-20" data-b="cta"></textarea></div>
+        <div><label class="l">Ton de communication</label><input class="inp" data-b="tone"></div>
+        <div><label class="l">Langue des contenus</label><input class="inp" data-b="language"></div>
+        <div><label class="l">Coordonnées (signature)</label><input class="inp" data-b="contact" placeholder="Tél, email, adresse"></div>
+        <div><label class="l">Mots/sujets interdits</label><input class="inp" data-b="forbidden" placeholder="ex : prix exacts, concurrents"></div>
+      </div>
+      <div class="mt-4 flex gap-2"><button class="btn b-main" onclick="saveBrand()"><i class="fa-solid fa-floppy-disk"></i>Enregistrer</button>
+      <button class="btn b-sec" onclick="aiImproveBrand()"><i class="fa-solid fa-wand-magic-sparkles"></i>Laisser Gemini enrichir le profil</button></div>
+    </section>
+
+    <!-- ============ CONNECTIONS ============ -->
+    <section id="tab-connections" class="tabc hidden">
+      <h1 class="text-2xl font-bold mb-6">Connexions</h1>
+      <div class="grid lg:grid-cols-3 gap-6">
+        <div class="card">
+          <h2 class="font-semibold flex items-center gap-2"><i class="fa-solid fa-gem text-violet-400"></i>Google Gemini</h2>
+          <p class="text-xs text-gray-400 mt-1">Clé gratuite sur <a class="text-violet-300 underline" href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></p>
+          <label class="l">Clé API</label><input type="password" class="inp" data-c="geminiKey">
+          <label class="l">Modèle texte</label><input class="inp" data-c="model" list="modelList"><datalist id="modelList"></datalist>
+          <label class="l">Modèle image (optionnel)</label><input class="inp" data-c="imageModel" placeholder="gemini-2.5-flash-image">
+          <div class="flex gap-2 mt-3 flex-wrap"><button class="btn b-sec" onclick="testGemini()">Tester</button><button class="btn b-sec" onclick="listModels()">Lister les modèles</button></div>
+        </div>
+        <div class="card">
+          <h2 class="font-semibold flex items-center gap-2"><i class="fa-brands fa-facebook text-blue-500"></i>Page Facebook</h2>
+          <p class="text-xs text-gray-400 mt-1">Jeton d'accès de <b>Page</b> (permissions <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>pages_manage_engagement</code>) via <a class="text-violet-300 underline" href="https://developers.facebook.com/tools/explorer/" target="_blank">Graph API Explorer</a>.</p>
+          <label class="l">ID de la Page</label><input class="inp" data-c="fbPageId">
+          <label class="l">Jeton d'accès de Page</label><input type="password" class="inp" data-c="fbToken">
+          <label class="l">Version Graph API</label><input class="inp" data-c="fbVersion">
+          <button class="btn b-sec mt-3" onclick="testFacebook()">Tester</button>
+        </div>
+        <div class="card">
+          <h2 class="font-semibold flex items-center gap-2"><i class="fa-solid fa-envelope text-emerald-400"></i>Email (EmailJS)</h2>
+          <p class="text-xs text-gray-400 mt-1">Compte sur <a class="text-violet-300 underline" href="https://www.emailjs.com" target="_blank">emailjs.com</a>, reliez votre Gmail/Outlook/SMTP. Le modèle doit contenir <code>{{to_email}}</code> dans « To », <code>{{subject}}</code> en objet et <code>{{{message_html}}}</code> dans le corps.</p>
+          <label class="l">Service ID</label><input class="inp" data-c="ejsService">
+          <label class="l">Template ID</label><input class="inp" data-c="ejsTemplate">
+          <label class="l">Public Key</label><input class="inp" data-c="ejsPublic">
+          <label class="l">Private Key (optionnel)</label><input type="password" class="inp" data-c="ejsPrivate">
+          <label class="l">Email de test</label><input class="inp" data-c="testEmail">
+          <button class="btn b-sec mt-3" onclick="testEmail()">Envoyer un test</button>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2 flex-wrap">
+        <button class="btn b-main" onclick="saveConfig()"><i class="fa-solid fa-floppy-disk"></i>Enregistrer</button>
+        <button class="btn b-sec" onclick="exportAll()"><i class="fa-solid fa-download"></i>Exporter la sauvegarde</button>
+        <label class="btn b-sec"><i class="fa-solid fa-upload"></i>Importer<input type="file" accept=".json" class="hidden" onchange="importAll(event)"></label>
+        <button class="btn b-bad" onclick="resetAll()"><i class="fa-solid fa-trash"></i>Tout réinitialiser</button>
+      </div>
+    </section>
+
+    <!-- ============ STRATEGY ============ -->
+    <section id="tab-strategy" class="tabc hidden">
+      <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+        <div><h1 class="text-2xl font-bold">Stratégie marketing</h1><p class="text-gray-400 text-sm">Gemini conçoit un plan éditorial ; l'agent s'en sert pour choisir ses sujets.</p></div>
+        <button id="btnPlan" class="btn b-main" onclick="generatePlan()"><i class="fa-solid fa-wand-magic-sparkles"></i>Générer le plan sur 14 jours</button>
+      </div>
+      <div id="stratSummary" class="card mb-4 text-sm text-gray-300 whitespace-pre-wrap hidden"></div>
+      <div class="card overflow-auto"><table class="w-full"><thead><tr class="text-gray-400"><th>Jour</th><th>Pilier</th><th>Format</th><th>Idée</th><th>Utilisé</th></tr></thead><tbody id="planBody"></tbody></table></div>
+    </section>
+
+    <!-- ============ FACEBOOK ============ -->
+    <section id="tab-facebook" class="tabc hidden">
+      <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+        <div><h1 class="text-2xl font-bold">Facebook</h1><p class="text-gray-400 text-sm">File des publications générées par l'IA.</p></div>
+        <div class="flex gap-2 flex-wrap">
+          <button class="btn b-main" onclick="uiGeneratePost()"><i class="fa-solid fa-wand-magic-sparkles"></i>Générer un post</button>
+          <button class="btn b-sec" onclick="uiReplyComments()"><i class="fa-solid fa-comments"></i>Répondre aux commentaires</button>
+        </div>
+      </div>
+      <div id="postList" class="space-y-4"></div>
+    </section>
+
+    <!-- ============ EMAIL ============ -->
+    <section id="tab-email" class="tabc hidden">
+      <h1 class="text-2xl font-bold mb-1">Emails</h1>
+      <p class="text-gray-400 text-sm mb-6">Prospection et relances personnalisées par l'IA. N'ajoutez que des contacts ayant donné leur accord ou des contacts B2B légitimes (RGPD).</p>
+      <div class="grid lg:grid-cols-3 gap-6 mb-6">
+        <div class="card lg:col-span-2">
+          <h2 class="font-semibold mb-2">Campagne</h2>
+          <label class="l">Objectif de la campagne</label><textarea class="inp h-16" data-cp="goal"></textarea>
+          <div class="grid grid-cols-3 gap-3">
+            <div><label class="l">Nb d'emails / contact</label><input type="number" min="1" max="5" class="inp" data-cp="steps"></div>
+            <div><label class="l">Jours entre relances</label><input type="number" min="1" class="inp" data-cp="followDays"></div>
+            <div><label class="l">Nom expéditeur</label><input class="inp" data-cp="senderName"></div>
+          </div>
+          <label class="l">Mention de désinscription (ajoutée à chaque email)</label><input class="inp" data-cp="unsub">
+          <button class="btn b-main mt-3" onclick="saveCampaign()"><i class="fa-solid fa-floppy-disk"></i>Enregistrer</button>
+        </div>
+        <div class="card">
+          <h2 class="font-semibold mb-2">Ajouter des contacts</h2>
+          <p class="text-xs text-gray-400">Une ligne par contact : <code>email;nom;entreprise;notes</code></p>
+          <textarea id="contactImport" class="inp h-28 mt-2 font-mono text-xs" placeholder="jean@exemple.com;Jean Dupont;Import Export SARL;importe du textile de Chine"></textarea>
+          <label class="flex items-center gap-2 text-xs text-gray-300 mt-2"><input type="checkbox" id="consentChk"> Je certifie avoir le droit de contacter ces personnes</label>
+          <div class="flex gap-2 mt-2 flex-wrap">
+            <button class="btn b-main" onclick="importContacts()">Importer</button>
+            <label class="btn b-sec">CSV<input type="file" accept=".csv,.txt" class="hidden" onchange="importCsvFile(event)"></label>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-6">
+        <div class="flex justify-between items-center mb-2"><h2 class="font-semibold">Brouillons & envois</h2>
+          <button class="btn b-sec" onclick="uiGenerateEmail()"><i class="fa-solid fa-wand-magic-sparkles"></i>Rédiger pour le prochain contact</button></div>
+        <div id="emailList" class="space-y-3"></div>
+      </div>
+      <div class="card overflow-auto">
+        <div class="flex justify-between items-center mb-2"><h2 class="font-semibold">Contacts (<span id="contactCount">0</span>)</h2><button class="btn b-sec text-xs" onclick="exportContacts()">Exporter CSV</button></div>
+        <table class="w-full"><thead><tr class="text-gray-400"><th>Email</th><th>Nom</th><th>Entreprise</th><th>Étape</th><th>Statut</th><th>Dernier envoi</th><th></th></tr></thead><tbody id="contactBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ============ AUTOPILOT ============ -->
+    <section id="tab-autopilot" class="tabc hidden">
+      <h1 class="text-2xl font-bold mb-1">Pilote automatique</h1>
+      <p class="text-gray-400 text-sm mb-6">L'agent tourne tant que cet onglet reste ouvert. Activez la validation humaine pour relire avant publication.</p>
+      <div class="grid lg:grid-cols-3 gap-6">
+        <div class="card">
+          <div class="flex justify-between items-center"><h2 class="font-semibold"><i class="fa-brands fa-facebook text-blue-500"></i> Publications</h2><label class="sw"><input type="checkbox" data-ap="fbEnabled"><span></span></label></div>
+          <label class="l">Heures de publication (HH:MM, séparées par virgule)</label><input class="inp" data-ap="fbHours">
+          <label class="l">Générer une image avec Gemini</label><label class="sw"><input type="checkbox" data-ap="fbImages"><span></span></label>
+          <label class="l">Validation humaine avant publication</label><label class="sw"><input type="checkbox" data-ap="fbApproval"><span></span></label>
+        </div>
+        <div class="card">
+          <div class="flex justify-between items-center"><h2 class="font-semibold"><i class="fa-solid fa-comments text-amber-400"></i> Commentaires</h2><label class="sw"><input type="checkbox" data-ap="commentsEnabled"><span></span></label></div>
+          <label class="l">Vérifier toutes les (minutes)</label><input type="number" min="5" class="inp" data-ap="commentsEvery">
+          <label class="l">Réponses max par cycle</label><input type="number" min="1" class="inp" data-ap="commentsMax">
+          <p class="text-xs text-gray-400 mt-3">L'IA répond de façon utile et redirige les prospects vers le devis / contact.</p>
+        </div>
+        <div class="card">
+          <div class="flex justify-between items-center"><h2 class="font-semibold"><i class="fa-solid fa-envelope text-emerald-400"></i> Emails</h2><label class="sw"><input type="checkbox" data-ap="emailEnabled"><span></span></label></div>
+          <label class="l">Emails max / jour</label><input type="number" min="1" class="inp" data-ap="emailPerDay">
+          <label class="l">Délai min entre 2 emails (minutes)</label><input type="number" min="1" class="inp" data-ap="emailGapMin">
+          <label class="l">Plage horaire d'envoi</label><div class="flex gap-2"><input class="inp" data-ap="emailFrom"><input class="inp" data-ap="emailTo"></div>
+          <label class="l">Validation humaine avant envoi</label><label class="sw"><input type="checkbox" data-ap="emailApproval"><span></span></label>
+        </div>
+      </div>
+      <div class="card mt-6"><label class="l">Fréquence du cycle de l'agent (secondes)</label><input type="number" min="15" class="inp w-40" data-ap="tickSec"></div>
+      <button class="btn b-main mt-4" onclick="saveAutopilot()"><i class="fa-solid fa-floppy-disk"></i>Enregistrer</button>
+    </section>
+
+    <!-- ============ LOGS ============ -->
+    <section id="tab-logs" class="tabc hidden">
+      <div class="flex justify-between items-center mb-4"><h1 class="text-2xl font-bold">Journal</h1><button class="btn b-sec" onclick="S.logs=[];save();renderLogs()">Vider</button></div>
+      <div id="fullLog" class="card font-mono text-xs space-y-1 max-h-[75vh] overflow-auto"></div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="fixed bottom-5 right-5 hidden card shadow-2xl text-sm max-w-sm z-50"></div>
+
+<script>
+/* =====================================================================
+   NEMESIS — Agent marketing autonome (Gemini + Facebook + Email)
+   ===================================================================== */
+const KEY = 'nemesis_state_v1';
+const DEFAULT = {
+  config:{geminiKey:'',model:'gemini-2.5-flash',imageModel:'gemini-2.5-flash-image',fbPageId:'',fbToken:'',fbVersion:'v23.0',
+          ejsService:'',ejsTemplate:'',ejsPublic:'',ejsPrivate:'',testEmail:''},
+  brand:{name:'Travex Global Forwarding',website:'',
+    description:"Commissionnaire de transport international : fret maritime, aérien et routier, dédouanement, entreposage et logistique de bout en bout.",
+    services:"Fret maritime (FCL/LCL), fret aérien express et standard, transport routier, dédouanement, entreposage, assurance marchandises, suivi des expéditions.",
+    audience:"PME importatrices/exportatrices, e-commerçants, industriels et particuliers qui expédient ou reçoivent des marchandises à l'international.",
+    usp:"Réseau mondial de partenaires, interlocuteur unique, devis rapide, suivi transparent, expertise douanière.",
+    cta:"Demandez votre devis gratuit en moins de 24h.",tone:"Professionnel, rassurant, dynamique, concret",language:"Français",contact:'',forbidden:''},
+  directive:'',
+  strategy:{summary:'',plan:[]},
+  posts:[],
+  contacts:[],
+  emails:[],
+  campaign:{goal:"Obtenir un premier échange / une demande de devis avec des entreprises qui importent ou exportent.",steps:3,followDays:4,senderName:'',
+            unsub:"Vous ne souhaitez plus recevoir nos emails ? Répondez simplement « STOP »."},
+  autopilot:{fbEnabled:true,fbHours:'09:30,18:00',fbImages:false,fbApproval:true,commentsEnabled:true,commentsEvery:30,commentsMax:5,
+             emailEnabled:false,emailPerDay:20,emailGapMin:10,emailFrom:'09:00',emailTo:'18:00',emailApproval:true,tickSec:60},
+  replied:[],
+  stats:{posts:0,emails:0,comments:0},
+  runtime:{slotsDone:[],lastComments:0,lastEmailAt:0,day:'',emailsToday:0},
+  logs:[]
+};
+let S = load();
+function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s) return deepMerge(structuredClone(DEFAULT), s);}catch(e){} return structuredClone(DEFAULT); }
+function deepMerge(a,b){ for(const k in b){ if(b[k] && typeof b[k]==='object' && !Array.isArray(b[k]) && a[k] && typeof a[k]==='object' && !Array.isArray(a[k])) deepMerge(a[k],b[k]); else a[k]=b[k]; } return a; }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ console.error(e); toast('Stockage plein : exportez et videz le journal.', 'err'); } }
+const $ = s=>document.querySelector(s), $$ = s=>[...document.querySelectorAll(s)];
+const uid = ()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = ()=>new Date().toISOString().slice(0,10);
+const fmt = t=>t?new Date(t).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'}):'—';
+const sleep = ms=>new Promise(r=>setTimeout(r,ms));
+
+function log(msg, lvl='info'){
+  S.logs.unshift({t:Date.now(),lvl,msg}); if(S.logs.length>400) S.logs.length=400; save(); renderLogs();
+}
+function toast(msg, lvl='info'){
+  const t=$('#toast'); t.innerHTML=`<span class="log-${lvl}">${esc(msg)}</span>`; t.classList.remove('hidden');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.add('hidden'),4500);
+}
+
+/* ===================== GEMINI ===================== */
+async function gemini(prompt, {json=false, system=null, temperature=0.9}={}){
+  const c=S.config; if(!c.geminiKey) throw new Error('Clé Gemini manquante (onglet Connexions)');
+  const body={contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature}};
+  if(json) body.generationConfig.responseMimeType='application/json';
+  body.systemInstruction={parts:[{text:system||systemPrompt()}]};
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(c.model)}:generateContent`,{
+    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':c.geminiKey},body:JSON.stringify(body)});
+  const d=await r.json();
+  if(!r.ok) throw new Error('Gemini : '+(d.error?.message||r.status));
+  const txt=(d.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  if(!txt) throw new Error('Gemini : réponse vide ('+(d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'?')+')');
+  if(!json) return txt;
+  try{ return JSON.parse(txt); }catch(e){ const m=txt.match(/[\[{][\s\S]*[\]}]/); if(m) return JSON.parse(m[0]); throw new Error('JSON invalide renvoyé par Gemini'); }
+}
+async function geminiImage(prompt){
+  const c=S.config; if(!c.imageModel) throw new Error('Pas de modèle image');
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(c.imageModel)}:generateContent`,{
+    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':c.geminiKey},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}})});
+  const d=await r.json(); if(!r.ok) throw new Error('Gemini image : '+(d.error?.message||r.status));
+  const p=(d.candidates?.[0]?.content?.parts||[]).find(p=>p.inlineData||p.inline_data);
+  if(!p) throw new Error('Aucune image renvoyée');
+  const inl=p.inlineData||p.inline_data; return `data:${inl.mimeType||inl.mime_type};base64,${inl.data}`;
+}
+function systemPrompt(){
+  const b=S.brand;
+  return `Tu es NEMESIS, un directeur marketing IA autonome. Ta mission UNIQUE : faire croître l'entreprise ci-dessous en générant des prospects et des ventes via Facebook et l'email. Tu ne fais rien d'autre.
+ENTREPRISE : ${b.name}
+Activité : ${b.description}
+Services : ${b.services}
+Cible : ${b.audience}
+Différenciation : ${b.usp}
+Appel à l'action : ${b.cta}
+Site : ${b.website||'(non renseigné)'}
+Coordonnées : ${b.contact||'(non renseignées)'}
+Ton : ${b.tone}
+Langue : ${b.language}
+${b.forbidden?'Sujets interdits : '+b.forbidden:''}
+${S.directive?'\nDIRECTIVE PRIORITAIRE DU DIRIGEANT : '+S.directive:''}
+RÈGLES : sois honnête (aucune fausse promesse, aucun chiffre ou témoignage inventé, aucun faux prix), respecte le RGPD et les règles de Meta, pas de spam, pas de clickbait trompeur. Écris comme un humain expert, jamais de mention que tu es une IA sauf si on te le demande directement.`;
+}
+
+/* ===================== FACEBOOK ===================== */
+const fbBase = ()=>`https://graph.facebook.com/${S.config.fbVersion||'v23.0'}`;
+async function fbGet(path, params={}){
+  const u=new URL(fbBase()+path); Object.entries({...params,access_token:S.config.fbToken}).forEach(([k,v])=>u.searchParams.set(k,v));
+  const r=await fetch(u); const d=await r.json(); if(d.error) throw new Error('Facebook : '+d.error.message); return d;
+}
+async function fbPost(path, params={}){
+  const fd=new FormData(); Object.entries({...params,access_token:S.config.fbToken}).forEach(([k,v])=>fd.append(k,v));
+  const r=await fetch(fbBase()+path,{method:'POST',body:fd}); const d=await r.json(); if(d.error) throw new Error('Facebook : '+d.error.message); return d;
+}
+async function publishPost(p){
+  const c=S.config; if(!c.fbPageId||!c.fbToken) throw new Error('Facebook non configuré');
+  let message=p.text+(p.hashtags?.length?'\n\n'+p.hashtags.map(h=>h.startsWith('#')?h:'#'+h).join(' '):'');
+  let res;
+  if(p.image){
+    const fd=new FormData(); const blob=await (await fetch(p.image)).blob();
+    fd.append('source',blob,'image.png'); fd.append('message',message); fd.append('access_token',c.fbToken);
+    const r=await fetch(`${fbBase()}/${c.fbPageId}/photos`,{method:'POST',body:fd}); res=await r.json();
+    if(res.error) throw new Error('Facebook : '+res.error.message);
+  } else {
+    const params={message}; if(S.brand.website && p.withLink) params.link=S.brand.website;
+    res=await fbPost(`/${c.fbPageId}/feed`,params);
+  }
+  p.status='published'; p.publishedAt=Date.now(); p.fbId=res.post_id||res.id; p.image=p.image?'(image publiée)':''; // libère le stockage
+  S.stats.posts++; save(); log(`Post publié sur Facebook (${p.fbId})`,'ok'); renderAll();
+}
+
+/* ===================== EMAIL (EmailJS) ===================== */
+async function sendEmail(to, toName, subject, text){
+  const c=S.config; if(!c.ejsService||!c.ejsTemplate||!c.ejsPublic) throw new Error('EmailJS non configuré');
+  const html=esc(text).replace(/\n/g,'<br>');
+  const body={service_id:c.ejsService,template_id:c.ejsTemplate,user_id:c.ejsPublic,
+    template_params:{to_email:to,to_name:toName||'',subject,message:text,message_html:html,from_name:S.campaign.senderName||S.brand.name,reply_to:''}};
+  if(c.ejsPrivate) body.accessToken=c.ejsPrivate;
+  const r=await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error('EmailJS : '+(await r.text()));
+}
+
+/* ===================== ACTIONS IA ===================== */
+async function generatePlan(){
+  const btn=$('#btnPlan'); btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>Gemini réfléchit…';
+  try{
+    const d=await gemini(`Construis une stratégie marketing Facebook sur 14 jours pour l'entreprise.
+Renvoie UNIQUEMENT ce JSON : {"summary":"résumé de la stratégie en 5-8 lignes (piliers, angle, objectifs)","plan":[{"day":1,"pillar":"...","format":"éducatif|preuve|offre|coulisses|question|conseil|actualité","idea":"idée précise du post"}]} avec 14 éléments.
+Varie les formats : 40% valeur/éducation, 30% confiance/preuve (sans inventer), 20% offre/CTA, 10% engagement.`,{json:true});
+    S.strategy={summary:d.summary||'',plan:(d.plan||[]).map(x=>({...x,used:false}))}; save(); renderPlan(); log('Nouveau plan éditorial sur 14 jours généré','ok');
+  }catch(e){ log(e.message,'err'); toast(e.message,'err'); }
+  btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i>Générer le plan sur 14 jours';
+}
+
+async function generatePost(withImage=S.autopilot.fbImages){
+  const idea=S.strategy.plan.find(x=>!x.used);
+  const recent=S.posts.slice(0,6).map(p=>'- '+p.text.slice(0,120)).join('\n');
+  const d=await gemini(`Rédige UNE publication Facebook pour la Page de l'entreprise.
+${idea?`Sujet imposé : [${idea.format}] ${idea.pillar} — ${idea.idea}`:'Choisis toi-même le sujet le plus pertinent pour générer des prospects.'}
+Posts récents à NE PAS répéter :\n${recent||'(aucun)'}
+Contraintes : accroche forte en 1re ligne, 60-160 mots, paragraphes courts, 1-3 emojis max pertinents, termine par un appel à l'action clair.
+Renvoie UNIQUEMENT ce JSON : {"text":"...","hashtags":["...","..."],"imagePrompt":"description visuelle en anglais d'une image photo-réaliste pour illustrer (sans texte)","withLink":true|false}`,{json:true});
+  const p={id:uid(),text:d.text,hashtags:(d.hashtags||[]).slice(0,5),imagePrompt:d.imagePrompt||'',withLink:!!d.withLink,image:'',
+           status:'draft',createdAt:Date.now(),topic:idea?idea.idea:''};
+  if(idea){ idea.used=true; }
+  if(withImage && p.imagePrompt){
+    try{ p.image=await geminiImage(p.imagePrompt+'. Professional marketing photo, no text, no logos.'); }
+    catch(e){ log('Image non générée : '+e.message,'warn'); }
+  }
+  S.posts.unshift(p); if(S.posts.length>60) S.posts.length=60; save(); log('Nouveau post Facebook généré','info'); renderAll();
+  return p;
+}
+
+async function replyComments(){
+  const c=S.config; if(!c.fbPageId||!c.fbToken) throw new Error('Facebook non configuré');
+  const d=await fbGet(`/${c.fbPageId}/posts`,{fields:'id,message,comments.limit(25){id,message,from,created_time,comments.limit(10){from}}',limit:8});
+  let n=0; const max=+S.autopilot.commentsMax||5;
+  for(const post of d.data||[]){
+    for(const cm of post.comments?.data||[]){
+      if(n>=max) break;
+      if(S.replied.includes(cm.id) || cm.from?.id===c.fbPageId || !cm.message) continue;
+      if((cm.comments?.data||[]).some(x=>x.from?.id===c.fbPageId)){ S.replied.push(cm.id); continue; }
+      const reply=await gemini(`Un internaute a commenté une publication de notre Page Facebook.
+Publication : """${(post.message||'').slice(0,600)}"""
+Commentaire de ${cm.from?.name||'un internaute'} : """${cm.message}"""
+Rédige une réponse courte (1-3 phrases), chaleureuse et utile, au nom de l'entreprise. Si c'est un prospect, invite-le à passer à l'action (${S.brand.cta}). Si c'est une plainte, sois empathique et propose un contact privé. Si c'est du spam ou une insulte, réponds exactement "IGNORER". Renvoie uniquement le texte de la réponse.`,{temperature:0.7});
+      S.replied.push(cm.id);
+      if(reply.trim().toUpperCase().startsWith('IGNORER')){ log(`Commentaire ignoré (spam) : "${cm.message.slice(0,50)}"`,'warn'); continue; }
+      await fbPost(`/${cm.id}/comments`,{message:reply});
+      S.stats.comments++; n++; log(`Réponse à ${cm.from?.name||'?'} : "${reply.slice(0,80)}…"`,'ok');
+      await sleep(3000);
+    }
+  }
+  if(S.replied.length>2000) S.replied=S.replied.slice(-1500);
+  S.runtime.lastComments=Date.now(); save(); renderAll(); return n;
+}
+
+function nextContact(){
+  const cp=S.campaign, gap=(+cp.followDays||4)*864e5, pendingIds=new Set(S.emails.filter(e=>e.status!=='sent'&&e.status!=='failed').map(e=>e.contactId));
+  return S.contacts.find(c=>c.consent && !['unsubscribed','bounced','done','replied'].includes(c.status) && !pendingIds.has(c.id)
+     && c.step<(+cp.steps||1) && (c.step===0 || Date.now()-c.lastSent>=gap));
+}
+async function generateEmail(contact){
+  const cp=S.campaign, step=contact.step+1;
+  const history=S.emails.filter(e=>e.contactId===contact.id&&e.status==='sent').map(e=>`Objet: ${e.subject}\n${e.body.slice(0,400)}`).join('\n---\n');
+  const d=await gemini(`Rédige l'email n°${step} sur ${cp.steps} d'une séquence de prospection B2B.
+Objectif de campagne : ${cp.goal}
+Destinataire : ${contact.name||'(nom inconnu)'} — Entreprise : ${contact.company||'(inconnue)'} — Notes : ${contact.notes||'aucune'}
+${history?'Emails déjà envoyés à ce contact (ne pas répéter, faire une relance naturelle) :\n'+history:''}
+Contraintes : objet court et intriguant (sans majuscules abusives ni mots spam), 70-140 mots, personnalisé, une seule question ou CTA clair, signature : ${cp.senderName||''} — ${S.brand.name} ${S.brand.contact||''} ${S.brand.website||''}.
+${step===+cp.steps?"C'est le dernier email : reste courtois et laisse la porte ouverte.":''}
+Renvoie UNIQUEMENT ce JSON : {"subject":"...","body":"texte brut avec retours à la ligne"}`,{json:true,temperature:0.8});
+  const e={id:uid(),contactId:contact.id,to:contact.email,name:contact.name,subject:d.subject,body:d.body+'\n\n—\n'+(cp.unsub||''),
+           step,status:'draft',createdAt:Date.now()};
+  S.emails.unshift(e); if(S.emails.length>300) S.emails.length=300; save(); log(`Email n°${step} rédigé pour ${contact.email}`,'info'); renderAll(); return e;
+}
+async function sendDraft(e){
+  const c=S.contacts.find(x=>x.id===e.contactId);
+  if(c && ['unsubscribed','bounced'].includes(c.status)){ e.status='failed'; e.error='Contact désinscrit'; save(); return; }
+  try{
+    await sendEmail(e.to,e.name,e.subject,e.body);
+    e.status='sent'; e.sentAt=Date.now(); S.stats.emails++;
+    rolloverDay(); S.runtime.emailsToday++; S.runtime.lastEmailAt=Date.now();
+    if(c){ c.step=Math.max(c.step,e.step); c.lastSent=Date.now(); c.status=c.step>=+S.campaign.steps?'done':'in_progress'; }
+    log(`Email envoyé à ${e.to} : "${e.subject}"`,'ok');
+  }catch(err){ e.status='failed'; e.error=err.message; log(`Échec email ${e.to} : ${err.message}`,'err'); }
+  save(); renderAll();
+}
+function rolloverDay(){ if(S.runtime.day!==today()){ S.runtime.day=today(); S.runtime.emailsToday=0; S.runtime.slotsDone=S.runtime.slotsDone.filter(s=>s.startsWith(today())); } }
+
+/* ===================== AGENT AUTONOME ===================== */
+let timer=null, busy=false, nextAt=0;
+function hm(s){ const [h,m]=String(s).trim().split(':').map(Number); return (h||0)*60+(m||0); }
+function nowMin(){ const d=new Date(); return d.getHours()*60+d.getMinutes(); }
+
+async function cycle(){
+  if(busy) return; busy=true; rolloverDay();
+  const ap=S.autopilot;
+  try{
+    // 1. Facebook publications
+    if(ap.fbEnabled && S.config.fbToken){
+      const slots=ap.fbHours.split(',').map(s=>s.trim()).filter(Boolean);
+      for(const s of slots){
+        const key=today()+' '+s;
+        if(nowMin()>=hm(s) && nowMin()-hm(s)<180 && !S.runtime.slotsDone.includes(key)){
+          let p=S.posts.find(x=>x.status==='approved');
+          if(!p && !ap.fbApproval){ if(!S.strategy.plan.some(x=>!x.used)) await generatePlan(); p=await generatePost(); }
+          if(p){ try{ await publishPost(p); }catch(e){ p.status='failed'; p.error=e.message; log(e.message,'err'); } }
+          else { if(S.posts.filter(x=>x.status==='draft').length<3) await generatePost(); log(`Créneau ${s} : aucun post validé — un brouillon attend votre validation`,'warn'); }
+          S.runtime.slotsDone.push(key); save();
+        }
+      }
+    }
+    // 2. Commentaires
+    if(ap.commentsEnabled && S.config.fbToken && Date.now()-S.runtime.lastComments >= (+ap.commentsEvery||30)*6e4){
+      const n=await replyComments(); if(!n) log('Commentaires vérifiés : rien de nouveau','info');
+    }
+    // 3. Emails
+    if(ap.emailEnabled && S.config.ejsService){
+      const inWindow=nowMin()>=hm(ap.emailFrom)&&nowMin()<=hm(ap.emailTo);
+      const gapOk=Date.now()-S.runtime.lastEmailAt>=(+ap.emailGapMin||10)*6e4;
+      if(inWindow && gapOk && S.runtime.emailsToday<(+ap.emailPerDay||20)){
+        let e=S.emails.find(x=>x.status==='approved');
+        if(!e && !ap.emailApproval){ const c=nextContact(); if(c) e=await generateEmail(c); }
+        if(e) await sendDraft(e);
+        else if(ap.emailApproval && S.emails.filter(x=>x.status==='draft').length<5){ const c=nextContact(); if(c) await generateEmail(c); }
+      }
+    }
+  }catch(e){ log('Cycle : '+e.message,'err'); }
+  busy=false; renderAll();
+}
+function startAgent(){
+  const w=setupIssues(); if(w.length && !confirm('Configuration incomplète :\n- '+w.join('\n- ')+'\n\nDémarrer quand même ?')) return;
+  stopAgent(true); S.runtime.running=true; save();
+  const tick=async()=>{ await cycle(); nextAt=Date.now()+(+S.autopilot.tickSec||60)*1000; timer=setTimeout(tick,(+S.autopilot.tickSec||60)*1000); };
+  log('🚀 Agent NEMESIS démarré — mode autonome','ok'); tick(); renderStatus();
+}
+function stopAgent(silent){ clearTimeout(timer); timer=null; if(!silent){ S.runtime.running=false; save(); log('Agent arrêté','warn'); } renderStatus(); }
+function setupIssues(){
+  const c=S.config, w=[];
+  if(!c.geminiKey) w.push('Clé Gemini manquante');
+  if(S.autopilot.fbEnabled && (!c.fbPageId||!c.fbToken)) w.push('Facebook non connecté');
+  if(S.autopilot.emailEnabled && (!c.ejsService||!c.ejsTemplate||!c.ejsPublic)) w.push('EmailJS non connecté');
+  if(S.autopilot.emailEnabled && !S.contacts.length) w.push('Aucun contact email');
+  return w;
+}
+
+/* ===================== UI HANDLERS ===================== */
+async function withBusy(fn, label){ toast(label+'…'); try{ await fn(); }catch(e){ log(e.message,'err'); toast(e.message,'err'); } }
+const uiGeneratePost=()=>withBusy(()=>generatePost(),'Gemini rédige un post');
+const uiReplyComments=()=>withBusy(async()=>{ const n=await replyComments(); toast(n+' réponse(s) publiée(s)','ok'); },'Analyse des commentaires');
+const uiGenerateEmail=()=>withBusy(async()=>{ const c=nextContact(); if(!c) throw new Error('Aucun contact à contacter pour le moment'); await generateEmail(c); },'Gemini rédige un email');
+
+function bindFields(attr, obj){ $$(`[${attr}]`).forEach(el=>{ const k=el.getAttribute(attr); if(el.type==='checkbox') el.checked=!!obj[k]; else el.value=obj[k]??''; }); }
+function readFields(attr, obj){ $$(`[${attr}]`).forEach(el=>{ const k=el.getAttribute(attr); obj[k]=el.type==='checkbox'?el.checked:(el.type==='number'?+el.value:el.value.trim()); }); }
+function saveBrand(){ readFields('data-b',S.brand); save(); renderAll(); toast('Profil enregistré','ok'); }
+function saveConfig(){ readFields('data-c',S.config); save(); renderAll(); toast('Connexions enregistrées','ok'); }
+function saveCampaign(){ readFields('data-cp',S.campaign); save(); toast('Campagne enregistrée','ok'); }
+function saveAutopilot(){ readFields('data-ap',S.autopilot); save(); renderAll(); toast('Pilote automatique enregistré','ok'); if(timer){ startAgent(); } }
+
+async function aiImproveBrand(){
+  saveBrand();
+  await withBusy(async()=>{
+    const d=await gemini(`Améliore et complète ce profil marketing pour qu'il soit plus précis et vendeur, sans rien inventer de factuel (pas de chiffres, pas de clients fictifs). Renvoie UNIQUEMENT le JSON avec les mêmes clés : ${JSON.stringify(S.brand)}`,{json:true,temperature:0.6});
+    for(const k in S.brand) if(typeof d[k]==='string' && d[k].trim()) S.brand[k]=d[k];
+    save(); bindFields('data-b',S.brand); toast('Profil enrichi — relisez-le','ok');
+  },'Gemini analyse le profil');
+}
+async function testGemini(){ saveConfig(); await withBusy(async()=>{ const t=await gemini('Réponds juste "OK NEMESIS prêt".',{temperature:0}); toast('Gemini : '+t,'ok'); log('Test Gemini réussi','ok'); },'Test Gemini'); }
+async function listModels(){ saveConfig(); await withBusy(async()=>{
+  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200',{headers:{'x-goog-api-key':S.config.geminiKey}}); const d=await r.json();
+  if(!r.ok) throw new Error(d.error?.message); const ms=(d.models||[]).filter(m=>m.supportedGenerationMethods?.includes('generateContent')).map(m=>m.name.replace('models/',''));
+  $('#modelList').innerHTML=ms.map(m=>`<option value="${esc(m)}">`).join(''); toast(ms.length+' modèles disponibles (cliquez dans le champ modèle)','ok'); },'Récupération des modèles'); }
+async function testFacebook(){ saveConfig(); await withBusy(async()=>{ const d=await fbGet(`/${S.config.fbPageId}`,{fields:'name,fan_count'}); toast(`Connecté à la Page « ${d.name} » (${d.fan_count??'?'} fans)`,'ok'); log('Facebook connecté : '+d.name,'ok'); },'Test Facebook'); }
+async function testEmail(){ saveConfig(); await withBusy(async()=>{ if(!S.config.testEmail) throw new Error('Renseignez un email de test');
+  await sendEmail(S.config.testEmail,'Test','Test NEMESIS','Ceci est un email de test envoyé par votre agent NEMESIS.'); toast('Email de test envoyé','ok'); log('Test email envoyé','ok'); },'Envoi du test'); }
+
+function parseContacts(text){
+  const out=[]; const seen=new Set(S.contacts.map(c=>c.email.toLowerCase()));
+  text.split(/\r?\n/).forEach(line=>{
+    const parts=line.split(/[;,\t]/).map(s=>s.trim().replace(/^"|"$/g,''));
+    const email=(parts[0]||'').toLowerCase();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)||seen.has(email)) return; seen.add(email);
+    out.push({id:uid(),email,name:parts[1]||'',company:parts[2]||'',notes:parts.slice(3).join(', '),consent:true,status:'new',step:0,lastSent:0});
+  });
+  return out;
+}
+function importContacts(){
+  if(!$('#consentChk').checked) return toast('Cochez la case de consentement','warn');
+  const list=parseContacts($('#contactImport').value); S.contacts.push(...list); save(); $('#contactImport').value=''; renderAll(); toast(list.length+' contact(s) ajouté(s)','ok'); log(list.length+' contacts importés','info');
+}
+function importCsvFile(ev){ const f=ev.target.files[0]; if(!f) return; f.text().then(t=>{ $('#contactImport').value=t; toast('Fichier chargé : cochez le consentement puis Importer'); }); }
+function exportContacts(){ download('contacts.csv','email;nom;entreprise;notes;statut;etape\n'+S.contacts.map(c=>[c.email,c.name,c.company,c.notes,c.status,c.step].join(';')).join('\n')); }
+function exportAll(){ const copy=structuredClone(S); download('nemesis_sauvegarde.json',JSON.stringify(copy,null,2)); }
+function importAll(ev){ const f=ev.target.files[0]; if(!f) return; f.text().then(t=>{ try{ S=deepMerge(structuredClone(DEFAULT),JSON.parse(t)); save(); initFields(); renderAll(); toast('Sauvegarde importée','ok'); }catch(e){ toast('Fichier invalide','err'); } }); }
+function resetAll(){ if(confirm('Tout effacer (clés, contacts, posts, journal) ?')){ stopAgent(); localStorage.removeItem(KEY); S=structuredClone(DEFAULT); initFields(); renderAll(); } }
+function download(name,content){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content])); a.download=name; a.click(); }
+
+// Actions sur posts / emails / contacts
+function postAction(id,act){
+  const p=S.posts.find(x=>x.id===id); if(!p) return;
+  if(act==='approve'){ p.text=$('#pt-'+id).value; p.status='approved'; log('Post validé — sera publié au prochain créneau','ok'); }
+  if(act==='save'){ p.text=$('#pt-'+id).value; toast('Modifié','ok'); }
+  if(act==='delete'){ S.posts=S.posts.filter(x=>x.id!==id); }
+  if(act==='now'){ p.text=$('#pt-'+id).value; save(); return withBusy(()=>publishPost(p).catch(e=>{p.status='failed';p.error=e.message;save();renderAll();throw e;}),'Publication'); }
+  if(act==='img'){ return withBusy(async()=>{ p.image=await geminiImage((p.imagePrompt||p.text.slice(0,300))+'. Professional marketing photo, no text.'); save(); renderAll(); },'Génération de l\'image'); }
+  if(act==='noimg'){ p.image=''; }
+  save(); renderAll();
+}
+function emailAction(id,act){
+  const e=S.emails.find(x=>x.id===id); if(!e) return;
+  const read=()=>{ e.subject=$('#es-'+id).value; e.body=$('#eb-'+id).value; };
+  if(act==='approve'){ read(); e.status='approved'; log('Email validé pour '+e.to,'ok'); }
+  if(act==='delete'){ S.emails=S.emails.filter(x=>x.id!==id); }
+  if(act==='now'){ read(); save(); return withBusy(()=>sendDraft(e),'Envoi'); }
+  save(); renderAll();
+}
+function contactAction(id,act){
+  const c=S.contacts.find(x=>x.id===id); if(!c) return;
+  if(act==='unsub') c.status='unsubscribed';
+  if(act==='replied') c.status='replied';
+  if(act==='reset'){ c.status='new'; c.step=0; c.lastSent=0; }
+  if(act==='delete') S.contacts=S.contacts.filter(x=>x.id!==id);
+  save(); renderAll();
+}
+
+/* ===================== RENDER ===================== */
+const statusPill={draft:'bg-gray-700 text-gray-200',approved:'bg-violet-700 text-white',published:'bg-emerald-700 text-white',sent:'bg-emerald-700 text-white',failed:'bg-red-700 text-white',
+  new:'bg-gray-700 text-gray-200',in_progress:'bg-blue-700 text-white',done:'bg-emerald-800 text-white',unsubscribed:'bg-red-800 text-white',replied:'bg-amber-600 text-white',bounced:'bg-red-900 text-white'};
+const statusFr={draft:'brouillon',approved:'validé',published:'publié',sent:'envoyé',failed:'échec',new:'nouveau',in_progress:'en cours',done:'terminé',unsubscribed:'désinscrit',replied:'a répondu',bounced:'invalide'};
+const pill=s=>`<span class="pill ${statusPill[s]||'bg-gray-700'}">${statusFr[s]||s}</span>`;
+
+function renderLogs(){
+  const row=l=>`<div class="log-${l.lvl}"><span class="text-gray-500">${new Date(l.t).toLocaleTimeString('fr-FR')}</span> ${esc(l.msg)}</div>`;
+  $('#dashLog').innerHTML=S.logs.slice(0,60).map(row).join('')||'<div class="text-gray-500">Aucune activité pour le moment.</div>';
+  $('#fullLog').innerHTML=S.logs.map(l=>`<div class="log-${l.lvl}"><span class="text-gray-500">${fmt(l.t)}</span> ${esc(l.msg)}</div>`).join('');
+}
+function renderStatus(){
+  const on=!!timer; $('#btnStart').classList.toggle('hidden',on); $('#btnStop').classList.toggle('hidden',!on);
+  $('#agentStatus').className='pill '+(on?'bg-emerald-600 text-white pulse':'bg-gray-700 text-gray-300'); $('#agentStatus').textContent=on?'EN MARCHE':'ARRÊTÉ';
+}
+function renderPlan(){
+  $('#stratSummary').classList.toggle('hidden',!S.strategy.summary); $('#stratSummary').textContent=S.strategy.summary;
+  $('#planBody').innerHTML=S.strategy.plan.map(x=>`<tr><td>J${esc(x.day)}</td><td>${esc(x.pillar)}</td><td><span class="pill bg-gray-700">${esc(x.format)}</span></td><td>${esc(x.idea)}</td><td>${x.used?'✅':''}</td></tr>`).join('')
+    ||'<tr><td colspan="5" class="text-gray-500">Aucun plan — cliquez sur « Générer ».</td></tr>';
+}
+function renderPosts(){
+  $('#postList').innerHTML=S.posts.map(p=>`
+    <div class="card">
+      <div class="flex justify-between items-center mb-2 text-xs text-gray-400"><div>${pill(p.status)} ${p.topic?'· '+esc(p.topic.slice(0,80)):''}</div><div>${fmt(p.publishedAt||p.createdAt)}</div></div>
+      <div class="grid ${p.image&&p.image.startsWith('data:')?'md:grid-cols-[1fr_220px]':''} gap-4">
+        <div>${p.status==='published'?`<div class="whitespace-pre-wrap text-sm">${esc(p.text)}</div>`:`<textarea id="pt-${p.id}" class="inp h-40 text-sm">${esc(p.text)}</textarea>`}
+          <div class="text-xs text-blue-300 mt-1">${(p.hashtags||[]).map(h=>esc(h.startsWith('#')?h:'#'+h)).join(' ')}</div>
+          ${p.error?`<div class="text-xs text-red-400 mt-1">${esc(p.error)}</div>`:''}</div>
+        ${p.image&&p.image.startsWith('data:')?`<img src="${p.image}" class="rounded-lg w-full">`:''}
+      </div>
+      ${p.status!=='published'?`<div class="flex gap-2 mt-3 flex-wrap">
+        <button class="btn b-ok text-xs" onclick="postAction('${p.id}','approve')"><i class="fa-solid fa-check"></i>Valider</button>
+        <button class="btn b-main text-xs" onclick="postAction('${p.id}','now')"><i class="fa-solid fa-paper-plane"></i>Publier maintenant</button>
+        <button class="btn b-sec text-xs" onclick="postAction('${p.id}','save')">Enregistrer</button>
+        <button class="btn b-sec text-xs" onclick="postAction('${p.id}','img')"><i class="fa-solid fa-image"></i>Image IA</button>
+        ${p.image?`<button class="btn b-sec text-xs" onclick="postAction('${p.id}','noimg')">Retirer l'image</button>`:''}
+        <button class="btn b-bad text-xs" onclick="postAction('${p.id}','delete')"><i class="fa-solid fa-trash"></i></button></div>`:''}
+    </div>`).join('')||'<div class="card text-gray-500 text-sm">Aucune publication. Cliquez sur « Générer un post » ou démarrez l\'agent.</div>';
+}
+function renderEmails(){
+  $('#emailList').innerHTML=S.emails.slice(0,40).map(e=>`
+    <div class="border border-gray-800 rounded-lg p-3">
+      <div class="flex justify-between text-xs text-gray-400 mb-2"><div>${pill(e.status)} → <b class="text-gray-200">${esc(e.to)}</b> · email ${e.step}/${S.campaign.steps}</div><div>${fmt(e.sentAt||e.createdAt)}</div></div>
+      ${e.status==='sent'?`<div class="font-semibold text-sm">${esc(e.subject)}</div><div class="text-sm whitespace-pre-wrap text-gray-300 mt-1">${esc(e.body)}</div>`:`
+      <input id="es-${e.id}" class="inp mb-2 font-semibold" value="${esc(e.subject)}"><textarea id="eb-${e.id}" class="inp h-36 text-sm">${esc(e.body)}</textarea>
+      ${e.error?`<div class="text-xs text-red-400 mt-1">${esc(e.error)}</div>`:''}
+      <div class="flex gap-2 mt-2"><button class="btn b-ok text-xs" onclick="emailAction('${e.id}','approve')">Valider</button>
+      <button class="btn b-main text-xs" onclick="emailAction('${e.id}','now')">Envoyer maintenant</button>
+      <button class="btn b-bad text-xs" onclick="emailAction('${e.id}','delete')"><i class="fa-solid fa-trash"></i></button></div>`}
+    </div>`).join('')||'<div class="text-gray-500 text-sm">Aucun email.</div>';
+  $('#contactCount').textContent=S.contacts.length;
+  $('#contactBody').innerHTML=S.contacts.map(c=>`<tr><td>${esc(c.email)}</td><td>${esc(c.name)}</td><td>${esc(c.company)}</td><td>${c.step}/${S.campaign.steps}</td><td>${pill(c.status)}</td><td>${fmt(c.lastSent)}</td>
+    <td class="whitespace-nowrap"><button title="A répondu" class="text-amber-400 mr-2" onclick="contactAction('${c.id}','replied')"><i class="fa-solid fa-reply"></i></button>
+    <button title="Désinscrire" class="text-red-400 mr-2" onclick="contactAction('${c.id}','unsub')"><i class="fa-solid fa-ban"></i></button>
+    <button title="Réinitialiser" class="text-gray-400 mr-2" onclick="contactAction('${c.id}','reset')"><i class="fa-solid fa-rotate"></i></button>
+    <button title="Supprimer" class="text-gray-500" onclick="contactAction('${c.id}','delete')"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
+}
+function renderDash(){
+  $('#dashBrand').textContent=S.brand.name||'votre entreprise';
+  $('#stPosts').textContent=S.stats.posts; $('#stEmails').textContent=S.stats.emails; $('#stComments').textContent=S.stats.comments;
+  $('#stPending').textContent=S.posts.filter(p=>p.status==='draft').length+S.emails.filter(e=>e.status==='draft').length;
+  const w=setupIssues(); $('#setupWarn').classList.toggle('hidden',!w.length);
+  $('#setupWarn').innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> À configurer : '+w.map(esc).join(' · ')+' → onglet <b>Connexions</b>.';
+  const ap=S.autopilot, acts=[];
+  if(ap.fbEnabled){ const nxt=ap.fbHours.split(',').map(s=>s.trim()).filter(s=>s&&!S.runtime.slotsDone.includes(today()+' '+s)&&hm(s)>=nowMin()-180)[0]; acts.push(`<i class="fa-brands fa-facebook text-blue-500"></i> Publication ${nxt?'à '+nxt:'demain à '+ap.fbHours.split(',')[0]} ${ap.fbApproval?'(après validation)':'(automatique)'}`); }
+  if(ap.commentsEnabled) acts.push(`<i class="fa-solid fa-comments text-amber-400"></i> Vérification des commentaires toutes les ${ap.commentsEvery} min`);
+  if(ap.emailEnabled){ const c=nextContact(); acts.push(`<i class="fa-solid fa-envelope text-emerald-400"></i> ${c?'Prochain email : '+esc(c.email):'Aucun contact à relancer'} · ${S.runtime.day===today()?S.runtime.emailsToday:0}/${ap.emailPerDay} aujourd'hui`); }
+  $('#nextActions').innerHTML=acts.map(a=>`<li>${a}</li>`).join('')||'<li class="text-gray-500">Aucun canal activé (onglet Pilote automatique).</li>';
+  $('#directive').value=S.directive;
+}
+function renderAll(){ renderDash(); renderPlan(); renderPosts(); renderEmails(); renderLogs(); renderStatus(); }
+function initFields(){ bindFields('data-b',S.brand); bindFields('data-c',S.config); bindFields('data-cp',S.campaign); bindFields('data-ap',S.autopilot); }
+
+function showTab(t){ $$('.tabc').forEach(s=>s.classList.add('hidden')); $('#tab-'+t).classList.remove('hidden'); $$('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t)); $('#mobileTabs').value=t; }
+$$('.tab').forEach(t=>t.onclick=()=>showTab(t.dataset.tab)); $('#mobileTabs').onchange=e=>showTab(e.target.value);
+$('#btnStart').onclick=startAgent; $('#btnStop').onclick=()=>stopAgent();
+$('#btnRunNow').onclick=()=>withBusy(cycle,'Cycle en cours');
+$('#btnSaveDirective').onclick=()=>{ S.directive=$('#directive').value.trim(); save(); log('Nouvelle directive : '+(S.directive||'(aucune)'),'info'); toast('Directive appliquée','ok'); };
+setInterval(()=>{ $('#nextTick').textContent=timer&&nextAt?`prochain cycle dans ${Math.max(0,Math.round((nextAt-Date.now())/1000))} s`:''; },1000);
+window.addEventListener('beforeunload',e=>{ if(timer){ e.preventDefault(); e.returnValue=''; } });
+
+initFields(); renderAll();
+if(S.runtime.running){ log('Reprise automatique de l\'agent après rechargement','info'); startAgent(); }
+</script>
+</body>
+</html>
