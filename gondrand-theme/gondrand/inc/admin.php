@@ -1,0 +1,998 @@
+<?php
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+function gondrand_default_slides() {
+    $a = gondrand_assets();
+    return [
+        ['image' => $a . 'images/hero-road.jpg', 'title' => 'Transport terrestre', 'text' => 'Nous traitons votre transport avec le professionnalisme et la minutie que vous pouvez attendre.', 'url' => gondrand_u('services/luftfracht-2/')],
+        ['image' => $a . 'images/hero-air.jpg', 'title' => 'Fret aérien', 'text' => "Avec nos solutions d'expédition de fret aérien, nous fournissons la rapidité et la fiabilité dont vous avez besoin.", 'url' => gondrand_u('services/ueber-uns/')],
+        ['image' => $a . 'images/hero-sea.jpg', 'title' => 'Fret maritime', 'text' => 'Nos normes de qualité mondiales garantissent un service sûr et une livraison à temps.', 'url' => gondrand_u('services/beratung-2/')],
+        ['image' => $a . 'images/hero-special.jpg', 'title' => 'Trafics spéciaux', 'text' => "Nous gérons vos besoins en logistique d'un endroit à un autre, peu importe la taille.", 'url' => gondrand_u('services/seefracht-2/')],
+        ['image' => $a . 'images/hero-customs.jpg', 'title' => 'Douane', 'text' => 'En nous conformant aux lois européennes, nous vous offrons une réelle valeur ajoutée.', 'url' => gondrand_u('services/zoll-2/')],
+        ['image' => $a . 'images/hero-fiscal.jpg', 'title' => 'Représentation fiscale', 'text' => 'Notre service de représentation fiscale vous aide à vous conformer à la réglementation TVA.', 'url' => gondrand_u('representation-fiscale/index.html')],
+    ];
+}
+
+function gondrand_get_slides() {
+    $slides = get_option('gondrand_slides', false);
+    if ($slides === false || !is_array($slides)) {
+        return gondrand_default_slides();
+    }
+    $out = [];
+    foreach ($slides as $s) {
+        if (!is_array($s)) {
+            continue;
+        }
+        $img = isset($s['image']) ? trim((string) $s['image']) : '';
+        if ($img === '') {
+            continue;
+        }
+        $out[] = [
+            'image' => $img,
+            'title' => isset($s['title']) ? (string) $s['title'] : '',
+            'text'  => isset($s['text']) ? (string) $s['text'] : '',
+            'url'   => isset($s['url']) ? (string) $s['url'] : '',
+        ];
+    }
+    return $out;
+}
+
+function gondrand_build_slides_html($slides) {
+    if (!$slides) {
+        return '';
+    }
+    $html = '';
+    foreach ($slides as $i => $s) {
+        $active = $i === 0 ? ' active' : '';
+        $img = esc_url($s['image']);
+        $title = esc_html($s['title']);
+        $text = esc_html($s['text']);
+        $url = isset($s['url']) ? trim($s['url']) : '';
+        $alt = $title !== '' ? $title : ('Slide ' . ($i + 1));
+        $html .= '<article class="slide' . $active . '" data-slide="' . ($i + 1) . '">';
+        $html .= '<img class="slide-img" src="' . $img . '" alt="' . $alt . '">';
+        $html .= '</article>';
+    }
+    return $html;
+}
+
+// No preset locations: the administrator decides what appears on the site.
+function gondrand_default_locations() {
+    return [];
+}
+
+// Remove the old hard-coded Renchen/Europe list once after this theme update.
+// Custom locations already created by the administrator are preserved.
+function gondrand_migrate_location_defaults() {
+    if (get_option('gondrand_locations_v224_reset', false)) {
+        return;
+    }
+    $existing = get_option('gondrand_locations', null);
+    $reset = ($existing === null || !is_array($existing));
+    if (is_array($existing) && count($existing) >= 10) {
+        $legacy_names = ['TRAVEX GLOBAL FORWARDING – RENCHEN', 'Renchen', 'Appenweier', 'Achern', 'Oberkirch', 'Offenburg', 'Kehl', 'Baden-Baden', 'Karlsruhe', 'Freiburg', 'Pforzheim', 'Stuttgart', 'Strasbourg', 'Alsace et environs', 'Bâle', 'Zurich', 'Berne'];
+        $hits = 0;
+        foreach ($existing as $row) {
+            $name = is_array($row) ? trim((string) ($row['title'] ?? '')) : '';
+            if (in_array($name, $legacy_names, true)) {
+                $hits++;
+            }
+        }
+        $reset = $hits >= 10;
+    }
+    if ($reset) {
+        update_option('gondrand_locations', [], false);
+    }
+    $old_lead = (string) get_theme_mod('gondrand_loc_lead', '');
+    if ($old_lead !== '' && stripos($old_lead, 'point de réception à Renchen') !== false) {
+        remove_theme_mod('gondrand_loc_lead');
+    }
+    update_option('gondrand_locations_v224_reset', 1, false);
+}
+
+add_action('after_setup_theme', 'gondrand_migrate_location_defaults', 15);
+
+function gondrand_expand_location_cards($locs) {
+    $cards = [];
+    foreach ($locs as $l) {
+        $title = isset($l['title']) ? trim((string) $l['title']) : '';
+        $address = isset($l['address']) ? trim((string) $l['address']) : '';
+        $text = isset($l['text']) ? (string) $l['text'] : '';
+        if ($title !== '' || $address !== '') {
+            $cards[] = ['title' => $title, 'address' => $address, 'text' => ''];
+        }
+        if (trim($text) === '') {
+            continue;
+        }
+        $group = '';
+        foreach (preg_split('/\R/u', $text) as $line) {
+            $line = trim($line);
+            $line = preg_replace('/^[•📍📌*\-]+\s*/u', '', $line);
+            if ($line === '' || stripos($line, 'Notre point') === 0) {
+                continue;
+            }
+            if (preg_match('/Allemagne|France|Suisse/u', $line) && !preg_match('/km/i', $line)) {
+                $group = trim(preg_replace('/[\x{1F1E6}-\x{1F1FF}]/u', '', $line));
+                continue;
+            }
+            if (preg_match('/^(.+?)\s+[–—-]\s+(.+)$/u', $line, $m)) {
+                $cards[] = [
+                    'title'   => trim($m[1]),
+                    'address' => trim(($group !== '' ? $group . "\n" : '') . $m[2]),
+                    'text'    => '',
+                ];
+            } else {
+                $cards[] = ['title' => $line, 'address' => $group, 'text' => ''];
+            }
+        }
+    }
+    return $cards ?: $locs;
+}
+
+function gondrand_get_locations() {
+    $locs = get_option('gondrand_locations', false);
+    if ($locs === false || !is_array($locs)) {
+        return [];
+    }
+    $out = [];
+    foreach ($locs as $l) {
+        if (!is_array($l)) {
+            continue;
+        }
+        $title = isset($l['title']) ? trim((string) $l['title']) : '';
+        $address = isset($l['address']) ? trim((string) $l['address']) : '';
+        $text = isset($l['text']) ? (string) $l['text'] : '';
+        if ($title === '' && $address === '' && trim($text) === '') {
+            continue;
+        }
+        $out[] = ['title' => $title, 'address' => $address, 'text' => $text];
+    }
+    $expanded = gondrand_expand_location_cards($out);
+    if (count($out) === 1 && count($expanded) > 1) {
+        update_option('gondrand_locations', $expanded, false);
+        return $expanded;
+    }
+    return $expanded;
+}
+
+function gondrand_locations_payload() {
+    $out = [];
+    foreach (gondrand_get_locations() as $l) {
+        $out[] = [
+            'n'       => $l['title'],
+            'a'       => $l['address'],
+            'nearby'  => $l['text'],
+            'title'   => $l['title'],
+            'address' => $l['address'],
+            'text'    => $l['text'],
+        ];
+    }
+    return $out;
+}
+
+function gondrand_locations_html() {
+    $html = '<div class="loc-grid" id="loc-grid">';
+    foreach (gondrand_get_locations() as $l) {
+        $html .= '<article class="loc">';
+        if ($l['title'] !== '') {
+            $html .= '<h3>' . esc_html($l['title']) . '</h3>';
+        }
+        $body = trim($l['address'] . "\n" . ($l['text'] ?? ''));
+        $body = preg_replace('/^[•📍📌*\-]+\s*/mu', '', $body);
+        if ($body !== '') {
+            $html .= '<p>' . nl2br(esc_html($body)) . '</p>';
+        }
+        $html .= '</article>';
+    }
+    $html .= '</div>';
+    return $html;
+}
+
+function gondrand_loc_heading() {
+    $v = gondrand_mod('gondrand_loc_title');
+    if ($v === '' || stripos($v, 'gondrand') !== false) {
+        return 'Emplacements';
+    }
+    return $v;
+}
+
+function gondrand_default_brands() {
+    return [
+        ['name' => 'TRAVEX', 'sub' => 'GLOBAL FORWARDING', 'image' => '', 'url' => ''],
+    ];
+}
+
+function gondrand_get_brands() {
+    $rows = get_option('gondrand_brands', false);
+    if ($rows === false || !is_array($rows)) {
+        return gondrand_default_brands();
+    }
+    $out = [];
+    foreach ($rows as $r) {
+        if (!is_array($r)) {
+            continue;
+        }
+        $name = isset($r['name']) ? trim((string) $r['name']) : '';
+        $sub = isset($r['sub']) ? trim((string) $r['sub']) : '';
+        $image = isset($r['image']) ? trim((string) $r['image']) : '';
+        $url = isset($r['url']) ? trim((string) $r['url']) : '';
+        if ($name === '' && $image === '') {
+            continue;
+        }
+        $out[] = ['name' => $name, 'sub' => $sub, 'image' => $image, 'url' => $url];
+    }
+    return $out;
+}
+
+function gondrand_save_brands_from_post() {
+    if (!isset($_POST['gondrand_brands_present'])) {
+        return;
+    }
+    $names = isset($_POST['brand_name']) ? (array) wp_unslash($_POST['brand_name']) : [];
+    $subs = isset($_POST['brand_sub']) ? (array) wp_unslash($_POST['brand_sub']) : [];
+    $images = isset($_POST['brand_image']) ? (array) wp_unslash($_POST['brand_image']) : [];
+    $urls = isset($_POST['brand_url']) ? (array) wp_unslash($_POST['brand_url']) : [];
+    $rows = [];
+    foreach ($names as $i => $name) {
+        $name = sanitize_text_field($name);
+        $sub = sanitize_text_field($subs[$i] ?? '');
+        $image = esc_url_raw(trim((string) ($images[$i] ?? '')));
+        $url = esc_url_raw(trim((string) ($urls[$i] ?? '')));
+        if ($name === '' && $image === '') {
+            continue;
+        }
+        $rows[] = ['name' => $name, 'sub' => $sub, 'image' => $image, 'url' => $url];
+    }
+    update_option('gondrand_brands', $rows, false);
+}
+
+function gondrand_brands_html() {
+    $html = '';
+    foreach (gondrand_get_brands() as $b) {
+        $href = $b['url'] !== '' ? $b['url'] : gondrand_home();
+        $html .= '<a class="brand" href="' . esc_url($href) . '">';
+        if ($b['image'] !== '') {
+            $alt = $b['name'] !== '' ? $b['name'] : 'Logo';
+            $html .= '<img src="' . esc_url($b['image']) . '" alt="' . esc_attr($alt) . '">';
+        }
+        if ($b['name'] !== '') {
+            $html .= esc_html($b['name']);
+            if ($b['sub'] !== '') {
+                $html .= '<small>' . esc_html($b['sub']) . '</small>';
+            }
+        }
+        $html .= '</a>';
+    }
+    return $html;
+}
+
+function gondrand_brand_row_html($b) {
+    $img = esc_url($b['image'] ?? '');
+    ob_start();
+    ?>
+    <div class="gondrand-slide gondrand-brand">
+      <img class="gondrand-prev" src="<?php echo $img; ?>" alt="" <?php echo $img ? '' : 'style="display:none"'; ?>>
+      <p>Logo<br>
+        <input type="url" class="large-text gondrand-image" name="brand_image[]" value="<?php echo esc_attr($b['image'] ?? ''); ?>">
+        <button type="button" class="button gondrand-pick">Choisir un logo</button>
+      </p>
+      <p>Nom<br><input class="large-text" name="brand_name[]" value="<?php echo esc_attr($b['name'] ?? ''); ?>" placeholder="TRAVEX"></p>
+      <p>Sous-titre<br><input class="large-text" name="brand_sub[]" value="<?php echo esc_attr($b['sub'] ?? ''); ?>" placeholder="GLOBAL FORWARDING"></p>
+      <p>Lien (facultatif)<br><input class="large-text" name="brand_url[]" value="<?php echo esc_attr($b['url'] ?? ''); ?>" placeholder="https://"></p>
+      <p><button type="button" class="button gondrand-del-brand">Supprimer ce logo</button></p>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+function gondrand_loc_row_html($l) {
+    ob_start();
+    ?>
+    <div class="gondrand-slide gondrand-loc">
+      <p>Nom<br><input class="large-text" name="loc_title[]" value="<?php echo esc_attr($l['title'] ?? ''); ?>"></p>
+      <p>Adresse<br><textarea name="loc_address[]" rows="2" class="large-text"><?php echo esc_textarea($l['address'] ?? ''); ?></textarea></p>
+      <p>Complément<br><textarea name="loc_text[]" rows="2" class="large-text"><?php echo esc_textarea($l['text'] ?? ''); ?></textarea></p>
+      <p><button type="button" class="button gondrand-del-loc">Supprimer cet emplacement</button></p>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+function gondrand_get_map_locations() {
+    $rows = get_option('gondrand_map_locations', false);
+    if ($rows === false) {
+        return [
+            [
+                'name' => 'TRAVEX GLOBAL FORWARDING',
+                'address' => 'Im Brünnel 2, 77871 Renchen, Allemagne',
+                'lat' => '',
+                'lng' => '',
+            ],
+            [
+                'name' => 'TRAVEX GLOBAL FORWARDING – CAMEROUN',
+                'address' => 'Douala, Cameroun',
+                'lat' => '4.0843751',
+                'lng' => '9.7435138',
+            ],
+        ];
+    }
+    if (!is_array($rows)) {
+        return [];
+    }
+    $out = [];
+    foreach ($rows as $row) {
+        if (!is_array($row)) continue;
+        $name = trim((string) ($row['name'] ?? ''));
+        $address = trim((string) ($row['address'] ?? ''));
+        $lat = trim((string) ($row['lat'] ?? ''));
+        $lng = trim((string) ($row['lng'] ?? ''));
+        if ($name === '' && $address === '') continue;
+        $out[] = ['name' => $name, 'address' => $address, 'lat' => $lat, 'lng' => $lng];
+    }
+    return $out;
+}
+
+function gondrand_map_row_html($row) {
+    ob_start();
+    ?>
+    <div class="gondrand-slide gondrand-map-loc">
+      <p><strong>Entreprise / agence</strong><br><input class="large-text" name="map_loc_name[]" value="<?php echo esc_attr($row['name'] ?? ''); ?>" placeholder="Nom de l’entreprise"></p>
+      <p>Adresse complète<br><textarea name="map_loc_address[]" rows="2" class="large-text" placeholder="Rue, ville, pays"><?php echo esc_textarea($row['address'] ?? ''); ?></textarea></p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <p style="flex:1;min-width:180px">Latitude (facultatif)<br><input type="text" name="map_loc_lat[]" value="<?php echo esc_attr($row['lat'] ?? ''); ?>" placeholder="48.58"></p>
+        <p style="flex:1;min-width:180px">Longitude (facultatif)<br><input type="text" name="map_loc_lng[]" value="<?php echo esc_attr($row['lng'] ?? ''); ?>" placeholder="7.98"></p>
+      </div>
+      <p><button type="button" class="button gondrand-del-map-loc">Supprimer cette entreprise</button></p>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+function gondrand_save_map_locations_from_post() {
+    if (!isset($_POST['gondrand_map_locations_present'])) return;
+    $names = isset($_POST['map_loc_name']) ? (array) wp_unslash($_POST['map_loc_name']) : [];
+    $addresses = isset($_POST['map_loc_address']) ? (array) wp_unslash($_POST['map_loc_address']) : [];
+    $lats = isset($_POST['map_loc_lat']) ? (array) wp_unslash($_POST['map_loc_lat']) : [];
+    $lngs = isset($_POST['map_loc_lng']) ? (array) wp_unslash($_POST['map_loc_lng']) : [];
+    $rows = [];
+    foreach ($names as $i => $name) {
+        $name = sanitize_text_field($name);
+        $address = sanitize_textarea_field($addresses[$i] ?? '');
+        $lat = preg_replace('/[^0-9.\-]/', '', (string) ($lats[$i] ?? ''));
+        $lng = preg_replace('/[^0-9.\-]/', '', (string) ($lngs[$i] ?? ''));
+        if ($name === '' && $address === '') continue;
+        $rows[] = ['name' => $name, 'address' => $address, 'lat' => $lat, 'lng' => $lng];
+    }
+    update_option('gondrand_map_locations', $rows, false);
+}
+
+add_action('admin_menu', function () {
+    add_menu_page(
+        'Travex',
+        'Travex',
+        'edit_theme_options',
+        'gondrand-content',
+        'gondrand_admin_page',
+        'dashicons-slides',
+        3
+    );
+});
+
+add_action('admin_enqueue_scripts', function ($hook) {
+    if ($hook !== 'toplevel_page_gondrand-content') {
+        return;
+    }
+    wp_enqueue_media();
+    wp_enqueue_script('jquery');
+});
+
+add_action('admin_notices', function () {
+    if (!current_user_can('edit_theme_options')) {
+        return;
+    }
+    $moved = get_option('gondrand_moved_index_html');
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    $on = $screen && isset($screen->id) && strpos($screen->id, 'gondrand') !== false;
+    if ($moved && $on) {
+        echo '<div class="notice notice-warning"><p>Un fichier <code>index.html</code> bloquait WordPress à la racine du site. Il a été renommé. Purgez LiteSpeed.</p></div>';
+    }
+    if (!$on) {
+        echo '<div class="notice notice-info"><p><strong>Travex :</strong> pour modifier le site, menu <a href="' . esc_url(admin_url('admin.php?page=gondrand-content')) . '">Travex Global Forwarding</a> (accueil) ou <a href="' . esc_url(admin_url('admin.php?page=gondrand-pages')) . '">Toutes les pages</a>. Pas le menu « Pages » de WordPress.</p></div>';
+    }
+});
+
+function gondrand_save_from_post() {
+    if (!empty($_POST['gondrand_reset'])) {
+        delete_option('gondrand_slides');
+        return 'reset';
+    }
+
+    $images = isset($_POST['slide_image']) ? (array) $_POST['slide_image'] : [];
+    $titles = isset($_POST['slide_title']) ? (array) $_POST['slide_title'] : [];
+    $texts  = isset($_POST['slide_text']) ? (array) $_POST['slide_text'] : [];
+    $urls   = isset($_POST['slide_url']) ? (array) $_POST['slide_url'] : [];
+
+    $slides = [];
+    foreach ($images as $i => $img) {
+        $img = esc_url_raw(trim((string) wp_unslash($img)));
+        if ($img === '') {
+            continue;
+        }
+        $slides[] = [
+            'image' => $img,
+            'title' => sanitize_text_field(wp_unslash($titles[$i] ?? '')),
+            'text'  => sanitize_textarea_field(wp_unslash($texts[$i] ?? '')),
+            'url'   => esc_url_raw(wp_unslash($urls[$i] ?? '')),
+        ];
+    }
+    update_option('gondrand_slides', $slides, false);
+
+    $lt = isset($_POST['loc_title']) ? (array) wp_unslash($_POST['loc_title']) : [];
+    $la = isset($_POST['loc_address']) ? (array) wp_unslash($_POST['loc_address']) : [];
+    $lx = isset($_POST['loc_text']) ? (array) wp_unslash($_POST['loc_text']) : [];
+    $locations = [];
+    foreach ($lt as $i => $title) {
+        $title = sanitize_text_field($title);
+        $address = sanitize_textarea_field($la[$i] ?? '');
+        $text = sanitize_textarea_field($lx[$i] ?? '');
+        if ($title === '' && $address === '' && trim($text) === '') {
+            continue;
+        }
+        $locations[] = ['title' => $title, 'address' => $address, 'text' => $text];
+    }
+    update_option('gondrand_locations', $locations, false);
+    gondrand_save_map_locations_from_post();
+
+    $map = [
+        'gondrand_logo' => 'esc_url_raw',
+        'gondrand_home_h2' => 'sanitize_text_field',
+        'gondrand_home_h3' => 'sanitize_text_field',
+        'gondrand_home_p1' => 'sanitize_textarea_field',
+        'gondrand_home_p2' => 'sanitize_textarea_field',
+        'gondrand_home_video' => 'esc_url_raw',
+        'gondrand_address' => 'sanitize_textarea_field',
+        'gondrand_phone' => 'sanitize_text_field',
+        'gondrand_email' => 'sanitize_email',
+        'gondrand_quote_email' => 'sanitize_email',
+        'gondrand_loc_title' => 'sanitize_text_field',
+        'gondrand_loc_lead' => 'sanitize_textarea_field',
+        'gondrand_departures_title' => 'sanitize_text_field',
+        'gondrand_departures' => 'sanitize_textarea_field',
+        'gondrand_specials_title' => 'sanitize_text_field',
+        'gondrand_specials_lead' => 'sanitize_textarea_field',
+        'gondrand_map_title' => 'sanitize_text_field',
+        'gondrand_map_my_maps_url' => 'esc_url_raw',
+        'gondrand_map_api_key' => 'sanitize_text_field',
+        'gondrand_map_image' => 'esc_url_raw',
+        'gondrand_slide_desktop_fit' => 'sanitize_text_field',
+        'gondrand_slide_desktop_pos' => 'sanitize_text_field',
+        'gondrand_slide_desktop_height' => 'sanitize_text_field',
+        'gondrand_slide_mobile_fit' => 'sanitize_text_field',
+        'gondrand_slide_mobile_pos' => 'sanitize_text_field',
+        'gondrand_slide_mobile_height' => 'sanitize_text_field',
+        'gondrand_slide_overlay' => 'sanitize_text_field',
+        'gondrand_quote_types' => 'sanitize_textarea_field',
+        'gondrand_quote_parcels' => 'sanitize_textarea_field',
+        'gondrand_quote_incoterms' => 'sanitize_textarea_field',
+    ];
+    foreach ($map as $key => $cb) {
+        if (!isset($_POST[$key])) {
+            continue;
+        }
+        $val = $cb(wp_unslash($_POST[$key]));
+        if ($key === 'gondrand_loc_title' && stripos($val, 'gondrand') !== false) {
+            $val = 'Emplacements';
+        }
+        if ($key === 'gondrand_logo' && stripos((string) $val, 'gondrand') !== false) {
+            $val = '';
+        }
+        if ($key === 'gondrand_slide_mobile_fit' || $key === 'gondrand_slide_desktop_fit') {
+            $val = $val === 'cover' ? 'cover' : 'contain';
+        }
+        if ($key === 'gondrand_slide_mobile_pos' || $key === 'gondrand_slide_desktop_pos') {
+            $val = in_array($val, ['top', 'bottom', 'center'], true) ? $val : 'center';
+        }
+        if ($key === 'gondrand_slide_mobile_height') {
+            $val = $val === '' ? '' : (string) max(160, min(900, (int) $val));
+        }
+        if ($key === 'gondrand_slide_desktop_height') {
+            $val = $val === '' ? '' : (string) max(200, min(1400, (int) $val));
+        }
+        if ($key === 'gondrand_slide_overlay') {
+            $val = $val === '' ? '0' : (string) max(0, min(100, (int) $val));
+        }
+        set_theme_mod($key, $val);
+    }
+
+    for ($i = 1; $i <= 6; $i++) {
+        foreach (['image', 'title', 'text'] as $f) {
+            $key = "gondrand_card_{$i}_{$f}";
+            if (!isset($_POST[$key])) {
+                continue;
+            }
+            $raw = wp_unslash($_POST[$key]);
+            $val = $f === 'image' ? esc_url_raw($raw) : ($f === 'title' ? sanitize_text_field($raw) : sanitize_textarea_field($raw));
+            set_theme_mod($key, $val);
+        }
+    }
+
+    gondrand_save_brands_from_post();
+    if (isset($_POST['gondrand_i18n_group'])) {
+        set_theme_mod('gondrand_i18n_group', sanitize_text_field(wp_unslash($_POST['gondrand_i18n_group'])));
+    }
+
+    if (function_exists('gondrand_disable_root_html')) {
+        gondrand_disable_root_html();
+    }
+    if (function_exists('gondrand_touch_bust')) {
+        gondrand_touch_bust();
+    }
+
+    return 'saved';
+}
+
+add_action('admin_init', function () {
+    if (!isset($_POST['gondrand_do_save'])) {
+        return;
+    }
+    if (!current_user_can('edit_theme_options')) {
+        return;
+    }
+    check_admin_referer('gondrand_save_content');
+    $status = gondrand_save_from_post();
+    wp_safe_redirect(admin_url('admin.php?page=gondrand-content&' . $status . '=1'));
+    exit;
+});
+
+function gondrand_admin_page() {
+    if (!current_user_can('edit_theme_options')) {
+        return;
+    }
+    $slides = gondrand_get_slides();
+    $view = home_url('/?nocache=' . time());
+    $root_html = is_file(ABSPATH . 'index.html');
+    ?>
+    <div class="wrap">
+      <h1>Travex — modifier le site <small style="font-weight:400;color:#646970">(thème 2.2.29)</small></h1>
+      <?php if (!empty($_GET['purged'])) : ?>
+        <div class="notice notice-success is-dismissible"><p><strong>Cache vidé.</strong> Sur Android : fermez Chrome, puis rouvrez le site. Les modifications doivent apparaître.</p></div>
+      <?php endif; ?>
+      <?php if (function_exists('gondrand_purge_button')) { gondrand_purge_button(); } ?>
+      <?php if (!empty($_GET['saved'])) : ?>
+        <div class="notice notice-success is-dismissible">
+          <p><strong>Enregistré.</strong> Ouvrez le site (sans cache) :
+            <a href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">voir le site</a>
+            Cache LiteSpeed purgé automatiquement.
+            Sur Android : fermez Chrome complètement, puis rouvrez
+            <a href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">ce lien</a>.</p>
+        </div>
+      <?php endif; ?>
+      <?php if (!empty($_GET['reset'])) : ?>
+        <div class="notice notice-success is-dismissible"><p>Slider réinitialisé.</p></div>
+      <?php endif; ?>
+      <?php if ($root_html) : ?>
+        <div class="notice notice-error"><p>Un fichier <code><?php echo esc_html(ABSPATH); ?>index.html</code> empêche WordPress d’afficher vos modifications. Supprimez-le dans le gestionnaire de fichiers LWS (htdocs), ou cliquez Enregistrer pour tenter de le renommer.</p></div>
+      <?php endif; ?>
+      <p><strong>Ici :</strong> accueil (slider, intro, cartes). Pour les autres pages : <a href="<?php echo esc_url(admin_url('admin.php?page=gondrand-pages')); ?>">Toutes les pages</a>. Cliquez ensuite sur <strong>Enregistrer et publier</strong>.</p>
+      <form method="post" action="<?php echo esc_url(admin_url('admin.php?page=gondrand-content')); ?>">
+        <?php wp_nonce_field('gondrand_save_content'); ?>
+        <input type="hidden" name="gondrand_do_save" value="1">
+
+        <h2>Logo du site</h2>
+        <p>
+          <input type="url" class="large-text gondrand-image" name="gondrand_logo" id="gondrand_logo" value="<?php echo esc_attr(function_exists('gondrand_logo_url') ? gondrand_logo_url() : (gondrand_assets() . 'images/logo-travex.png')); ?>">
+          <button type="button" class="button gondrand-pick" data-target="gondrand_logo">Choisir une image</button>
+        </p>
+
+        <h2>Notre groupe d’entreprises — logos</h2>
+        <p class="description">Bandeau en bas de toutes les pages. Ajoutez un logo (image), un nom, et éventuellement un lien. Les dates de l’historique se gèrent dans <a href="<?php echo esc_url(admin_url('admin.php?page=gondrand-pages&edit=entreprise')); ?>">Toutes les pages → Entreprise</a>.</p>
+        <p><label>Titre du bandeau<br>
+          <input class="large-text" name="gondrand_i18n_group" value="<?php echo esc_attr(gondrand_t('group', "NOTRE GROUPE D'ENTREPRISES")); ?>">
+        </label></p>
+        <input type="hidden" name="gondrand_brands_present" value="1">
+        <div id="gondrand-brands">
+          <?php foreach (gondrand_get_brands() as $brand) : ?>
+            <?php echo gondrand_brand_row_html($brand); ?>
+          <?php endforeach; ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-brand">+ Ajouter un logo</button></p>
+
+        <h2>Slider d’accueil</h2>
+        <p class="description">Autant d’images que vous voulez. <strong>Supprimer ce slide</strong> l’enlève du site. <strong>Ajouter des images</strong> en prend plusieurs d’un coup.</p>
+        <div id="gondrand-slides">
+          <?php foreach ($slides as $i => $s) : ?>
+            <?php echo gondrand_slide_row_html($i, $s); ?>
+          <?php endforeach; ?>
+        </div>
+        <p>
+          <button type="button" class="button button-secondary" id="gondrand-add-slide">+ Ajouter un slide vide</button>
+          <button type="button" class="button button-primary" id="gondrand-add-many">+ Ajouter des images (médiathèque)</button>
+        </p>
+
+        <h3>Slider sur ordinateur (PC)</h3>
+        <p class="description">Par défaut l’<strong>image entière</strong> s’affiche. Une hauteur plus petite <strong>rogne</strong> le bandeau (haut/bas) sans miniaturiser l’image.</p>
+        <table class="form-table" role="presentation">
+          <tr>
+            <th>Affichage de l’image</th>
+            <td>
+              <?php $dfit = gondrand_mod('gondrand_slide_desktop_fit') === 'cover' ? 'cover' : 'contain'; ?>
+              <select name="gondrand_slide_desktop_fit">
+                <option value="contain" <?php selected($dfit, 'contain'); ?>>Image entière (recommandé, sans zoom)</option>
+                <option value="cover" <?php selected($dfit, 'cover'); ?>>Remplir le cadre (zoom / recadrage)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Position</th>
+            <td>
+              <?php $dpos = gondrand_mod('gondrand_slide_desktop_pos'); if (!in_array($dpos, ['top', 'bottom', 'center'], true)) { $dpos = 'center'; } ?>
+              <select name="gondrand_slide_desktop_pos">
+                <option value="center" <?php selected($dpos, 'center'); ?>>Centre</option>
+                <option value="top" <?php selected($dpos, 'top'); ?>>Haut</option>
+                <option value="bottom" <?php selected($dpos, 'bottom'); ?>>Bas</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Hauteur (px)</th>
+            <td>
+              <input type="number" class="small-text" name="gondrand_slide_desktop_height" min="200" max="1400" placeholder="auto" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_desktop_height')); ?>">
+              <p class="description">Vide = hauteur automatique (toute l’image). Pour agrandir : 720, 800, 900, 1080…</p>
+            </td>
+          </tr>
+        </table>
+
+        <h3>Slider sur téléphone / Android</h3>
+        <p class="description">Anciens paramètres : l’<strong>image entière</strong> s’affiche, sans zoom ni recadrage. Le PC n’est pas modifié. « Image entière » + hauteur vide = toute la photo.</p>
+        <table class="form-table" role="presentation">
+          <tr>
+            <th>Affichage de l’image</th>
+            <td>
+              <?php $fit = gondrand_mod('gondrand_slide_mobile_fit') === 'cover' ? 'cover' : 'contain'; ?>
+              <select name="gondrand_slide_mobile_fit">
+                <option value="contain" <?php selected($fit, 'contain'); ?>>Image entière (recommandé, sans zoom)</option>
+                <option value="cover" <?php selected($fit, 'cover'); ?>>Remplir le cadre (zoom / recadrage)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Position</th>
+            <td>
+              <?php $pos = gondrand_mod('gondrand_slide_mobile_pos'); if (!in_array($pos, ['top', 'bottom', 'center'], true)) { $pos = 'center'; } ?>
+              <select name="gondrand_slide_mobile_pos">
+                <option value="center" <?php selected($pos, 'center'); ?>>Centre</option>
+                <option value="top" <?php selected($pos, 'top'); ?>>Haut</option>
+                <option value="bottom" <?php selected($pos, 'bottom'); ?>>Bas</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Hauteur fixe du slider (px)</th>
+            <td>
+              <input type="number" class="small-text" name="gondrand_slide_mobile_height" min="160" max="900" placeholder="420" value="<?php echo esc_attr(gondrand_mod('gondrand_slide_mobile_height') ?: '420'); ?>">
+              <p class="description">420 px par défaut. Cette hauteur reste fixe pendant le défilement ; l’image s’adapte à l’intérieur sans redimensionner le slider. Valeur conseillée : 360 à 520 px.</p>
+            </td>
+          </tr>
+        </table>
+
+        <h2>Devis / demande de cotation</h2>
+        <p class="description">Modifiez le titre, les libellés, les listes (une option par ligne) et le message de confirmation. Cela s’applique à l’accueil, aux pages services et à la page Demande de cotation.</p>
+        <?php
+        $qd = function_exists('gondrand_quote_defaults') ? gondrand_quote_defaults() : [];
+        $q_labels = [
+            'nav_quote' => 'Nom du menu (Devis)',
+            'quote_title' => 'Titre du formulaire',
+            'quote_intro' => 'Texte d’intro (page devis)',
+            'transport_type' => 'Libellé type de transport',
+            'transport_type_ph' => 'Placeholder type de transport',
+            'incoterms' => 'Libellé incoterms',
+            'quote_client' => 'Titre bloc client',
+            'quote_company' => 'Société',
+            'email' => 'E-mail',
+            'quote_phone' => 'Téléphone',
+            'quote_contact' => 'Contact',
+            'quote_from' => 'Titre départ',
+            'from_city' => 'Ville de départ',
+            'quote_from_country' => 'Pays de départ',
+            'quote_to' => 'Titre arrivée',
+            'to_city' => "Ville d'arrivée",
+            'quote_to_country' => "Pays d'arrivée",
+            'quote_pack' => 'Titre colis',
+            'quote_parcel' => 'Type de colis',
+            'weight' => 'Poids',
+            'quote_dimensions' => 'Dimensions',
+            'quote_dangerous' => 'Marchandise dangereuse',
+            'quote_comments' => 'Commentaires',
+            'privacy_ok' => 'Texte confidentialité',
+            'quote_ext' => 'Lien vers le formulaire complet',
+            'click_here' => 'Texte du lien « cliquez ici »',
+            'send' => 'Bouton envoyer',
+            'quote_ok' => 'Message de confirmation',
+        ];
+        ?>
+        <table class="form-table" role="presentation">
+          <?php foreach ($q_labels as $key => $label) :
+              $fallback = $qd[$key] ?? '';
+              $val = gondrand_t($key, $fallback);
+              $rows = in_array($key, ['quote_intro', 'quote_ok', 'quote_ext'], true) ? 3 : 1;
+          ?>
+            <tr>
+              <th><?php echo esc_html($label); ?></th>
+              <td>
+                <?php if ($rows > 1) : ?>
+                  <textarea class="large-text" rows="<?php echo (int) $rows; ?>" name="q_<?php echo esc_attr($key); ?>"><?php echo esc_textarea($val); ?></textarea>
+                <?php else : ?>
+                  <input class="large-text" name="q_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($val); ?>">
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+          <tr>
+            <th>Types de transport<br><span class="description">Une option par ligne</span></th>
+            <td><textarea class="large-text" rows="6" name="gondrand_quote_types"><?php echo esc_textarea(gondrand_mod('gondrand_quote_types') ?: "Entreposage\nTransport aérien\nTransport maritime\nTransport multimodal\nTransport terrestre"); ?></textarea></td>
+          </tr>
+          <tr>
+            <th>Types de colis<br><span class="description">Une option par ligne</span></th>
+            <td><textarea class="large-text" rows="6" name="gondrand_quote_parcels"><?php echo esc_textarea(gondrand_mod('gondrand_quote_parcels') ?: "Palette\nCarton\nConteneur\nCaisse bois\nSur-mesure\nDivers"); ?></textarea></td>
+          </tr>
+          <tr>
+            <th>Incoterms<br><span class="description">Une option par ligne</span></th>
+            <td><textarea class="large-text" rows="6" name="gondrand_quote_incoterms"><?php echo esc_textarea(gondrand_mod('gondrand_quote_incoterms') ?: "EXW\nFCA\nFAS\nFOB\nCFR\nCIF\nCPT\nCIP\nDAP\nDPU\nDDP"); ?></textarea></td>
+          </tr>
+        </table>
+
+        <h2>Textes d’accueil</h2>
+        <table class="form-table" role="presentation">
+          <tr><th>Titre</th><td><input class="large-text" name="gondrand_home_h2" value="<?php echo esc_attr(gondrand_text('gondrand_home_h2', 'More Performance – More Success')); ?>"></td></tr>
+          <tr><th>Sous-titre</th><td><input class="large-text" name="gondrand_home_h3" value="<?php echo esc_attr(gondrand_text('gondrand_home_h3', 'Logistique depuis 1866')); ?>"></td></tr>
+          <tr><th>Paragraphe 1</th><td><textarea class="large-text" rows="4" name="gondrand_home_p1"><?php echo esc_textarea(gondrand_text('gondrand_home_p1', 'Le service qui nous est offert va bien au-delà de la gestion courante des commandes de logistique et de transport. Nous donnons une touche personnelle à tout ce que nous faisons grâce à notre personnel, qui soutient ce service sur mesure. Ils s’adaptent à vos besoins et non l’inverse.')); ?></textarea></td></tr>
+          <tr><th>Paragraphe 2</th><td><textarea class="large-text" rows="4" name="gondrand_home_p2"><?php echo esc_textarea(gondrand_text('gondrand_home_p2', 'Nous voulons apprendre à vous connaître – et vous devriez également nous connaître personnellement. Nous avons l’intention de créer une relation de confiance à long terme avec vous, comme nous le faisons avec tous nos clients depuis des années, voire des décennies.')); ?></textarea></td></tr>
+          <tr>
+            <th>Image (bloc vidéo)</th>
+            <td>
+              <input type="url" class="large-text gondrand-image" name="gondrand_home_video" id="gondrand_home_video" value="<?php echo esc_attr(gondrand_mod('gondrand_home_video') ?: (gondrand_assets() . 'images/hero-road.jpg')); ?>">
+              <button type="button" class="button gondrand-pick" data-target="gondrand_home_video">Choisir une image</button>
+            </td>
+          </tr>
+        </table>
+
+        <h2>Cartes « Services spéciaux »</h2>
+        <table class="form-table" role="presentation">
+          <?php
+          $card_defaults = [
+              1 => ['About us', 'Le service qui nous est offert va bien au-delà de la gestion courante des commandes de logistique et de transport.'],
+              2 => ['Transport terrestre', 'Une organisation qui vous propose des services de porte à porte sur tout le territoire de l’Ancien Monde.'],
+              3 => ['Fret aérien', 'Notre équipe de fret aérien vous rassure en sachant que vos marchandises sont entre de bonnes mains.'],
+              4 => ['Fret maritime', 'Nos professionnels du fret maritime tirent parti de leur vaste expérience pour gérer les flux de marchandises.'],
+              5 => ['Trafics spéciaux', 'L’activité inhérente au transport exceptionnel est adossée à un cabinet spécifique pour l’étude et la mise.'],
+              6 => ['Douane', 'Ainsi, vos marchandises sont placées sous un régime suspensif de taxes, jusqu’à la destination finale que vous aurez choisie.'],
+          ];
+          foreach ($card_defaults as $i => $d) :
+          ?>
+            <tr>
+              <th>Carte <?php echo (int) $i; ?></th>
+              <td>
+                <input class="large-text" name="gondrand_card_<?php echo (int) $i; ?>_title" value="<?php echo esc_attr(gondrand_text("gondrand_card_{$i}_title", $d[0])); ?>" placeholder="Titre">
+                <textarea class="large-text" rows="2" name="gondrand_card_<?php echo (int) $i; ?>_text"><?php echo esc_textarea(gondrand_text("gondrand_card_{$i}_text", $d[1])); ?></textarea>
+                <input type="url" class="large-text gondrand-image" name="gondrand_card_<?php echo (int) $i; ?>_image" id="gondrand_card_<?php echo (int) $i; ?>_image" value="<?php echo esc_attr(gondrand_mod("gondrand_card_{$i}_image")); ?>" placeholder="URL de l’image">
+                <button type="button" class="button gondrand-pick" data-target="gondrand_card_<?php echo (int) $i; ?>_image">Choisir / remplacer l’image</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </table>
+
+        <h2>Bandeau défilant « Départs »</h2>
+        <p class="description">Ce bandeau apparaît juste sous le slider. Écrivez un départ ou une annonce par ligne ; les lignes défileront automatiquement sur le site.</p>
+        <table class="form-table" role="presentation">
+          <tr>
+            <th>Titre du bandeau</th>
+            <td><input class="regular-text" name="gondrand_departures_title" value="<?php echo esc_attr(gondrand_mod('gondrand_departures_title') ?: 'Départs'); ?>" placeholder="Départs"></td>
+          </tr>
+          <tr>
+            <th>Départs / annonces</th>
+            <td>
+              <textarea class="large-text" rows="5" name="gondrand_departures" placeholder="Exemple : Départ Yaoundé → Douala — vendredi 14h\nNouveau départ maritime vers Anvers — 20 juin"><?php echo esc_textarea(gondrand_mod('gondrand_departures')); ?></textarea>
+              <p class="description">Laissez vide pour afficher seulement « Aucun départ publié pour le moment. »</p>
+            </td>
+          </tr>
+        </table>
+
+        <h2>Emplacements</h2>
+        <p class="description">Les anciens emplacements Renchen/Europe ont été retirés. Ajoutez ici vos propres emplacements si nécessaire.</p>
+        <div id="gondrand-locs">
+          <?php foreach (gondrand_get_locations() as $loc) : ?>
+            <?php echo gondrand_loc_row_html($loc); ?>
+          <?php endforeach; ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-loc">+ Ajouter un emplacement</button></p>
+
+        <h2>Emplacements & carte</h2>
+        <table class="form-table" role="presentation">
+          <tr><th>Titre emplacements</th><td><input class="large-text" name="gondrand_loc_title" value="<?php echo esc_attr(gondrand_loc_heading()); ?>"></td></tr>
+          <tr><th>Texte emplacements</th><td><textarea class="large-text" rows="2" name="gondrand_loc_lead" placeholder="Texte facultatif"><?php echo esc_textarea(gondrand_mod('gondrand_loc_lead')); ?></textarea></td></tr>
+          <tr><th>Titre services spéciaux</th><td><input class="large-text" name="gondrand_specials_title" value="<?php echo esc_attr(gondrand_text('gondrand_specials_title', 'Services spéciaux')); ?>"></td></tr>
+          <tr><th>Texte services spéciaux</th><td><textarea class="large-text" rows="3" name="gondrand_specials_lead"><?php echo esc_textarea(gondrand_text('gondrand_specials_lead', 'En tant que membre d’un réseau d’investisseurs internationaux, nous disposons des ressources financières et logistiques nécessaires à la définition et à la réalisation des objectifs de nos clients, tout en les accompagnant tout au long du processus.')); ?></textarea></td></tr>
+          <tr><th>Titre de la carte</th><td><input class="large-text" name="gondrand_map_title" value="<?php echo esc_attr(gondrand_mod('gondrand_map_title') ?: 'Nos implantations'); ?>"></td></tr>
+          <tr>
+            <th>Google My Maps (facultatif)</th>
+            <td>
+              <input type="url" class="large-text" name="gondrand_map_my_maps_url" value="<?php echo esc_attr(gondrand_mod('gondrand_map_my_maps_url')); ?>" placeholder="https://www.google.com/maps/d/embed?mid=...">
+              <p class="description">Pour afficher plusieurs marqueurs sans clé API, crée une carte dans Google My Maps, clique sur Partager → Intégrer sur mon site, puis colle l’URL d’intégration ici.</p>
+            </td>
+          </tr>
+          <tr>
+            <th>Clé Google Maps API (facultatif)</th>
+            <td>
+              <input type="text" class="large-text" name="gondrand_map_api_key" value="<?php echo esc_attr(gondrand_mod('gondrand_map_api_key')); ?>" autocomplete="off" placeholder="AIza...">
+              <p class="description">Avec une clé API Google Maps, les entreprises ci-dessous sont affichées comme marqueurs. Restreins cette clé au domaine du site.</p>
+            </td>
+          </tr>
+          <tr>
+            <th>Image de secours</th>
+            <td>
+              <input type="url" class="large-text gondrand-image" name="gondrand_map_image" id="gondrand_map_image" value="<?php echo esc_attr(gondrand_mod('gondrand_map_image') ?: (gondrand_assets() . 'images/hero-sea.jpg')); ?>">
+              <button type="button" class="button gondrand-pick" data-target="gondrand_map_image">Choisir une image</button>
+            </td>
+          </tr>
+        </table>
+
+        <p class="description"><strong>Entreprises à afficher sur la carte.</strong> Ajoute une entreprise par ligne. L’adresse suffit pour Google Maps ; latitude et longitude sont facultatives mais rendent le marqueur plus précis.</p>
+        <input type="hidden" name="gondrand_map_locations_present" value="1">
+        <div id="gondrand-map-locations">
+          <?php foreach (gondrand_get_map_locations() as $map_loc) : ?>
+            <?php echo gondrand_map_row_html($map_loc); ?>
+          <?php endforeach; ?>
+        </div>
+        <p><button type="button" class="button" id="gondrand-add-map-loc">+ Ajouter une entreprise sur la carte</button></p>
+
+        <h2>Coordonnées</h2>
+        <table class="form-table" role="presentation">
+          <tr><th>Adresse</th><td><textarea class="large-text" rows="3" name="gondrand_address"><?php echo esc_textarea(gondrand_text('gondrand_address', "Im Brünnel 2\n77871 Renchen")); ?></textarea></td></tr>
+          <tr><th>Téléphone</th><td><input class="regular-text" name="gondrand_phone" value="<?php echo esc_attr(gondrand_text('gondrand_phone', '+33 1 44 13 14 00')); ?>"></td></tr>
+          <tr><th>E-mail affiché</th><td><input class="regular-text" type="email" name="gondrand_email" value="<?php echo esc_attr(gondrand_text('gondrand_email', 'accueil.dg@gondrand.fr')); ?>"></td></tr>
+          <tr><th>E-mail des devis</th><td><input class="regular-text" type="email" name="gondrand_quote_email" value="<?php echo esc_attr(get_theme_mod('gondrand_quote_email', get_option('admin_email'))); ?>"></td></tr>
+        </table>
+
+        <?php submit_button('Enregistrer et publier sur le site'); ?>
+        <p>
+          <button type="submit" name="gondrand_reset" value="1" class="button" onclick="return confirm('Remettre le slider d’origine ?');">Réinitialiser le slider</button>
+          <a class="button" href="<?php echo esc_url($view); ?>" target="_blank" rel="noopener">Voir le site</a>
+        </p>
+      </form>
+    </div>
+    <script>
+    (function(){
+      function bindPick(btn){
+        if (btn.getAttribute('data-bound')) return;
+        btn.setAttribute('data-bound', '1');
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          var id = this.getAttribute('data-target');
+          var input = id ? document.getElementById(id) : this.parentNode.querySelector('.gondrand-image');
+          var frame = wp.media({ title: 'Choisir une image', multiple: false, library: { type: 'image' } });
+          frame.on('select', function(){
+            var att = frame.state().get('selection').first().toJSON();
+            if (input) input.value = att.url;
+            var box = input && input.closest('.gondrand-slide');
+            var prev = box ? box.querySelector('.gondrand-prev') : null;
+            if (prev) { prev.src = att.url; prev.style.display = 'block'; }
+          });
+          frame.open();
+        });
+      }
+      document.querySelectorAll('.gondrand-pick').forEach(bindPick);
+      function addRow(data){
+        var wrap = document.getElementById('gondrand-slides');
+        var tmp = document.createElement('div');
+        tmp.innerHTML = <?php echo wp_json_encode(gondrand_slide_row_html(99, ['image'=>'','title'=>'','text'=>'','url'=>''])); ?>;
+        var row = tmp.firstElementChild;
+        if (data && data.url) {
+          row.querySelector('.gondrand-image').value = data.url;
+          var prev = row.querySelector('.gondrand-prev');
+          prev.src = data.url;
+          prev.style.display = 'block';
+          if (data.title) row.querySelector('[name="slide_title[]"]').value = data.title;
+        }
+        wrap.appendChild(row);
+        row.querySelectorAll('.gondrand-pick').forEach(bindPick);
+      }
+      document.getElementById('gondrand-add-slide').addEventListener('click', function(){ addRow(null); });
+      document.getElementById('gondrand-add-many').addEventListener('click', function(e){
+        e.preventDefault();
+        var frame = wp.media({ title: 'Ajouter des images au slider', multiple: true, library: { type: 'image' } });
+        frame.on('select', function(){
+          frame.state().get('selection').each(function(att){
+            att = att.toJSON();
+            addRow({ url: att.url, title: att.title || '' });
+          });
+        });
+        frame.open();
+      });
+      document.getElementById('gondrand-slides').addEventListener('click', function(e){
+        if (e.target.classList.contains('gondrand-del')) {
+          e.preventDefault();
+          var row = e.target.closest('.gondrand-slide');
+          if (row) row.remove();
+        }
+      });
+      document.getElementById('gondrand-add-loc').addEventListener('click', function(){
+        var wrap = document.getElementById('gondrand-locs');
+        var tmp = document.createElement('div');
+        tmp.innerHTML = <?php echo wp_json_encode(gondrand_loc_row_html(['title'=>'','address'=>'','text'=>''])); ?>;
+        wrap.appendChild(tmp.firstElementChild);
+      });
+      document.getElementById('gondrand-locs').addEventListener('click', function(e){
+        if (e.target.classList.contains('gondrand-del-loc')) {
+          e.preventDefault();
+          var row = e.target.closest('.gondrand-loc');
+          if (row) row.remove();
+        }
+      });
+      var addMapLoc = document.getElementById('gondrand-add-map-loc');
+      if (addMapLoc) {
+        addMapLoc.addEventListener('click', function(){
+          var wrap = document.getElementById('gondrand-map-locations');
+          var tmp = document.createElement('div');
+          tmp.innerHTML = <?php echo wp_json_encode(gondrand_map_row_html(['name'=>'','address'=>'','lat'=>'','lng'=>''])); ?>;
+          wrap.appendChild(tmp.firstElementChild);
+        });
+        document.getElementById('gondrand-map-locations').addEventListener('click', function(e){
+          if (e.target.classList.contains('gondrand-del-map-loc')) {
+            e.preventDefault();
+            var row = e.target.closest('.gondrand-map-loc');
+            if (row) row.remove();
+          }
+        });
+      }
+      var addBrand = document.getElementById('gondrand-add-brand');
+      if (addBrand) {
+        addBrand.addEventListener('click', function(){
+          var wrap = document.getElementById('gondrand-brands');
+          var tmp = document.createElement('div');
+          tmp.innerHTML = <?php echo wp_json_encode(gondrand_brand_row_html(['name'=>'','sub'=>'','image'=>'','url'=>''])); ?>;
+          wrap.appendChild(tmp.firstElementChild);
+          wrap.querySelectorAll('.gondrand-pick').forEach(bindPick);
+        });
+        document.getElementById('gondrand-brands').addEventListener('click', function(e){
+          if (e.target.classList.contains('gondrand-del-brand')) {
+            e.preventDefault();
+            var row = e.target.closest('.gondrand-brand');
+            if (row) row.remove();
+          }
+        });
+      }
+    })();
+    </script>
+    <style>
+      .gondrand-slide { background:#fff; border:1px solid #c3c4c7; padding:16px; margin:12px 0; }
+      .gondrand-slide img.gondrand-prev { max-height:90px; display:block; margin:8px 0; background:#f0f0f1; }
+      .gondrand-slide textarea { width:100%; }
+    </style>
+    <?php
+}
+
+function gondrand_slide_row_html($i, $s) {
+    $img = esc_attr($s['image'] ?? '');
+    $title = esc_attr($s['title'] ?? '');
+    $text = esc_textarea($s['text'] ?? '');
+    $url = esc_attr($s['url'] ?? '');
+    $src = esc_url($s['image'] ?? '');
+    ob_start();
+    ?>
+    <div class="gondrand-slide">
+      <p><strong>Image du slider</strong></p>
+      <img class="gondrand-prev" src="<?php echo $src; ?>" alt="" <?php echo $src ? '' : 'style="display:none"'; ?>>
+      <p>
+        <input type="url" class="large-text gondrand-image" name="slide_image[]" value="<?php echo $img; ?>">
+        <button type="button" class="button gondrand-pick">Choisir / remplacer l’image</button>
+        <button type="button" class="button gondrand-del">Supprimer ce slide</button>
+      </p>
+      <input type="hidden" name="slide_title[]" value="<?php echo $title; ?>">
+      <input type="hidden" name="slide_text[]" value="">
+      <input type="hidden" name="slide_url[]" value="<?php echo $url; ?>">
+    </div>
+    <?php
+    return ob_get_clean();
+}
